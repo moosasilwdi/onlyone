@@ -1,6 +1,6 @@
 # JO1
 
-Version **V9300**.
+Version **V9600**.
 
 Screens peptides against 117 HLA class II types and ranks what sits in the groove.
 Everything runs in the browser. No server, no build step.
