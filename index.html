@@ -196,14 +196,21 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
      first screen, blue on the holder, red on the scan, green on the picture. The word
      inside it does not: it stays the page's ink, light or dark. Border only, so the
      text never sits on a colour. */
-  border-color:var(--gold);border-width:2px;color:var(--ink);box-shadow:var(--lift)}
+  /* V10100 - BLACK, on every stage. Moos: "Why start is yellow! It must be boack to."
+     The border used to take the stage's own colour - gold on the first screen, blue on
+     the holder, red on the scan, green on the picture - as a second signal of where you
+     were. He does not want it: the pill now matches the black Start button under it,
+     and the numbered circle in the Back/Next bar is what says which stage you are on.
+     It also settles two things quietly: the gold was a colour on a control wrapping
+     type, and the red one broke his rule that red is for warnings only. */
+  border-color:var(--ink);border-width:2px;color:var(--ink);box-shadow:var(--lift)}
 /* V8200 - and on a dark page it turns over with everything else: a white pill with
    dark type, the same way Start does. */
 /* the white pill stays, but its border keeps taking the stage's colour - otherwise
    the dark page loses the one thing that says which stage you are on */
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .appbar .notesel{
-  background-color:#e8edf4;color:#0d141d;border-color:var(--gold)}}
-:root[data-theme="dark"] .appbar .notesel{background-color:#e8edf4;color:#0d141d;border-color:var(--gold)}
+  background-color:#e8edf4;color:#0d141d;border-color:#0d141d}}
+:root[data-theme="dark"] .appbar .notesel{background-color:#e8edf4;color:#0d141d;border-color:#0d141d}
 .appbar .notesel[hidden]+.themebtn,.appbar .themebtn{margin-left:auto}
 /* V7700 - the menu on the left, the mark on the centre of the bar. It is centred on
    the WHOLE bar, not on what is left over, so it stays centred however wide the menu
@@ -341,8 +348,21 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 :root[data-theme="dark"]{--lgreen:#2fc274;--dim:#45536a;--halo:196,206,219}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --lgreen:#2fc274;--dim:#45536a;--halo:196,206,219}}
+/* V10100 - the first screen is ANCHORED, and no longer re-centres itself.
+   Moos: "Why when choose another proten the numbers pushed uo ...evry thung must be in
+   same place! And open new containers must happen down!"
+   It was justify-content:center, so the whole column was centred on whatever it
+   happened to contain. Choosing "Paste another protein" added a name box and a paste
+   box, the column got taller, and the centring shoved the number 68px UP - the number,
+   the words and the dropdown all moved because something appeared BELOW them.
+   The top is fixed now. The padding is what the centring used to produce for the empty
+   screen - half the leftover room, with the block measured at 252px - so the empty
+   screen looks exactly as it did, and anything that opens afterwards grows downward
+   from where it sits, moving only what is under it. max() keeps it off the top edge on
+   a short phone, where there is no leftover room to halve. */
 .inner.home{position:relative;min-height:calc(100vh - 168px);display:flex;
-  flex-direction:column;align-items:center;justify-content:center}
+  flex-direction:column;align-items:center;justify-content:flex-start;
+  padding-top:max(12px, calc((100vh - 168px - 252px) / 2))}
 .inner.home>*{position:relative;z-index:1}
 #homefield{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .bignum{font-family:var(--num);font-weight:800;font-size:50px;letter-spacing:-.04em;
@@ -484,7 +504,19 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    that nothing drives is dead weight, and a comment describing a pulse that no longer
    happens is worse than no comment. The halo it used to animate is now a still
    drop-shadow on .bignum above. */
-.bigcap{font-family:var(--mono);font-size:11px;color:var(--ink);margin:12px 0 0;text-align:center}
+/* V10100 - a FIXED height, two lines tall, because this line is the last thing between
+   the number and the dropdown and its height was changing underneath everything.
+   Measured at 390px wide: "choose a protein to begin" is 15.9px tall, the same line
+   carrying a bold protein name is 18.1px, and a long name wraps to two lines at 34.1px
+   - so the dropdown sat at 372, 374 or 390 depending on what the caption happened to
+   say. The height is pinned at two lines and the words are centred in it, so a one-line
+   caption and a two-line caption push nothing. */
+.bigcap{font-family:var(--mono);font-size:11px;color:var(--ink);margin:12px 0 0;
+  text-align:center;min-height:38px}
+/* The height is pinned with min-height alone. display:flex was tried first and broke
+   the words: flex turns each run of inline text into its own anonymous item, so the
+   space between "slices of" and the bold name was dropped and it read "slices ofJo-1".
+   A block keeps the sentence a sentence. */
 .bigcap b{color:var(--accink);font-size:12.5px}
 /* V9800 - the protein's name is INK, not the caption's gold. Moos's rule of 28 Oct is
    "dont use yellw, for text or text accents", and on this page --accink IS the gold
@@ -1558,6 +1590,17 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         <p class="azgap">Slide a 15-bead window along 509 beads and you get <b>495</b> possible
         pieces. One of them started this. <b>No laboratory has ever tested all 495</b> &mdash;
         and without knowing which piece, nothing can be aimed at anything.</p>
+        <!-- V10100 - the sentence above states 495 and moves on, and the number is the first
+             thing anybody asks about. The pieces OVERLAP, which is the whole of it, and
+             without that it reads as a division: 509 shared out into chunks of 15. -->
+        <p class="azgap">The pieces <b>overlap</b>. The window slides one bead at a time, so
+        piece 1 is beads 1&ndash;15, piece 2 is beads 2&ndash;16, piece 3 is beads 3&ndash;17,
+        and the last one is beads 495&ndash;509. It is not 509 shared out into chunks of
+        fifteen &mdash; it is every place the window can stand.</p>
+        <p class="azgap">Count those places and you have the number: the window can start at
+        bead 1 and no later than bead 495, so 509 &minus; 15 + 1 = <b>495</b>. The <b>+ 1</b>
+        is the first piece. A chain of five beads with pieces of three gives three pieces,
+        not two: ABC, BCD, CDE.</p>
 
         <div class="azhead good"><span class="azk">Where this app sits</span><i></i><span class="azw">exists today</span></div>
         <div class="azapp">
@@ -1569,13 +1612,26 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
             <div class="azcol on"><span class="azn on">5</span><span class="azl on">worth opening</span>
               <span class="azd">A month of bench work. A laboratory can start on Monday.</span></div>
           </div>
-          <p class="azwhy">Every one of the 495 pieces is tried in all <b>117</b> known holders
+          <!-- V10100 - this said "all 117 KNOWN holders", which was wrong, and wrong in the
+               direction that flatters the app: it reads as though 117 were every holder
+               there is. About 11,910 class II types are named in IPD-IMGT/HLA. The 117 are
+               the ones this app's engine has trained networks for - 54 DRB1, 7 DRB3/4/5,
+               38 DQ, 18 DP - and that is a limit worth printing, not hiding. -->
+          <p class="azwhy">Every one of the 495 pieces is tried in <b>117</b> holders
           &mdash; 57,915 tries. What survives grips <b>the chosen holder</b> and almost nothing
           else, because a decoy built for a piece that <b>every</b> holder grips would jam every
           immune system, not only the one it was meant for.</p>
+          <p class="azwhy">The 117 are not all the holders there are. About <b>11,910</b>
+          class II types have been named so far; the 117 are the ones this app can score,
+          and they are the common, well-studied ones. If somebody&rsquo;s holder is not
+          among them, this app cannot answer for them.</p>
         </div>
 
-        <div class="azhead"><span class="azk">Who is doing this</span><i></i><span class="azw">three cells</span></div>
+        <!-- V10100 - this said "three cells" while four were listed, and the paragraph under
+             the cast has said "All four are white blood cells" the whole time. The hand card
+             added here is deliberately NOT a cell, so the label names it separately rather
+             than letting a part of a cell be counted as one. -->
+        <div class="azhead"><span class="azk">Who is doing this</span><i></i><span class="azw">four cells, and a hand</span></div>
         <div class="azcast">
           <div class="azc"><b>The scavenger</b><span>A white blood cell with two jobs: it eats
             loose debris, then it SHOWS what it ate. It loads a piece into a groove and pushes
@@ -1583,6 +1639,19 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
             facing out, to be read by touch. Its real names are macrophage and dendritic cell.
             It eats, carries one sample to a lymph node, shows it, and dies. One trip
             only.</span></div>
+          <!-- V10100 - the holder is a PART ON the cell, and the panel never said so in a
+               way that stuck: read quickly, "it loads a piece into a groove" leaves the
+               groove sounding like a separate thing, or like the cell itself. Moos read it
+               that way and asked whether the 117 holders mimic the scavenger. -->
+          <!-- No <b> inside the span: .azc b is display:block, so an inline bold here is
+               thrown onto a line of its own and the sentence reads "it is a part / on /
+               the scavenger" down three lines. The first cut of this card did that. -->
+          <div class="azc"><b>The holder is its hand</b><span>The groove is not another cell
+            and not a copy of one &mdash; it is a part ON the scavenger, the way a hand is
+            part of a person. The cell eats the protein, puts one piece in its hand, and
+            holds the hand up for the judge to read. The 117 are 117 shapes of that hand:
+            the same job in everybody, built to a different pattern in each person. So what
+            this app rehearses is the hand, not the cell.</span></div>
           <div class="azc"><b>The judge</b><span>A T cell. It reads what the scavenger is
             holding up and decides. Each one recognises exactly one shape, out of millions
             patrolling. In this disease a single judge gives the wrong verdict.</span></div>
@@ -2014,7 +2083,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          JO1 &middot; V10000 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          JO1 &middot; V10100 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -3356,6 +3425,13 @@ document.getElementById('runprot').addEventListener('click', runProtein);
 /* V9800 - what the pasted protein is called. Without it the landing could only say
    "this protein", which is not a name and tells a reader nothing. Jo-1 names itself. */
 var PNAME='';
+/* V10100 - which of the three the dropdown is on, kept separately from the sequence.
+   The landing used to work this out from whatever was loaded: empty meant "Choose a
+   protein", Jo-1's letters meant Jo-1, anything else meant paste. That cannot express
+   the state the user is actually in most often - "paste chosen, nothing pasted yet" -
+   and the moment the screen repainted on that state it snapped the dropdown back to
+   "Choose a protein" with the boxes hidden. The mode is now remembered as itself. */
+var PICKMODE='none';
 /* which sequence the name was typed for. A name belongs to one protein; if the letters
    change, the name is dropped rather than left sitting on something else. */
 var PNAMEFOR='';
@@ -3390,6 +3466,7 @@ document.addEventListener('change', function(e){
   var box=document.getElementById('hseq');
   if(!box) return;
   var nm=document.getElementById('hname');
+  PICKMODE=e.target.value;          /* V10100 - the mode is the choice itself */
   if(e.target.value==='paste'){
     box.hidden=false; box.value=''; if(nm){ nm.hidden=false; nm.value=''; nm.focus(); } }
   else { box.hidden=true; if(nm) nm.hidden=true; }
@@ -3422,10 +3499,15 @@ function loadChoice(){
      Only for jo1 and none: a repaint rebuilds the chooser markup, which would throw
      away whatever is half-typed in the paste box. While pasting, the number is already
      kept up to date in place by the input handler above. */
-  var pk=document.getElementById('hpick');
+  /* V10100 - repaint for EVERY choice, including "Paste another protein".
+     It used to skip the repaint for paste, to protect whatever was half-typed in the
+     box. But the only two things that call this are the dropdown - which empties that
+     box first, so there is nothing to protect - and Start, which leaves the screen. The
+     cost of skipping it was a screen that lied: going from Jo-1 to "Paste another
+     protein" left "slices of Jo-1" and the number 495 standing over an empty box.
+     Typing is handled by the input listener, which never comes through here. */
   var home=document.getElementById('view-home');
-  if(pk && pk.value!=='paste' && home && !home.hidden && typeof paintHome==='function')
-    paintHome();
+  if(home && !home.hidden && typeof paintHome==='function') paintHome();
 }
 /* the number follows as you type, so there is nothing to press to see it */
 document.addEventListener('input', function(e){
@@ -5639,7 +5721,10 @@ grip.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ 
 (function(){
   var back=recallProt();
   if(back){ document.getElementById('protseq').value=back.s; PNAME=back.n||'';
-            PNAMEFOR=back.s; }
+            PNAMEFOR=back.s;
+            /* V10100 - a remembered protein comes back with its MODE, so the dropdown
+               shows what was chosen rather than being inferred from the letters. */
+            PICKMODE = (back.s===JO1_PROTEIN) ? 'jo1' : 'paste'; }
   /* V10000 - a phone that has never chosen starts EMPTY, so the first screen shows no
      number. It used to arrive pre-filled with Jo-1, which is what put 495 on a screen
      where nothing had been chosen. A phone that HAS chosen still comes back to it
@@ -6212,35 +6297,42 @@ function paintHome(){
            so the empty state is what a NEW phone sees, not something to get past every
            morning - that was his own objection, "he need ti choose! The app will not
            start!?", and it still stands. */
-        var none = !s;
-        /* V10000 - the waiting number ROLLS. Moos: "We just make it Count up continuous
-           untill the user choose!" It is the right answer to what to show before a
-           choice: not 000, which claims zero slices, and not an empty gap that makes the
-           screen jump when a number arrives. Rolling digits say "waiting for you" and
-           claim nothing. They are aria-hidden, because a screen reader being read three
-           new digits every tenth of a second is noise - the caption underneath carries
-           the meaning. */
-        return (none ? '<div class="bignum numoff rolling" aria-hidden="true">'
-                       +sciNum('000')+'</div>'
-                     : '<div class="bignum numoff">'+sciNum(n)+'</div>')
-          +'<p class="bigcap">'+(none? 'choose a protein to begin'
-                                  : (n? ('slices of <b class="pname">'
-                                      +esc(isJo1?'Jo-1':(PNAME||'this protein'))
-                                      +'</b>, none of them asked yet')
-                                      : 'paste a protein to begin'))+'</p>'
+        /* V10100 - what is drawn comes from PICKMODE, not from guessing at the
+           sequence. The old code worked the state out from whatever was loaded - empty
+           meant "Choose a protein", Jo-1's letters meant Jo-1, anything else meant
+           paste - which cannot express the state the user is in most often: paste
+           chosen, nothing pasted yet. The first repaint on that state snapped the
+           dropdown back to "Choose a protein" and hid the boxes under the cursor.
+           V10000 - the waiting number ROLLS. Moos: "We just make it Count up continuous
+           untill the user choose!" Not 000, which claims zero slices, and not an empty
+           gap that makes the screen jump when a number arrives. The rolling digits are
+           aria-hidden: three new digits every tenth of a second read aloud is noise,
+           and the caption underneath carries the meaning. */
+        var mode = PICKMODE;
+        var waiting = (mode!=='jo1') && !n;      /* nothing to count yet */
+        return (waiting ? '<div class="bignum numoff rolling" aria-hidden="true">'
+                          +sciNum('000')+'</div>'
+                        : '<div class="bignum numoff">'+sciNum(n)+'</div>')
+          +'<p class="bigcap">'
+          +  (waiting ? (mode==='paste' ? 'paste a protein to begin'
+                                        : 'choose a protein to begin')
+                      : ('slices of <b class="pname">'
+                         +esc(isJo1?'Jo-1':(PNAME||'this protein'))
+                         +'</b>, none of them asked yet'))
+          +'</p>'
           +'<div class="pickbar">'
           +  '<select id="hpick" aria-label="Which protein">'
-          +    '<option value="none"'+(none?' selected':'')+'>Choose a protein</option>'
-          +    '<option value="jo1"'+(isJo1?' selected':'')+'>Jo-1</option>'
-          +    '<option value="paste"'+((!none&&!isJo1)?' selected':'')+'>Paste another protein</option>'
+          +    '<option value="none"'+(mode==='none'?' selected':'')+'>Choose a protein</option>'
+          +    '<option value="jo1"'+(mode==='jo1'?' selected':'')+'>Jo-1</option>'
+          +    '<option value="paste"'+(mode==='paste'?' selected':'')+'>Paste another protein</option>'
           +  '</select>'
           +'</div>'
           +'<input id="hname" type="text" aria-label="What is it called"'
-          +  ((isJo1||none)?' hidden':'')+' placeholder="What is it called? e.g. insulin"'
+          +  (mode==='paste'?'':' hidden')+' placeholder="What is it called? e.g. insulin"'
           +  ' value="'+esc(PNAME||'')+'">'
           +'<textarea id="hseq" rows="3" spellcheck="false" aria-label="Paste a protein"'
-          +  ((isJo1||none)?' hidden':'')+' placeholder="Paste the letters of any protein">'
-          +  ((isJo1||none)?'':esc(s))+'</textarea>';
+          +  (mode==='paste'?'':' hidden')+' placeholder="Paste the letters of any protein">'
+          +  (mode==='paste'?esc(s):'')+'</textarea>';
       })();
   /* V10000 - and now the number is on the page, make it move: roll while nothing is
      chosen, count up to the real figure the moment one is. */

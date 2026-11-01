@@ -1,8 +1,10 @@
 # JO1
 
-Version **V10000**.
+Version **V10100**.
 
-Screens peptides against 117 HLA class II types and ranks what sits in the groove.
+Screens peptides against 117 HLA class II types and ranks what sits in the groove. The 117
+are the types this app's engine can score, not all that exist - about 11,910 class II types
+are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 ## What it does
