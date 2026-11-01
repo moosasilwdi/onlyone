@@ -376,9 +376,15 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 @keyframes hsweep{
   0%{opacity:var(--o)} 5%{opacity:var(--o2)} 10%{opacity:var(--o2)}
   22%{opacity:var(--o)} 100%{opacity:var(--o)} }
-.bignum{animation:numbreath 3.4s ease-in-out infinite}
-/* the halo is grey, not the number's own colour - it lifts the number off the field
-   without colouring the air around it */
+/* V10000 - no pulse. Moos: "No puls! Just counting up". The number used to breathe
+   forever on a 3.4s scale-and-glow loop. The counting up carries the movement now, and
+   two movements on one number fight each other - the figure was being scaled while it
+   climbed.
+   But the loop carried the HALO as well as the beat, so deleting it outright also took
+   away the thing that lifts the number off the dotted field behind it. The halo stays,
+   standing still at the loop's resting value. The halo is grey, not the number's own
+   colour, so it lifts the number without colouring the air around it. */
+.bignum{filter:drop-shadow(0 0 10px rgba(var(--halo),.30))}
 
 /* V9800 - the A to Z panel. Plain type, no pictures: it has to read in both wordings,
    on any width, be read aloud by a screen reader, and cost nothing to load.
@@ -473,13 +479,11 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   border-left:3px solid var(--red);padding-left:11px}
 .atoz .azend{font-size:13.5px;line-height:1.55;color:var(--ink);margin:14px 0 0}
 @media (max-width:360px){ .atoz .azn{font-size:32px} }
-/* V9800 - the pulse had stopped showing. The number is DRAWN now, and text-shadow
-   does nothing at all to an svg - so only the scale was left, and alone it read as
-   nothing. drop-shadow works on the drawn shape, so the glow is back, and the beat is
-   wider than it was. */
-@keyframes numbreath{
-  0%,100%{transform:scale(.94); filter:drop-shadow(0 0 6px rgba(var(--halo),.22))}
-  50%{transform:scale(1.06); filter:drop-shadow(0 0 22px rgba(var(--halo),.55))} }
+/* V10000 - the numbreath keyframes lived here and are deleted. They drove the pulse
+   Moos has now asked to remove, and nothing else referenced them; a keyframes block
+   that nothing drives is dead weight, and a comment describing a pulse that no longer
+   happens is worse than no comment. The halo it used to animate is now a still
+   drop-shadow on .bignum above. */
 .bigcap{font-family:var(--mono);font-size:11px;color:var(--ink);margin:12px 0 0;text-align:center}
 .bigcap b{color:var(--accink);font-size:12.5px}
 /* V9800 - the protein's name is INK, not the caption's gold. Moos's rule of 28 Oct is
@@ -2010,7 +2014,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          JO1 &middot; V9900 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          JO1 &middot; V10000 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -3363,7 +3367,12 @@ var PNAMEFOR='';
 var PKEY='jo1.lastprot';
 function rememberProt(seq, name){
   try{
-    if(seq===JO1_PROTEIN || !seq) localStorage.removeItem(PKEY);
+    /* V10000 - Jo-1 is remembered too. It used to be the one choice NOT written down,
+       because an empty memory meant "open on Jo-1" and storing it would have been
+       saying the same thing twice. Empty now means "nothing has been chosen", so
+       leaving Jo-1 unwritten would have sent somebody who picked Jo-1 yesterday back to
+       the empty screen today - the opposite of what remembering is for. */
+    if(!seq) localStorage.removeItem(PKEY);
     else localStorage.setItem(PKEY, JSON.stringify({s:seq, n:name||''}));
   }catch(e){}
 }
@@ -3384,6 +3393,10 @@ document.addEventListener('change', function(e){
   if(e.target.value==='paste'){
     box.hidden=false; box.value=''; if(nm){ nm.hidden=false; nm.value=''; nm.focus(); } }
   else { box.hidden=true; if(nm) nm.hidden=true; }
+  /* V10000 - picking Jo-1 has to show its number straight away, and picking "Choose a
+     protein" has to take the number away again. Before this the number only moved when
+     the paste box was typed in, so the dropdown could say Jo-1 with no number under it. */
+  if(typeof loadChoice==='function') loadChoice();
 });
 /* V9800 - Start loads the choice. There is no Load button: Start already exists, already
    means go, and a second button only added a tap - and sat above the boxes it depended
@@ -3392,14 +3405,27 @@ function loadChoice(){
   var pick=document.getElementById('hpick'), box=document.getElementById('hseq'),
       nm=document.getElementById('hname'), dest=document.getElementById('protseq');
   if(!pick||!dest) return;
-  PNAME = (pick.value==='jo1') ? '' : ((nm && nm.value.trim().slice(0,28)) || '');
-  dest.value = (pick.value==='jo1') ? JO1_PROTEIN : clean(box? box.value : '');
+  /* V10000 - three choices now, not two: nothing yet, Jo-1, or pasted. */
+  PNAME = (pick.value==='paste') ? ((nm && nm.value.trim().slice(0,28)) || '') : '';
+  dest.value = (pick.value==='jo1')  ? JO1_PROTEIN
+             : (pick.value==='none') ? ''
+             : clean(box? box.value : '');
   PNAMEFOR = dest.value;
   rememberProt(dest.value, PNAME);
   dest.dispatchEvent(new Event('input',{bubbles:true}));
   /* V9800 - and update the screens that name the protein. Without this the
      how-it-works card kept saying "Jo-1 is already loaded" after insulin was. */
   if(typeof syncChoiceUI==='function') syncChoiceUI();
+  /* V10000 - and repaint the landing, so the number appears the moment Jo-1 is picked
+     and disappears the moment "Choose a protein" is. Without this the dropdown could
+     read Jo-1 with no number under it until the app was reopened.
+     Only for jo1 and none: a repaint rebuilds the chooser markup, which would throw
+     away whatever is half-typed in the paste box. While pasting, the number is already
+     kept up to date in place by the input handler above. */
+  var pk=document.getElementById('hpick');
+  var home=document.getElementById('view-home');
+  if(pk && pk.value!=='paste' && home && !home.hidden && typeof paintHome==='function')
+    paintHome();
 }
 /* the number follows as you type, so there is nothing to press to see it */
 document.addEventListener('input', function(e){
@@ -3411,6 +3437,28 @@ document.addEventListener('input', function(e){
   var c=Math.max(0, s.length-ww+1);
   var nameEl=document.getElementById('hname');
   var who=(nameEl && nameEl.value.trim()) ? esc(nameEl.value.trim().slice(0,28)) : 'this protein';
+  /* V10000 - in the empty state there IS no number element to fill, because no number
+     is drawn until something is chosen. So the first letters pasted have to bring one
+     into being. Without this the caption said "slices of insulin" with nothing above
+     it. It is inserted rather than repainting the whole landing, because a repaint
+     would throw away the box being typed in. */
+  if(!big && n && n.parentNode){
+    big=document.createElement('div');
+    big.className='bignum numoff';
+    n.parentNode.insertBefore(big, n);
+  }
+  /* V10000 - the first letters typed take the number off the roller. Without this the
+     rolling timer is still running and overwrites what is typed with random digits
+     every tenth of a second: the count would flicker between the true figure and
+     nonsense. Typing shows the figure at once - no count-up per keystroke, which would
+     never finish - so NUMSHOWN is set to match, or the next repaint would count up to a
+     number already on the screen. */
+  if(big && big.classList.contains('rolling')){
+    big.classList.remove('rolling');
+    big.removeAttribute('aria-hidden');
+    if(typeof rollStop==='function') rollStop();
+  }
+  if(typeof NUMSHOWN!=='undefined') NUMSHOWN=c;
   if(big) big.innerHTML=sciNum(c);
   if(n) n.innerHTML = c ? ('slices of <b class="pname">'+who+'</b>, none of them asked yet')
                         : 'paste a protein to begin';
@@ -3432,9 +3480,12 @@ function syncChoiceUI(){
   var home=document.getElementById('view-home'), nx=document.getElementById('nav-next');
   if(nx && home && !home.hidden){
     var box=document.getElementById('hseq'), pick=document.getElementById('hpick');
-    var ready = !pick || pick.value==='jo1' || (box && clean(box.value).length>=15);
+    /* V10000 - "Choose a protein" is not a choice, so Start waits for a real one. */
+    var ready = !pick || pick.value==='jo1'
+             || (pick.value==='paste' && box && clean(box.value).length>=15);
     nx.disabled = !ready;
-    nx.title = ready ? '' : 'paste a protein first';
+    nx.title = ready ? ''
+      : (pick && pick.value==='none') ? 'choose a protein first' : 'paste a protein first';
   }
 }
 document.addEventListener('input', function(e){
@@ -5589,7 +5640,11 @@ grip.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ 
   var back=recallProt();
   if(back){ document.getElementById('protseq').value=back.s; PNAME=back.n||'';
             PNAMEFOR=back.s; }
-  else document.getElementById('protseq').value=JO1_PROTEIN;
+  /* V10000 - a phone that has never chosen starts EMPTY, so the first screen shows no
+     number. It used to arrive pre-filled with Jo-1, which is what put 495 on a screen
+     where nothing had been chosen. A phone that HAS chosen still comes back to it
+     above, so the empty state is only ever seen once. */
+  else document.getElementById('protseq').value='';
 })();
 paintRegister(register(JO1));
 boot3D();
@@ -6054,6 +6109,73 @@ function homeRun(){
   for(var i=0;i<RUNS.length;i++) if(RUNS[i].sel) return RUNS[i];
   return null;
 }
+/* V10000 - the life of the big number on the landing.
+ *
+ * Two behaviours, one owner. While nothing is chosen the digits roll, forever, saying
+ * the app is waiting without claiming a figure. The moment a protein is chosen the
+ * rolling stops and the number COUNTS UP to its real value - Moos chose that over a
+ * pulse or a fade, and it is the right one: the number is a count, so counting to it
+ * says what it is.
+ *
+ * Three things this has to get right, none of them obvious:
+ *   - it must STOP. A timer left running on a screen nobody is looking at is a flat
+ *     battery. It stops when the landing is left, when the element goes, and when the
+ *     phone is put away (visibilitychange).
+ *   - it must not count up on every repaint. paintHome runs for many reasons; only a
+ *     CHANGE of value is worth animating, or the number re-counts whenever anything
+ *     else on the screen moves.
+ *   - reduced motion means reduced motion: no roll, no count, just the figure.
+ */
+var ROLL=null, NUMSHOWN=null;
+function reducedMotion(){
+  try{ return window.matchMedia('(prefers-reduced-motion:reduce)').matches; }
+  catch(e){ return false; }
+}
+function rollStop(){ if(ROLL){ clearInterval(ROLL); ROLL=null; } }
+function homeGone(){
+  var h=document.getElementById('view-home');
+  return !h || h.hidden || document.hidden;
+}
+function numLife(){
+  rollStop();
+  var el=document.querySelector('.inner.home .bignum.numoff');
+  if(!el){ NUMSHOWN=null; return; }
+
+  if(el.classList.contains('rolling')){
+    NUMSHOWN=null;
+    if(reducedMotion()) return;
+    ROLL=setInterval(function(){
+      var cur=document.querySelector('.inner.home .bignum.rolling');
+      if(!cur || homeGone()){ rollStop(); return; }
+      var s=''; for(var i=0;i<3;i++) s+=Math.floor(Math.random()*10);
+      cur.innerHTML=sciNum(s);
+    }, 95);
+    return;
+  }
+
+  var svg=el.querySelector('svg');
+  var target=parseInt(svg? (svg.getAttribute('aria-label')||'0') : '0', 10);
+  if(!isFinite(target) || target<=0){ NUMSHOWN=target; return; }
+  if(NUMSHOWN===target || reducedMotion()){ NUMSHOWN=target; return; }
+  NUMSHOWN=target;
+
+  var pad=String(target).length, t0=null, DUR=820;
+  (function step(ts){
+    if(t0===null) t0=ts||performance.now();
+    var k=Math.min(1, ((ts||performance.now())-t0)/DUR), e=1-Math.pow(1-k,3);
+    var live=document.querySelector('.inner.home .bignum.numoff');
+    if(!live || live.classList.contains('rolling')) return;
+    live.innerHTML=sciNum(String(Math.round(target*e)).padStart(pad,'0'));
+    if(k<1) requestAnimationFrame(step);
+  })();
+}
+document.addEventListener('visibilitychange', function(){
+  if(document.hidden) rollStop();
+  else if(typeof paintHome==='function'){
+    var h=document.getElementById('view-home');
+    if(h && !h.hidden) numLife();
+  }
+});
 function paintHome(){
   var fan=document.querySelector('.inner.home .fan'); if(!fan) return;
   var inner=document.querySelector('.inner.home');
@@ -6079,23 +6201,50 @@ function paintHome(){
         var ww=parseInt((document.getElementById('win')||{value:'15'}).value,10)||15;
         var n=Math.max(0, s.length-ww+1);
         var isJo1=(s===JO1_PROTEIN);
-        return '<div class="bignum numoff">'+sciNum(n)+'</div>'
-          +'<p class="bigcap">'+(n? ('slices of <b class="pname">'+esc(isJo1?'Jo-1':(PNAME||'this protein'))
+        /* V10000 - NO NUMBER until a protein has been chosen. Moos: "I want the default
+           shows no number! And numbers are shown after choosing the desises."
+           He is right, and it is the same objection he made about the old landing: a
+           number standing on the first screen is a claim about something, and before a
+           choice there is nothing for it to be about. V9800 made the number follow the
+           protein; this stops it existing at all until there IS one. The dropdown opens
+           on "Choose a protein", and the number appears the moment one is picked.
+           A protein chosen before is still remembered and comes back with its number,
+           so the empty state is what a NEW phone sees, not something to get past every
+           morning - that was his own objection, "he need ti choose! The app will not
+           start!?", and it still stands. */
+        var none = !s;
+        /* V10000 - the waiting number ROLLS. Moos: "We just make it Count up continuous
+           untill the user choose!" It is the right answer to what to show before a
+           choice: not 000, which claims zero slices, and not an empty gap that makes the
+           screen jump when a number arrives. Rolling digits say "waiting for you" and
+           claim nothing. They are aria-hidden, because a screen reader being read three
+           new digits every tenth of a second is noise - the caption underneath carries
+           the meaning. */
+        return (none ? '<div class="bignum numoff rolling" aria-hidden="true">'
+                       +sciNum('000')+'</div>'
+                     : '<div class="bignum numoff">'+sciNum(n)+'</div>')
+          +'<p class="bigcap">'+(none? 'choose a protein to begin'
+                                  : (n? ('slices of <b class="pname">'
+                                      +esc(isJo1?'Jo-1':(PNAME||'this protein'))
                                       +'</b>, none of them asked yet')
-                                  : 'choose a protein to begin')+'</p>'
+                                      : 'paste a protein to begin'))+'</p>'
           +'<div class="pickbar">'
           +  '<select id="hpick" aria-label="Which protein">'
+          +    '<option value="none"'+(none?' selected':'')+'>Choose a protein</option>'
           +    '<option value="jo1"'+(isJo1?' selected':'')+'>Jo-1</option>'
-          +    '<option value="paste"'+(isJo1?'':' selected')+'>Paste another protein</option>'
+          +    '<option value="paste"'+((!none&&!isJo1)?' selected':'')+'>Paste another protein</option>'
           +  '</select>'
           +'</div>'
           +'<input id="hname" type="text" aria-label="What is it called"'
-          +  (isJo1?' hidden':'')+' placeholder="What is it called? e.g. insulin"'
+          +  ((isJo1||none)?' hidden':'')+' placeholder="What is it called? e.g. insulin"'
           +  ' value="'+esc(PNAME||'')+'">'
           +'<textarea id="hseq" rows="3" spellcheck="false" aria-label="Paste a protein"'
-          +  (isJo1?' hidden':'')+' placeholder="Paste the letters of any protein">'
-          +  (isJo1?'':esc(s))+'</textarea>';
+          +  ((isJo1||none)?' hidden':'')+' placeholder="Paste the letters of any protein">'
+          +  ((isJo1||none)?'':esc(s))+'</textarea>';
       })();
+  /* V10000 - and now the number is on the page, make it move: roll while nothing is
+     chosen, count up to the real figure the moment one is. */
+  numLife();
   var old=document.getElementById('homefield'); if(old) old.remove();
   var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
   svg.id='homefield'; svg.setAttribute('preserveAspectRatio','none');

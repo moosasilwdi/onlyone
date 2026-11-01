@@ -1,15 +1,17 @@
 # JO1
 
-Version **V9900**.
+Version **V10000**.
 
 Screens peptides against 117 HLA class II types and ranks what sits in the groove.
 Everything runs in the browser. No server, no build step.
 
 ## What it does
 
-- **Opening screen** - choose the protein here. Jo-1 by default; pick "Paste another protein",
-  give it a name and paste its letters, and the slice count follows what you type. The choice is
-  kept on the device, so the app opens next time on whatever you were working on.
+- **Opening screen** - choose the protein here. A phone that has never chosen shows NO number:
+  the digits roll, and the dropdown says "Choose a protein". Pick Jo-1, or pick "Paste another
+  protein", name it and paste its letters - the count then counts up to its real value and the
+  slice count follows what you type. The choice is kept on the device, so the app opens next
+  time on whatever you were working on, with its number.
 - **Protein** - the chosen protein, cut into every slice and ranked by predicted binding.
 - **Decoy** - take one slice, swap every letter for all 19 others, keep the ones that still grip
   the holder but show the T cell a different face. Then check a candidate against all 117 types
