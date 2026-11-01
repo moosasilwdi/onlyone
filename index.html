@@ -358,7 +358,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .bignum.numoff,
 :root[data-theme="dark"] .bignum.numoff{color:#64707f}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bignum.numoff{color:#64707f}}
-/* V9600 - the landing's words are INK, not --mute. Removing the dimmed patch behind
+/* V9800 - the landing's words are INK, not --mute. Removing the dimmed patch behind
    them left the field to carry their contrast on its own, and the first answer was to
    quieten the whole field to 0.12/0.26 - which passed the contrast floor and killed the
    field, breaking two checks that exist precisely to keep it alive (mark: swing 0.14
@@ -380,20 +380,54 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 /* the halo is grey, not the number's own colour - it lifts the number off the field
    without colouring the air around it */
 
-/* V9600 - the A to Z panel. Plain type, no pictures: it has to read in both wordings,
+/* V9800 - the A to Z panel. Plain type, no pictures: it has to read in both wordings,
    on any width, be read aloud by a screen reader, and cost nothing to load.
    The four colours are declared here scoped to this panel, exactly the way .whyp and
    .savedp declare them - they are not on :root, and the first cut of this panel asked
    for --green at the root, got nothing, and drew a grey box with a white 5 in it.
    Red sits only on the two steps that ARE the warning; blue on the road nobody has
    walked; green on the app. Yellow is declared for completeness and never used on type. */
+/* V9800 - the landing's own chooser, and the only place a protein is chosen. Before
+   this, the first screen announced "495 slices of Jo-1" before anyone had chosen
+   anything, and the way to use another protein was a small button among the controls in
+   step 2 - so the app looked like it did one thing. Moos: "Why we dont make choosing
+   the protine in first screen!?"
+   What is here is the end of several trials, and what the trials removed is worth
+   recording. There was a Load button, yellow and full-width; it is gone, because Start
+   already exists, already means go, and sat BELOW the boxes Load depended on - two
+   buttons for one job. Moos saw it first: "We have start button i thunk this is
+   enough!?" So the bar holds the dropdown alone, and the number follows what is typed,
+   with nothing to press. Its old button rule and two comments describing a yellow Load
+   button were still here after the button was not; they are gone too. */
+.pickbar{display:flex;flex-direction:column;align-items:center;gap:9px;
+  margin:14px 0 0;width:100%;max-width:320px}
+.pickbar select{width:100%;font:inherit;font-size:14px;padding:9px 10px;border-radius:10px;
+  border:2px solid var(--line);background:var(--panel);color:var(--ink)}
+.inner.home input#hname{width:100%;max-width:320px;margin:9px 0 0;font:inherit;
+  font-size:13.5px;padding:9px 11px;border-radius:10px;border:2px solid var(--line);
+  background:var(--panel);color:var(--ink)}
+.inner.home textarea#hseq{width:100%;max-width:320px;margin:9px 0 0;font-family:var(--mono);
+  font-size:11.5px;line-height:1.45;padding:9px 10px;border-radius:10px;
+  border:2px solid var(--line);background:var(--panel);color:var(--ink);resize:vertical}
+.inner.home{--green:#15a05a;--yellow:#f5b700}
+:root[data-theme="dark"] .inner.home{--green:#2fc274;--yellow:#ffc425}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .inner.home{--green:#2fc274;--yellow:#ffc425}}
 .atoz{--red:#e0342a;--blue:#1565d8;--yellow:#f5b700;--green:#15a05a}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .atoz{
   --red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274}}
+/* V9800 - this guard was destroyed by one of my own patches and is restored here. The
+   patch landed its comment INSIDE the selector, so ":root[data-theme="dark"]" was left
+   holding a comment where its brace should have been, and everything under it became
+   separate, unguarded rules - including this one. The visible result: the A-to-Z panel
+   wore its DARK red, blue, yellow and green in LIGHT mode, because an unguarded .atoz
+   comes after the light one and wins. Measured: light mode gave #ff5147 on V9800
+   against #e0342a on V9700. Nothing failed, because those four are worn by the small
+   rules and squares beside the words rather than by type, so the contrast walk had
+   nothing to catch - which is why there is now a row that reads these four directly. */
 :root[data-theme="dark"] .atoz{--red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274}
 .atoz .azhead{display:flex;align-items:center;gap:9px;margin:20px 0 10px}
 .atoz .azhead i{flex:1;height:2px;background:var(--line)}
-/* V9600 - the section labels are INK, and the rule between them carries the colour.
+/* V9800 - the section labels are INK, and the rule between them carries the colour.
    They were set in the section's own colour at 10.5px, and the green one measured 3.38
    against the 4.5 that type this size needs - Moos's green is vivid, which is what makes
    it good on a box and bad on a caption. Moving the colour onto the rule keeps all four
@@ -425,7 +459,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .atoz .azarrow{flex:0 0 26px;text-align:center;font-size:21px;color:var(--green)}
 .atoz .azwhy{font-size:12.5px;line-height:1.5;color:var(--ink);margin:12px 0 0;
   padding-top:11px;border-top:2px solid var(--line)}
-/* V9600 - this paragraph wore --mute and measured 4.39 against the 4.5 that type this
+/* V9800 - this paragraph wore --mute and measured 4.39 against the 4.5 that type this
    size needs. It is the honest-limits paragraph: the one part of this panel that must
    never be the quietest thing on the page. Full ink. */
 .atoz .azcast{display:grid;gap:9px}
@@ -439,7 +473,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   border-left:3px solid var(--red);padding-left:11px}
 .atoz .azend{font-size:13.5px;line-height:1.55;color:var(--ink);margin:14px 0 0}
 @media (max-width:360px){ .atoz .azn{font-size:32px} }
-/* V9600 - the pulse had stopped showing. The number is DRAWN now, and text-shadow
+/* V9800 - the pulse had stopped showing. The number is DRAWN now, and text-shadow
    does nothing at all to an svg - so only the scale was left, and alone it read as
    nothing. drop-shadow works on the drawn shape, so the glow is back, and the beat is
    wider than it was. */
@@ -448,6 +482,12 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   50%{transform:scale(1.06); filter:drop-shadow(0 0 22px rgba(var(--halo),.55))} }
 .bigcap{font-family:var(--mono);font-size:11px;color:var(--ink);margin:12px 0 0;text-align:center}
 .bigcap b{color:var(--accink);font-size:12.5px}
+/* V9800 - the protein's name is INK, not the caption's gold. Moos's rule of 28 Oct is
+   "dont use yellw, for text or text accents", and on this page --accink IS the gold
+   (#8a6104 light, #ffc233 dark) - so the name would have been a yellow word in dark
+   mode. It also matches "shared library" just below it, which .homelib b already pins
+   to ink for the same reason. The name stands out by weight instead. */
+.bigcap b.pname{color:var(--ink)}
 @media (prefers-reduced-motion:reduce){
   .bignum{transform:none!important;animation:none!important}
   #homefield circle{animation:none!important} }
@@ -461,6 +501,13 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .savedp .runttl{font-size:16px;font-weight:700;letter-spacing:-.01em}
 .savedp .runwhen{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--mute)}
 .savedp .runwho{font-family:var(--mono);font-size:11.5px;color:var(--mute);margin:0 0 11px}
+/* V9900 - two small lines the shared library needs. Both are INK, not a colour: the
+   accent on this page is the gold, and Moos ruled out yellow on text and text accents
+   on 28 Oct. "from the shared library" carries a rule beside it instead, which is the
+   same move used for the section labels in Notes. */
+.savedp .runfrom{font-size:11.5px;color:var(--ink);margin:-7px 0 11px;padding-left:9px;
+  border-left:3px solid var(--line)}
+.liboff{color:var(--ink);border-bottom:2px solid var(--red);padding-bottom:1px}
 .savedp .runpep{display:flex;align-items:center;gap:9px;border-radius:10px;padding:8px 10px;
   margin:0 0 11px;background:var(--sunk);border:1px solid var(--line);
   font-family:var(--mono);font-size:11.5px}
@@ -622,7 +669,7 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 .splash{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:14px;
   background:var(--bg);cursor:pointer;transition:opacity .34s ease}
-/* V9600 - his name, under the mark. It rises with the mark rather than separately, a
+/* V9800 - his name, under the mark. It rises with the mark rather than separately, a
    beat behind it, so the first screen stays one movement and not two. Letter-spaced and
    quiet: the mark is the loud thing on this screen and the name sits under it. */
 .splash .byline{animation:rise .5s ease .14s both;
@@ -1064,7 +1111,7 @@ a.sendmail:active{filter:brightness(.96)}
    switched. */
 #view-3d .key>span:last-child{flex:0 0 100%}
 
-/* V9600 - the plain-language opening of Notes. No numbers in nanomolar, no holder
+/* V9800 - the plain-language opening of Notes. No numbers in nanomolar, no holder
    names: this is the paragraph a sponsor reads before anything technical. */
 .mission p{font-size:14px;line-height:1.62;margin:0 0 10px;color:var(--ink)}
 .mission p:last-child{margin-bottom:0}
@@ -1177,7 +1224,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         </svg>
         <ol class="steps">
           <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 12 Q20 3 36 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 28 Q20 37 36 28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>Pick the holder</b><span><span class="sci-only">One of 117 HLA types</span><span class="abs-only">Whose body are we testing</span></span></div></li>
-          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20h34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="20" r="4" fill="currentColor"/><circle cx="20" cy="20" r="4" fill="currentColor"/><circle cx="28" cy="20" r="4" fill="currentColor"/></svg><div><b>Feed it a protein</b><span>Jo-1 is already loaded</span></div></li>
+          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20h34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="20" r="4" fill="currentColor"/><circle cx="20" cy="20" r="4" fill="currentColor"/><circle cx="28" cy="20" r="4" fill="currentColor"/></svg><div><b>Feed it a protein</b><span id="howprot">Jo-1 is already loaded</span></div></li>
           <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 31 L10 22 L15 27 L20 9 L26 24 L31 17 L37 27" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="9" r="3.8" fill="currentColor"/></svg><div><b>Walk the graph</b><span>Every stop, scored</span></div></li>
           <li><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="10" width="34" height="5.6" rx="2.8" fill="currentColor"/><rect x="3" y="19" width="23" height="5.6" rx="2.8" fill="currentColor" opacity=".55"/><rect x="3" y="28" width="13" height="5.6" rx="2.8" fill="currentColor" opacity=".3"/></svg><div><b>Read the shortlist</b><span>Narrow to the fussiest few</span></div></li>
           <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 11 Q20 2 36 11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 29 Q20 38 36 29" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="20" r="3.6" fill="currentColor"/><circle cx="20" cy="20" r="3.6" fill="currentColor"/><circle cx="28" cy="20" r="3.6" fill="currentColor"/></svg><div><b>See it in the groove</b><span>The chosen piece, held</span></div></li>
@@ -1225,9 +1272,20 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 
       <div class="panel" id="pane-prot">
         <h3>Protein</h3>
+        <!-- V9800 - a second chooser lived here: two buttons, "Jo-1" and "Another
+             protein". It was a leftover from an earlier cut of this version, and it was
+             not merely clutter. It wrote the box but never wrote the remembered choice,
+             so the two could disagree without a word: choose insulin on the landing,
+             come here, press "Jo-1", and the box held Jo-1's 509 letters while the app
+             still remembered insulin - reopening it came back to "96 slices of
+             insulin". Measured before removing it. The landing owns the choice now, and
+             it is the only place that owns it. -->
         <textarea id="protseq" spellcheck="false" aria-label="Protein sequence"></textarea>
         <div class="ctrls" style="margin-top:9px">
-          <button type="button" id="loadjo1">Load Jo-1</button>
+          <!-- V9800 - "Load Jo-1" lived here when step 2 was the only place a protein
+               could be chosen. The landing owns that now, so this was two buttons for
+               one job. The choice is on the first screen; this panel keeps the file
+               loader and the window size. -->
           <label class="drop" for="fastain">FASTA file</label>
           <input type="file" id="fastain" accept=".fasta,.fa,.txt,.seq">
           <label class="fld"><span>Window</span>
@@ -1409,8 +1467,13 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
     <div class="inner savedp">
       <div class="panel">
         <h3>Shared library</h3>
-        <p class="tiny" style="margin:0 0 11px">Every scan keeps itself here. Export writes a
-        file anyone you invite can open.</p>
+        <!-- V9900 - this line used to offer Export as the way anybody else could see a
+             run, because that was the only way there was. The library is genuinely
+             shared now, so it says what actually happens, including the part worth
+             knowing before you paste something. -->
+        <p class="tiny" style="margin:0 0 11px">Every scan keeps itself here, and goes to a
+        library everyone using the app shares &mdash; so other people can read it, and you
+        can read theirs. Export still writes a file you can keep or send yourself.</p>
         <svg id="runwall" class="wall" viewBox="0 0 298 40" role="img" aria-label="Runs in the library"></svg>
         <p class="fancap" id="runcap" style="margin:6px 0 10px"><b>0</b> saved</p>
         <div class="ctrls">
@@ -1427,7 +1490,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
     <div class="inner">
       <div class="modeslot"></div>
       <section class="notepage" data-note="about">
-      <!-- V9600 - what the app is, for someone who is not a scientist. It is the first
+      <!-- V9800 - what the app is, for someone who is not a scientist. It is the first
            thing in Notes on purpose: it is what Moos hands to a sponsor. -->
       <div class="panel mission">
         <h3>What this is</h3>
@@ -1442,16 +1505,25 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         <p>That difference is the whole point: a piece that everyone reacts to cannot be
         blocked without weakening normal defence against infection, but a piece belonging to
         one person can.</p>
-        <p>The app runs on an ordinary phone, in a browser, free, and nothing you type ever
-        leaves your phone. Every search is saved to a shared library, so the next person
-        starts where the last one stopped.</p>
+        <!-- V9900 - this paragraph used to say, in one breath, that nothing you type ever
+             leaves your phone AND that every search is saved to a shared library so the
+             next person starts where the last one stopped. Both could not be true, and
+             until V9900 the first one was: the library was localStorage, one phone. The
+             library is now genuinely shared, which makes the old promise false, so it is
+             replaced by a plain description of what actually travels. -->
+        <p>The app runs on an ordinary phone, in a browser, free. Every search is saved to
+        a library that everyone using the app shares, so the next person starts where the
+        last one stopped &mdash; which means the protein you paste, its name and its
+        results are sent to that library and other people can read them. Nothing else
+        about you is sent, and there is no account and no sign-in. If you would rather a
+        protein stayed private, do not paste it here.</p>
         <p>It is a search tool, not a diagnosis &mdash; it hands you a shortlist for a
         laboratory to test, not an answer.</p>
         <p class="missiongoal"><b>The mission is simple: take a search that today needs a
         university, and put it in the hands of anyone willing to look.</b></p>
       </div>
 
-      <!-- V9600 - the whole road, A to Z. Moos could not join the dots between his
+      <!-- V9800 - the whole road, A to Z. Moos could not join the dots between his
            disease, this app and the decoy idea, and neither could a sponsor reading the
            paragraph above on its own. It is written as text, not drawn as a picture, so
            it reads in both wordings, scales on any phone, can be read aloud, and costs
@@ -1859,8 +1931,12 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         500&nbsp;nM line would mostly have measured which holders are soft, not whether a slice is
         special. Each holder therefore carries its own line: a slice <b>grips</b> it when the slice
         falls in that holder's own tightest 5&nbsp;per&nbsp;cent. Those lines run from 4&nbsp;nM to
-        2&nbsp;937&nbsp;nM. The reference set is Jo-1's own 495 slices; for a protein you paste in,
-        the same lines are reused, which is a stand-in rather than a measurement.</p>
+        2&nbsp;937&nbsp;nM. Jo-1's lines come from its own 495 slices and ship with the app.
+        A protein you paste in now measures its OWN: about 120 of its slices, spread
+        evenly, scored against all 117 holders, with each holder's two lines taken as
+        percentiles of that. It happens once per protein, takes a few seconds, and the
+        line under every result says which set was used. Before V9800 a pasted protein
+        borrowed Jo-1's lines, which was a stand-in rather than a measurement.</p>
         <p class="tiny" style="margin:0">The 117-type check returns one of three verdicts.
         <b>Selective</b> &mdash; it grips this holder and nothing else tightly.
         <b>Mostly selective</b> &mdash; one or two others.
@@ -1934,7 +2010,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          JO1 &middot; V9600 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          JO1 &middot; V9900 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -2972,7 +3048,10 @@ function setAllele(){
   });
 }
 function setBusy(b){
-  ['runprot','rundec','loadjo1'].forEach(function(id){ document.getElementById(id).disabled=b; });
+  /* V9800 - loadjo1 is gone (the landing owns the choice now), so this must tolerate a
+     missing element rather than throw on null. */
+  ['runprot','rundec','loadjo1'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.disabled=b; });
 }
 sel.addEventListener('change', function(){ setAllele().then(function(){
   results=[]; drawRows();
@@ -3133,11 +3212,18 @@ function stepBy(d){
 document.getElementById('nav-back').addEventListener('click', function(){ stepBy(-1); });
 document.getElementById('nav-next').addEventListener('click', function(){ stepBy(1); });
 window.JO1={ go:function(id){ showTab(id); markNav(); },
+  /* V9900 - the library has no numbered tab, so go() cannot reach it. The checks open
+     it through here and read the merged list; nothing else uses this. */
+  lib:function(){ showView('view-lib'); return (typeof LIB==='function')? LIB() : []; },
   // the checks read the viewer's own orientation through this, nothing else uses it
   view:function(){ try{ return viewer? viewer.getView():null; }catch(e){ return null; } },
   vw:function(){ return viewer; },
   /* the checks read the per-holder grip lines through this, nothing else uses it */
-  grip:function(){ return {g5:GRIP5, g20:GRIP20, tight:gripsTight, mid:gripsMid, idx:holderIndex}; } };
+  /* V9800 - live:/source: let a check see whether the lines in use were measured on the
+     protein actually loaded, or borrowed from Jo-1. Nothing else reads these. */
+  grip:function(){ return {g5:GRIP5, g20:GRIP20, tight:gripsTight, mid:gripsMid,
+    idx:holderIndex, live:LIVE_GRIP, source:gripSource(),
+    inUse:ALLELES.map(function(a,i){ return grip5(i); })}; } };
 /* the logo screen steps aside on its own, or on a tap */
 (function(){
   var sp=document.getElementById('splash'); if(!sp) return;
@@ -3161,9 +3247,7 @@ function setSeg(which){
 }
 document.getElementById('t-seg-prot').addEventListener('click', function(){ setSeg('prot'); });
 document.getElementById('t-seg-dec').addEventListener('click', function(){ setSeg('dec'); });
-document.getElementById('loadjo1').addEventListener('click', function(){
-  document.getElementById('protseq').value=JO1_PROTEIN;
-});
+/* V9800 - its button is gone; see the note in the markup. */
 document.getElementById('fastain').addEventListener('change', function(e){
   var f=e.target.files&&e.target.files[0]; if(!f) return;
   var rd=new FileReader();
@@ -3265,6 +3349,130 @@ function runDecoy(){
   });
 }
 document.getElementById('runprot').addEventListener('click', runProtein);
+/* V9800 - what the pasted protein is called. Without it the landing could only say
+   "this protein", which is not a name and tells a reader nothing. Jo-1 names itself. */
+var PNAME='';
+/* which sequence the name was typed for. A name belongs to one protein; if the letters
+   change, the name is dropped rather than left sitting on something else. */
+var PNAMEFOR='';
+
+/* V9800 - and the choice is REMEMBERED. Choosing insulin means working on insulin, so
+   the app has no business resetting to Jo-1 the next morning. The last protein and its
+   name are kept on this device and restored on opening. A first-time opener still gets
+   Jo-1, because nothing has been chosen yet, and the dropdown is always the way back. */
+var PKEY='jo1.lastprot';
+function rememberProt(seq, name){
+  try{
+    if(seq===JO1_PROTEIN || !seq) localStorage.removeItem(PKEY);
+    else localStorage.setItem(PKEY, JSON.stringify({s:seq, n:name||''}));
+  }catch(e){}
+}
+function recallProt(){
+  try{
+    var raw=localStorage.getItem(PKEY); if(!raw) return null;
+    var o=JSON.parse(raw);
+    if(o && typeof o.s==='string' && o.s.length) return o;
+  }catch(e){}
+  return null;
+}
+/* V9800 - the landing's chooser: pick, paste if needed, Load. The number follows. */
+document.addEventListener('change', function(e){
+  if(!e.target || e.target.id!=='hpick') return;
+  var box=document.getElementById('hseq');
+  if(!box) return;
+  var nm=document.getElementById('hname');
+  if(e.target.value==='paste'){
+    box.hidden=false; box.value=''; if(nm){ nm.hidden=false; nm.value=''; nm.focus(); } }
+  else { box.hidden=true; if(nm) nm.hidden=true; }
+});
+/* V9800 - Start loads the choice. There is no Load button: Start already exists, already
+   means go, and a second button only added a tap - and sat above the boxes it depended
+   on, asking to be pressed before they were filled. */
+function loadChoice(){
+  var pick=document.getElementById('hpick'), box=document.getElementById('hseq'),
+      nm=document.getElementById('hname'), dest=document.getElementById('protseq');
+  if(!pick||!dest) return;
+  PNAME = (pick.value==='jo1') ? '' : ((nm && nm.value.trim().slice(0,28)) || '');
+  dest.value = (pick.value==='jo1') ? JO1_PROTEIN : clean(box? box.value : '');
+  PNAMEFOR = dest.value;
+  rememberProt(dest.value, PNAME);
+  dest.dispatchEvent(new Event('input',{bubbles:true}));
+  /* V9800 - and update the screens that name the protein. Without this the
+     how-it-works card kept saying "Jo-1 is already loaded" after insulin was. */
+  if(typeof syncChoiceUI==='function') syncChoiceUI();
+}
+/* the number follows as you type, so there is nothing to press to see it */
+document.addEventListener('input', function(e){
+  if(!e.target) return;
+  if(e.target.id!=='hseq' && e.target.id!=='hname') return;
+  var n=document.querySelector('.bigcap'), big=document.querySelector('.bignum');
+  var s=clean(document.getElementById('hseq').value);
+  var ww=parseInt((document.getElementById('win')||{value:'15'}).value,10)||15;
+  var c=Math.max(0, s.length-ww+1);
+  var nameEl=document.getElementById('hname');
+  var who=(nameEl && nameEl.value.trim()) ? esc(nameEl.value.trim().slice(0,28)) : 'this protein';
+  if(big) big.innerHTML=sciNum(c);
+  if(n) n.innerHTML = c ? ('slices of <b class="pname">'+who+'</b>, none of them asked yet')
+                        : 'paste a protein to begin';
+});
+/* V9800 - the line on the how-it-works card follows the choice, and Start goes grey
+   when there is nothing to start with. Both used to assume Jo-1. */
+function syncChoiceUI(){
+  var t=document.getElementById('protseq');
+  var s=t? clean(t.value) : '';
+  var hp=document.getElementById('howprot');
+  /* "your protein" stood here until V9800. It breaks Moos's rule from 28 Oct - the app
+     does not tell anyone a protein, a holder or a disease is theirs - and the scan that
+     guards that rule never reached it, because this branch only speaks when something
+     is pasted WITHOUT a name, which no check had done. "this protein" matches the two
+     other places that name an unnamed one. */
+  if(hp) hp.textContent = s ? ((s===JO1_PROTEIN?'Jo-1':(PNAME||'this protein'))
+                               +' is already loaded')
+                            : 'nothing loaded yet';
+  var home=document.getElementById('view-home'), nx=document.getElementById('nav-next');
+  if(nx && home && !home.hidden){
+    var box=document.getElementById('hseq'), pick=document.getElementById('hpick');
+    var ready = !pick || pick.value==='jo1' || (box && clean(box.value).length>=15);
+    nx.disabled = !ready;
+    nx.title = ready ? '' : 'paste a protein first';
+  }
+}
+document.addEventListener('input', function(e){
+  if(e.target && (e.target.id==='hseq'||e.target.id==='hname')) syncChoiceUI(); });
+/* V9800 - whatever route fills the box IS the choice. Start was the only thing that
+   wrote the remembered protein, so a protein pasted straight into step 2, or opened
+   from a FASTA file, was forgotten: measured, insulin pasted there came back as "495
+   slices of Jo-1" the next time the app opened. Remembering it at all was Moos's point
+   - "who choose insulin it means he is working on it" - and he has no reason to care
+   which box he used. So the box itself is what gets remembered, by any route in.
+   Debounced, because this fires on every keystroke. */
+(function(){
+  var t=document.getElementById('protseq'); if(!t) return;
+  var hold=null;
+  t.addEventListener('input', function(){
+    clearTimeout(hold);
+    hold=setTimeout(function(){
+      var s=clean(t.value);
+      if(s!==PNAMEFOR){ PNAME=''; PNAMEFOR=''; }
+      rememberProt(s, PNAME);
+      syncChoiceUI();
+    }, 400);
+  });
+})();
+document.addEventListener('change', function(e){
+  if(e.target && e.target.id==='hpick') setTimeout(syncChoiceUI,0); });
+
+/* V9800 - Start carries the landing's choice in with it */
+(function(){
+  /* "Start" is nav-next wearing a different word on the landing, so that is what to
+     hook. Capture phase, so the choice is loaded before the step changes. */
+  var s=document.getElementById('nav-next');
+  if(s) s.addEventListener('click', function(){
+    var home=document.getElementById('view-home');
+    if(home && !home.hidden) loadChoice();
+  }, true);
+  setTimeout(syncChoiceUI, 120);
+})();
 /* the note answers one exact question, so any change to the question takes it away */
 ['protseq','win'].forEach(function(id){
   var e=document.getElementById(id);
@@ -3730,7 +3938,7 @@ function addSetting(){
        P() carries those numbers into whatever structure is actually loaded. On the
        built model the measured frame IS that frame, so the picture is unchanged; on a
        downloaded structure the setting now lands on the groove instead of beside it. */
-    /* V9600 - THE CELL WAS IN THE WRONG PLACE. Moos photographed it; this is why.
+    /* V9800 - THE CELL WAS IN THE WRONG PLACE. Moos photographed it; this is why.
        In Abstract the green cradle is DRAWN, at plain coordinates - its floor is
        written as z=-7 and nothing measures it. The skin below and the immune cell above
        were placed through P() instead, which maps them onto the frame MEASURED off the
@@ -4367,7 +4575,7 @@ var PARTS={floor:true, wall1:true, wall2:true, piece:true, body:true};
    Said plainly: the reference set is Jo-1's own 495 slices. For Jo-1 that is exactly
    the right question - is this slice unusual FOR THIS HOLDER. For a protein you paste
    in, the same lines are used, which is a stand-in, not a measurement. */
-/* V9600 - THE BIG NUMBER IS DRAWN, NOT TYPED.
+/* V9800 - THE BIG NUMBER IS DRAWN, NOT TYPED.
    Moos asked for a sci-fi number. A downloaded font would be a guess - it cannot be
    seen before it ships, and a phone without it falls back to something else entirely.
    So the digits are drawn here, from his own logo's rules measured off the mark: the
@@ -4407,8 +4615,63 @@ function sciNum(str){
 var GRIP5=[114.8,231.8,161.4,670,184.6,218.4,791.3,182.6,210.7,61.1,103.4,1304.8,543,65.3,326.1,19.6,656,140.6,1145.3,41.3,762.7,210.3,109.6,133,1067.8,1310.9,1155.6,766.2,103.8,223.2,332.6,20.1,195.3,1052.4,865.9,1015.6,42.4,521.3,476.5,320.2,91.7,487,257.8,120.6,231.2,354,730.6,2937.5,425.7,1325.9,282.2,293.2,1258.1,1565.6,1851.1,416.7,70.5,32.7,563.6,39.8,39,68.6,29.9,13.2,11.8,21.9,162.5,89.9,52.6,27,17.4,4.1,13.8,37.4,233.8,169.1,510,185,964.7,189.9,91.3,162.7,124.7,69.4,84.1,261.5,91.7,50.6,700.7,248.4,119,70.3,14.1,48,193.3,110.7,137.2,265.7,122.4,202.7,165.9,1413.3,1424.4,21.8,141.5,63,66,628.9,29.2,124.4,787,514.8,9.5,92.8,12.2,39.3,25.3];
 var GRIP20=[630.6,1669.4,1247.5,1626.9,592.2,1283,3979.7,677.6,626.9,345.9,779.4,4185.5,2332.3,322.2,1250.3,134.2,2646.1,818.2,3253.6,132,1603.2,818.3,550.9,799.7,2667.9,2240.8,6645.7,1888,405.6,700,1113,131,1540.7,2983.8,3210.6,2985.8,101.7,1855.5,1582,941.1,430.6,995.3,820.3,431.9,1797.4,2270.5,3433.9,5500.2,3419.7,5415.4,1774.4,989.7,3566.3,3140.1,3568.8,1745.8,493.8,130.4,2819.2,129.8,133.2,217,81.9,113.8,69.1,65.7,1285.7,580.9,767.4,132.9,85.4,27.5,91.2,123.5,1325.2,1067.3,4283.2,1325.7,2618.6,746.2,428.6,1301.5,588.7,436.1,902.7,1765,270,303.7,1698.5,1578.9,367.1,392.5,112.9,700.5,494.7,796.1,665,888.3,377.5,1315.1,768.9,7903.6,8013.8,101.5,851.1,271.3,369.5,3707.7,244.6,381.7,2865.1,3141,29.5,372.1,38.7,306.7,134.5];
 /* does this holder grip this piece? k is the holder's index in ALLELES */
-function gripsTight(v,k){ return v!=null && isFinite(v) && k>=0 && k<GRIP5.length && v<GRIP5[k]; }
-function gripsMid(v,k){ return v!=null && isFinite(v) && k>=0 && k<GRIP20.length && v<GRIP20[k]; }
+/* V9800 - the lines can now be MEASURED on whatever protein is actually loaded.
+   GRIP5/GRIP20 above were taken from Jo-1's own 495 slices. For Jo-1 that is exactly
+   right. For anything pasted in they were reused as a stand-in, which is the one thing
+   left in this app that was not a measurement - and it is what stopped it being usable
+   for any disease but this one. LIVE_GRIP, when set, replaces them; it is measured from
+   the pasted protein's own slices and keyed to that protein so it is computed once. */
+var LIVE_GRIP=null;
+function grip5(k){ return (LIVE_GRIP && LIVE_GRIP.g5[k]!=null) ? LIVE_GRIP.g5[k] : GRIP5[k]; }
+function grip20(k){ return (LIVE_GRIP && LIVE_GRIP.g20[k]!=null) ? LIVE_GRIP.g20[k] : GRIP20[k]; }
+function gripsTight(v,k){ return v!=null && isFinite(v) && k>=0 && k<ALLELES.length && v<grip5(k); }
+function gripsMid(v,k){ return v!=null && isFinite(v) && k>=0 && k<ALLELES.length && v<grip20(k); }
+function gripSource(){ return LIVE_GRIP ? 'measured on this protein' : 'measured on Jo-1'; }
+
+/* Measure each holder's own two lines from a sample of THIS protein's slices.
+   A percentile does not need every slice - 120 spread evenly across the sorted list
+   covers the whole range of the protein and costs about a tenth of a full pass.
+   Holder on the outside, slices on the inside, so each holder's weights load once. */
+var GRIP_SAMPLE=120;
+function measureGripLines(seq, rows, bar, note, done){
+  if(LIVE_GRIP && LIVE_GRIP.key===seq){ done(); return; }
+  var pool=rows.filter(function(r){ return r.seq && r.seq.length; });
+  if(pool.length<20){ done(); return; }          /* too short to measure anything from */
+  var step=Math.max(1, Math.floor(pool.length/GRIP_SAMPLE));
+  var sample=[]; for(var i=0;i<pool.length && sample.length<GRIP_SAMPLE;i+=step) sample.push(pool[i].seq);
+  var g5=new Array(ALLELES.length), g20=new Array(ALLELES.length);
+  var k=0, total=ALLELES.length;
+  function pct(sorted, p){
+    if(!sorted.length) return null;
+    var i=Math.min(sorted.length-1, Math.max(0, Math.floor(p*sorted.length)));
+    return sorted[i];
+  }
+  function nextHolder(){
+    if(k>=ALLELES.length){
+      LIVE_GRIP={g5:g5, g20:g20, key:seq, n:sample.length};
+      if(bar) bar.style.width='0%';
+      done(); return;
+    }
+    var a=ALLELES[k];
+    var run=function(){
+      var vals=[];
+      for(var j=0;j<sample.length;j++){
+        var q=NUG.scoreWith(sample[j], a.f);
+        if(q && q.ic50!=null && isFinite(q.ic50)) vals.push(q.ic50);
+      }
+      vals.sort(function(x,y){ return x-y; });
+      g5[k]=pct(vals,0.05); g20[k]=pct(vals,0.20);
+      k++;
+      if(bar) bar.style.width=Math.round(k/total*100)+'%';
+      if(note) note.textContent='Measuring this protein\u2019s own lines \u2014 holder '
+        +k+' of '+total;
+      requestAnimationFrame(nextHolder);
+    };
+    if(NUG.have(a.f)) run();
+    else NUG.load(a.f).then(run).catch(function(){ g5[k]=null; g20[k]=null; k++; nextHolder(); });
+  }
+  nextHolder();
+}
 function holderIndex(label){ for(var i=0;i<ALLELES.length;i++) if(ALLELES[i].label===label) return i; return -1; }
 var LAST_SPLIT=null;
 function partOn(k){ return PARTS[k]!==false; }
@@ -5160,6 +5423,23 @@ function rankSelectivity(){
   btn.disabled=true; prog.hidden=false; note.hidden=false;
   var target=alleleLabel(), si=0, ai=0, done=0, total=batch.length*ALLELES.length;
 
+  /* V9800 - before any counting, make sure the lines being counted against belong to
+     THIS protein. Jo-1 has its own, measured on its own 495 slices and shipped with the
+     app, so it skips this and stays instant. Anything pasted in used to borrow Jo-1's,
+     which was a stand-in and the reason this app could only ever be about one disease.
+     It now measures its own first - about 120 slices against all 117 holders - and
+     keeps them, so it happens once per protein and not once per press. */
+  var here=clean(document.getElementById('protseq').value);
+  var needLines = !JTAB.fits(here, parseInt(document.getElementById('win').value,10));
+  if(needLines && !(LIVE_GRIP && LIVE_GRIP.key===here)){
+    ensureNet().then(function(){
+      measureGripLines(here, strength, bar, note, function(){ begin(); });
+    }).catch(function(){ begin(); });
+  } else {
+    if(!needLines) LIVE_GRIP=null;      /* back on Jo-1: use Jo-1's own lines again */
+    begin();
+  }
+
   function tick(){
     if(si>=batch.length){ finish(); return; }
     var r=batch[si];
@@ -5208,8 +5488,21 @@ function rankSelectivity(){
          + clean+' grip '+target+' alone \u00b7 '+mild+' grip one or two others \u00b7 '
          + (batch.length-clean-mild-nogrip)+' grip three or more \u00b7 '
          + nogrip+' are not gripped by '+target+' itself.');
+    /* V9800 - and say WHOSE lines the counting was done against. "Grips" is a judgement
+       made against a line, and until now that line was always Jo-1's, silently, even
+       for a pasted protein. Anyone reading a count has a right to know which. */
+    note.textContent += ABS
+      ? (' The tight-grip lines were ' + gripSource() + '.')
+      : (' Grip lines: ' + gripSource()
+         + (LIVE_GRIP ? ' (' + LIVE_GRIP.n + ' of its own slices).' : '.'));
     autoSaveSel();
   }
+  /* V9800 - this choice used to sit at the very bottom of the function and run on its
+     own. The grip-lines step now has to happen BEFORE any counting, so the choice is
+     wrapped in begin() and called from exactly one place above. Leaving it loose as
+     well ran the fast path and the slow scan at the same time on Jo-1, which printed
+     "slice 387 of 495 - 45240 of 2340 scores" before this was caught. */
+  function begin(){
   /* For Jo-1 every answer is already in the table, so there is no reason to stop at
      the tightest twenty - all 495 can be narrowed, and it costs no waiting. If the
      table will not come, the networks do the top twenty exactly as before. */
@@ -5238,6 +5531,7 @@ function rankSelectivity(){
     return;
   }
   tick();
+  }
 }
 function sortResults(){
   results.sort(function(a,b){
@@ -5290,7 +5584,13 @@ grip.addEventListener('click', function(){ toggleSheet(); });
 grip.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ toggleSheet(); e.preventDefault(); } });
 
 /* ================= start ================= */
-document.getElementById('protseq').value=JO1_PROTEIN;
+/* V9800 - open on whatever protein was last chosen on this device; Jo-1 if none. */
+(function(){
+  var back=recallProt();
+  if(back){ document.getElementById('protseq').value=back.s; PNAME=back.n||'';
+            PNAMEFOR=back.s; }
+  else document.getElementById('protseq').value=JO1_PROTEIN;
+})();
 paintRegister(register(JO1));
 boot3D();
 showHome();
@@ -5361,6 +5661,93 @@ setAllele();
    once Narrow has run - how many other holders grip each slice. Roughly 6 KB each.
    Nothing is sent anywhere; Export writes a file you keep yourself. */
 var RUNKEY='jo1-runs-v1', RUNS=[], CURRUN=null, PICKRUN=0, RUNCAP=200;
+
+/* V9900 - the library is SHARED for real.
+ *
+ * Moos: "I want the app to save everything! So all new users see new data too! So if
+ * someone add insuline the new user see it!" Asked what should leave the phone, he
+ * chose everything, the letters too, so the next person can open the exact protein.
+ *
+ * Until now the app said "shared library" and kept every run in localStorage - one
+ * phone, one browser, nobody else. The words were wrong, and they have been corrected
+ * in Notes and on the first screen as well as made true here.
+ *
+ * RUNS stays what it was: this phone's own runs, kept locally, working with no network
+ * at all. SHARED is the list everyone can see, fetched as summaries so the page opens
+ * fast, with the 5 KB body of a run pulled only when someone opens it. The two are
+ * merged for display and the local copy always wins, so a run of yours never appears
+ * twice and never waits on the network to be readable.
+ */
+var LIBURL='/api/library';
+var SHARED=[], FULL={};
+/* V9900 - three flags, not one state word, and this is a bug the check caught.
+ *
+ * The first cut kept a single SHARESTATE. Every render called libFetch, libFetch set it
+ * to 'loading' before the request, and the render that followed therefore drew the
+ * library as if it were merely busy - so "shared library unreachable" appeared for an
+ * instant and was wiped by the very next paint. A phone with no signal would have shown
+ * an empty library and no reason for it.
+ *
+ * SHAREOFF is sticky: once the library cannot be reached it STAYS said until a fetch
+ * actually succeeds. SHAREBUSY only stops two requests overlapping, and SHAREAT keeps
+ * the app from hammering a library that is down on every single repaint.
+ */
+var SHAREOK=false, SHAREOFF=false, SHAREBUSY=false, SHAREAT=0;
+var SHAREFRESH=20000, SHARERETRY=15000;
+function libMine(r){ return !!r && runsFind(r.id)>=0; }
+/* the merged list: mine, plus everyone else's that I do not already hold */
+function LIB(){
+  var out=RUNS.slice(), seen={};
+  for(var i=0;i<RUNS.length;i++) seen[RUNS[i].id]=1;
+  for(var j=0;j<SHARED.length;j++){
+    var s=SHARED[j];
+    if(s && !seen[s.id]) out.push(FULL[s.id]||s);
+  }
+  out.sort(function(a,b){ return (b.at||0)-(a.at||0); });
+  if(out.length>RUNCAP) out.length=RUNCAP;
+  return out;
+}
+function libFetch(force){
+  if(SHAREBUSY) return;
+  var now=Date.now();
+  if(!force && SHAREOK  && now-SHAREAT<SHAREFRESH) return;
+  if(!force && SHAREOFF && now-SHAREAT<SHARERETRY) return;
+  SHAREBUSY=true;
+  fetch(LIBURL, {cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(j){
+      SHARED=(j && j.runs && j.runs.length)? j.runs : [];
+      SHAREOK=true; SHAREOFF=false; SHAREAT=Date.now(); SHAREBUSY=false;
+      if(typeof renderSaved==='function') renderSaved();
+    })
+    .catch(function(){
+      /* No library reachable - offline, opened from a file, or not deployed yet. The
+         app keeps working on this phone's own runs and SAYS the library is out of
+         reach, rather than showing a short list with no reason for it. */
+      SHAREOFF=true; SHAREAT=Date.now(); SHAREBUSY=false;
+      if(typeof renderSaved==='function') renderSaved();
+    });
+}
+/* a summary has no ic array; the body is fetched the moment one is looked at */
+function libIsSummary(r){ return !!r && !r.ic; }
+function libFull(id, cb){
+  if(FULL[id]){ cb(FULL[id]); return; }
+  fetch(LIBURL+'?id='+encodeURIComponent(id), {cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(j){ if(j && j.run){ FULL[j.run.id]=j.run; cb(j.run); } else cb(null); })
+    .catch(function(){ cb(null); });
+}
+/* sending one up must never hold the app back, and must never lose it if it fails:
+   the run is already saved on this phone before this is called */
+function libShare(run){
+  if(!run) return;
+  try{
+    fetch(LIBURL, {method:'POST', headers:{'content-type':'application/json'},
+                   body:JSON.stringify(run)})
+      .then(function(r){ if(r && r.ok) libFetch(true); })
+      .catch(function(){});
+  }catch(e){}
+}
 function runsLoad(){
   try{ var r=JSON.parse(localStorage.getItem(RUNKEY)||'[]'); RUNS=(r&&r.length)?r:[]; }
   catch(e){ RUNS=[]; }
@@ -5402,7 +5789,10 @@ function autoSave(){
   var best=results.slice().sort(function(a,b){
     return (a.ic50==null)-(b.ic50==null) || a.ic50-b.ic50; })[0];
   var run={ id:Date.now(), at:Date.now(), holder:alleleLabel(),
-    name:(seq===JO1_PROTEIN?'Jo-1':'Pasted protein'), seq:seq.slice(0,24000),
+    /* V9800 - a saved run carries the protein's NAME. It used to say "Pasted protein"
+       for everything that was not Jo-1, so a library of other proteins was a library of
+       identical labels. PNAME is what was typed on the landing. */
+    name:(seq===JO1_PROTEIN?'Jo-1':(PNAME||'Pasted protein')), seq:seq.slice(0,24000),
     win:w, n:ic.length, ic:ic, sel:null, h117:null,
     best:{start:best.start, seq:best.seq, ic50:(best.ic50==null?null:+best.ic50.toFixed(1))} };
   /* the 117 holders for that tightest slice, when the table can answer at no cost */
@@ -5414,6 +5804,9 @@ function autoSave(){
   if(old){ var oi=runsFind(old.id); if(oi>=0) RUNS.splice(oi,1); }
   RUNS.unshift(run); if(RUNS.length>RUNCAP) RUNS.length=RUNCAP;
   CURRUN=run.id; PICKRUN=0; runsStore();
+  /* saved here first, then offered to everyone else - in that order, so a library that
+     cannot be reached costs nothing */
+  libShare(run);
   if(typeof paintHome==='function') paintHome();
 }
 function autoSaveSel(){
@@ -5445,7 +5838,8 @@ function runCounts(r){
    fills so the block never grows taller than the landing's own */
 function drawWall(){
   var el=document.getElementById('runwall'); if(!el) return;
-  var n=RUNS.length, W=298;
+  /* V9900 - the wall is the whole library now, not just this phone's share of it */
+  var n=LIB().length, W=298;
   if(!n){ el.setAttribute('viewBox','0 0 298 10'); el.innerHTML=''; return; }
   var cols, gx, mw, mh, gy, rows, H;
   for(cols=12; cols<=48; cols++){
@@ -5511,21 +5905,51 @@ function run117(r){
 }
 function renderSaved(){
   runsLoad.done || (runsLoad(), runsLoad.done=true);
+  libFetch(false);                       /* V9900 - and everyone else's */
   var cap=document.getElementById('runcap'), card=document.getElementById('runcard');
   if(!cap||!card) return;
-  if(PICKRUN>=RUNS.length) PICKRUN=0;
+  var all=LIB();
+  if(PICKRUN>=all.length) PICKRUN=0;
   drawWall();
-  cap.innerHTML='<b>'+RUNS.length+'</b> saved'+(RUNS.length?' · tap one to open it':'');
-  if(!RUNS.length){
+  /* V9900 - the count is the shared one, and the line says where it came from. "6
+     saved" meant one phone; it has to say whose runs these are now. */
+  var mine=RUNS.length, others=all.length-mine;
+  cap.innerHTML='<b>'+all.length+'</b> in the library'
+    + (others>0 ? ' &middot; '+mine+' yours, '+others+' from others' : ' &middot; all yours')
+    + (SHAREOFF ? ' &middot; <span class="liboff">shared library unreachable</span>' : '')
+    + (all.length?' &middot; tap one to open it':'');
+  if(!all.length){
     card.innerHTML='<div class="panel savedp"><p class="runempty">Nothing saved yet. '
       +'Run a scan in step 2 and it keeps itself.</p></div>';
     return;
   }
-  var r=RUNS[PICKRUN], c=runCounts(r), out='';
+  var r=all[PICKRUN], c=runCounts(r), out='';
+  /* V9900 - a run from someone else arrives as a summary. Its body is fetched the
+     moment it is looked at, and until it lands the card says so rather than drawing an
+     empty chart that looks like a result. */
+  if(libIsSummary(r)){
+    card.innerHTML='<div class="panel savedp">'
+      +'<div class="runtop"><span class="runttl">'+esc(r.name)+'</span>'
+      +'<span class="runwhen">'+runWhen(r.at)+'</span></div>'
+      +'<p class="runwho">'+esc(r.holder)+' &middot; '+r.n+' slices &middot; window '+r.win+'</p>'
+      +'<p class="runempty">Opening it…</p></div>';
+    libFull(r.id, function(full){
+      if(!full){
+        var cd=document.getElementById('runcard');
+        if(cd) cd.innerHTML='<div class="panel savedp"><p class="runempty">'
+          +'That run could not be fetched. It may have been dropped from the library.'
+          +'</p></div>';
+        return;
+      }
+      renderSaved();
+    });
+    return;
+  }
   out+='<div class="panel savedp">';
   out+='<div class="runtop"><span class="runttl">'+esc(r.name)+'</span>'
      +'<span class="runwhen">'+runWhen(r.at)+'</span></div>';
   out+='<p class="runwho">'+esc(r.holder)+' · '+r.n+' slices · window '+r.win+'</p>';
+  if(!libMine(r)) out+='<p class="runfrom">from the shared library</p>';
   out+=runLine(r.ic);
   if(c){
     out+='<div class="runsplit">'
@@ -5544,18 +5968,27 @@ function renderSaved(){
       +(r.best.start+1)+'–'+(r.best.start+r.win)+' · '+nm(r.best.ic50)+' nM</span></div>';
   }
   out+=run117(r);
+  /* V9900 - Delete is for YOUR OWN runs. PICKRUN now walks the merged list, so the old
+     "splice at PICKRUN" would have removed whichever of your runs happened to sit at
+     that position - the wrong one, silently. It deletes by id now, and a run from
+     someone else offers no Delete at all: taking it out of everybody's library is a
+     different act from tidying your own phone, and the app should not blur the two. */
+  var mineHere=libMine(r);
   out+='<div class="runrow">'
      +'<button type="button" class="go" id="runopen">Open</button>'
      +'<button type="button" id="runexp">Export</button>'
-     +'<button type="button" id="rundel">Delete</button></div>';
+     +(mineHere?'<button type="button" id="rundel">Delete</button>':'')+'</div>';
   out+='</div>';
   card.innerHTML=out;
-  document.getElementById('runopen').addEventListener('click', function(){ openRun(RUNS[PICKRUN]); });
+  document.getElementById('runopen').addEventListener('click', function(){ openRun(r); });
   document.getElementById('runexp').addEventListener('click', function(){
     dlJSON('JO1-'+r.name.replace(/\s+/g,'-')+'-'+r.id+'.json', {jo1:1, runs:[r]}); });
-  document.getElementById('rundel').addEventListener('click', function(){
-    RUNS.splice(PICKRUN,1); if(PICKRUN>=RUNS.length) PICKRUN=Math.max(0,RUNS.length-1);
-    runsStore(); renderSaved(); });
+  var del=document.getElementById('rundel');
+  if(del) del.addEventListener('click', function(){
+    var i=runsFind(r.id);
+    if(i>=0){ RUNS.splice(i,1); runsStore(); }
+    var all=LIB(); if(PICKRUN>=all.length) PICKRUN=Math.max(0,all.length-1);
+    renderSaved(); });
 }
 function dlJSON(name, obj){
   try{
@@ -5634,12 +6067,35 @@ function paintHome(){
   fan.innerHTML = r
     ? '<div class="bignum">'+sciNum(alone)+'</div><p class="bigcap">of <b>'+r.n+'</b> slices grip '
       +esc(r.holder)+' alone</p>'
-      /* V9600 - the waiting number pulses too. It carried style="animation:none", so the
+      /* V9800 - the waiting number pulses too. It carried style="animation:none", so the
          only screen Moos ever looks at before a scan had a dead number on it - and when
          he said the pulse was missing, he was looking at exactly this. The pulse is the
          same one the answered number uses. */
-    : '<div class="bignum numoff">'+sciNum(495)+'</div>'
-      +'<p class="bigcap">slices of Jo-1, none of them asked yet</p>';
+    : (function(){
+        /* V9800 - the landing chooses the protein. It used to announce "495 slices of
+           Jo-1" before anybody had chosen anything, which is a claim, not a fact. The
+           number now follows whatever is loaded, and what loads it is right here. */
+        var s=clean((document.getElementById('protseq')||{value:''}).value);
+        var ww=parseInt((document.getElementById('win')||{value:'15'}).value,10)||15;
+        var n=Math.max(0, s.length-ww+1);
+        var isJo1=(s===JO1_PROTEIN);
+        return '<div class="bignum numoff">'+sciNum(n)+'</div>'
+          +'<p class="bigcap">'+(n? ('slices of <b class="pname">'+esc(isJo1?'Jo-1':(PNAME||'this protein'))
+                                      +'</b>, none of them asked yet')
+                                  : 'choose a protein to begin')+'</p>'
+          +'<div class="pickbar">'
+          +  '<select id="hpick" aria-label="Which protein">'
+          +    '<option value="jo1"'+(isJo1?' selected':'')+'>Jo-1</option>'
+          +    '<option value="paste"'+(isJo1?'':' selected')+'>Paste another protein</option>'
+          +  '</select>'
+          +'</div>'
+          +'<input id="hname" type="text" aria-label="What is it called"'
+          +  (isJo1?' hidden':'')+' placeholder="What is it called? e.g. insulin"'
+          +  ' value="'+esc(PNAME||'')+'">'
+          +'<textarea id="hseq" rows="3" spellcheck="false" aria-label="Paste a protein"'
+          +  (isJo1?' hidden':'')+' placeholder="Paste the letters of any protein">'
+          +  (isJo1?'':esc(s))+'</textarea>';
+      })();
   var old=document.getElementById('homefield'); if(old) old.remove();
   var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
   svg.id='homefield'; svg.setAttribute('preserveAspectRatio','none');
@@ -5649,7 +6105,7 @@ function paintHome(){
   var COLS=16, ROWS=31, W=Math.max(200,Math.round(box.width)), H=Math.max(300,Math.round(box.height));
   svg.setAttribute('viewBox','0 0 '+W+' '+H);
   var gx=W/COLS, gy=H/ROWS;
-  /* V9600 - NOTHING is dimmed behind the words any more. Moos: "No background behind
+  /* V9800 - NOTHING is dimmed behind the words any more. Moos: "No background behind
      the text or nubers!" Every earlier attempt dimmed a patch - a hard one in V8900, a
      soft one in V9000 - and every patch showed, because a patch of any shape or
      softness is still a patch sitting on the field. The field is simply quieter
@@ -5673,7 +6129,7 @@ function paintHome(){
   }
   if(r && best>=0){
     var bc=best%COLS, br=(best/COLS)|0, bx=bc*gx+gx/2, by=br*gy+gy/2;
-    /* V9600 - this used to fade the ring by how far it sat under a word: k2 = 1 - 0.66
+    /* V9800 - this used to fade the ring by how far it sat under a word: k2 = 1 - 0.66
        * behind(). behind() is gone with the rest of the dimming, and leaving the call
        here threw the moment a run existed, which emptied the whole field - the landing
        check caught it reporting 0 green marks where there should have been 5. The ring
