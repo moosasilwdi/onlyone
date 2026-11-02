@@ -1,6 +1,9 @@
-# JO1
+# ONLY ONE
 
-Version **V10100**.
+Version **V10200**.
+
+Named JO-One until V10200. The name changed because the app is no longer about one
+disease: any protein can be pasted in, and it measures its own grip lines.
 
 Screens peptides against 117 HLA class II types and ranks what sits in the groove. The 117
 are the types this app's engine can score, not all that exist - about 11,910 class II types
