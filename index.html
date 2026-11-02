@@ -204,7 +204,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
      It also settles two things quietly: the gold was a colour on a control wrapping
      type, and the red one broke his rule that red is for warnings only. */
   border-color:var(--gold);border-width:2px;color:var(--ink);box-shadow:var(--lift)}
-/* V10200 - the stage's colour is back on every page EXCEPT the first.
+/* V10300 - the stage's colour is back on every page EXCEPT the first.
    V10100 made this black everywhere, which was my reading of "it must be boack to".
    Moos meant something narrower, and the reason is a design one worth writing down:
    "Yes the start to be black! Because we dint have colors like otheres". Every other
@@ -319,6 +319,22 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .sponsor svg{width:40px;height:40px;flex:0 0 40px}
 .sponsor b{display:block;font-size:15px;letter-spacing:.02em;line-height:1.25}
 .sponsor .tiny{display:block;line-height:1.3}
+.sponsor .sponlink{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
+/* V10300 - the contact form. Plain fields, the app's own ink and line colours, and a
+   送 button the width of the panel so it is easy to hit with a thumb. */
+.cfhp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cflab{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--mute);margin:12px 0 5px}
+.cflab:first-of-type{margin-top:0}
+.cfin{display:block;width:100%;box-sizing:border-box;font-family:var(--sans);
+  font-size:16px;color:var(--ink);background:var(--panel);border:1px solid var(--line);
+  border-radius:11px;padding:11px 12px;line-height:1.3;-webkit-appearance:none}
+.cfin:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.cfarea{resize:vertical;min-height:96px}
+.cfsend{width:100%;margin-top:14px}
+.cfnote{margin:10px 0 0;font-size:13px;line-height:1.4;color:var(--mute);min-height:1.2em}
+.cfnote.ok{color:var(--ok)}
+.cfnote.bad{color:var(--warn)}
 #view-3d .modeslot{justify-content:center;padding:6px max(12px,env(safe-area-inset-left,0px)) 0;margin:0}
 .modesw{flex:0 0 auto;display:flex;gap:1px;padding:1px;border-radius:999px;
   background:var(--sunk);border:1px solid var(--line);box-shadow:var(--sink)}
@@ -328,7 +344,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .modesw button:hover{color:var(--ink);border:0}
 .modesw button[aria-pressed="true"]{background:var(--btn);color:#fff;
   text-shadow:var(--btnsh);box-shadow:var(--lift)}
-/* V10200 - the Science/Abstract switch and the menu pill carry the SAME stage colour,
+/* V10300 - the Science/Abstract switch and the menu pill carry the SAME stage colour,
    so they move together. Moos: "When change you need ti change the abstract button too
    they are both connected!" He is right - on Notes the pill had just gone black while
    this switch stayed blue, and the two sitting on one screen disagreeing is worse than
@@ -353,7 +369,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    four the app is built on - red only ever on the warning side, yellow on the lit
    windows and never on type, green on the one lock, blue on the middle of the list.
    They are declared here, scoped to these panels, so nothing else in the app shifts. */
-.whyp{--red:#e0342a;--blue:#1565d8;--yellow:#f5b700;--green:#15a05a;
+.whyp{--red:#e0342a;--blue:#1565d8;--yellow:#f5b700;--green:#149455;
   --wall:#f3f6fa;--edge:#aeb9c7;--dark:#c3cbd6}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .whyp{
   --red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274;
@@ -372,12 +388,12 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    landing's own field: one mark per saved run, the one you are reading ringed. The
    four colours are declared here the way the About panels declare them, so nothing
    else in the app shifts. */
-.savedp{--red:#e0342a;--blue:#1565d8;--yellow:#f5b700;--green:#15a05a}
+.savedp{--red:#e0342a;--blue:#1565d8;--yellow:#f5b700;--green:#149455}
 /* V7800 - the landing carries the result itself: the field of 495 behind everything,
    the count in front of it, and one question. Everything that used to crowd it is on
    the page after. */
 /* the one green the landing uses, and the grey the empty state wears */
-:root{--lgreen:#15a05a;--dim:#aeb9c7;--halo:120,130,143}
+:root{--lgreen:#149455;--dim:#aeb9c7;--halo:120,130,143}
 :root[data-theme="dark"]{--lgreen:#2fc274;--dim:#45536a;--halo:196,206,219}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --lgreen:#2fc274;--dim:#45536a;--halo:196,206,219}}
@@ -399,7 +415,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .inner.home>*{position:relative;z-index:1}
 #homefield{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .bignum{font-family:var(--num);font-weight:800;font-size:50px;letter-spacing:-.04em;
-  line-height:1;color:#15a05a;text-align:center;transform-origin:50% 50%;will-change:transform}
+  line-height:1;color:#149455;text-align:center;transform-origin:50% 50%;will-change:transform}
 /* the drawn digits take their size from the same font-size the typed number used, so
    nothing else on the screen had to move */
 .bignum .scinum{display:inline-block;height:1em;vertical-align:middle;overflow:visible}
@@ -468,10 +484,10 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .inner.home textarea#hseq{width:100%;max-width:320px;margin:9px 0 0;font-family:var(--mono);
   font-size:11.5px;line-height:1.45;padding:9px 10px;border-radius:10px;
   border:2px solid var(--line);background:var(--panel);color:var(--ink);resize:vertical}
-.inner.home{--green:#15a05a;--yellow:#f5b700}
+.inner.home{--green:#149455;--yellow:#f5b700}
 :root[data-theme="dark"] .inner.home{--green:#2fc274;--yellow:#ffc425}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .inner.home{--green:#2fc274;--yellow:#ffc425}}
-.atoz{--red:#e0342a;--blue:#1565d8;--yellow:#f5b700;--green:#15a05a}
+.atoz{--red:#e0342a;--blue:#1565d8;--yellow:#f5b700;--green:#149455}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .atoz{
   --red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274}}
 /* V9800 - this guard was destroyed by one of my own patches and is restored here. The
@@ -564,6 +580,30 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   --red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274}}
 :root[data-theme="dark"] .savedp{--red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274}
 .savedp svg.wall{display:block;width:100%;height:auto;cursor:pointer}
+/* V10300 - a hand that taps the first mark, so the wall reads as something you press.
+   Moos: "We need to show hand pointer animation on it! So user knows to click".
+   It plays only while nobody has ever tapped a mark on this phone; the first tap
+   puts it away for good. It never catches a tap itself - the mark underneath does. */
+.wallwrap{position:relative}
+.wallhand{position:absolute;width:26px;height:30px;pointer-events:none;z-index:3;
+  animation:handtap 2.4s ease-in-out infinite}
+.wallhand svg{width:100%;height:100%;display:block;
+  filter:drop-shadow(0 2px 3px rgba(13,20,29,.3))}
+.wallring{position:absolute;border-radius:4px;border:2px solid var(--gold);
+  pointer-events:none;z-index:2;opacity:0;animation:handring 2.4s ease-out infinite}
+@keyframes handtap{
+  0%{transform:translate(10px,-14px) scale(1)}
+  28%{transform:translate(0,0) scale(1)}
+  36%{transform:translate(0,3px) scale(.94)}
+  46%{transform:translate(0,0) scale(1)}
+  74%,100%{transform:translate(10px,-14px) scale(1)}}
+@keyframes handring{
+  0%,30%{opacity:0;transform:scale(1)}
+  38%{opacity:.9;transform:scale(1)}
+  62%,100%{opacity:0;transform:scale(2.1)}}
+@media (prefers-reduced-motion:reduce){
+  .wallhand{animation:none;transform:none}
+  .wallring{animation:none;opacity:.75}}
 .savedp .runlab{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
   color:var(--mute);font-weight:600;margin:0 0 6px}
 .savedp .runtop{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
@@ -728,14 +768,14 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
    dark copy (light letters, no white plate behind the badge) is written only once. */
 :root{--wmlight:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%22-6%20-6%20366%20366%22%3E%3Cpath%20d=%22M258%20258%20L330%20330%22%20stroke=%22%231565d8%22%20stroke-width=%2244%22%20stroke-linecap=%22round%22%20fill=%22none%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%22146%22%20fill=%22none%22%20stroke=%22%231565d8%22%20stroke-width=%2226%22/%3E%3Ccircle%20cx=%22108%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22160%22%20r=%2240%22%20fill=%22%23e0342a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3C/svg%3E");
       --wmdark:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%22-6%20-6%20366%20366%22%3E%3Cpath%20d=%22M258%20258%20L330%20330%22%20stroke=%22%234b92ff%22%20stroke-width=%2244%22%20stroke-linecap=%22round%22%20fill=%22none%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%22146%22%20fill=%22none%22%20stroke=%22%234b92ff%22%20stroke-width=%2226%22/%3E%3Ccircle%20cx=%22108%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22160%22%20r=%2240%22%20fill=%22%23ff5147%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3C/svg%3E")}
-/* V10200 - the name is set in ORBITRON, the squared face whose O is a rounded
+/* V10300 - the name is set in ORBITRON, the squared face whose O is a rounded
    square, which is what Moos chose off the three closest to the old logo's letters.
    It is cut down to the five letters the name uses - O N L Y E - so the whole font
    is 768 bytes and travels inside the page: no second request, nothing to wait for,
    and the splash cannot flash in the wrong face. SIL Open Font License 1.1. */
 @font-face{font-family:'ONLYONE';src:url(data:font/woff2;base64,d09GMgABAAAAAAMAAA8AAAAABiwAAAKnAAIAQgAAAAAAAAAAAAAAAAAAAAAAAAAAGhwbIBwqBmA/U1RBVCoATBEICoIYgVoBNgIkAxgLDgAEIAWECgcgG9kEKK6DdwGBIBTobDCkTUbvvq0IDLWgzxwOc80IlRwi2u83e0++OeLpZ2iuTdSzW6KStYtWEtE7WSNsrO1F0UridiS35Mk82hAbL9YaKVMDCNmGvT9wJCBwCo1DeBAGPzs95+ZnBFOaLJm7HPgw6alP2nLZwPluw6MrLOUAqD0i040//YTW/xr9nKe/+VwbrPPuYUqJr30e54VjCSWYhV06Ni5Pv2Wf8Jm3emSp15iZOXOSpBgeRoATAAhhECByDuziRLFrcWU1Ch3wDwCIDYvj6oXOjulRIihCv95m1BVEqBdvYahwdWSnGM0oI1Cwxx/mq2+XXwXa7QYBqFU9QhKOEFYCglgQh3v09U8LgCIA6dQVGEABDQTxBAQJUjHYWSlKkaGJXSFAx431qVa1yolHhBQjABOA079RjqEWA4AOAIQQigymPTjZHYYHNxcnD0fv0K08MGfbB3XHxp3Ez6+nwc0z0J59y2HIOfGTPbAR5KHoYrVeR0OTo1ulXwfL/sOjlaND/zKN71LlcFn92j93hZZt+4U7zP23fhFu/V3wgZbODNtY6PnHmApt933mT7byhwFAgJL/HtjRNk/mz0r7AB4EUzDwHl4mMSqfBJMCIPiZZRwI/X8FlsLKjG9z+7Okg7TMpZ6ZqhkmEGCqIsoklI8pAmwm8aSzAb8EQHj9gWINE2iSww10MZGNGEQ9YuKTHAFnbKk67VsFyIdHd3NxZQJFeQV1YOkKgQndwY1JR97AlI7coSMTaLOYrojOAOKuTKYPQ1NOzsUNg5XlIOuIvOSYrtAT2ruwIHKWQ3vDCWnAIcEczCED0tnQCRggbyYwtveCmkDsguqYbNLdQZ5OirLyL/h3y9jEWF+rGZlSfk5BdA3pDDcR+WWZ3gb+wuUp3/8UAQAA) format('woff2');
   font-weight:700;font-style:normal;font-display:block;unicode-range:U+45,U+4C,U+4E,U+4F,U+59}
-/* V10200 - the mark is the LENS ALONE in the bar, and the full lockup only on the
+/* V10300 - the mark is the LENS ALONE in the bar, and the full lockup only on the
    splash. The old mark was one baked image of "JO(lungs)NE" at 63 x 22.8px. The name is
    longer now, and measured at this height "ONLY (lens) NE" is about 120px wide - the
    stylesheet already carries two notes about the old 52.5px mark running into the step
@@ -749,7 +789,7 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wm{background-image:var(--wmdark)}}
 :root[data-theme="dark"] .wm{background-image:var(--wmdark)}
 .wmbig{height:62px;width:63px}
-/* V10200 - the splash lockup: ONLY, the lens standing in for the O, then NE.
+/* V10300 - the splash lockup: ONLY, the lens standing in for the O, then NE.
    Sized in vw and em so the whole thing scales as ONE object. The first cut set the
    letters at a fixed 54px and the lens at a fixed 62px, and the lockup came out wider
    than the phone - "O" and "NE" were cut off at both edges on a 390px screen, because
@@ -778,7 +818,7 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 /* V7900 - 62px was the height the narrow drawn mark wanted. The lungs lockup carries
    a picture inside it, so on the splash - where nothing else is on screen - it is
    given room: 96px tall, 251.5px wide, still its own 2.62 shape. */
-/* V10200 - the splash mark is the LENS now, not the old 265 x 96 wordmark. This rule
+/* V10300 - the splash mark is the LENS now, not the old 265 x 96 wordmark. This rule
    outlived the image it was written for: it beat .lockup .wmbig on source order and
    stretched the lens to 265px wide, which pushed "NE" clean off the screen. The size
    belongs to the lockup, which sets it in em so the lens scales with the letters; what
@@ -787,6 +827,36 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 .splash.gone{opacity:0;pointer-events:none}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.splash .wm{animation:none}}
+/* V10300 - the sponsor tab, hung off the left of Start the way 5Gaaaps hangs one off
+   "Add a book". Its right edge is bitten out with an arc of the button's own radius
+   plus 3px, so the round end of Start nests into it with the same air all the way
+   round. Start is 150 wide and stands alone on the first screen, so its left edge is
+   always 50% - 75px; anchoring the tab's right tip to that plus the 23px radius keeps
+   the two locked together on every width WITHOUT moving the button. Measured: at 360px
+   the tab runs 28..128 and the button starts at 105 - no overflow, nothing cut.
+   It turns on its horizontal middle, one face at a time, slowly: 16s for a full turn,
+   the flag about 4s and the words about 10. No 3D - each face flattens to a line and
+   the other opens out of it, which paints the same on every phone and never leaves a
+   blank where a back face should be. */
+.spontab{position:absolute;right:calc(50% + 52px);top:8px;width:100px;height:46px;
+  z-index:0;display:block;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.spontab .f{position:absolute;inset:0;display:flex;align-items:center;
+  background:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%2046%22%3E%3Cpath%20d=%22M23%200%20H87.9%20A26%2026%200%200%200%2087.9%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill=%22%230d141d%22/%3E%3C/svg%3E") left center/100px 46px no-repeat;
+  color:#fff;line-height:1;padding:0 28px 0 12px;transform-origin:50% 50%;
+  will-change:transform;backface-visibility:hidden}
+.spontab .f.one{justify-content:center;padding:0 28px 0 4px;animation:sponA 16s linear infinite}
+.spontab .f.two{animation:sponB 16s linear infinite}
+.spontab .f.one svg{width:27px;height:27px;flex:0 0 auto}
+.spontab b{font-family:var(--sans);font-size:7px;font-weight:500;opacity:.82;
+  white-space:nowrap}
+.spontab b i{font-style:normal;font-size:9.5px;font-weight:700;letter-spacing:.03em;
+  opacity:1;display:block;margin-top:2px}
+@keyframes sponA{0%,22%{transform:scaleY(1)} 28%,94%{transform:scaleY(0)} 100%{transform:scaleY(1)}}
+@keyframes sponB{0%,25%{transform:scaleY(0)} 31%,91%{transform:scaleY(1)} 97%,100%{transform:scaleY(0)}}
+/* with animation switched off it simply rests on the words */
+@media (prefers-reduced-motion:reduce){
+  .spontab .f.one{animation:none;transform:scaleY(0)}
+  .spontab .f.two{animation:none;transform:scaleY(1)}}
 /* BETA: a small plain label, not a coloured badge - white card, black letters */
 .appbar .brandmid{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto}
 /* V8300 - just the word, no card. It used to sit in a white box with a border, which
@@ -1243,7 +1313,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 <div class="device">
 
 <div class="splash" id="splash">
-  <!-- V10200 - the full lockup, and the only place it appears. The lens stands in for
+  <!-- V10300 - the full lockup, and the only place it appears. The lens stands in for
        the O of ONE, so the name is read as one word with a search in the middle of it.
        The letters are live text, not part of an image: they take the app's own font and
        its ink, so they flip with the theme and stay sharp at any size, and the mark file
@@ -1289,6 +1359,12 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
     <button type="button" id="t-info" disabled><i>i</i></button>
   </div>
   <button type="button" class="go navbtn" id="nav-next">Next</button>
+  <!-- V10300 - shown on the first screen only, where Start stands alone -->
+  <a class="spontab" id="spontab" href="https://timelinelab.app" target="_blank"
+     rel="noopener" aria-label="Sponsored by TIMELINE - timelinelab.app" hidden>
+    <span class="f two"><b>Sponsored by<i>TIMELINE</i></b></span>
+    <span class="f one"><svg viewBox="0 0 753 869" aria-hidden="true"><path d="M0 0H391V869H220V78H0Z" fill="#fff"/><path d="M424 3 753 129 424 256Z" fill="#f5b700"/></svg></span>
+  </a>
 </nav>
 
 <div class="modesw" id="modebtn" role="group" aria-label="Wording and picture">
@@ -1833,7 +1909,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         <b>Nobody has ever run this knowing which fifteen to use.</b> That is the one thing that
         has not been tried, and it is the only thing this app does.</p>
 
-        <!-- V10200 - this said "0.747 where the best published tool scores 0.936", which
+        <!-- V10300 - this said "0.747 where the best published tool scores 0.936", which
              made the engine look far worse than it is. The two numbers were measured on
              different tests: 0.936 is NetMHCIIpan-4.1's own paper, on eluted-ligand data
              with easy decoys. On IEDB's independent weekly benchmark the whole field sits
@@ -2169,7 +2245,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V10200 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V10300 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -2183,13 +2259,45 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           research filter, not a clinical service, and nobody here can advise on your treatment.</p>
         </div>
 
+        <!-- V10300 - a form, so nobody has to open their mail app to write. It is a
+             Netlify form: the markup is what Netlify reads at upload time, and the
+             messages land in the Netlify dashboard and are emailed on from there. No
+             new account, no key in the page, nothing to pay for up to 100 a month.
+             It is sent in the background rather than by letting the page navigate, so
+             the person stays where they are and the app does not reload. The honeypot
+             field is the spam trap: it is hidden, people never fill it, robots do. -->
+        <div class="panel">
+          <h3>Write to us</h3>
+          <form id="cform" name="contact" method="POST" data-netlify="true"
+                netlify-honeypot="bot-field" autocomplete="on">
+            <input type="hidden" name="form-name" value="contact">
+            <p class="cfhp"><label>Leave this empty <input name="bot-field" tabindex="-1"></label></p>
+            <label class="cflab" for="cf-name">Your name</label>
+            <input class="cfin" id="cf-name" name="name" type="text" required
+                   autocomplete="name" maxlength="80">
+            <label class="cflab" for="cf-mail">Your email</label>
+            <input class="cfin" id="cf-mail" name="email" type="email" required
+                   autocomplete="email" maxlength="120" inputmode="email">
+            <label class="cflab" for="cf-msg">Message</label>
+            <textarea class="cfin cfarea" id="cf-msg" name="message" required
+                      rows="4" maxlength="2000"></textarea>
+            <button type="submit" class="go cfsend" id="cf-send">Send</button>
+            <p class="cfnote" id="cf-note" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
         <div class="panel">
           <h3>Who made it</h3>
           <p style="margin:0 0 4px"><b>Moosa Silwadi</b></p>
           <p class="tiny" style="margin:0 0 12px">Founder of ONLY ONE and TIMELINE</p>
+          <!-- V10300 - the real TIMELINE mark, traced from Moos's own file rather than
+               drawn by eye. His is 392 wide by 871 tall, the bar 9.1% of the height,
+               the stem 44.1% of the width and flush RIGHT; this comes out 9.0%, 43.7%,
+               flush right. The old one had a yellow T with the flag pointing backwards
+               into it, which was not his logo at all. The address is a link now. -->
           <div class="sponsor">
-            <svg viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="11" fill="var(--tile)"/><path d="M11 15h22M22 15v16" stroke="#f5b700" stroke-width="3.4" stroke-linecap="round"/><path d="M27 22l6-4v8z" fill="#f5b700"/></svg>
-            <div><span class="tiny">Sponsored by</span><b>TIMELINE</b><span class="tiny">timelinelab.app</span></div>
+            <svg viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="11" fill="#0d141d"/><g transform="translate(10.7 9) scale(0.02992)"><path d="M0 0H391V869H220V78H0Z" fill="#fff"/><path d="M424 3 753 129 424 256Z" fill="#f5b700"/></g></svg>
+            <div><span class="tiny">Sponsored by</span><b>TIMELINE</b><a class="tiny sponlink" href="https://timelinelab.app" target="_blank" rel="noopener">timelinelab.app</a></div>
           </div>
           <p class="tiny" style="margin:12px 0 0">Beta <span class="mono" id="verline">&mdash;</span></p>
         </div>
@@ -3247,6 +3355,7 @@ function showView(v){
   if(v==='view-home' && typeof paintHome==='function') setTimeout(paintHome,0);
   if(typeof placeSwitch==='function') placeSwitch(v);
   if(typeof placeNoteSel==='function') placeNoteSel(v);
+  if(typeof placeSponsor==='function') placeSponsor(v);
   if(typeof markNav==='function') setTimeout(markNav,0);
   // every step wears its own colour
   document.documentElement.setAttribute('data-page', v.replace('view-',''));
@@ -3303,16 +3412,38 @@ function showNote(key){
   });
   if(!any){ var first=document.querySelector('.notepage'); if(first) first.hidden=false; }
   var v=document.getElementById('view-info'); if(v) v.scrollTop=0;
+  /* V10300 - the switch belongs to the PAGE, so it is re-judged on every change */
+  if(typeof placeSwitch==='function') placeSwitch('view-info');
 }
 function placeNoteSel(v){
   var sel=document.getElementById('notesel'); if(!sel) return;
   if(v!=='view-info') sel.value='';          // the menu always reads "Notes"
   if(ORDER.indexOf(v)>=0) lastStep=v;        // remember where to come back to
 }
+/* V10300 - the switch only where it actually does something.
+   Moos spotted it on the Contact page: "Why there is abstract pill in the contact".
+   Measured on all nine Notes pages - pressing it changed NOTHING on seven of them
+   (Notes, About, Questions, How to use it, Safety, Sources, Contact) and only
+   changed Reading it (65% of the picture) and Reference (74%). A control that does
+   nothing is worse than no control, so on those seven it is put away. */
+var SWNOTE={'read':1, 'ref':1};
+function noteHasSwitch(){
+  var sec=document.querySelector('.notepage:not([hidden])');
+  return !!(sec && SWNOTE[sec.getAttribute('data-note')]);
+}
+/* V10300 - the sponsor tab belongs to the first screen, where Start stands on its own.
+   On every other page Back and the step number share the strip and there is no room
+   for it, so it is put away rather than squeezed. */
+function placeSponsor(v){
+  var t=document.getElementById('spontab'); if(!t) return;
+  t.hidden = (v!=='view-home');
+}
 function placeSwitch(v){
   var sw=document.getElementById('modebtn'); if(!sw) return;
   var host=document.querySelector('#'+v+' .modeslot');
-  if(host){ if(sw.parentNode!==host) host.appendChild(sw); sw.hidden=false; }
+  if(host && (v!=='view-info' || noteHasSwitch())){
+    if(sw.parentNode!==host) host.appendChild(sw); sw.hidden=false;
+  }
   else { sw.hidden=true; }
 }
 function markNav(){
@@ -5084,7 +5215,7 @@ function drawViewCube(){
          it costs no bytes. It goes on as an <image>; inside the face's matrix it leans
          and foreshortens with the face. The face is pale in both themes, so the
          dark-inked copy is always the right one.
-         V10200 - that mark is the LENS now, and the lens is SQUARE. MH was MW/2.763,
+         V10300 - that mark is the LENS now, and the lens is SQUARE. MH was MW/2.763,
          the shape of the old wordmark; with preserveAspectRatio="none" on the <image>
          that would have stretched the lens into an ellipse on every face of the block.
          The face is square, so the mark is too, and a little smaller than the old
@@ -6076,21 +6207,55 @@ function drawWall(){
     rows=Math.ceil(n/cols); H=gy*rows+4;
     if(H<=80) break;
   }
+  /* V10300 - only the runs that exist. The wall used to fill the row out with pale
+     empty slots, so one run was drawn as one mark and eleven gaps and the shelf read
+     as "1 of 12" when the library holds 400. Moos: "the Library wall draws 11 empty
+     slots as if it held 12". The room is said in words under it instead. */
   var out='';
-  for(var i=0;i<cols*rows;i++){
+  for(var i=0;i<n;i++){
     var c=i%cols, rr=(i/cols)|0, x=c*gx+(gx-mw)/2, y=rr*gy+4;
-    if(i<n) out+='<rect data-i="'+i+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+mw.toFixed(1)
+    out+='<rect data-i="'+i+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+mw.toFixed(1)
       +'" height="'+mh.toFixed(1)+'" rx="2.2" fill="var(--mute)" opacity=".72"/>';
-    else out+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+mw.toFixed(1)
-      +'" height="'+mh.toFixed(1)+'" rx="2.2" fill="var(--line)"/>';
   }
+  /* V10300 - the marker that shows which run is open lies ON TOP of its mark and used
+     to swallow the tap, so the open run could not be tapped at all. With one run in
+     the library that was the only mark there was, and the new hand was pointing at
+     something that did nothing. The taps pass through it now. */
   var pc=PICKRUN%cols, pr=(PICKRUN/cols)|0, px=pc*gx+(gx-mw)/2, py=pr*gy+4;
-  out+='<rect x="'+px.toFixed(1)+'" y="'+py.toFixed(1)+'" width="'+mw.toFixed(1)+'" height="'
+  out+='<rect pointer-events="none" x="'+px.toFixed(1)+'" y="'+py.toFixed(1)+'" width="'+mw.toFixed(1)+'" height="'
     +mh.toFixed(1)+'" rx="2.2" fill="var(--wm3)"/>';
-  out+='<rect x="'+(px-3.4).toFixed(1)+'" y="'+(py-3.4).toFixed(1)+'" width="'+(mw+6.8).toFixed(1)
+  out+='<rect pointer-events="none" x="'+(px-3.4).toFixed(1)+'" y="'+(py-3.4).toFixed(1)+'" width="'+(mw+6.8).toFixed(1)
     +'" height="'+(mh+6.8).toFixed(1)+'" rx="4.6" fill="none" stroke="var(--wm3)" stroke-width="1.1" opacity=".55"/>';
   el.setAttribute('viewBox','0 0 '+W+' '+H.toFixed(1));
   el.innerHTML=out;
+  wallHand(el);
+}
+/* V10300 - the hand. It is laid over the first mark, in the wall's own box, and is
+   re-laid every time the wall is redrawn because the marks move as runs arrive. */
+var WALLTAPPED=false;
+try{ WALLTAPPED = localStorage.getItem('jo1.walltap')==='1'; }catch(e){}
+function wallHand(el){
+  var host=el.parentNode; if(!host) return;
+  Array.prototype.forEach.call(host.querySelectorAll('.wallhand,.wallring'),
+    function(e){ e.remove(); });
+  if(WALLTAPPED) return;
+  var first=el.querySelector('rect[data-i]'); if(!first) return;
+  if(!/wallwrap/.test(host.className)) host.className=(host.className+' wallwrap').trim();
+  var r=first.getBoundingClientRect(), hr=host.getBoundingClientRect();
+  if(!r.width) return;
+  var x=r.left-hr.left, y=r.top-hr.top;
+  var ring=document.createElement('span'); ring.className='wallring';
+  ring.style.left=(x-2)+'px'; ring.style.top=(y-2)+'px';
+  ring.style.width=(r.width+4)+'px'; ring.style.height=(r.height+4)+'px';
+  host.appendChild(ring);
+  var hand=document.createElement('span'); hand.className='wallhand';
+  hand.style.left=(x+r.width*0.45)+'px'; hand.style.top=(y+r.height*0.5)+'px';
+  hand.innerHTML='<svg viewBox="0 0 48 56" aria-hidden="true">'
+    +'<path d="M18 30V11a4 4 0 0 1 8 0v14m0-3a3.5 3.5 0 0 1 7 0v5m0-3a3.5 3.5 0 0 1 7 0v10'
+    +' c0 9-6 15-14 15h-3c-5 0-8-2-10-6l-6-10a3.6 3.6 0 0 1 5.6-4.4L18 34"'
+    +' fill="#fff" stroke="#0d141d" stroke-width="2.6" stroke-linejoin="round"'
+    +' stroke-linecap="round"/></svg>';
+  host.appendChild(hand);
 }
 /* the profile of a run: every slice, tighter drawn taller */
 function runLine(ic){
@@ -6143,7 +6308,7 @@ function renderSaved(){
   /* V9900 - the count is the shared one, and the line says where it came from. "6
      saved" meant one phone; it has to say whose runs these are now. */
   var mine=RUNS.length, others=all.length-mine;
-  cap.innerHTML='<b>'+all.length+'</b> in the library'
+  cap.innerHTML='<b>'+all.length+'</b> of 400 in the library'
     + (others>0 ? ' &middot; '+mine+' yours, '+others+' from others' : ' &middot; all yours')
     + (SHAREOFF ? ' &middot; <span class="liboff">shared library unreachable</span>' : '')
     + (all.length?' &middot; tap one to open it':'');
@@ -6228,6 +6393,36 @@ function dlJSON(name, obj){
   }catch(e){}
 }
 /* putting a saved run back on the screen you left it on */
+/* V10300 - sending the contact form without leaving the app.
+   Netlify reads the form's markup when the page is uploaded and creates the mailbox;
+   posting the fields back to the page's own address is what it listens for. Doing it
+   in the background keeps the person on the Contact page instead of bouncing them to
+   Netlify's own thank-you page and reloading the whole app.
+   Nothing is sent anywhere else, and nothing is stored in the browser. */
+(function(){
+  var f=document.getElementById('cform'); if(!f) return;
+  var note=document.getElementById('cf-note'), btn=document.getElementById('cf-send');
+  function say(msg, kind){ note.textContent=msg; note.className='cfnote'+(kind?' '+kind:''); }
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!f.reportValidity()) return;
+    var data=new FormData(f), body=[];
+    data.forEach(function(v,k){ body.push(encodeURIComponent(k)+'='+encodeURIComponent(v)); });
+    btn.disabled=true; say('Sending\u2026');
+    fetch('/', {method:'POST',
+                headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                body:body.join('&')})
+      .then(function(r){
+        if(!r.ok) throw new Error(r.status);
+        f.reset();
+        say('Thank you \u2014 your message is on its way. We read every one.', 'ok');
+      })
+      .catch(function(){
+        say('That did not send. Please write to timelinelabteam@gmail.com instead.', 'bad');
+      })
+      .then(function(){ btn.disabled=false; });
+  });
+})();
 function openRun(r){
   document.getElementById('protseq').value=r.seq||'';
   var wsel=document.getElementById('win');
@@ -6251,6 +6446,9 @@ function openRun(r){
   if(wall) wall.addEventListener('click', function(e){
     var t=e.target, i=t&&t.getAttribute&&t.getAttribute('data-i');
     if(i==null) return;
+    /* V10300 - one tap is all the hand was ever for */
+    if(!WALLTAPPED){ WALLTAPPED=true;
+      try{ localStorage.setItem('jo1.walltap','1'); }catch(e){} }
     PICKRUN=parseInt(i,10); renderSaved();
   });
   var ex=document.getElementById('runexall');
