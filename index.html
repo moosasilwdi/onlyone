@@ -204,7 +204,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
      It also settles two things quietly: the gold was a colour on a control wrapping
      type, and the red one broke his rule that red is for warnings only. */
   border-color:var(--gold);border-width:2px;color:var(--ink);box-shadow:var(--lift)}
-/* V10300 - the stage's colour is back on every page EXCEPT the first.
+/* V10400 - the stage's colour is back on every page EXCEPT the first.
    V10100 made this black everywhere, which was my reading of "it must be boack to".
    Moos meant something narrower, and the reason is a design one worth writing down:
    "Yes the start to be black! Because we dint have colors like otheres". Every other
@@ -320,7 +320,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .sponsor b{display:block;font-size:15px;letter-spacing:.02em;line-height:1.25}
 .sponsor .tiny{display:block;line-height:1.3}
 .sponsor .sponlink{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
-/* V10300 - the contact form. Plain fields, the app's own ink and line colours, and a
+/* V10400 - the contact form. Plain fields, the app's own ink and line colours, and a
    送 button the width of the panel so it is easy to hit with a thumb. */
 .cfhp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .cflab{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
@@ -344,7 +344,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .modesw button:hover{color:var(--ink);border:0}
 .modesw button[aria-pressed="true"]{background:var(--btn);color:#fff;
   text-shadow:var(--btnsh);box-shadow:var(--lift)}
-/* V10300 - the Science/Abstract switch and the menu pill carry the SAME stage colour,
+/* V10400 - the Science/Abstract switch and the menu pill carry the SAME stage colour,
    so they move together. Moos: "When change you need ti change the abstract button too
    they are both connected!" He is right - on Notes the pill had just gone black while
    this switch stayed blue, and the two sitting on one screen disagreeing is worse than
@@ -560,6 +560,10 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    - so the dropdown sat at 372, 374 or 390 depending on what the caption happened to
    say. The height is pinned at two lines and the words are centred in it, so a one-line
    caption and a two-line caption push nothing. */
+/* V10400 - the quiet line under the chooser. Mono and muted so it reads as a note,
+   not as another control, and it never carries the stage colour. */
+.lastnote{display:block;font-family:var(--mono);font-size:10.5px;color:var(--mute);
+  text-align:center;margin:8px 0 0;line-height:1.35;max-width:300px}
 .bigcap{font-family:var(--mono);font-size:11px;color:var(--ink);margin:12px 0 0;
   text-align:center;min-height:38px}
 /* The height is pinned with min-height alone. display:flex was tried first and broke
@@ -580,7 +584,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   --red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274}}
 :root[data-theme="dark"] .savedp{--red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274}
 .savedp svg.wall{display:block;width:100%;height:auto;cursor:pointer}
-/* V10300 - a hand that taps the first mark, so the wall reads as something you press.
+/* V10400 - a hand that taps the first mark, so the wall reads as something you press.
    Moos: "We need to show hand pointer animation on it! So user knows to click".
    It plays only while nobody has ever tapped a mark on this phone; the first tap
    puts it away for good. It never catches a tap itself - the mark underneath does. */
@@ -768,14 +772,14 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
    dark copy (light letters, no white plate behind the badge) is written only once. */
 :root{--wmlight:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%22-6%20-6%20366%20366%22%3E%3Cpath%20d=%22M258%20258%20L330%20330%22%20stroke=%22%231565d8%22%20stroke-width=%2244%22%20stroke-linecap=%22round%22%20fill=%22none%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%22146%22%20fill=%22none%22%20stroke=%22%231565d8%22%20stroke-width=%2226%22/%3E%3Ccircle%20cx=%22108%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22160%22%20r=%2240%22%20fill=%22%23e0342a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3C/svg%3E");
       --wmdark:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%22-6%20-6%20366%20366%22%3E%3Cpath%20d=%22M258%20258%20L330%20330%22%20stroke=%22%234b92ff%22%20stroke-width=%2244%22%20stroke-linecap=%22round%22%20fill=%22none%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%22146%22%20fill=%22none%22%20stroke=%22%234b92ff%22%20stroke-width=%2226%22/%3E%3Ccircle%20cx=%22108%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22160%22%20r=%2240%22%20fill=%22%23ff5147%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3C/svg%3E")}
-/* V10300 - the name is set in ORBITRON, the squared face whose O is a rounded
+/* V10400 - the name is set in ORBITRON, the squared face whose O is a rounded
    square, which is what Moos chose off the three closest to the old logo's letters.
    It is cut down to the five letters the name uses - O N L Y E - so the whole font
    is 768 bytes and travels inside the page: no second request, nothing to wait for,
    and the splash cannot flash in the wrong face. SIL Open Font License 1.1. */
 @font-face{font-family:'ONLYONE';src:url(data:font/woff2;base64,d09GMgABAAAAAAMAAA8AAAAABiwAAAKnAAIAQgAAAAAAAAAAAAAAAAAAAAAAAAAAGhwbIBwqBmA/U1RBVCoATBEICoIYgVoBNgIkAxgLDgAEIAWECgcgG9kEKK6DdwGBIBTobDCkTUbvvq0IDLWgzxwOc80IlRwi2u83e0++OeLpZ2iuTdSzW6KStYtWEtE7WSNsrO1F0UridiS35Mk82hAbL9YaKVMDCNmGvT9wJCBwCo1DeBAGPzs95+ZnBFOaLJm7HPgw6alP2nLZwPluw6MrLOUAqD0i040//YTW/xr9nKe/+VwbrPPuYUqJr30e54VjCSWYhV06Ni5Pv2Wf8Jm3emSp15iZOXOSpBgeRoATAAhhECByDuziRLFrcWU1Ch3wDwCIDYvj6oXOjulRIihCv95m1BVEqBdvYahwdWSnGM0oI1Cwxx/mq2+XXwXa7QYBqFU9QhKOEFYCglgQh3v09U8LgCIA6dQVGEABDQTxBAQJUjHYWSlKkaGJXSFAx431qVa1yolHhBQjABOA079RjqEWA4AOAIQQigymPTjZHYYHNxcnD0fv0K08MGfbB3XHxp3Ez6+nwc0z0J59y2HIOfGTPbAR5KHoYrVeR0OTo1ulXwfL/sOjlaND/zKN71LlcFn92j93hZZt+4U7zP23fhFu/V3wgZbODNtY6PnHmApt933mT7byhwFAgJL/HtjRNk/mz0r7AB4EUzDwHl4mMSqfBJMCIPiZZRwI/X8FlsLKjG9z+7Okg7TMpZ6ZqhkmEGCqIsoklI8pAmwm8aSzAb8EQHj9gWINE2iSww10MZGNGEQ9YuKTHAFnbKk67VsFyIdHd3NxZQJFeQV1YOkKgQndwY1JR97AlI7coSMTaLOYrojOAOKuTKYPQ1NOzsUNg5XlIOuIvOSYrtAT2ruwIHKWQ3vDCWnAIcEczCED0tnQCRggbyYwtveCmkDsguqYbNLdQZ5OirLyL/h3y9jEWF+rGZlSfk5BdA3pDDcR+WWZ3gb+wuUp3/8UAQAA) format('woff2');
   font-weight:700;font-style:normal;font-display:block;unicode-range:U+45,U+4C,U+4E,U+4F,U+59}
-/* V10300 - the mark is the LENS ALONE in the bar, and the full lockup only on the
+/* V10400 - the mark is the LENS ALONE in the bar, and the full lockup only on the
    splash. The old mark was one baked image of "JO(lungs)NE" at 63 x 22.8px. The name is
    longer now, and measured at this height "ONLY (lens) NE" is about 120px wide - the
    stylesheet already carries two notes about the old 52.5px mark running into the step
@@ -789,7 +793,7 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wm{background-image:var(--wmdark)}}
 :root[data-theme="dark"] .wm{background-image:var(--wmdark)}
 .wmbig{height:62px;width:63px}
-/* V10300 - the splash lockup: ONLY, the lens standing in for the O, then NE.
+/* V10400 - the splash lockup: ONLY, the lens standing in for the O, then NE.
    Sized in vw and em so the whole thing scales as ONE object. The first cut set the
    letters at a fixed 54px and the lens at a fixed 62px, and the lockup came out wider
    than the phone - "O" and "NE" were cut off at both edges on a 390px screen, because
@@ -818,7 +822,7 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 /* V7900 - 62px was the height the narrow drawn mark wanted. The lungs lockup carries
    a picture inside it, so on the splash - where nothing else is on screen - it is
    given room: 96px tall, 251.5px wide, still its own 2.62 shape. */
-/* V10300 - the splash mark is the LENS now, not the old 265 x 96 wordmark. This rule
+/* V10400 - the splash mark is the LENS now, not the old 265 x 96 wordmark. This rule
    outlived the image it was written for: it beat .lockup .wmbig on source order and
    stretched the lens to 265px wide, which pushed "NE" clean off the screen. The size
    belongs to the lockup, which sets it in em so the lens scales with the letters; what
@@ -827,7 +831,7 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 .splash.gone{opacity:0;pointer-events:none}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.splash .wm{animation:none}}
-/* V10300 - the sponsor tab, hung off the left of Start the way 5Gaaaps hangs one off
+/* V10400 - the sponsor tab, hung off the left of Start the way 5Gaaaps hangs one off
    "Add a book". Its right edge is bitten out with an arc of the button's own radius
    plus 3px, so the round end of Start nests into it with the same air all the way
    round. Start is 150 wide and stands alone on the first screen, so its left edge is
@@ -1313,7 +1317,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 <div class="device">
 
 <div class="splash" id="splash">
-  <!-- V10300 - the full lockup, and the only place it appears. The lens stands in for
+  <!-- V10400 - the full lockup, and the only place it appears. The lens stands in for
        the O of ONE, so the name is read as one word with a search in the middle of it.
        The letters are live text, not part of an image: they take the app's own font and
        its ink, so they flip with the theme and stay sharp at any size, and the mark file
@@ -1359,7 +1363,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
     <button type="button" id="t-info" disabled><i>i</i></button>
   </div>
   <button type="button" class="go navbtn" id="nav-next">Next</button>
-  <!-- V10300 - shown on the first screen only, where Start stands alone -->
+  <!-- V10400 - shown on the first screen only, where Start stands alone -->
   <a class="spontab" id="spontab" href="https://timelinelab.app" target="_blank"
      rel="noopener" aria-label="Sponsored by TIMELINE - timelinelab.app" hidden>
     <span class="f two"><b>Sponsored by<i>TIMELINE</i></b></span>
@@ -1909,7 +1913,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         <b>Nobody has ever run this knowing which fifteen to use.</b> That is the one thing that
         has not been tried, and it is the only thing this app does.</p>
 
-        <!-- V10300 - this said "0.747 where the best published tool scores 0.936", which
+        <!-- V10400 - this said "0.747 where the best published tool scores 0.936", which
              made the engine look far worse than it is. The two numbers were measured on
              different tests: 0.936 is NetMHCIIpan-4.1's own paper, on eluted-ligand data
              with easy decoys. On IEDB's independent weekly benchmark the whole field sits
@@ -2245,7 +2249,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V10300 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V10400 &middot; built for Moosa Silwadi, October 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -2259,7 +2263,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           research filter, not a clinical service, and nobody here can advise on your treatment.</p>
         </div>
 
-        <!-- V10300 - a form, so nobody has to open their mail app to write. It is a
+        <!-- V10400 - a form, so nobody has to open their mail app to write. It is a
              Netlify form: the markup is what Netlify reads at upload time, and the
              messages land in the Netlify dashboard and are emailed on from there. No
              new account, no key in the page, nothing to pay for up to 100 a month.
@@ -2290,7 +2294,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           <h3>Who made it</h3>
           <p style="margin:0 0 4px"><b>Moosa Silwadi</b></p>
           <p class="tiny" style="margin:0 0 12px">Founder of ONLY ONE and TIMELINE</p>
-          <!-- V10300 - the real TIMELINE mark, traced from Moos's own file rather than
+          <!-- V10400 - the real TIMELINE mark, traced from Moos's own file rather than
                drawn by eye. His is 392 wide by 871 tall, the bar 9.1% of the height,
                the stem 44.1% of the width and flush RIGHT; this comes out 9.0%, 43.7%,
                flush right. The old one had a yellow T with the flag pointing backwards
@@ -3412,7 +3416,7 @@ function showNote(key){
   });
   if(!any){ var first=document.querySelector('.notepage'); if(first) first.hidden=false; }
   var v=document.getElementById('view-info'); if(v) v.scrollTop=0;
-  /* V10300 - the switch belongs to the PAGE, so it is re-judged on every change */
+  /* V10400 - the switch belongs to the PAGE, so it is re-judged on every change */
   if(typeof placeSwitch==='function') placeSwitch('view-info');
 }
 function placeNoteSel(v){
@@ -3420,7 +3424,7 @@ function placeNoteSel(v){
   if(v!=='view-info') sel.value='';          // the menu always reads "Notes"
   if(ORDER.indexOf(v)>=0) lastStep=v;        // remember where to come back to
 }
-/* V10300 - the switch only where it actually does something.
+/* V10400 - the switch only where it actually does something.
    Moos spotted it on the Contact page: "Why there is abstract pill in the contact".
    Measured on all nine Notes pages - pressing it changed NOTHING on seven of them
    (Notes, About, Questions, How to use it, Safety, Sources, Contact) and only
@@ -3431,7 +3435,7 @@ function noteHasSwitch(){
   var sec=document.querySelector('.notepage:not([hidden])');
   return !!(sec && SWNOTE[sec.getAttribute('data-note')]);
 }
-/* V10300 - the sponsor tab belongs to the first screen, where Start stands on its own.
+/* V10400 - the sponsor tab belongs to the first screen, where Start stands on its own.
    On every other page Back and the step number share the strip and there is no room
    for it, so it is put away rather than squeezed. */
 function placeSponsor(v){
@@ -5215,7 +5219,7 @@ function drawViewCube(){
          it costs no bytes. It goes on as an <image>; inside the face's matrix it leans
          and foreshortens with the face. The face is pale in both themes, so the
          dark-inked copy is always the right one.
-         V10300 - that mark is the LENS now, and the lens is SQUARE. MH was MW/2.763,
+         V10400 - that mark is the LENS now, and the lens is SQUARE. MH was MW/2.763,
          the shape of the old wordmark; with preserveAspectRatio="none" on the <image>
          that would have stretched the lens into an ellipse on every face of the block.
          The face is square, so the mark is too, and a little smaller than the old
@@ -6207,7 +6211,7 @@ function drawWall(){
     rows=Math.ceil(n/cols); H=gy*rows+4;
     if(H<=80) break;
   }
-  /* V10300 - only the runs that exist. The wall used to fill the row out with pale
+  /* V10400 - only the runs that exist. The wall used to fill the row out with pale
      empty slots, so one run was drawn as one mark and eleven gaps and the shelf read
      as "1 of 12" when the library holds 400. Moos: "the Library wall draws 11 empty
      slots as if it held 12". The room is said in words under it instead. */
@@ -6217,7 +6221,7 @@ function drawWall(){
     out+='<rect data-i="'+i+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+mw.toFixed(1)
       +'" height="'+mh.toFixed(1)+'" rx="2.2" fill="var(--mute)" opacity=".72"/>';
   }
-  /* V10300 - the marker that shows which run is open lies ON TOP of its mark and used
+  /* V10400 - the marker that shows which run is open lies ON TOP of its mark and used
      to swallow the tap, so the open run could not be tapped at all. With one run in
      the library that was the only mark there was, and the new hand was pointing at
      something that did nothing. The taps pass through it now. */
@@ -6230,7 +6234,7 @@ function drawWall(){
   el.innerHTML=out;
   wallHand(el);
 }
-/* V10300 - the hand. It is laid over the first mark, in the wall's own box, and is
+/* V10400 - the hand. It is laid over the first mark, in the wall's own box, and is
    re-laid every time the wall is redrawn because the marks move as runs arrive. */
 var WALLTAPPED=false;
 try{ WALLTAPPED = localStorage.getItem('jo1.walltap')==='1'; }catch(e){}
@@ -6393,7 +6397,7 @@ function dlJSON(name, obj){
   }catch(e){}
 }
 /* putting a saved run back on the screen you left it on */
-/* V10300 - sending the contact form without leaving the app.
+/* V10400 - sending the contact form without leaving the app.
    Netlify reads the form's markup when the page is uploaded and creates the mailbox;
    posting the fields back to the page's own address is what it listens for. Doing it
    in the background keeps the person on the Contact page instead of bouncing them to
@@ -6446,7 +6450,7 @@ function openRun(r){
   if(wall) wall.addEventListener('click', function(e){
     var t=e.target, i=t&&t.getAttribute&&t.getAttribute('data-i');
     if(i==null) return;
-    /* V10300 - one tap is all the hand was ever for */
+    /* V10400 - one tap is all the hand was ever for */
     if(!WALLTAPPED){ WALLTAPPED=true;
       try{ localStorage.setItem('jo1.walltap','1'); }catch(e){} }
     PICKRUN=parseInt(i,10); renderSaved();
@@ -6614,6 +6618,12 @@ function paintHome(){
           +    '<option value="paste"'+(mode==='paste'?' selected':'')+'>Paste another protein</option>'
           +  '</select>'
           +'</div>'
+          /* V10400 - why the app opened where it did. Moos opened it, saw Jo-1 and
+             asked whether that was normal; if it caught him out it will catch others.
+             It is shown only once a protein HAS been chosen, so the first person
+             never sees it, and it sits under the chooser so nothing above it moves. */
+          +(waiting ? '' : '<span class="lastnote">the app opens on the last protein'
+                           +' you chose</span>')
           +'<input id="hname" type="text" aria-label="What is it called"'
           +  (mode==='paste'?'':' hidden')+' placeholder="What is it called? e.g. insulin"'
           +  ' value="'+esc(PNAME||'')+'">'
