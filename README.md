@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V10400**.
+Version **V10500**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
