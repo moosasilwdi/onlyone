@@ -1036,7 +1036,12 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 .views{flex:1 1 auto;min-height:0;position:relative}
 .view{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
   padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));
-  padding-block:14px calc(var(--tabh) + 22px + env(safe-area-inset-bottom,0px))}
+  /* V10600 - the gap under the content was 22px when the bar was 58px tall and held
+     nothing but the two buttons. V10500 made the bar 80px to carry "Built with
+     Claude", and that ate the spare room: the first screen went 2px over and began
+     to scroll. The bar now carries its own 8px of padding below the credit line, so
+     14px of extra gap is enough and the 2px comes back. */
+  padding-block:14px calc(var(--tabh) + 14px + env(safe-area-inset-bottom,0px))}
 .view::-webkit-scrollbar{width:0;height:0}
 .view{scrollbar-width:none;-ms-overflow-style:none}
 .view[hidden]{display:none}
@@ -1399,6 +1404,14 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
   button.go{width:100%}
   .ctrls .fld{flex:1 1 100%}
   .ctrls .fld select{width:100%}
+  /* V10600 - except the window picker, which holds two digits. Moos's phone showed
+     step 2 running off the bottom, with Scan sliding under the Back/Next bar.
+     Measured at 360x560 - a phone with its address bar showing - the content ran to
+     489 where the buttons start at 480: 9px too tall. The window field was 300px wide
+     in a 300px row, so "FASTA file" could not sit beside it and took a row of its own.
+     Side by side they cost 54px instead of 100. */
+  .ctrls .fld.winfld{flex:0 0 auto}
+  .ctrls .fld.winfld select{width:auto;min-width:84px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -1578,7 +1591,11 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
                loader and the window size. -->
           <label class="drop" for="fastain">FASTA file</label>
           <input type="file" id="fastain" accept=".fasta,.fa,.txt,.seq">
-          <label class="fld"><span>Window</span>
+          <!-- V10600 - "winfld" marks this one as the SHORT field. Every other .fld on
+               a phone takes a whole row, which is right for a long holder name and
+               wrong for a two-digit number: it filled 300px of a 300px row and pushed
+               "FASTA file" onto a line of its own, making step 2 too tall to fit. -->
+          <label class="fld winfld"><span>Window</span>
             <select id="win"><option>15</option><option>14</option><option>16</option><option>18</option><option>20</option></select>
           </label>
         </div>
@@ -1598,7 +1615,11 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         </label>
       </div>
 
-      <p class="btncap"><span class="sci-only">Cuts the protein into every slice and scores each one.</span><span class="abs-only">Cuts the protein into every piece and tests each one.</span></p>
+      <!-- V10600 - shortened by four words so it holds one line on a phone instead of
+           two. Moos asked for it while fixing the fit. Measured at 360px: 36px as two
+           lines, 18px as one. "every slice" and "each" both stay, because exhaustive
+           is the point - it is a sliding window, not a sample. -->
+      <p class="btncap"><span class="sci-only">Cuts the protein into every slice, scores each.</span><span class="abs-only">Cuts the protein into every piece, tests each.</span></p>
       <button type="button" class="go" id="runprot">Scan</button>
       <div class="twinnote" id="twinnote" hidden>
         <h4>Already in the library</h4>
@@ -2345,7 +2366,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V10500 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V10600 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
