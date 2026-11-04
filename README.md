@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V10600**.
+Version **V10700**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -25,7 +25,22 @@ Everything runs in the browser. No server, no build step.
   the real pocket-lining residues of the selected HLA type. Drop in a solved `.pdb` or `.cif` and
   it renders that instead.
 - **Library** - every run is saved, and the library is SHARED: a scan done on one phone
-  is readable on every other. The list is summaries only, so it loads fast; the 5 KB body
+  is readable on every other. Runs are chosen by name from a list - "Jo-1 - window 15 -
+  495 slices" - because a run is a protein AND a window, and three Jo-1 runs at 15, 20
+  and 14 are three different questions. Choosing one draws THE GRID, which is three
+  taps deep. TAP 1, the protein: one square for every slice, grey where no holder of
+  the 117 grips it, blue where more than one does, green where exactly one does and no
+  other - for Jo-1 cut into fifteens, 200 grey, 234 blue and 61 green, with the shape
+  above them showing how many of the 117 grip each slice along the protein (peak 94 of
+  117 at slice 132). TAP 2, one slice: its own 117 holders open underneath it, green
+  gripping, blue loose, grey not - and where exactly one grips, the panel names it.
+  TAP 3, one holder: its predicted value for that slice, its OWN top-5% grip line (the
+  test is per holder, which is why a slice can belong to one holder and nobody else),
+  where the slice ranks among the 495 for it, and that holder drawn across the whole
+  protein with the slice marked. Both drawers open downward and nothing above them
+  moves. The numbers come from the table that ships with the app, so the grid costs
+  nothing to draw; any other protein, or any other window, has to be measured live and
+  the app says so rather than drawing an empty grid. The list is summaries only, so it loads fast; the 5 KB body
   of a run, letters included, is fetched when somebody opens it. Stored in Netlify Blobs
   through `/api/library`. With the library unreachable the app falls back to this phone's
   own runs and says so.

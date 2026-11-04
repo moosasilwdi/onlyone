@@ -410,7 +410,14 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    landing's own field: one mark per saved run, the one you are reading ringed. The
    four colours are declared here the way the About panels declare them, so nothing
    else in the app shifts. */
-.savedp{--red:#e0342a;--blue:#1565d8;--yellow:#f5b700;--green:#149455}
+.savedp{--red:#e0342a;--blue:#1565d8;--yellow:#f5b700;--green:#149455;
+/* V10700 - the grid's grey is its OWN colour, not the page's hairline. Drawn in
+   --line a grey square sat at 1.39 against white and 1.20 against the dark panel,
+   which on a phone in daylight is a hole rather than a tile. 200 of the 495 squares
+   are this colour and every one of them is an ANSWER - nobody grips that slice - so
+   it has to be visibly there. 1.62 light, 2.02 dark: present, and still well under
+   the blue. */
+  --gridgrey:#c2cbd8}
 /* V7800 - the landing carries the result itself: the field of 495 behind everything,
    the count in front of it, and one question. Everything that used to crowd it is on
    the page after. */
@@ -624,33 +631,57 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   .bignum{transform:none!important;animation:none!important}
   #homefield circle{animation:none!important} }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .savedp{
-  --red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274}}
-:root[data-theme="dark"] .savedp{--red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274}
-.savedp svg.wall{display:block;width:100%;height:auto;cursor:pointer}
-/* V10400 - a hand that taps the first mark, so the wall reads as something you press.
-   Moos: "We need to show hand pointer animation on it! So user knows to click".
-   It plays only while nobody has ever tapped a mark on this phone; the first tap
-   puts it away for good. It never catches a tap itself - the mark underneath does. */
-.wallwrap{position:relative}
-.wallhand{position:absolute;width:26px;height:30px;pointer-events:none;z-index:3;
-  animation:handtap 2.4s ease-in-out infinite}
-.wallhand svg{width:100%;height:100%;display:block;
-  filter:drop-shadow(0 2px 3px rgba(13,20,29,.3))}
-.wallring{position:absolute;border-radius:4px;border:2px solid var(--gold);
-  pointer-events:none;z-index:2;opacity:0;animation:handring 2.4s ease-out infinite}
-@keyframes handtap{
-  0%{transform:translate(10px,-14px) scale(1)}
-  28%{transform:translate(0,0) scale(1)}
-  36%{transform:translate(0,3px) scale(.94)}
-  46%{transform:translate(0,0) scale(1)}
-  74%,100%{transform:translate(10px,-14px) scale(1)}}
-@keyframes handring{
-  0%,30%{opacity:0;transform:scale(1)}
-  38%{opacity:.9;transform:scale(1)}
-  62%,100%{opacity:0;transform:scale(2.1)}}
-@media (prefers-reduced-motion:reduce){
-  .wallhand{animation:none;transform:none}
-  .wallring{animation:none;opacity:.75}}
+  --red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274;--gridgrey:#434f63}}
+:root[data-theme="dark"] .savedp{--red:#ff5147;--blue:#4b92ff;--yellow:#ffc425;--green:#2fc274;
+  --gridgrey:#434f63}
+/* V10700 - the wall and the hand that pointed at it are both gone. A dropdown names
+   every run, so there is nothing to teach and nothing to guess. What stays is the
+   picker's own width: on a phone every .fld takes a whole row, which is exactly what
+   a run's name wants, so this one is left alone (unlike the window picker on step 2,
+   which holds two digits). */
+.savedp .libpick{width:100%}
+.savedp .libpick select{width:100%;font-size:14px;padding:10px 11px}
+/* V10700 - the grid itself. Two drawings stacked: the shape of how many of the 117
+   grip each slice, then one square per slice. Both are 298 wide in their own
+   coordinates and stretch to the panel, so a square is as big as the phone allows
+   and no bigger - at 390px that is about 11px a side, which a finger can hit. */
+.savedp .gridshape{display:block;width:100%;height:auto;margin:0 0 2px}
+.savedp .gridfoot{display:flex;font-family:var(--mono);font-size:9.5px;color:var(--mute);
+  margin:0 0 12px}
+.savedp .gridfoot .gpk{margin:0 auto;color:var(--accink)}
+.savedp .gridsq{display:block;width:100%;height:auto;margin:0 0 9px}
+.savedp .gridkey{margin:0}
+.savedp .gridnone{border:1px dashed var(--line);border-radius:12px;padding:14px;
+  margin:0;color:var(--mute);font-size:12px;line-height:1.45}
+/* V10700 stage 2 - one slice, opened underneath. The panel is drawn as a sunk block
+   so it reads as a drawer that came out of the grid, not as a second card. */
+.savedp .gridsq{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.savedp .gridslice{margin:12px 0 0;padding:12px 12px 10px;border-radius:12px;
+  background:var(--sunk);border:1px solid var(--line)}
+.savedp .gsltop{display:flex;align-items:baseline;gap:9px;margin:0 0 7px}
+.savedp .gsln{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.savedp .gslpos{font-family:var(--mono);font-size:10.5px;color:var(--mute)}
+.savedp .gslx{margin-left:auto;flex:0 0 auto;min-width:30px;min-height:30px;padding:0;
+  font-size:19px;line-height:1;border-radius:8px}
+.savedp .gslpep{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
+  word-break:break-all;margin:0 0 8px;color:var(--ink)}
+.savedp .gslsay{font-size:12.5px;line-height:1.45;margin:0 0 10px;color:var(--mute)}
+.savedp .gslsay.one{color:var(--ink);padding-left:9px;border-left:3px solid var(--green)}
+.savedp .gslsay b{color:var(--ink)}
+.savedp .gslsq{display:block;width:100%;height:auto;margin:0 0 9px}
+.savedp .gslsq{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+/* and the third drawer, inside the second one: one holder's own numbers */
+.savedp .gridhold{margin:11px -4px -2px;padding:11px 11px 8px;border-radius:10px;
+  background:var(--panel);border:1px solid var(--line)}
+.savedp .ghname{font-family:var(--mono);font-size:12.5px;font-weight:700;
+  letter-spacing:-.01em;line-height:1.25}
+.savedp .ghnum{font-size:13px;margin:0 0 3px;color:var(--mute)}
+.savedp .ghnum b{font-family:var(--mono);font-size:17px;color:var(--ink);
+  letter-spacing:-.02em;margin-right:2px}
+.savedp .ghnum.tight b{color:var(--green)}
+.savedp .ghsub{font-size:11.5px;color:var(--mute);margin:0 0 9px;line-height:1.4}
+.savedp .ghline{display:block;width:100%;height:auto}
+.savedp .ghfoot{font-family:var(--mono);font-size:10px;color:var(--mute);margin:4px 0 0}
 .savedp .runlab{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
   color:var(--mute);font-weight:600;margin:0 0 6px}
 .savedp .runtop{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
@@ -1785,8 +1816,22 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         <p class="tiny" style="margin:0 0 11px">Every scan keeps itself here, and goes to a
         library everyone using the app shares &mdash; so other people can read it, and you
         can read theirs. Export still writes a file you can keep or send yourself.</p>
-        <svg id="runwall" class="wall" viewBox="0 0 298 40" role="img" aria-label="Runs in the library"></svg>
-        <p class="fancap" id="runcap" style="margin:6px 0 10px"><b>0</b> saved</p>
+        <!-- V10700 - the wall of marks is gone. Moos: "the libbat wall is confusing,
+             we dont knwo what proten is there". Every mark was the same grey square,
+             so the only way to learn which run was which was to tap each one. A run
+             is a PROTEIN AND A WINDOW, and both are in the name now: three Jo-1 runs
+             at 15, 20 and 14 read as three different questions instead of three
+             identical squares. His own idea: "i from drop menu in the libary i choose
+             jo-1, then 495 sqaure are shown". -->
+        <label class="fld libpick"><span>Which run</span>
+          <select id="runpick" aria-label="Which run to look at"></select>
+        </label>
+        <p class="fancap" id="runcap" style="margin:8px 0 10px"><b>0</b> saved</p>
+        <!-- V10700 - THE GRID. Every slice of the chosen protein, one square each,
+             with the shape above them: how many of the 117 grip each slice. Grey is
+             nobody, blue is more than one, green is the one case worth having - a
+             slice exactly one holder grips and no other does. -->
+        <div id="gridwrap"></div>
         <div class="ctrls">
           <button type="button" id="runexall">Export all</button>
           <label class="drop" for="runin">Open a file</label>
@@ -2366,7 +2411,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V10600 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V10700 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -6317,66 +6362,315 @@ function runCounts(r){
 }
 /* the wall: the landing's field, one mark per saved run, the marks shrinking as it
    fills so the block never grows taller than the landing's own */
-function drawWall(){
-  var el=document.getElementById('runwall'); if(!el) return;
-  /* V9900 - the wall is the whole library now, not just this phone's share of it */
-  var n=LIB().length, W=298;
-  if(!n){ el.setAttribute('viewBox','0 0 298 10'); el.innerHTML=''; return; }
-  var cols, gx, mw, mh, gy, rows, H;
-  for(cols=12; cols<=48; cols++){
-    gx=W/cols; mw=gx*0.62; mh=mw*0.66; gy=mh*2.1;
-    rows=Math.ceil(n/cols); H=gy*rows+4;
-    if(H<=80) break;
-  }
-  /* V10400 - only the runs that exist. The wall used to fill the row out with pale
-     empty slots, so one run was drawn as one mark and eleven gaps and the shelf read
-     as "1 of 12" when the library holds 400. Moos: "the Library wall draws 11 empty
-     slots as if it held 12". The room is said in words under it instead. */
+/* V10700 - drawWall is gone with the wall it drew, and the hand that pointed at it
+   with it. A dropdown says what every run is in words, so there is nothing left to
+   point at and nothing left to guess. What replaces it is drawGrid, below. */
+function fillRunPick(){
+  var sel=document.getElementById('runpick'); if(!sel) return;
+  var all=LIB();
+  if(PICKRUN>=all.length) PICKRUN=0;
   var out='';
-  for(var i=0;i<n;i++){
-    var c=i%cols, rr=(i/cols)|0, x=c*gx+(gx-mw)/2, y=rr*gy+4;
-    out+='<rect data-i="'+i+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+mw.toFixed(1)
-      +'" height="'+mh.toFixed(1)+'" rx="2.2" fill="var(--mute)" opacity=".72"/>';
+  for(var i=0;i<all.length;i++){
+    var r=all[i];
+    out+='<option value="'+i+'"'+(i===PICKRUN?' selected':'')+'>'
+       + esc(r.name) + ' \u00b7 window ' + r.win + ' \u00b7 ' + r.n + ' slices'
+       + (libMine(r) ? '' : ' \u00b7 shared')
+       + '</option>';
   }
-  /* V10400 - the marker that shows which run is open lies ON TOP of its mark and used
-     to swallow the tap, so the open run could not be tapped at all. With one run in
-     the library that was the only mark there was, and the new hand was pointing at
-     something that did nothing. The taps pass through it now. */
-  var pc=PICKRUN%cols, pr=(PICKRUN/cols)|0, px=pc*gx+(gx-mw)/2, py=pr*gy+4;
-  out+='<rect pointer-events="none" x="'+px.toFixed(1)+'" y="'+py.toFixed(1)+'" width="'+mw.toFixed(1)+'" height="'
-    +mh.toFixed(1)+'" rx="2.2" fill="var(--wm3)"/>';
-  out+='<rect pointer-events="none" x="'+(px-3.4).toFixed(1)+'" y="'+(py-3.4).toFixed(1)+'" width="'+(mw+6.8).toFixed(1)
-    +'" height="'+(mh+6.8).toFixed(1)+'" rx="4.6" fill="none" stroke="var(--wm3)" stroke-width="1.1" opacity=".55"/>';
-  el.setAttribute('viewBox','0 0 '+W+' '+H.toFixed(1));
-  el.innerHTML=out;
-  wallHand(el);
+  sel.innerHTML = out || '<option>nothing saved yet</option>';
+  sel.disabled = !all.length;
 }
-/* V10400 - the hand. It is laid over the first mark, in the wall's own box, and is
-   re-laid every time the wall is redrawn because the marks move as runs arrive. */
-var WALLTAPPED=false;
-try{ WALLTAPPED = localStorage.getItem('jo1.walltap')==='1'; }catch(e){}
-function wallHand(el){
-  var host=el.parentNode; if(!host) return;
-  Array.prototype.forEach.call(host.querySelectorAll('.wallhand,.wallring'),
-    function(e){ e.remove(); });
-  if(WALLTAPPED) return;
-  var first=el.querySelector('rect[data-i]'); if(!first) return;
-  if(!/wallwrap/.test(host.className)) host.className=(host.className+' wallwrap').trim();
-  var r=first.getBoundingClientRect(), hr=host.getBoundingClientRect();
-  if(!r.width) return;
-  var x=r.left-hr.left, y=r.top-hr.top;
-  var ring=document.createElement('span'); ring.className='wallring';
-  ring.style.left=(x-2)+'px'; ring.style.top=(y-2)+'px';
-  ring.style.width=(r.width+4)+'px'; ring.style.height=(r.height+4)+'px';
-  host.appendChild(ring);
-  var hand=document.createElement('span'); hand.className='wallhand';
-  hand.style.left=(x+r.width*0.45)+'px'; hand.style.top=(y+r.height*0.5)+'px';
-  hand.innerHTML='<svg viewBox="0 0 48 56" aria-hidden="true">'
-    +'<path d="M18 30V11a4 4 0 0 1 8 0v14m0-3a3.5 3.5 0 0 1 7 0v5m0-3a3.5 3.5 0 0 1 7 0v10'
-    +' c0 9-6 15-14 15h-3c-5 0-8-2-10-6l-6-10a3.6 3.6 0 0 1 5.6-4.4L18 34"'
-    +' fill="#fff" stroke="#0d141d" stroke-width="2.6" stroke-linejoin="round"'
-    +' stroke-linecap="round"/></svg>';
-  host.appendChild(hand);
+/* V10700 - the hand is gone too. It was there to teach that the marks on the wall
+   could be pressed; a dropdown needs no teaching. Its CSS classes .wallhand and
+   .wallring go with it, and so does the jo1.walltap flag that remembered the tap. */
+/* ================= V10700 - THE GRID =================================
+   Moos's design, in his words: "i want to stat with 495 slice all gray, an dwhen
+   active it has a color, thn when clicking one of it, it open 117 gray a nother grid
+   of holders".
+
+   Stage 1 is the squares and the shape above them. Stage 2 is the tap: one slice
+   opens its own 117 underneath, which is the second half of the same sentence he
+   wrote - "thn when clicking one of it, it open 117 gray a nother grid of holders".
+
+   What a square's colour means, for ONE slice:
+     grey   no holder of the 117 grips it
+     blue   more than one grips it - sticky, and useless for telling holders apart
+     green  exactly one grips it. That is the whole point of the app.
+
+   Where the numbers come from: the app already ships every one of them for Jo-1 at
+   window 15 - 495 slices x 117 holders, 57,915 of them, in w-jo1.txt. Reading the
+   lot takes about 3ms, so the Grid costs nothing to draw. Any other protein, or any
+   other window, has to be worked out live and is not drawn yet; the panel says so
+   rather than showing an empty grid that looks like an answer. */
+/* V10700 stage 2 - which slice is open. Null until one is tapped, and reset the
+   moment a different run is chosen: slice 73 of Jo-1 means nothing in Insulin. */
+var GRIDSLICE=null;
+/* V10700 stage 3 - and which of the 117 is open inside it. Shuts whenever the slice
+   or the run changes, because a holder's numbers belong to one slice of one run. */
+var GRIDHOLD=null;
+function gridData(r){
+  if(!r || !JTAB.ready()) return null;
+  if(!JTAB.fits(r.seq, r.win)) return null;          /* Jo-1 at window 15 only, so far */
+  var S=Math.min(r.n, JTAB.slices), N=ALLELES.length;
+  var cnt=new Int16Array(S), mx=0, none=0, many=0, alone=0;
+  for(var s=0;s<S;s++){
+    var c=0;
+    for(var k=0;k<N;k++) if(gripsTight(JTAB.at(s,k),k)) c++;
+    cnt[s]=c; if(c>mx) mx=c;
+    if(c===0) none++; else if(c===1) alone++; else many++;
+  }
+  return {cnt:cnt, S:S, mx:mx, none:none, many:many, alone:alone};
+}
+/* the shape: how many of the 117 grip each slice, along the protein */
+function gridShape(g){
+  var W=298, H=56, pts=[], i;
+  for(i=0;i<g.S;i++){
+    var x=(W*i/(g.S-1)).toFixed(2);
+    var y=(H-2 - (H-6)*g.cnt[i]/Math.max(1,g.mx)).toFixed(2);
+    pts.push(x+' '+y);
+  }
+  var d='M'+pts.join('L');
+  var ticks='';
+  for(i=0;i<g.S;i++) if(g.cnt[i]===1){
+    var tx=(W*i/(g.S-1)).toFixed(2);
+    ticks+='<rect x="'+(tx-0.7).toFixed(2)+'" y="'+(H-3)+'" width="1.4" height="5" fill="var(--green)"/>';
+  }
+  return '<p class="runlab">How many of the 117 grip each slice</p>'
+    +'<svg class="gridshape" viewBox="0 0 '+W+' '+(H+4)+'" aria-hidden="true">'
+    +'<path d="'+d+'L'+W+' '+H+'L0 '+H+'Z" fill="color-mix(in srgb,var(--blue) 14%,transparent)"/>'
+    +'<path d="'+d+'" fill="none" stroke="var(--blue)" stroke-width="1.2" stroke-linejoin="round"/>'
+    +ticks+'</svg>'
+    +'<p class="gridfoot"><span>1</span><span class="gpk">peak '+g.mx+' of 117</span>'
+    +'<span>'+g.S+'</span></p>';
+}
+/* the squares: one per slice, 25 to a row */
+function gridSquares(g){
+  var W=298, COLS=25, gx=W/COLS, cell=gx*0.80, gap=gx-cell;
+  var rows=Math.ceil(g.S/COLS), H=rows*(cell+gap);
+  var out='', hit='', ring='', i;
+  for(i=0;i<g.S;i++){
+    var c=i%COLS, rr=(i/COLS)|0;
+    var x=(c*gx).toFixed(2), y=(rr*(cell+gap)).toFixed(2);
+    var col = g.cnt[i]===1 ? 'var(--green)' : (g.cnt[i]>1 ? 'var(--blue)' : 'var(--gridgrey)');
+    out+='<rect class="sq" x="'+x+'" y="'+y+'" width="'+cell.toFixed(2)
+       +'" height="'+cell.toFixed(2)+'" rx="1.4" fill="'+col+'"/>';
+    /* a finger is far wider than a 10px square, so every pixel of the grid belongs
+       to a slice: an invisible tile fills the gap around each square and carries the
+       tap. Without it the gaps are dead and a near miss does nothing. */
+    hit+='<rect class="hit" data-s="'+i+'" x="'+(c*gx).toFixed(2)+'" y="'
+       +(rr*(cell+gap)).toFixed(2)+'" width="'+gx.toFixed(2)+'" height="'
+       +(cell+gap).toFixed(2)+'" fill="transparent"/>';
+    /* the open one keeps a ring around it, drawn OUTSIDE its own square so the
+       colour underneath is not covered up and nothing on the grid moves */
+    if(i===GRIDSLICE) ring='<rect class="gridring" x="'+(+x-1.6).toFixed(2)+'" y="'
+       +(+y-1.6).toFixed(2)+'" width="'+(cell+3.2).toFixed(2)+'" height="'
+       +(cell+3.2).toFixed(2)+'" rx="2.6" fill="none" stroke="var(--ink)"'
+       +' stroke-width="1.1"/>';
+  }
+  return '<svg class="gridsq" viewBox="-2 -2 '+(W+4)+' '+(H+4).toFixed(1)+'"'
+    +' aria-label="'+g.S+' slices, '+g.alone+' gripped by one holder only. Tap one.">'
+    +out+ring+hit +'</svg>'
+    +'<div class="runkey gridkey">'
+    +'<span><i style="background:var(--gridgrey)"></i>'+g.none+' nobody grips</span>'
+    +'<span><i style="background:var(--blue)"></i>'+g.many+' more than one</span>'
+    +'<span><i style="background:var(--green)"></i>'+g.alone+' ONE holder only</span>'
+    +'</div>';
+}
+/* ---- stage 2: one slice, and its own 117 ----------------------------------
+   Tapping a square opens this UNDERNEATH it. Nothing above it moves: the ring on the
+   tapped square is drawn outside the square's own edge, and the panel is added after
+   the key, so only what already sat below is pushed down. Moos, 2 Nov: "evry thung
+   must be in same place! And open new containers must happen down!"
+
+   The colours are the ones the card already uses for 117 holders, so the two pictures
+   mean the same thing: green grips it tight, blue holds it loosely, grey does not
+   hold it at all. On a green slice exactly one of the 117 squares is green, and the
+   panel says whose it is - that one line is what the whole app is for. */
+function gridSliceBox(r, s){
+  var N=ALLELES.length, cols=13, W=298;
+  var gx=W/cols, cell=gx*0.80, gap=gx-cell, rows=Math.ceil(N/cols);
+  var out='', hit='', ring='', tight=0, mid=0, loose=0, only=-1, k;
+  for(k=0;k<N;k++){
+    var v=JTAB.at(s,k), cls = gripsTight(v,k) ? 0 : (gripsMid(v,k) ? 1 : 2);
+    if(cls===0){ tight++; only=k; } else if(cls===1) mid++; else loose++;
+    var c=k%cols, rr=(k/cols)|0, x=(c*gx).toFixed(2), y=(rr*(cell+gap)).toFixed(2);
+    out+='<rect class="sq" x="'+x+'" y="'+y
+       +'" width="'+cell.toFixed(2)+'" height="'+cell.toFixed(2)+'" rx="1.4" fill="'
+       +['var(--green)','var(--blue)','var(--gridgrey)'][cls]+'"/>';
+    if(k===GRIDHOLD) ring='<rect class="gslring" x="'+(+x-1.8).toFixed(2)+'" y="'
+       +(+y-1.8).toFixed(2)+'" width="'+(cell+3.6).toFixed(2)+'" height="'
+       +(cell+3.6).toFixed(2)+'" rx="3" fill="none" stroke="var(--ink)" stroke-width="1.2"/>';
+    /* the same finger-sized tile the grid above uses, so no tap lands in a gap */
+    hit+='<rect class="hit" data-k="'+k+'" x="'+(c*gx).toFixed(2)+'" y="'
+       +(rr*(cell+gap)).toFixed(2)+'" width="'+gx.toFixed(2)+'" height="'
+       +(cell+gap).toFixed(2)+'" fill="transparent"/>';
+  }
+  var letters=(r.seq||'').slice(s, s+r.win);
+  var verdict = tight===1
+    ? '<b>'+esc(ALLELES[only].label)+'</b> is the only one of the 117 that grips this slice.'
+    : (tight===0
+        ? 'None of the 117 grips this slice.'
+        : tight+' of the 117 grip this slice, so it cannot tell them apart.');
+  return '<div class="gridslice">'
+    +'<div class="gsltop"><span class="gsln">Slice '+(s+1)+'</span>'
+    +'<span class="gslpos">letters '+(s+1)+'–'+(s+r.win)+'</span>'
+    +'<button type="button" class="gslx" id="gslclose" aria-label="Close this slice">×</button></div>'
+    +(letters?'<p class="gslpep">'+esc(letters)+'</p>':'')
+    +'<p class="gslsay'+(tight===1?' one':'')+'">'+verdict+'</p>'
+    +'<svg class="gslsq" viewBox="-2 -2 '+(W+4)+' '+(rows*(cell+gap)+4).toFixed(1)+'"'
+    +' aria-label="117 holders for slice '+(s+1)+'. Tap one.">'+out+ring+hit+'</svg>'
+    +'<div class="runkey">'
+    +'<span><i style="background:var(--green)"></i>'+tight+' grip it</span>'
+    +'<span><i style="background:var(--blue)"></i>'+mid+' hold it loosely</span>'
+    +'<span><i style="background:var(--gridgrey)"></i>'+loose+' do not</span>'
+    +'</div>'
+    +(GRIDHOLD==null ? '' : gridHolderBox(r, s, GRIDHOLD))
+    +'</div>';
+}
+/* ---- stage 3: one holder, and what it actually says -----------------------
+   The end of the walk Moos described: the protein, then one slice, then one holder.
+   Everything here is a number the app already owns, not a new claim:
+
+     the number itself  the predicted IC50 in nM for this slice and this holder
+     the grip line      THIS holder's own top-5% line - the test is per holder, not
+                        one line for all 117, which is the whole reason a slice can
+                        belong to one of them and nobody else
+     the rank           where this slice sits among the 495 for this holder
+     the yellow shape   this holder across the whole protein, tightest at the top,
+                        with the open slice marked - so you can see whether the
+                        slice is a spike of its own or part of a sticky stretch */
+function gridHolderBox(r, s, k){
+  var S=Math.min(r.n, JTAB.slices), v=JTAB.at(s,k), line=grip5(k), i;
+  /* this holder, all the way along the protein */
+  var vals=new Float64Array(S), tight=0, rank=1;
+  for(i=0;i<S;i++){
+    vals[i]=JTAB.at(i,k);
+    if(gripsTight(vals[i],k)) tight++;
+    if(vals[i]<v) rank++;
+  }
+  /* and how many of the protein's slices this holder has entirely to itself */
+  var alone=0;
+  for(i=0;i<S;i++) if(gripsTight(vals[i],k)){
+    var n=0;
+    for(var j=0;j<ALLELES.length;j++) if(gripsTight(JTAB.at(i,j),j)){ n++; if(n>1) break; }
+    if(n===1) alone++;
+  }
+  var holds = gripsTight(v,k) ? 'grips it' : (gripsMid(v,k) ? 'holds it loosely' : 'does not hold it');
+  var cls   = gripsTight(v,k) ? 'tight' : (gripsMid(v,k) ? 'mid' : 'no');
+  return '<div class="gridhold">'
+    +'<div class="gsltop"><span class="ghname">'+esc(ALLELES[k].label)+'</span>'
+    +'<button type="button" class="gslx" id="ghclose" aria-label="Close this holder">×</button></div>'
+    +'<p class="ghnum '+cls+'"><b>'+nm(v)+' nM</b> · '+holds+'</p>'
+    +'<p class="ghsub">its own grip line is '+nm(line)+' nM · this slice is '
+      +ordinal(rank)+' tightest of '+S+' for it</p>'
+    +gridHoldLine(vals, s, S)
+    +'<p class="ghfoot">grips '+tight+' of the '+S+' slices · has '+alone
+      +' of them to itself</p>'
+    +'</div>';
+}
+function ordinal(n){
+  var t=n%100; if(t>=11&&t<=13) return n+'th';
+  return n + (['th','st','nd','rd'][n%10] || 'th');
+}
+/* this holder along the whole protein. Tightest at the TOP, because tight is what
+   matters and a reader should not have to remember that smaller is better. */
+function gridHoldLine(vals, mark, S){
+  var W=298, H=52, lo=Infinity, hi=-Infinity, i, L=new Float64Array(S);
+  for(i=0;i<S;i++){ L[i]=Math.log(Math.max(0.01, vals[i]));
+    if(L[i]<lo) lo=L[i]; if(L[i]>hi) hi=L[i]; }
+  if(hi-lo<1e-6) hi=lo+1;
+  var pts=[];
+  for(i=0;i<S;i++){
+    var x=(W*i/(S-1)).toFixed(2);
+    var y=(H-3 - (H-8)*(hi-L[i])/(hi-lo)).toFixed(2);
+    pts.push(x+' '+y);
+  }
+  var d='M'+pts.join('L');
+  var mx=(W*mark/(S-1)).toFixed(2);
+  var my=(H-3 - (H-8)*(hi-L[mark])/(hi-lo)).toFixed(2);
+  return '<svg class="ghline" viewBox="0 -3 '+W+' '+(H+6)+'" aria-hidden="true">'
+    +'<path d="'+d+'L'+W+' '+H+'L0 '+H+'Z" fill="color-mix(in srgb,var(--yellow) 18%,transparent)"/>'
+    +'<path d="'+d+'" fill="none" stroke="var(--yellow)" stroke-width="1.3" stroke-linejoin="round"/>'
+    +'<line x1="'+mx+'" y1="-3" x2="'+mx+'" y2="'+H+'" stroke="var(--ink)" stroke-width="1"/>'
+    +'<circle cx="'+mx+'" cy="'+my+'" r="2.6" fill="var(--ink)"/>'
+    +'</svg>'
+    +'<p class="gridfoot"><span>1</span><span class="gpk">this slice</span>'
+    +'<span>'+S+'</span></p>';
+}
+function drawGrid(r, show){
+  var wrap=document.getElementById('gridwrap'); if(!wrap) return;
+  /* a run from somebody else arrives as a summary with no letters in it; its card
+     already says "Opening it...", so the grid says nothing until the body lands */
+  if(!r || libIsSummary(r)){ wrap.innerHTML=''; return; }
+  if(!JTAB.fits(r.seq, r.win)){
+    /* honest about what is missing, rather than a grid that looks like an answer */
+    wrap.innerHTML='<p class="gridnone">The grid is drawn from numbers that travel'
+      +' inside the app, and those are Jo-1 cut into fifteens. '+esc(r.name)
+      +' at window '+r.win+' has to be measured live, and that is not wired up yet.</p>';
+    return;
+  }
+  if(!JTAB.ready()){
+    wrap.innerHTML='<p class="gridnone">Working out the grid\u2026</p>';
+    JTAB.load().then(function(){
+      /* the list may have been changed while the table was arriving */
+      var now=LIB()[PICKRUN];
+      if(now && now.id===r.id) drawGrid(now);
+    }).catch(function(){
+      wrap.innerHTML='<p class="gridnone">The table of numbers could not be read, so'
+        +' the grid is not drawn. Everything else on this page still works.</p>';
+    });
+    return;
+  }
+  var g=gridData(r);
+  if(!g){ wrap.innerHTML=''; return; }
+  if(GRIDSLICE!=null && (GRIDSLICE<0 || GRIDSLICE>=g.S)) GRIDSLICE=null;
+  if(GRIDSLICE==null) GRIDHOLD=null;
+  wrap.innerHTML = gridShape(g) + gridSquares(g)
+    + (GRIDSLICE==null ? '' : gridSliceBox(r, GRIDSLICE));
+  var sq=wrap.querySelector('.gridsq');
+  if(sq) sq.addEventListener('click', function(ev){
+    var t=ev.target, i=t && t.getAttribute && t.getAttribute('data-s');
+    if(i==null) return;
+    i=parseInt(i,10); if(!isFinite(i)) return;
+    GRIDSLICE = (GRIDSLICE===i) ? null : i;   /* tapping the open one shuts it */
+    GRIDHOLD = null;                          /* a holder belongs to one slice */
+    drawGrid(r, GRIDSLICE!=null);
+  });
+  var hs=wrap.querySelector('.gslsq');
+  if(hs) hs.addEventListener('click', function(ev){
+    var t=ev.target, k=t && t.getAttribute && t.getAttribute('data-k');
+    if(k==null) return;
+    k=parseInt(k,10); if(!isFinite(k)) return;
+    GRIDHOLD = (GRIDHOLD===k) ? null : k;
+    drawGrid(r, GRIDHOLD!=null);
+  });
+  var hx=document.getElementById('ghclose');
+  if(hx) hx.addEventListener('click', function(){ GRIDHOLD=null; drawGrid(r); });
+  var x=document.getElementById('gslclose');
+  if(x) x.addEventListener('click', function(){ GRIDSLICE=null; GRIDHOLD=null; drawGrid(r); });
+  /* The grid can be 25 rows tall, so a drawer opening under it opens off the bottom
+     of the screen - tap a square, nothing appears to happen. The page is brought
+     down to it, and ONLY down, and only AS LITTLE AS WILL DO: just enough to show
+     the drawer above the Back/Next bar, and never so far that the square you tapped
+     leaves the screen. Nothing in the page moves relative to anything else; it is
+     the window that travels, the way it does under your thumb. */
+  if(show){
+    var box=wrap.querySelector(GRIDHOLD!=null ? '.gridhold' : '.gridslice'),
+        view=document.getElementById('view-lib'),
+        tapped=wrap.querySelector(GRIDHOLD!=null ? '.gslring' : '.gridring');
+    if(box && view){
+      var vb=view.getBoundingClientRect(), bb=box.getBoundingClientRect();
+      var bar=parseFloat(getComputedStyle(document.documentElement)
+                .getPropertyValue('--tabh'))||80;
+      var want = bb.bottom - (vb.bottom - bar - 10);        /* show all of it */
+      if(tapped){                                            /* but keep the square */
+        var keep = tapped.getBoundingClientRect().top - vb.top - 10;
+        if(want>keep) want=keep;
+      }
+      if(want>6) try{ view.scrollBy({top:want, behavior:'smooth'}); }
+                 catch(e){ view.scrollTop+=want; }
+    }
+  }
 }
 /* the profile of a run: every slice, tighter drawn taller */
 function runLine(ic){
@@ -6425,20 +6719,24 @@ function renderSaved(){
   if(!cap||!card) return;
   var all=LIB();
   if(PICKRUN>=all.length) PICKRUN=0;
-  drawWall();
+  fillRunPick();
   /* V9900 - the count is the shared one, and the line says where it came from. "6
      saved" meant one phone; it has to say whose runs these are now. */
   var mine=RUNS.length, others=all.length-mine;
   cap.innerHTML='<b>'+all.length+'</b> of 400 in the library'
     + (others>0 ? ' &middot; '+mine+' yours, '+others+' from others' : ' &middot; all yours')
     + (SHAREOFF ? ' &middot; <span class="liboff">shared library unreachable</span>' : '')
-    + (all.length?' &middot; tap one to open it':'');
+    /* V10700 - "tap one to open it" pointed at the wall of marks. There is nothing to
+       tap now; the run is chosen by name from the list above. */
+    + '';
   if(!all.length){
     card.innerHTML='<div class="panel savedp"><p class="runempty">Nothing saved yet. '
       +'Run a scan in step 2 and it keeps itself.</p></div>';
+    drawGrid(null);
     return;
   }
   var r=all[PICKRUN], c=runCounts(r), out='';
+  drawGrid(r);                             /* V10700 - the grid, above the run's card */
   /* V9900 - a run from someone else arrives as a summary. Its body is fetched the
      moment it is looked at, and until it lands the card says so rather than drawing an
      empty chart that looks like a result. */
@@ -6563,14 +6861,13 @@ function openRun(r){
 (function(){
   runsLoad(); runsLoad.done=true;
   setTimeout(function(){ if(typeof paintHome==='function') paintHome(); }, 60);
-  var wall=document.getElementById('runwall');
-  if(wall) wall.addEventListener('click', function(e){
-    var t=e.target, i=t&&t.getAttribute&&t.getAttribute('data-i');
-    if(i==null) return;
-    /* V10400 - one tap is all the hand was ever for */
-    if(!WALLTAPPED){ WALLTAPPED=true;
-      try{ localStorage.setItem('jo1.walltap','1'); }catch(e){} }
-    PICKRUN=parseInt(i,10); renderSaved();
+  /* V10700 - the dropdown picks the run now, in place of tapping a mark on the wall */
+  var rp=document.getElementById('runpick');
+  if(rp) rp.addEventListener('change', function(){
+    var i=parseInt(rp.value,10);
+    /* a different run means a different protein: slice 73 of Jo-1 is nothing in
+       Insulin, so the open slice shuts rather than following across */
+    if(isFinite(i)){ PICKRUN=i; GRIDSLICE=null; GRIDHOLD=null; renderSaved(); }
   });
   var ex=document.getElementById('runexall');
   if(ex) ex.addEventListener('click', function(){ dlJSON('ONLYONE-saved-runs.json', {jo1:1, runs:RUNS}); });
