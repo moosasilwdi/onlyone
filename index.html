@@ -682,6 +682,18 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .savedp .ghsub{font-size:11.5px;color:var(--mute);margin:0 0 9px;line-height:1.4}
 .savedp .ghline{display:block;width:100%;height:auto}
 .savedp .ghfoot{font-family:var(--mono);font-size:10px;color:var(--mute);margin:4px 0 0}
+/* V10700 - Full view and Export. Moos chose to see the whole wall at once rather than
+   drag along it, so the canvas is simply fitted to the width it is given. */
+.savedp .gwrow{display:flex;gap:8px;margin:10px 0 0}
+.savedp .gwrow button{flex:1;font-size:12px;padding:8px 6px}
+.savedp .gridwall{margin:11px 0 0;padding:12px 12px 10px;border-radius:12px;
+  background:var(--sunk);border:1px solid var(--line)}
+.savedp .gwcanvas{display:block;width:100%;height:auto;border-radius:6px;
+  background:var(--panel);border:1px solid var(--line)}
+.savedp .gwkey{margin:9px 0 0}
+.savedp .gwnote{font-size:11px;line-height:1.45;color:var(--mute);margin:7px 0 0}
+.savedp .gwfam{font-family:var(--mono);font-size:9.5px;color:var(--mute);margin:6px 0 0;
+  line-height:1.5}
 .savedp .runlab{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
   color:var(--mute);font-weight:600;margin:0 0 6px}
 .savedp .runtop{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
@@ -2411,7 +2423,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V10700 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V10800 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -6408,6 +6420,9 @@ var GRIDSLICE=null;
 /* V10700 stage 3 - and which of the 117 is open inside it. Shuts whenever the slice
    or the run changes, because a holder's numbers belong to one slice of one run. */
 var GRIDHOLD=null;
+/* V10700 - and whether the whole wall is open. Moos chose to see all of it at once
+   rather than scroll along it: "fit the whole wall". */
+var GRIDWALL=false;
 function gridData(r){
   if(!r || !JTAB.ready()) return null;
   if(!JTAB.fits(r.seq, r.win)) return null;          /* Jo-1 at window 15 only, so far */
@@ -6597,6 +6612,118 @@ function gridHoldLine(vals, mark, S){
     +'<p class="gridfoot"><span>1</span><span class="gpk">this slice</span>'
     +'<span>'+S+'</span></p>';
 }
+/* ---- FULL VIEW: all 117 holders, all 495 slices, in one picture -----------
+   The poster. Every holder down the side, every slice along the bottom, so the whole
+   run is one thing you can look at instead of 117 trips through the app.
+
+   Drawn on a CANVAS, not in SVG: 57,915 cells as SVG rectangles would be a 57,915
+   element page, and a phone would feel it. The canvas is drawn large and then shown
+   at whatever width the screen has, which is also what Export writes out - so the
+   picture you save is the picture you saw, only bigger.
+
+   One honest exaggeration, and it is written on the key: a green cell is drawn larger
+   than its true size. There are 61 of them in 57,915, and at the width a phone gives
+   this picture a single true-size cell is a third of a pixel - it would not survive
+   being shown at all. Nothing else is resized: the blues are drawn true. */
+/* Two sizes of the same picture. ON THE SCREEN the labels are left off - at the width
+   a phone gives this canvas, 13px type lands at two pixels and is nothing but dirt -
+   and the rows are drawn thicker so the shape has room to be seen. THE EXPORTED FILE
+   carries the family names and the slice ruler, because that one is printed and read.
+   Same cells, same colours, same rule, in both. */
+var WALL={
+  screen:{col:4,  row:12, pad:{l:0,  t:0,  r:0,  b:0},  labels:false},
+  file:  {col:8,  row:16, pad:{l:240,t:76, r:34, b:152}, labels:true}
+};
+function wallPaint(r, cv, mode){
+  var M=WALL[mode||'screen'], g=gridData(r); if(!g) return null;
+  var S=g.S, N=ALLELES.length, P=M.pad;
+  var W=P.l + S*M.col + P.r, H=P.t + N*M.row + P.b;
+  cv.width=W; cv.height=H;
+  var x=cv.getContext('2d');
+  /* the colours come off the page, so the picture follows the theme */
+  var cs=getComputedStyle(document.querySelector('.savedp')||document.body);
+  function hex(n){ return (cs.getPropertyValue(n)||'').trim() || '#888'; }
+  var PANEL=hex('--panel'), INK=hex('--ink'), MUTE=hex('--mute'),
+      LINE=hex('--line'), BLUE=hex('--blue'), GREEN=hex('--green');
+  x.fillStyle=PANEL; x.fillRect(0,0,W,H);
+  /* the field, cell by cell. "Not held" is the paper, so it is not drawn at all. */
+  for(var k=0;k<N;k++){
+    for(var sI=0;sI<S;sI++){
+      var v=JTAB.at(sI,k), band;
+      if(gripsTight(v,k)) band = (g.cnt[sI]===1) ? 3 : 2;
+      else band = gripsMid(v,k) ? 1 : 0;
+      if(band===0) continue;
+      var px=P.l + sI*M.col, py=P.t + k*M.row;
+      if(band===3){                       /* drawn larger, and the key says so */
+        x.fillStyle=GREEN;
+        x.fillRect(px-M.col, py-M.row*0.5, M.col*3, M.row*2);
+      } else {
+        x.globalAlpha = (band===1) ? 0.26 : 1;
+        x.fillStyle=BLUE;
+        x.fillRect(px, py, M.col, M.row);
+        x.globalAlpha=1;
+      }
+    }
+  }
+  if(!M.labels) return {W:W, H:H, g:g};
+
+  /* the printed version carries its own title, families and ruler */
+  x.fillStyle=INK; x.font='700 52px ui-sans-serif, system-ui, sans-serif';
+  x.fillText(r.name+' — all '+N+' holders, all '+S+' slices, window '+r.win,
+    P.l, 54);
+  var fam=null, start=0, i;
+  for(i=0;i<=N;i++){
+    var f=(i<N) ? ALLELES[i].f.split(':')[0] : null;
+    if(f!==fam){
+      if(fam!==null){
+        var mid=P.t + (start+i)/2*M.row;
+        x.fillStyle=INK; x.font='700 34px ui-monospace, Menlo, monospace';
+        x.fillText(famName(fam), 30, mid);
+        x.fillStyle=MUTE; x.font='27px ui-monospace, Menlo, monospace';
+        x.fillText((i-start)+' holders', 30, mid+36);
+        x.fillStyle=LINE; x.fillRect(P.l-14, P.t+start*M.row, 3, (i-start)*M.row-6);
+      }
+      fam=f; start=i;
+    }
+  }
+  x.fillStyle=MUTE; x.font='27px ui-monospace, Menlo, monospace';
+  var step = S>400 ? 50 : (S>150 ? 25 : 10);
+  for(i=1;i<=S;i+=step){
+    var tx=P.l + (i-1)*M.col;
+    x.fillStyle=LINE; x.fillRect(tx, P.t+N*M.row+8, 2, 13);
+    x.fillStyle=MUTE;
+    x.fillText(String(i), tx-(i>99?21:(i>9?14:7)), P.t+N*M.row+52);
+  }
+  x.fillText('slice along '+r.name+'  →', P.l, P.t+N*M.row+92);
+  /* and the one thing a reader must be told about the picture */
+  x.fillStyle=MUTE; x.font='28px ui-sans-serif, system-ui, sans-serif';
+  x.fillText('green = gripped by this holder and no other, '+g.alone+' of them, drawn '
+    +'larger than life so they can be seen  ·  solid blue = gripped  ·  '
+    +'pale blue = held loosely  ·  blank = not held',
+    P.l, P.t+N*M.row+134);
+  return {W:W, H:H, g:g};
+}
+/* the family codes the table uses, said the way the app says them everywhere else */
+function famName(f){ return f==='DRB345' ? 'DRB3/4/5' : f; }
+function gridWallBox(r){
+  return '<div class="gridwall">'
+    +'<div class="gsltop"><span class="gsln">All '+ALLELES.length+' holders, all '
+      +Math.min(r.n, JTAB.slices)+' slices</span>'
+    +'<button type="button" class="gslx" id="gwclose" aria-label="Close the full view">×</button></div>'
+    +'<canvas id="gwcanvas" class="gwcanvas"></canvas>'
+    +'<p class="gwfam">top to bottom: DP 18 \u00b7 DQ 38 \u00b7 DRB1 54 \u00b7 DRB3/4/5 7'
+      +' \u00b7 left to right: slice 1 to '+Math.min(r.n, JTAB.slices)+'</p>'
+    +'<div class="runkey gwkey">'
+    +'<span><i style="background:var(--green)"></i>one holder only</span>'
+    +'<span><i style="background:var(--blue)"></i>gripped</span>'
+    +'<span><i style="background:color-mix(in srgb,var(--blue) 26%,transparent)"></i>held loosely</span>'
+    +'<span><i style="background:var(--panel);border:1px solid var(--line)"></i>not held</span>'
+    +'</div>'
+    +'<p class="gwnote">The green marks are drawn larger than life. There are 61 of them '
+      +'in 57,915 cells, and at this width one true-size cell is a third of a pixel. '
+      +'Everything else is drawn true. Export writes the big version.</p>'
+    +'</div>';
+}
 function drawGrid(r, show){
   var wrap=document.getElementById('gridwrap'); if(!wrap) return;
   /* a run from somebody else arrives as a summary with no letters in it; its card
@@ -6625,8 +6752,18 @@ function drawGrid(r, show){
   if(!g){ wrap.innerHTML=''; return; }
   if(GRIDSLICE!=null && (GRIDSLICE<0 || GRIDSLICE>=g.S)) GRIDSLICE=null;
   if(GRIDSLICE==null) GRIDHOLD=null;
+  if(GRIDWALL && !JTAB.fits(r.seq, r.win)) GRIDWALL=false;
   wrap.innerHTML = gridShape(g) + gridSquares(g)
+    /* Moos's poster, behind a button: the whole thing at once, and a file of it */
+    + '<div class="gwrow"><button type="button" id="gwopen">'
+      + (GRIDWALL ? 'Hide full view' : 'Full view') + '</button>'
+      + '<button type="button" id="gwexp">Export picture</button></div>'
+    + (GRIDWALL ? gridWallBox(r) : '')
     + (GRIDSLICE==null ? '' : gridSliceBox(r, GRIDSLICE));
+  if(GRIDWALL){
+    var cv=document.getElementById('gwcanvas');
+    if(cv) wallPaint(r, cv, 'screen');
+  }
   var sq=wrap.querySelector('.gridsq');
   if(sq) sq.addEventListener('click', function(ev){
     var t=ev.target, i=t && t.getAttribute && t.getAttribute('data-s');
@@ -6646,6 +6783,27 @@ function drawGrid(r, show){
   });
   var hx=document.getElementById('ghclose');
   if(hx) hx.addEventListener('click', function(){ GRIDHOLD=null; drawGrid(r); });
+  var wo=document.getElementById('gwopen');
+  if(wo) wo.addEventListener('click', function(){
+    GRIDWALL=!GRIDWALL; drawGrid(r, GRIDWALL); });
+  var wc=document.getElementById('gwclose');
+  if(wc) wc.addEventListener('click', function(){ GRIDWALL=false; drawGrid(r); });
+  var we=document.getElementById('gwexp');
+  if(we) we.addEventListener('click', function(){
+    /* Export paints its own canvas, so the file is the whole picture whether or not
+       the full view happens to be open on the screen */
+    var cv=document.createElement('canvas');
+    if(!wallPaint(r, cv, 'file')) return;
+    var name='ONLYONE-'+String(r.name).replace(/\s+/g,'-')+'-window-'+r.win+'-wall.png';
+    try{
+      cv.toBlob(function(bl){
+        if(!bl) return;
+        var a=document.createElement('a'); a.href=URL.createObjectURL(bl); a.download=name;
+        document.body.appendChild(a); a.click();
+        setTimeout(function(){ try{ URL.revokeObjectURL(a.href); }catch(e){} a.remove(); }, 500);
+      }, 'image/png');
+    }catch(e){}
+  });
   var x=document.getElementById('gslclose');
   if(x) x.addEventListener('click', function(){ GRIDSLICE=null; GRIDHOLD=null; drawGrid(r); });
   /* The grid can be 25 rows tall, so a drawer opening under it opens off the bottom
@@ -6658,6 +6816,7 @@ function drawGrid(r, show){
     var box=wrap.querySelector(GRIDHOLD!=null ? '.gridhold' : '.gridslice'),
         view=document.getElementById('view-lib'),
         tapped=wrap.querySelector(GRIDHOLD!=null ? '.gslring' : '.gridring');
+    if(GRIDWALL && GRIDSLICE==null) box=wrap.querySelector('.gridwall');
     if(box && view){
       var vb=view.getBoundingClientRect(), bb=box.getBoundingClientRect();
       var bar=parseFloat(getComputedStyle(document.documentElement)
@@ -6867,7 +7026,8 @@ function openRun(r){
     var i=parseInt(rp.value,10);
     /* a different run means a different protein: slice 73 of Jo-1 is nothing in
        Insulin, so the open slice shuts rather than following across */
-    if(isFinite(i)){ PICKRUN=i; GRIDSLICE=null; GRIDHOLD=null; renderSaved(); }
+    if(isFinite(i)){ PICKRUN=i; GRIDSLICE=null; GRIDHOLD=null; GRIDWALL=false;
+      renderSaved(); }
   });
   var ex=document.getElementById('runexall');
   if(ex) ex.addEventListener('click', function(){ dlJSON('ONLYONE-saved-runs.json', {jo1:1, runs:RUNS}); });

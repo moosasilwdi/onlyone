@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V10700**.
+Version **V10800**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -38,7 +38,11 @@ Everything runs in the browser. No server, no build step.
   test is per holder, which is why a slice can belong to one holder and nobody else),
   where the slice ranks among the 495 for it, and that holder drawn across the whole
   protein with the slice marked. Both drawers open downward and nothing above them
-  moves. The numbers come from the table that ships with the app, so the grid costs
+  moves. A FULL VIEW button opens the whole wall - 117 holders down the side, 495
+  slices along the bottom, 57,915 cells - fitted to one screen and drawn on a canvas;
+  Export writes a 4234 x 2100 picture of it with the family names, the slice ruler and
+  the key on it. The green marks in that picture are drawn larger than life, which it
+  says on itself: there are 61 of them in 57,915 cells. The numbers come from the table that ships with the app, so the grid costs
   nothing to draw; any other protein, or any other window, has to be measured live and
   the app says so rather than drawing an empty grid. The list is summaries only, so it loads fast; the 5 KB body
   of a run, letters included, is fetched when somebody opens it. Stored in Netlify Blobs
