@@ -23,6 +23,7 @@
 /* Layout: app shell — fixed bar, tab strip, one scrolling view at a time. */
 :root{
   /* A lab instrument: deep ink-blue neutrals, one gold accent, data set in mono. */
+  --handmask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9 11V5.5a1.5 1.5 0 0 1 3 0V11h.5V4a1.5 1.5 0 0 1 3 0v7h.5V6.5a1.5 1.5 0 0 1 3 0V14c0 3.9-2.6 7-6.5 7S6 18.4 6 14.5v-3a1.5 1.5 0 0 1 3 0z'/%3E%3C/svg%3E");
   --bg:#eef0f5; --panel:#fff; --sunk:#f3f6fa; --ink:#111720; --mute:#59636f; --line:#d6dbe4;
   --p1:#0d8ea1; --p4:#a86f12; --p6:#3b5bbf; --p9:#2f7d32; --tcr:#5a6472;
   --gold:#1565d8; --ok:#1a6b4a; --warn:#b3261e; --warnbg:#fdeceb;
@@ -192,10 +193,6 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .selband.bad b{color:var(--warn)}
 .steplede{font-size:13px;color:var(--mute);line-height:1.45;margin:0 0 12px}
 .steplede b{color:var(--ink)}
-.holderpill{font-family:var(--mono);font-size:11.5px;padding:6px 11px;border-radius:999px;box-shadow:var(--lift);
-  border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;
-  margin-left:auto;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.holderpill:hover{border-color:var(--gold)}
 .appbar .notesel{margin-left:auto;flex:0 1 auto;max-width:168px;font-family:var(--sans);
   font-size:12.5px;font-weight:600;padding:7px 28px 7px 11px;border-radius:999px;
   background-color:var(--panel);background-position:right 10px center;background-size:10px 6px;
@@ -240,6 +237,21 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 :root[data-theme="dark"][data-page="lib"] .appbar .notesel,
 :root[data-theme="dark"][data-page="info"] .appbar .notesel{border-color:#0d141d}
 .appbar .notesel[hidden]+.themebtn,.appbar .themebtn{margin-left:auto}
+/* V11000 - the walk picker sits first and keeps the pill's old look; the notes shrink
+   to three bars beside the sun and moon, where they take 36px instead of 168. */
+.appbar .stepsel{order:-1;margin-left:0;margin-right:auto;max-width:140px}
+/* V11000 - the bars sit LAST, at the very right end, with the sun and moon inside
+   them. Moos: "The 3 bars to be first frim right". The theme button keeps the
+   margin-left:auto that pushes the pair right; the bars are ordered after it. */
+.appbar .menubtn{position:relative;display:inline-flex;align-items:center;
+  justify-content:center;width:38px;height:38px;flex:0 0 auto;order:10;margin-left:8px;
+  border:2px solid var(--line);border-radius:12px;background:var(--panel)}
+.appbar .menubtn .bars{width:20px;height:20px;fill:none;stroke:var(--ink);
+  stroke-width:2.1;stroke-linecap:round}
+.appbar .menubtn .notesel{position:absolute;inset:0;width:100%;height:100%;
+  opacity:0;margin:0;max-width:none;border:0;padding:0}
+.appbar .menubtn:focus-within{border-color:var(--ink)}
+@media (max-width:360px){ .appbar .stepsel{max-width:122px} }
 /* V7700 - the menu on the left, the mark on the centre of the bar. It is centred on
    the WHOLE bar, not on what is left over, so it stays centred however wide the menu
    or the holder pill happen to be.
@@ -255,8 +267,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   .appbar{position:relative}
   .appbar .notesel{order:-1;margin-left:0;margin-right:auto}
   .appbar .dot{order:-2}
-  .appbar .holderpill{order:8;margin-left:0}
-  .appbar .themebtn{order:9;margin-left:0}
+  .appbar   .appbar .themebtn{order:9;margin-left:0}
   .appbar .notesel:not([hidden])+.themebtn{margin-left:0}
   /* V8100 - the MARK is what sits on the centre line, not the mark-plus-BETA lockup.
      Before, BETA was part of the centred box, so it pushed the mark left of true
@@ -318,8 +329,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    bar's own gaps come in from 10px to 7px. */
 @media (max-width:429px){
   .appbar .notesel{max-width:118px}
-  .appbar .holderpill{padding:6px 7px;font-size:11px}
-  .appbar{gap:7px}
+  .appbar   .appbar{gap:7px}
 }
 /* V8400 - under 340px the centred mark runs into the holder's name: measured at 320px
    it overlapped by 8.7px. The mark keeps its size and the two things beside it give
@@ -328,8 +338,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    the gap was only 1.3px with the caps lifted, so they run to 359px. */
 @media (max-width:359px){
   .appbar .notesel{max-width:100px}
-  .appbar .holderpill{max-width:62px}
-}
+  .appbar }
 .appbar .notesel:not([hidden])+.themebtn{margin-left:8px}
 /* both words on screen, one of them lit - a choice, not a label */
 
@@ -640,7 +649,13 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    a run's name wants, so this one is left alone (unlike the window picker on step 2,
    which holds two digits). */
 .savedp .libpick{width:100%}
-.savedp .libpick select{width:100%;font-size:14px;padding:10px 11px}
+/* V10900 - the chevron a phone draws inside the box was sitting on the last letter:
+   "Jo-1 - window 15 - 495 slice" with the arrow over the s. Moos spotted it. The box
+   keeps room for the arrow now, and on the narrowest phones the type steps down one
+   size rather than the name being cut. */
+.savedp .libpick select{width:100%;font-size:14px;padding:10px 34px 10px 11px;
+  text-overflow:ellipsis}
+@media (max-width:370px){ .savedp .libpick select{font-size:13px} }
 /* V10700 - the grid itself. Two drawings stacked: the shape of how many of the 117
    grip each slice, then one square per slice. Both are 298 wide in their own
    coordinates and stretch to the panel, so a square is as big as the phone allows
@@ -692,6 +707,21 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   background:var(--panel);border:1px solid var(--line)}
 .savedp .gwkey{margin:9px 0 0}
 .savedp .gwnote{font-size:11px;line-height:1.45;color:var(--mute);margin:7px 0 0}
+.wallnote{margin:6px 0 2px;font-family:var(--mono);font-size:10.5px;color:var(--mute);
+  line-height:1.5}
+#wallprog{margin:8px 0 0}
+/* V10900 - which pictures take a tap and which do not. Moos: "How the user will know
+   he need to click in the library these boxes!" The one that DOES carries a small
+   hand; the ones that do not say so in the same place, with no hand, so the two read
+   as a pair rather than as the same sentence twice. */
+.savedp .taphint{display:flex;align-items:center;gap:6px;margin:7px 0 0;
+  font-size:11.5px;line-height:1.4;color:var(--ink)}
+.savedp .taphint::before{content:"";flex:0 0 auto;width:13px;height:13px;
+  background:var(--ink);
+  -webkit-mask:var(--handmask) center/contain no-repeat;
+          mask:var(--handmask) center/contain no-repeat}
+.savedp .taphint.flat{color:var(--mute)}
+.savedp .taphint.flat::before{display:none}
 .savedp .gwfam{font-family:var(--mono);font-size:9.5px;color:var(--mute);margin:6px 0 0;
   line-height:1.5}
 .savedp .runlab{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
@@ -1480,9 +1510,33 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
        no name". The same lockup as the splash - ONLY, the lens standing in for the O,
        then NE - so there is one mark in the app and not two. The letters are live text
        in the app's own cut-down face, so nothing is downloaded for this. -->
+  <select id="stepsel" class="notesel stepsel" aria-label="Where you are">
+    <optgroup label="The walk" id="stepgrp">
+      <option value="view-home">Start</option>
+      <option value="view-work">1 &middot; Slices</option>
+      <option value="view-hla">2 &middot; Holders</option>
+      <option value="view-lib">3 &middot; Result</option>
+    </optgroup>
+    <optgroup label="Also here">
+      <option value="view-how">How it works</option>
+      <option value="view-res">Graph</option>
+      <option value="view-list">Shortlist</option>
+      <option value="view-3d">Groove</option>
+    </optgroup>
+  </select>
   <span class="brandmid"><button type="button" class="home-link" id="homelink" title="Back to the start"><span class="lockup barlock" role="img" aria-label="ONLY ONE"><span class="lockw">ONLY</span><span class="wm" aria-hidden="true"></span><span class="lockw">NE</span></span></button><span class="beta">BETA</span></span>
   <span class="dot" id="statdot" title="network status" hidden></span>
-  <button type="button" class="holderpill" id="holderpill" title="Change the holder" hidden>—</button>
+  <!-- V11000 - the holder pill is gone. It had been hidden in every build since it
+       was written - nothing ever un-hid it - and the walk now has a Holders step of
+       its own, which is where the holder is chosen and shown. Its room went to the
+       three bars. -->
+  <!-- V11000 - two menus, not one. Moos: "I want to seperate it! One wit things not
+       related to tge process! The other is related and shiws all the pricsee when
+       clicking". The old pill SAID where you were and OPENED the notes - it named one
+       thing and did another. The left one is the walk now; the notes are behind three
+       bars on the right, where nothing needs them mid-task. -->
+  <span class="menubtn" id="menubtn">
+    <svg class="bars" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
   <select id="notesel" class="notesel" aria-label="Notes and contact">
     <option value="" selected>Notes</option>
     <option value="about">About</option>
@@ -1494,6 +1548,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
     <option value="src">Sources</option>
     <option value="contact">Contact</option>
   </select>
+  </span>
   <button type="button" class="themebtn" id="themebtn" title="Light or dark" aria-label="Switch between light and dark">
     <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>
     <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z"/></svg>
@@ -1540,7 +1595,11 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         </svg>
         <p class="fancap"><b>495</b> stops along Jo-1 &middot; <span class="sci-only">one grips tightest</span><span class="abs-only">one is held tightest</span></p>
       </div>
-      <p class="homelede">Which piece of a protein does the immune system grip?</p>
+      <!-- V10900 - Moos's own sentence for what the app is, after a long conversation
+         working it out: "The only holder that can grip a slice". The old line asked
+         which piece the immune system grips, which is not the question - the question
+         is which piece exactly ONE holder grips and no other. -->
+      <p class="homelede"><span class="sci-only">Finding the only holder that can grip a slice.</span><span class="abs-only">Finding the only holder that can hold a piece.</span></p>
       <p class="homelib">The runs are kept in the <b>shared library</b> &mdash; the last page.</p>
     </div>
   </div>
@@ -1584,8 +1643,8 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 
   <div class="view" id="view-hla">
     <div class="inner">
-      <p class="steplede sci-only"><b>Step 1 of 4</b> &middot; whose holder</p>
-      <p class="steplede abs-only"><b>Step 1 of 4</b> &middot; whose body are we testing</p>
+      <p class="steplede sci-only"><b>Step 2 of 3</b> &middot; whose holder</p>
+      <p class="steplede abs-only"><b>Step 2 of 3</b> &middot; whose body are we testing</p>
       <div class="panel hlacard">
         <h3><span class="sci-only">HLA type</span><span class="abs-only">Whose body</span></h3>
         <div class="hlafield">
@@ -1607,8 +1666,8 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 
   <div class="view" id="view-work">
     <div class="inner">
-      <p class="steplede sci-only"><b>Step 2 of 4</b> &middot; which protein</p>
-      <p class="steplede abs-only"><b>Step 2 of 4</b> &middot; which protein to cut up</p>
+      <p class="steplede sci-only"><b>Step 1 of 3</b> &middot; which protein</p>
+      <p class="steplede abs-only"><b>Step 1 of 3</b> &middot; which protein to cut up</p>
       <p class="tiny" id="installhint" style="display:none;margin:0 0 10px">Keep it as an app: tap <b>Share</b>, then <b>Add to Home Screen</b>.</p>
 
       <div class="segs">
@@ -1662,6 +1721,13 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
            two. Moos asked for it while fixing the fit. Measured at 360px: 36px as two
            lines, 18px as one. "every slice" and "each" both stay, because exhaustive
            is the point - it is a sliding window, not a sample. -->
+      <!-- V11000 - Moos worked out that Narrow was doing a smaller version of a job
+           Scan could finish: "If we scans all slices against all holders in one go!
+           What will hapoen...we should have final result!" He is right, so Scan now
+           does the whole wall and this line reports it while it runs, with a time
+           worked out from the work already done - never a guess made beforehand. -->
+      <div class="prog" id="wallprog" hidden><i id="wallbar"></i></div>
+      <p class="tiny wallnote" id="wallnote" hidden></p>
       <p class="btncap"><span class="sci-only">Cuts the protein into every slice, scores each.</span><span class="abs-only">Cuts the protein into every piece, tests each.</span></p>
       <button type="button" class="go" id="runprot">Scan</button>
       <div class="twinnote" id="twinnote" hidden>
@@ -1819,6 +1885,8 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
   <!-- V7800: the shared library, the last page of the walk -->
   <div class="view" id="view-lib" hidden>
     <div class="inner savedp">
+      <p class="steplede sci-only"><b>Step 3 of 3</b> &middot; the result</p>
+      <p class="steplede abs-only"><b>Step 3 of 3</b> &middot; what came out</p>
       <div class="panel">
         <h3>Shared library</h3>
         <!-- V9900 - this line used to offer Export as the way anybody else could see a
@@ -2423,7 +2491,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V10800 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V11000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -3474,14 +3542,12 @@ function setAllele(){
   return JTAB.load().then(function(){
     loading=false; setBusy(false);
     document.getElementById('statdot').className='dot on';
-    document.getElementById('holderpill').textContent=alleleLabel();
     loadError=null;
     runControls();
   }).catch(function(){
   return NUG.load(sel.value).then(function(){
     loading=false; setBusy(false);
     document.getElementById('statdot').className='dot on';
-    document.getElementById('holderpill').textContent=alleleLabel();
     loadError=null;
     runControls();
   }).catch(function(e){
@@ -3570,18 +3636,28 @@ function showHome(){
 }
 document.getElementById('toscan2').addEventListener('click', function(){ showTab('t-prot'); });
 document.getElementById('homelink').addEventListener('click', showHome);
-document.getElementById('holderpill').addEventListener('click', function(){ showTab('t-hla'); });
 /* The numbers only show where you are. Back and Next are the whole of the navigation. */
-var ORDER=['view-home','view-how','view-hla','view-work','view-res','view-list','view-3d','view-lib'];
+/* V11000 - THREE STEPS. Moos's own shape for the app, after working out that the
+   ranked list and Narrow were a smaller version of a job Scan could finish:
+   "Slices vs Holders then result!"
+
+   The protein comes first because it is the subject. The holder comes second because
+   it no longer decides any of the WORK - the scan does all 117 whatever is chosen -
+   it only decides whose answer is pointed at. The Grid is the result.
+
+   The graph, the groove and the shortlist are still there and still reachable; they
+   are simply no longer steps on the way to an answer. */
+var ORDER=['view-home','view-work','view-hla','view-lib'];
+var OFFWALK=['view-how','view-res','view-list','view-3d'];
 var lastStep='view-home';
 function hereNow(){
   for(var i=0;i<VIEWS.length;i++){ if(!document.getElementById(VIEWS[i]).hidden) return VIEWS[i]; }
   return 'view-home';
 }
-var PAGENAME={'view-home':'Start', 'view-how':'Steps', 'view-hla':'Holder',
-  'view-work':'Protein', 'view-res':'Graph', 'view-list':'Shortlist',
-  'view-3d':'Groove', 'view-lib':'Library', 'view-info':'Notes'};
-var STEPLABEL={'view-hla':'1','view-work':'2','view-res':'3','view-list':'4','view-3d':'5','view-lib':'6','view-info':'i'};
+var PAGENAME={'view-home':'Start', 'view-how':'Steps', 'view-hla':'Holders',
+  'view-work':'Slices', 'view-res':'Graph', 'view-list':'Shortlist',
+  'view-3d':'Groove', 'view-lib':'Result', 'view-info':'Notes'};
+var STEPLABEL={'view-work':'1','view-hla':'2','view-lib':'3','view-info':'i'};
 /* the notes chooser: only while the notes are open */
 function showNote(key){
   var any=false;
@@ -3642,8 +3718,18 @@ function markNav(){
      notes; only the resting word changes. Kept short because the control is held to
      100px on the narrowest phones - 'How it works' needed 131px there, so that
      page is called Steps, which is what its map shows. */
+  /* V11000 - the notes menu always says Notes. Where you ARE is the other control,
+     and it shows it by standing on it. */
   var sel0=document.getElementById('notesel');
-  if(sel0 && sel0.options.length) sel0.options[0].textContent = PAGENAME[now] || 'Notes';
+  if(sel0 && sel0.options.length) sel0.options[0].textContent = 'Notes';
+  var st=document.getElementById('stepsel');
+  if(st){
+    var found=false;
+    for(var oi=0;oi<st.options.length;oi++)
+      if(st.options[oi].value===now){ st.selectedIndex=oi; found=true; break; }
+    /* the notes are not on the walk: leave the picker showing where you came from */
+    if(!found && now!=='view-info') st.selectedIndex=0;
+  }
   var box=document.getElementById('stepbox'), num=document.getElementById('stepnum');
   if(box&&num){
     var lab=STEPLABEL[now];
@@ -3657,7 +3743,15 @@ function stepBy(d){
     if(d<0) showTab((TABS.filter(function(t){return t[1]===lastStep;})[0]||['t-hla'])[0]);
     markNav(); return;
   }
-  var i=ORDER.indexOf(now); if(i<0) return;
+  /* V11000 - the graph, the groove and the shortlist are no longer steps, so they are
+     not in ORDER. Back and Next used to do NOTHING on them, which strands anyone who
+     opens one from the walk picker. They now act from the last step you were on. */
+  var i=ORDER.indexOf(now);
+  if(i<0){ i=ORDER.indexOf(lastStep); if(i<0) i=0;
+    if(d<0){ var back=TABS.filter(function(t){ return t[1]===ORDER[i]; })[0];
+      if(back) showTab(back[0]); else showView(ORDER[i]);
+      var bv=document.getElementById(ORDER[i]); if(bv) bv.scrollTop=0;
+      markNav(); return; } }
   var j=i+d; if(j<0||j>=ORDER.length) return;
   var row=TABS.filter(function(t){ return t[1]===ORDER[j]; })[0];
   if(row) showTab(row[0]); else showView(ORDER[j]);
@@ -3665,6 +3759,17 @@ function stepBy(d){
   markNav();
 }
 (function(){
+  var st=document.getElementById('stepsel');
+  if(st) st.addEventListener('change', function(){
+    var v=st.value; if(!v) return;
+    if(v==='view-lib'){ showView('view-lib'); if(typeof renderSaved==='function') renderSaved(); }
+    else {
+      var row=TABS.filter(function(t){ return t[1]===v; })[0];
+      if(row) showTab(row[0]); else showView(v);
+    }
+    var el=document.getElementById(v); if(el) el.scrollTop=0;
+    markNav();
+  });
   var sel=document.getElementById('notesel'); if(!sel) return;
   sel.addEventListener('change', function(){
     if(!sel.value) return;
@@ -3764,7 +3869,7 @@ function runProtein(){
         results.push({name:(s+1)+'\u2013'+(s+w), seq:seq.slice(s,s+w), ic50:JTAB.at(s,ci), start:s});
       setBusy(false);
       results.sort(function(a,b){ return (a.ic50==null)-(b.ic50==null) || a.ic50-b.ic50; });
-      REF=null; drawRows(); showTab('t-res'); autoSave();
+      REF=null; drawRows(); finishScan(seq,w);
     }).catch(function(){ setBusy(false); netScan(seq,w); });
     return;
   }
@@ -3785,8 +3890,73 @@ function scanJobs(seq,w){
   }
   chunked(jobs, 40, function(){
     results.sort(function(a,b){ return (a.ic50==null)-(b.ic50==null) || a.ic50-b.ic50; });
-    REF=null; drawRows(); showTab('t-res'); autoSave();
+    REF=null; drawRows(); finishScan(seq,w);
   });
+}
+/* V11000 - the second half of a scan: every slice against every holder, then the run
+   is saved with the whole answer in it. Before this, a scan saved one holder's column
+   and the other 116 were only ever asked about the top 20, by hand, on another screen. */
+var WALLCNT=null;
+function finishScan(seq, w){
+  WALLCNT=null;
+  var go=function(){
+    scanWall(seq, w, results, function(cnt){
+      WALLCNT=cnt;
+      if(cnt){
+        selFromCnt(cnt, results, JTAB.col(alleleLabel()), seq, w);
+        RANKED=true; SORTBY='sel';
+        var srow=document.getElementById('sortrow'); if(srow) srow.hidden=false;
+        if(typeof setSort==='function') setSort('sel');
+        wallSaid(cnt);
+        /* V11000 - Narrow has nothing left to do: its answer is already in the result,
+           for every slice instead of the top 20. The button and its line are put away
+           rather than left there offering to redo a smaller version of the work. */
+        var nb=document.getElementById('rankbtn');
+        if(nb) nb.hidden=true;
+        var nc=document.querySelector('.narrow .btncap');
+        if(nc) nc.hidden=true;
+      }
+      drawRows();
+      autoSave();
+      /* V11000 - the result is only shown once it is FINISHED. Before this the app
+         jumped to the list the moment the first column was done and then kept working
+         on a screen you had already left, with the bar out of sight behind you. */
+      showTab('t-res');
+    });
+  };
+  /* a pasted protein is judged against ITS OWN lines, never Jo-1's borrowed ones -
+     and back on Jo-1 the borrowed ones are DROPPED again. Without this line the app
+     keeps counting Jo-1 against whatever protein was scanned before it, which is the
+     same silent lie the live lines were built to end. */
+  if(JTAB.fits(seq,w)){ LIVE_GRIP=null; go(); }
+  else ensureNet().then(function(){
+         measureGripLines(seq, results,
+           document.getElementById('wallbar'),
+           document.getElementById('wallnote'), go);
+       }).catch(go);
+}
+/* what the wall turned out to say, in one line on the results screen. Two different
+   counts live here and they are not the same thing: how many slices YOUR holder grips
+   alone, and how many belong to a single holder anywhere in the 117. */
+function wallSaid(cnt){
+  var none=0, many=0, alone=0;
+  for(var i=0;i<cnt.length;i++){
+    if(cnt[i]===0) none++; else if(cnt[i]===1) alone++; else many++;
+  }
+  var mine=0;
+  for(var j=0;j<results.length;j++) if(results[j].sel===0) mine++;
+  var n=document.getElementById('rknote');
+  if(!n) return;
+  n.hidden=false;
+  n.textContent = ABS
+    ? (cnt.length+' pieces against all 117 holders \u00b7 '+mine+' are held by '
+       +alleleLabel()+' alone \u00b7 '+alone+' belong to one holder somewhere \u00b7 '
+       +many+' are held by several \u00b7 '+none+' by nobody.')
+    : (cnt.length+' slices against all 117 holders \u00b7 '+mine+' grip '
+       +alleleLabel()+' alone \u00b7 '+alone+' belong to one holder somewhere \u00b7 '
+       +many+' are gripped by more than one \u00b7 '+none+' by none.');
+  n.textContent += (ABS ? ' The tight-grip lines were ' : ' Grip lines: ')
+    + gripSource() + '.';
 }
 
 function runDecoy(){
@@ -5941,6 +6111,110 @@ function resetRank(){
   if(rn){ rn.hidden=true; rn.textContent=''; }
   if(bt){ delete bt.dataset.done; bt.textContent='Narrow'; }
 }
+/* ================= V11000 - THE WHOLE WALL, IN ONE GO =====================
+   Moos's own reasoning, and he was right: "If we scans all slices against all holders
+   in one go! What will hapoen...we should have final result!"
+
+   Narrow only ever looked at the top 20 slices for the chosen holder, which is an
+   approximation - and a lossy one. Measured against the shipped Jo-1 table: 18 of the
+   61 slices that belong to a single holder sit OUTSIDE that holder's top 20, so the
+   app could never show them. His own slice 235 is rank 21 - one place past the cut.
+
+   This does every slice against every holder instead. For Jo-1 at window 15 the
+   answers already ship with the app and it is instant. For anything else it is live
+   work, so it reports itself: a bar, a count, and a time worked out from the work
+   already done - never a number invented before it starts, which is Moos's standing
+   rule for this app.
+
+   The loop runs HOLDER on the outside and slice on the inside, so each network is
+   loaded once and used for every slice rather than being swapped 495 times. Measured:
+   23,400 scores in 6.1 s on the build machine, which is a whole Jo-1 wall in about
+   15 s. */
+var WALLCHUNK=220;                 /* slices scored between two frames */
+function scanWall(seq, w, rows, done){
+  var N=ALLELES.length;
+  var byStart=rows.slice().sort(function(a,b){ return a.start-b.start; });
+  var S=byStart.length;
+  var cnt=new Int16Array(S);
+  if(!S){ done(null); return; }
+
+  /* the shipped table answers the whole thing at once */
+  if(JTAB.ready() && JTAB.fits(seq, w)){
+    var M=Math.min(S, JTAB.slices);
+    for(var s=0;s<M;s++){
+      var c=0;
+      for(var k=0;k<N;k++) if(gripsTight(JTAB.at(s,k),k)) c++;
+      cnt[s]=c;
+    }
+    done(cnt); return;
+  }
+
+  var bar=document.getElementById('wallbar'),
+      box=document.getElementById('wallprog'),
+      note=document.getElementById('wallnote');
+  if(box) box.hidden=false;
+  if(note) note.hidden=false;
+  setBusy(true);
+  var ai=0, si=0, scored=0, total=S*N, t0=0;
+
+  function say(){
+    if(bar) bar.style.width=Math.round(scored/total*100)+'%';
+    if(!note) return;
+    var line=scored.toLocaleString()+' of '+total.toLocaleString()+' scores';
+    /* the estimate comes from the work already done, and only once there is some */
+    if(t0 && scored>800){
+      var per=(performance.now()-t0)/scored;
+      var left=Math.round((total-scored)*per/1000);
+      line += ' · ' + (left<90 ? 'about '+Math.max(1,left)+' seconds left'
+                                    : 'about '+Math.round(left/60)+' minutes left');
+    }
+    note.textContent=line;
+  }
+  function finish(){
+    if(box) box.hidden=true;
+    if(note) note.hidden=true;
+    if(bar) bar.style.width='0%';
+    setBusy(false);
+    done(cnt);
+  }
+  function holder(){
+    if(ai>=N){ finish(); return; }
+    var a=ALLELES[ai];
+    var run=function(){
+      if(!t0) t0=performance.now();
+      si=0; chunk();
+    };
+    if(NUG.have(a.f)) run();
+    else NUG.load(a.f).then(run).catch(function(){ ai++; scored+=S; say(); holder(); });
+  }
+  function chunk(){
+    var a=ALLELES[ai], end=Math.min(S, si+WALLCHUNK);
+    for(; si<end; si++){
+      var q=NUG.scoreWith(byStart[si].seq, a.f);
+      if(q && q.ic50!=null && gripsTight(q.ic50, ai)) cnt[si]++;
+      scored++;
+    }
+    say();
+    if(si>=S){ ai++; requestAnimationFrame(holder); }
+    else requestAnimationFrame(chunk);
+  }
+  holder();
+}
+/* how many of the 117 grip a slice, turned back into the one number a row shows:
+   the count of OTHER holders, or -1 when the chosen holder does not grip it itself */
+function selFromCnt(cnt, rows, mineIdx, seq, w){
+  var byStart=rows.slice().sort(function(a,b){ return a.start-b.start; });
+  var out=new Array(byStart.length);
+  for(var i=0;i<byStart.length;i++){
+    var mine;
+    if(JTAB.ready() && JTAB.fits(seq,w) && mineIdx>=0) mine=gripsTight(JTAB.at(i,mineIdx), mineIdx);
+    else { var q=mineIdx<0?null:NUG.scoreWith(byStart[i].seq, ALLELES[mineIdx].f);
+           mine = !!(q && q.ic50!=null && gripsTight(q.ic50, mineIdx)); }
+    out[i] = mine ? Math.max(0, cnt[i]-1) : -1;
+    byStart[i].sel = out[i];
+  }
+  return out;
+}
 function rankSelectivity(){
   if(!results.length) return;
   var btn=document.getElementById('rankbtn'), bar=document.getElementById('rkbar'),
@@ -6153,6 +6427,10 @@ setAllele();
     else if(typeof drawMap==='function') drawMap();
     // the lines written by script have to be re-written in the other language
     if(typeof runControls==='function'){ try{ runControls(); }catch(e){} }
+    /* V10900 - the Grid writes its own words too, so it has to be re-written when
+       the language changes. It was built after this list and never joined it. */
+    var lv=document.getElementById('view-lib');
+    if(lv && !lv.hidden && typeof renderSaved==='function'){ try{ renderSaved(); }catch(e){} }
     // swap the picture FIRST, so nothing styles the model that is leaving
     if(typeof viewer!=='undefined' && viewer){
       if(ABS && !isModel && typeof showDrawn==='function') showDrawn();
@@ -6332,10 +6610,27 @@ function autoSave(){
        identical labels. PNAME is what was typed on the landing. */
     name:(seq===JO1_PROTEIN?'Jo-1':(PNAME||'Pasted protein')), seq:seq.slice(0,24000),
     win:w, n:ic.length, ic:ic, sel:null, h117:null,
+    /* V11000 - how many of the 117 grip each slice. The whole answer, kept with the
+       run, so the Grid can be drawn for ANY protein and any window - not just Jo-1
+       cut into fifteens, which was the only case the shipped table could answer. */
+    cnt:null, g5:null, g20:null,
     best:{start:best.start, seq:best.seq, ic50:(best.ic50==null?null:+best.ic50.toFixed(1))} };
   /* the 117 holders for that tightest slice, when the table can answer at no cost */
   if(JTAB.ready() && JTAB.fits(seq,w) && best.start!=null){
     run.h117=[]; for(var k=0;k<ALLELES.length;k++) run.h117.push(+JTAB.at(best.start,k).toFixed(1));
+  }
+  /* V11000 - and the lines it was judged against. "Grips" is a judgement made
+     against a line, and a pasted protein measures its own. Without them a saved run
+     could only ever be re-read against Jo-1's, which is how it would quietly lie. */
+  if(LIVE_GRIP && LIVE_GRIP.key===seq){
+    run.g5=LIVE_GRIP.g5.slice(); run.g20=LIVE_GRIP.g20.slice();
+  }
+  if(WALLCNT && WALLCNT.length){
+    run.cnt=Array.prototype.slice.call(WALLCNT, 0, ic.length);
+    var m={}; results.forEach(function(r){ if(r.sel!=null && r.start!=null) m[r.start]=r.sel; });
+    var arr=[], any=false;
+    for(var si=0;si<ic.length;si++){ var sv=(m[si]==null?null:m[si]); if(sv!=null) any=true; arr.push(sv); }
+    if(any) run.sel=arr;
   }
   /* the same question answered again replaces its own old entry, never twins it */
   var old=runTwin(seq,w,run.holder);
@@ -6385,7 +6680,7 @@ function fillRunPick(){
   for(var i=0;i<all.length;i++){
     var r=all[i];
     out+='<option value="'+i+'"'+(i===PICKRUN?' selected':'')+'>'
-       + esc(r.name) + ' \u00b7 window ' + r.win + ' \u00b7 ' + r.n + ' slices'
+       + esc(r.name) + ' \u00b7 window ' + r.win + ' \u00b7 ' + r.n + ' ' + sa('slices','pieces')
        + (libMine(r) ? '' : ' \u00b7 shared')
        + '</option>';
   }
@@ -6416,6 +6711,10 @@ function fillRunPick(){
    rather than showing an empty grid that looks like an answer. */
 /* V10700 stage 2 - which slice is open. Null until one is tapped, and reset the
    moment a different run is chosen: slice 73 of Jo-1 means nothing in Insulin. */
+/* V10900 - the Grid wrote "slice" in both modes. Science says slice, Abstract says
+   piece - that split is everywhere else in the app and the Grid missed it. Moos:
+   "Sometimes you use pices ans Sometimes slices!" */
+function sa(sci, abs){ return ABS ? abs : sci; }
 var GRIDSLICE=null;
 /* V10700 stage 3 - and which of the 117 is open inside it. Shuts whenever the slice
    or the run changes, because a holder's numbers belong to one slice of one run. */
@@ -6424,15 +6723,28 @@ var GRIDHOLD=null;
    rather than scroll along it: "fit the whole wall". */
 var GRIDWALL=false;
 function gridData(r){
-  if(!r || !JTAB.ready()) return null;
-  if(!JTAB.fits(r.seq, r.win)) return null;          /* Jo-1 at window 15 only, so far */
-  var S=Math.min(r.n, JTAB.slices), N=ALLELES.length;
-  var cnt=new Int16Array(S), mx=0, none=0, many=0, alone=0;
-  for(var s=0;s<S;s++){
-    var c=0;
-    for(var k=0;k<N;k++) if(gripsTight(JTAB.at(s,k),k)) c++;
-    cnt[s]=c; if(c>mx) mx=c;
-    if(c===0) none++; else if(c===1) alone++; else many++;
+  if(!r) return null;
+  var N=ALLELES.length, S, cnt, s;
+  /* V11000 - the run carries its own wall now, whatever the protein or the window.
+     The shipped Jo-1 table is still used when a run was saved before this existed. */
+  if(r.cnt && r.cnt.length){
+    S=Math.min(r.n, r.cnt.length);
+    cnt=new Int16Array(S);
+    for(s=0;s<S;s++) cnt[s]=r.cnt[s];
+  } else {
+    if(!JTAB.ready() || !JTAB.fits(r.seq, r.win)) return null;
+    S=Math.min(r.n, JTAB.slices);
+    cnt=new Int16Array(S);
+    for(s=0;s<S;s++){
+      var c=0;
+      for(var k=0;k<N;k++) if(gripsTight(JTAB.at(s,k),k)) c++;
+      cnt[s]=c;
+    }
+  }
+  var mx=0, none=0, many=0, alone=0;
+  for(s=0;s<S;s++){
+    var v=cnt[s]; if(v>mx) mx=v;
+    if(v===0) none++; else if(v===1) alone++; else many++;
   }
   return {cnt:cnt, S:S, mx:mx, none:none, many:many, alone:alone};
 }
@@ -6450,7 +6762,7 @@ function gridShape(g){
     var tx=(W*i/(g.S-1)).toFixed(2);
     ticks+='<rect x="'+(tx-0.7).toFixed(2)+'" y="'+(H-3)+'" width="1.4" height="5" fill="var(--green)"/>';
   }
-  return '<p class="runlab">How many of the 117 grip each slice</p>'
+  return '<p class="runlab">How many of the 117 '+sa('grip each slice','hold each piece')+'</p>'
     +'<svg class="gridshape" viewBox="0 0 '+W+' '+(H+4)+'" aria-hidden="true">'
     +'<path d="'+d+'L'+W+' '+H+'L0 '+H+'Z" fill="color-mix(in srgb,var(--blue) 14%,transparent)"/>'
     +'<path d="'+d+'" fill="none" stroke="var(--blue)" stroke-width="1.2" stroke-linejoin="round"/>'
@@ -6483,13 +6795,19 @@ function gridSquares(g){
        +' stroke-width="1.1"/>';
   }
   return '<svg class="gridsq" viewBox="-2 -2 '+(W+4)+' '+(H+4).toFixed(1)+'"'
-    +' aria-label="'+g.S+' slices, '+g.alone+' gripped by one holder only. Tap one.">'
+    +' aria-label="'+g.S+' '+sa('slices','pieces')+', '+g.alone
+      +' gripped by one holder only. Tap one.">'
     +out+ring+hit +'</svg>'
     +'<div class="runkey gridkey">'
-    +'<span><i style="background:var(--gridgrey)"></i>'+g.none+' nobody grips</span>'
+    +'<span><i style="background:var(--gridgrey)"></i>'+g.none+' nobody '+sa('grips','holds')+'</span>'
     +'<span><i style="background:var(--blue)"></i>'+g.many+' more than one</span>'
     +'<span><i style="background:var(--green)"></i>'+g.alone+' ONE holder only</span>'
-    +'</div>';
+    +'</div>'
+    /* V10900 - Moos: "How the user will know he need to click in the library these
+       boxes!" Nothing said they could be tapped, and the Full view picture right
+       underneath cannot be - so a tap that works in one does nothing in the other.
+       Each picture says which it is now. */
+    +'<p class="taphint">Tap any '+sa('square','box')+' to open its 117 holders.</p>';
 }
 /* ---- stage 2: one slice, and its own 117 ----------------------------------
    Tapping a square opens this UNDERNEATH it. Nothing above it moves: the ring on the
@@ -6501,12 +6819,45 @@ function gridSquares(g){
    mean the same thing: green grips it tight, blue holds it loosely, grey does not
    hold it at all. On a green slice exactly one of the 117 squares is green, and the
    panel says whose it is - that one line is what the whole app is for. */
+/* V11000 - reading inside a run that is not Jo-1 at fifteen. The shipped table
+   cannot answer for it, so the networks do - and against THIS run's own lines, kept
+   with it when it was scanned. A value of undefined means "not loaded yet", which is
+   not the same as "does not grip" and must never be drawn as grey. */
+function runG5(r,k){ return (r && r.g5 && r.g5[k]!=null) ? r.g5[k] : GRIP5[k]; }
+function runG20(r,k){ return (r && r.g20 && r.g20[k]!=null) ? r.g20[k] : GRIP20[k]; }
+function runTight(r,v,k){ return v!=null && isFinite(v) && v < runG5(r,k); }
+function runMid(r,v,k){ return v!=null && isFinite(v) && v < runG20(r,k); }
+function runFromTable(r){ return JTAB.ready() && JTAB.fits(r.seq, r.win); }
+function valAt(r,s,k){
+  if(runFromTable(r)) return JTAB.at(s,k);
+  var pep=(r.seq||'').slice(s, s+r.win);
+  if(!pep || pep.length<r.win) return null;
+  if(!NUG.have(ALLELES[k].f)) return undefined;
+  var q=NUG.scoreWith(pep, ALLELES[k].f);
+  return q ? q.ic50 : null;
+}
+function netsReady(){
+  for(var k=0;k<ALLELES.length;k++) if(!NUG.have(ALLELES[k].f)) return false;
+  return true;
+}
+/* bring every network in, reporting itself, then come back */
+function loadNets(note, done){
+  var k=0, N=ALLELES.length;
+  (function next(){
+    if(k>=N){ done(); return; }
+    var go=function(){ k++;
+      if(note) note.textContent='Opening holder '+k+' of '+N+'\u2026';
+      requestAnimationFrame(next); };
+    if(NUG.have(ALLELES[k].f)) go();
+    else NUG.load(ALLELES[k].f).then(go).catch(function(){ k++; next(); });
+  })();
+}
 function gridSliceBox(r, s){
   var N=ALLELES.length, cols=13, W=298;
   var gx=W/cols, cell=gx*0.80, gap=gx-cell, rows=Math.ceil(N/cols);
   var out='', hit='', ring='', tight=0, mid=0, loose=0, only=-1, k;
   for(k=0;k<N;k++){
-    var v=JTAB.at(s,k), cls = gripsTight(v,k) ? 0 : (gripsMid(v,k) ? 1 : 2);
+    var v=valAt(r,s,k), cls = runTight(r,v,k) ? 0 : (runMid(r,v,k) ? 1 : 2);
     if(cls===0){ tight++; only=k; } else if(cls===1) mid++; else loose++;
     var c=k%cols, rr=(k/cols)|0, x=(c*gx).toFixed(2), y=(rr*(cell+gap)).toFixed(2);
     out+='<rect class="sq" x="'+x+'" y="'+y
@@ -6521,24 +6872,26 @@ function gridSliceBox(r, s){
        +(cell+gap).toFixed(2)+'" fill="transparent"/>';
   }
   var letters=(r.seq||'').slice(s, s+r.win);
+  var IT = sa('slice','piece'), GRIP = sa('grips','holds'), GRIPS = sa('grip','hold');
   var verdict = tight===1
-    ? '<b>'+esc(ALLELES[only].label)+'</b> is the only one of the 117 that grips this slice.'
+    ? '<b>'+esc(ALLELES[only].label)+'</b> is the only one of the 117 that '+GRIP+' this '+IT+'.'
     : (tight===0
-        ? 'None of the 117 grips this slice.'
-        : tight+' of the 117 grip this slice, so it cannot tell them apart.');
+        ? 'None of the 117 '+GRIP+' this '+IT+'.'
+        : tight+' of the 117 '+GRIPS+' this '+IT+', so it cannot tell them apart.');
   return '<div class="gridslice">'
-    +'<div class="gsltop"><span class="gsln">Slice '+(s+1)+'</span>'
+    +'<div class="gsltop"><span class="gsln">'+sa('Slice','Piece')+' '+(s+1)+'</span>'
     +'<span class="gslpos">letters '+(s+1)+'–'+(s+r.win)+'</span>'
     +'<button type="button" class="gslx" id="gslclose" aria-label="Close this slice">×</button></div>'
     +(letters?'<p class="gslpep">'+esc(letters)+'</p>':'')
     +'<p class="gslsay'+(tight===1?' one':'')+'">'+verdict+'</p>'
     +'<svg class="gslsq" viewBox="-2 -2 '+(W+4)+' '+(rows*(cell+gap)+4).toFixed(1)+'"'
-    +' aria-label="117 holders for slice '+(s+1)+'. Tap one.">'+out+ring+hit+'</svg>'
+    +' aria-label="117 holders for '+IT+' '+(s+1)+'. Tap one.">'+out+ring+hit+'</svg>'
     +'<div class="runkey">'
-    +'<span><i style="background:var(--green)"></i>'+tight+' grip it</span>'
+    +'<span><i style="background:var(--green)"></i>'+tight+' '+sa('grip it','hold it tightly')+'</span>'
     +'<span><i style="background:var(--blue)"></i>'+mid+' hold it loosely</span>'
     +'<span><i style="background:var(--gridgrey)"></i>'+loose+' do not</span>'
     +'</div>'
+    +'<p class="taphint">Tap any holder to see its numbers.</p>'
     +(GRIDHOLD==null ? '' : gridHolderBox(r, s, GRIDHOLD))
     +'</div>';
 }
@@ -6555,32 +6908,36 @@ function gridSliceBox(r, s){
                         with the open slice marked - so you can see whether the
                         slice is a spike of its own or part of a sticky stretch */
 function gridHolderBox(r, s, k){
-  var S=Math.min(r.n, JTAB.slices), v=JTAB.at(s,k), line=grip5(k), i;
+  var S=Math.min(r.n, runFromTable(r) ? JTAB.slices : r.n),
+      v=valAt(r,s,k), line=runG5(r,k), i;
   /* this holder, all the way along the protein */
   var vals=new Float64Array(S), tight=0, rank=1;
   for(i=0;i<S;i++){
-    vals[i]=JTAB.at(i,k);
-    if(gripsTight(vals[i],k)) tight++;
+    vals[i]=valAt(r,i,k);
+    if(runTight(r,vals[i],k)) tight++;
     if(vals[i]<v) rank++;
   }
   /* and how many of the protein's slices this holder has entirely to itself */
   var alone=0;
-  for(i=0;i<S;i++) if(gripsTight(vals[i],k)){
+  for(i=0;i<S;i++) if(runTight(r,vals[i],k)){
+    /* the run already carries how many hold each slice, so this costs nothing */
+    if(r.cnt && r.cnt[i]!=null){ if(r.cnt[i]===1) alone++; continue; }
     var n=0;
-    for(var j=0;j<ALLELES.length;j++) if(gripsTight(JTAB.at(i,j),j)){ n++; if(n>1) break; }
+    for(var j=0;j<ALLELES.length;j++) if(runTight(r,valAt(r,i,j),j)){ n++; if(n>1) break; }
     if(n===1) alone++;
   }
-  var holds = gripsTight(v,k) ? 'grips it' : (gripsMid(v,k) ? 'holds it loosely' : 'does not hold it');
-  var cls   = gripsTight(v,k) ? 'tight' : (gripsMid(v,k) ? 'mid' : 'no');
+  var holds = runTight(r,v,k) ? sa('grips it','holds it tightly')
+            : (runMid(r,v,k) ? 'holds it loosely' : 'does not hold it');
+  var cls   = runTight(r,v,k) ? 'tight' : (runMid(r,v,k) ? 'mid' : 'no');
   return '<div class="gridhold">'
     +'<div class="gsltop"><span class="ghname">'+esc(ALLELES[k].label)+'</span>'
     +'<button type="button" class="gslx" id="ghclose" aria-label="Close this holder">×</button></div>'
     +'<p class="ghnum '+cls+'"><b>'+nm(v)+' nM</b> · '+holds+'</p>'
-    +'<p class="ghsub">its own grip line is '+nm(line)+' nM · this slice is '
-      +ordinal(rank)+' tightest of '+S+' for it</p>'
+    +'<p class="ghsub">its own grip line is '+nm(line)+' nM · this '+sa('slice','piece')
+      +' is '+ordinal(rank)+' tightest of '+S+' for it</p>'
     +gridHoldLine(vals, s, S)
-    +'<p class="ghfoot">grips '+tight+' of the '+S+' slices · has '+alone
-      +' of them to itself</p>'
+    +'<p class="ghfoot">'+sa('grips','holds')+' '+tight+' of the '+S+' '
+      +sa('slices','pieces')+' · has '+alone+' of them to itself</p>'
     +'</div>';
 }
 function ordinal(n){
@@ -6609,7 +6966,7 @@ function gridHoldLine(vals, mark, S){
     +'<line x1="'+mx+'" y1="-3" x2="'+mx+'" y2="'+H+'" stroke="var(--ink)" stroke-width="1"/>'
     +'<circle cx="'+mx+'" cy="'+my+'" r="2.6" fill="var(--ink)"/>'
     +'</svg>'
-    +'<p class="gridfoot"><span>1</span><span class="gpk">this slice</span>'
+    +'<p class="gridfoot"><span>1</span><span class="gpk">this '+sa('slice','piece')+'</span>'
     +'<span>'+S+'</span></p>';
 }
 /* ---- FULL VIEW: all 117 holders, all 495 slices, in one picture -----------
@@ -6649,9 +7006,9 @@ function wallPaint(r, cv, mode){
   /* the field, cell by cell. "Not held" is the paper, so it is not drawn at all. */
   for(var k=0;k<N;k++){
     for(var sI=0;sI<S;sI++){
-      var v=JTAB.at(sI,k), band;
-      if(gripsTight(v,k)) band = (g.cnt[sI]===1) ? 3 : 2;
-      else band = gripsMid(v,k) ? 1 : 0;
+      var v=valAt(r,sI,k), band;
+      if(runTight(r,v,k)) band = (g.cnt[sI]===1) ? 3 : 2;
+      else band = runMid(r,v,k) ? 1 : 0;
       if(band===0) continue;
       var px=P.l + sI*M.col, py=P.t + k*M.row;
       if(band===3){                       /* drawn larger, and the key says so */
@@ -6669,7 +7026,7 @@ function wallPaint(r, cv, mode){
 
   /* the printed version carries its own title, families and ruler */
   x.fillStyle=INK; x.font='700 52px ui-sans-serif, system-ui, sans-serif';
-  x.fillText(r.name+' — all '+N+' holders, all '+S+' slices, window '+r.win,
+  x.fillText(r.name+' — all '+N+' holders, all '+S+' '+sa('slices','pieces')+', window '+r.win,
     P.l, 54);
   var fam=null, start=0, i;
   for(i=0;i<=N;i++){
@@ -6694,10 +7051,10 @@ function wallPaint(r, cv, mode){
     x.fillStyle=MUTE;
     x.fillText(String(i), tx-(i>99?21:(i>9?14:7)), P.t+N*M.row+52);
   }
-  x.fillText('slice along '+r.name+'  →', P.l, P.t+N*M.row+92);
+  x.fillText(sa('slice','piece')+' along '+r.name+'  →', P.l, P.t+N*M.row+92);
   /* and the one thing a reader must be told about the picture */
   x.fillStyle=MUTE; x.font='28px ui-sans-serif, system-ui, sans-serif';
-  x.fillText('green = gripped by this holder and no other, '+g.alone+' of them, drawn '
+  x.fillText('green = '+sa('gripped','held')+' by this holder and no other, '+g.alone+' of them, drawn '
     +'larger than life so they can be seen  ·  solid blue = gripped  ·  '
     +'pale blue = held loosely  ·  blank = not held',
     P.l, P.t+N*M.row+134);
@@ -6708,38 +7065,59 @@ function famName(f){ return f==='DRB345' ? 'DRB3/4/5' : f; }
 function gridWallBox(r){
   return '<div class="gridwall">'
     +'<div class="gsltop"><span class="gsln">All '+ALLELES.length+' holders, all '
-      +Math.min(r.n, JTAB.slices)+' slices</span>'
+      +Math.min(r.n, JTAB.slices)+' '+sa('slices','pieces')+'</span>'
     +'<button type="button" class="gslx" id="gwclose" aria-label="Close the full view">×</button></div>'
     +'<canvas id="gwcanvas" class="gwcanvas"></canvas>'
     +'<p class="gwfam">top to bottom: DP 18 \u00b7 DQ 38 \u00b7 DRB1 54 \u00b7 DRB3/4/5 7'
-      +' \u00b7 left to right: slice 1 to '+Math.min(r.n, JTAB.slices)+'</p>'
+      +' \u00b7 left to right: '+sa('slice','piece')+' 1 to '+Math.min(r.n, JTAB.slices)+'</p>'
     +'<div class="runkey gwkey">'
     +'<span><i style="background:var(--green)"></i>one holder only</span>'
-    +'<span><i style="background:var(--blue)"></i>gripped</span>'
+    +'<span><i style="background:var(--blue)"></i>'+sa('gripped','held tightly')+'</span>'
     +'<span><i style="background:color-mix(in srgb,var(--blue) 26%,transparent)"></i>held loosely</span>'
     +'<span><i style="background:var(--panel);border:1px solid var(--line)"></i>not held</span>'
     +'</div>'
+    +'<p class="taphint flat">A picture of the whole wall — nothing to tap here.</p>'
     +'<p class="gwnote">The green marks are drawn larger than life. There are 61 of them '
       +'in 57,915 cells, and at this width one true-size cell is a third of a pixel. '
       +'Everything else is drawn true. Export writes the big version.</p>'
     +'</div>';
+}
+/* V11000 - a drawer can only be opened on numbers the app actually has. For Jo-1 at
+   fifteen they ship with it. For anything else the 117 networks have to be in memory,
+   and a page that was reloaded does not have them - so they are fetched first, with a
+   line saying so, rather than every holder being drawn grey as if it said no. */
+function openGrid(r, show){
+  if(runFromTable(r) || netsReady() || (GRIDSLICE==null && !GRIDWALL)){
+    drawGrid(r, show); return;
+  }
+  var wrap=document.getElementById('gridwrap');
+  var g=gridData(r);
+  if(wrap && g){
+    wrap.innerHTML = gridShape(g) + gridSquares(g)
+      + '<p class="gridnone" id="netnote">Opening the 117 holders\u2026</p>';
+  }
+  ensureNet().then(function(){
+    loadNets(document.getElementById('netnote'), function(){ drawGrid(r, show); });
+  }).catch(function(){ drawGrid(r, show); });
 }
 function drawGrid(r, show){
   var wrap=document.getElementById('gridwrap'); if(!wrap) return;
   /* a run from somebody else arrives as a summary with no letters in it; its card
      already says "Opening it...", so the grid says nothing until the body lands */
   if(!r || libIsSummary(r)){ wrap.innerHTML=''; return; }
-  if(!JTAB.fits(r.seq, r.win)){
-    /* honest about what is missing, rather than a grid that looks like an answer */
-    wrap.innerHTML='<p class="gridnone">The grid is drawn from numbers that travel'
-      +' inside the app, and those are Jo-1 cut into fifteens. '+esc(r.name)
-      +' at window '+r.win+' has to be measured live, and that is not wired up yet.</p>';
+  /* V11000 - a run scanned from here on carries its own wall, so the Grid draws for
+     any protein and any window. Only a run saved BEFORE that still needs the shipped
+     Jo-1 table, and only a run that has neither can say nothing. */
+  var own = !!(r.cnt && r.cnt.length);
+  if(!own && !JTAB.fits(r.seq, r.win)){
+    wrap.innerHTML='<p class="gridnone">This run was saved before the app worked out '
+      +'the whole wall, so the grid cannot be drawn for it. Scan '+esc(r.name)
+      +' again and it will be.</p>';
     return;
   }
-  if(!JTAB.ready()){
+  if(!own && !JTAB.ready()){
     wrap.innerHTML='<p class="gridnone">Working out the grid\u2026</p>';
     JTAB.load().then(function(){
-      /* the list may have been changed while the table was arriving */
       var now=LIB()[PICKRUN];
       if(now && now.id===r.id) drawGrid(now);
     }).catch(function(){
@@ -6771,7 +7149,7 @@ function drawGrid(r, show){
     i=parseInt(i,10); if(!isFinite(i)) return;
     GRIDSLICE = (GRIDSLICE===i) ? null : i;   /* tapping the open one shuts it */
     GRIDHOLD = null;                          /* a holder belongs to one slice */
-    drawGrid(r, GRIDSLICE!=null);
+    openGrid(r, GRIDSLICE!=null);
   });
   var hs=wrap.querySelector('.gslsq');
   if(hs) hs.addEventListener('click', function(ev){
@@ -6779,13 +7157,13 @@ function drawGrid(r, show){
     if(k==null) return;
     k=parseInt(k,10); if(!isFinite(k)) return;
     GRIDHOLD = (GRIDHOLD===k) ? null : k;
-    drawGrid(r, GRIDHOLD!=null);
+    openGrid(r, GRIDHOLD!=null);
   });
   var hx=document.getElementById('ghclose');
   if(hx) hx.addEventListener('click', function(){ GRIDHOLD=null; drawGrid(r); });
   var wo=document.getElementById('gwopen');
   if(wo) wo.addEventListener('click', function(){
-    GRIDWALL=!GRIDWALL; drawGrid(r, GRIDWALL); });
+    GRIDWALL=!GRIDWALL; openGrid(r, GRIDWALL); });
   var wc=document.getElementById('gwclose');
   if(wc) wc.addEventListener('click', function(){ GRIDWALL=false; drawGrid(r); });
   var we=document.getElementById('gwexp');
@@ -6863,13 +7241,15 @@ function run117(r){
     out+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+mw.toFixed(1)+'" height="'
       +mh.toFixed(1)+'" rx="1.8" fill="'+col+'"/>';
   }
-  return '<p class="runlab">All 117 holders, for this slice</p>'
+  return '<p class="runlab">All 117 holders, for this '+sa('slice','piece')+'</p>'
     +'<svg viewBox="0 0 '+W+' '+(gy*rows+4).toFixed(1)+'" aria-hidden="true">'+out+'</svg>'
     +'<div class="runkey">'
     +'<span><i style="background:var(--green)"></i>this holder</span>'
     +'<span><i style="background:var(--red)"></i>'+tight+' others grip it</span>'
     +'<span><i style="background:var(--blue)"></i>'+mid+' hold it loosely</span>'
-    +'<span><i style="background:var(--line)"></i>'+loose+' do not</span></div>';
+    +'<span><i style="background:var(--line)"></i>'+loose+' do not</span></div>'
+    +'<p class="taphint flat">The tightest '+sa('slice','piece')
+      +' of this run \u2014 nothing to tap here.</p>';
 }
 function renderSaved(){
   runsLoad.done || (runsLoad(), runsLoad.done=true);
@@ -6903,7 +7283,7 @@ function renderSaved(){
     card.innerHTML='<div class="panel savedp">'
       +'<div class="runtop"><span class="runttl">'+esc(r.name)+'</span>'
       +'<span class="runwhen">'+runWhen(r.at)+'</span></div>'
-      +'<p class="runwho">'+esc(r.holder)+' &middot; '+r.n+' slices &middot; window '+r.win+'</p>'
+      +'<p class="runwho">'+esc(r.holder)+' &middot; '+r.n+' '+sa('slices','pieces')+' &middot; window '+r.win+'</p>'
       +'<p class="runempty">Opening it…</p></div>';
     libFull(r.id, function(full){
       if(!full){
@@ -6920,7 +7300,7 @@ function renderSaved(){
   out+='<div class="panel savedp">';
   out+='<div class="runtop"><span class="runttl">'+esc(r.name)+'</span>'
      +'<span class="runwhen">'+runWhen(r.at)+'</span></div>';
-  out+='<p class="runwho">'+esc(r.holder)+' · '+r.n+' slices · window '+r.win+'</p>';
+  out+='<p class="runwho">'+esc(r.holder)+' · '+r.n+' '+sa('slices','pieces')+' · window '+r.win+'</p>';
   if(!libMine(r)) out+='<p class="runfrom">from the shared library</p>';
   out+=runLine(r.ic);
   if(c){

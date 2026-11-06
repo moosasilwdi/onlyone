@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V10800**.
+Version **V11000**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -28,7 +28,9 @@ Everything runs in the browser. No server, no build step.
   is readable on every other. Runs are chosen by name from a list - "Jo-1 - window 15 -
   495 slices" - because a run is a protein AND a window, and three Jo-1 runs at 15, 20
   and 14 are three different questions. Choosing one draws THE GRID, which is three
-  taps deep. TAP 1, the protein: one square for every slice, grey where no holder of
+  taps deep. From V11000 the Grid is drawn for EVERY run, whatever the protein and
+  whatever the window, because a scan now works out the whole wall and keeps it with
+  the run along with the grip lines it was judged against. TAP 1, the protein: one square for every slice, grey where no holder of
   the 117 grips it, blue where more than one does, green where exactly one does and no
   other - for Jo-1 cut into fifteens, 200 grey, 234 blue and 61 green, with the shape
   above them showing how many of the 117 grip each slice along the protein (peak 94 of
