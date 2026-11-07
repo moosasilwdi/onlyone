@@ -623,6 +623,13 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    not as another control, and it never carries the stage colour. */
 .lastnote{display:block;font-family:var(--mono);font-size:10.5px;color:var(--mute);
   text-align:center;margin:8px 0 0;line-height:1.35;max-width:300px}
+/* V11100 - the cut the number was made at, under the caption. Moos read "2 of 494" on
+   his phone and asked what it meant: 494 is 509 letters cut into sixteens, 495 is
+   fifteens, and nothing on the screen said which. It is drawn in BOTH states and holds
+   its line even when it is empty, so the chooser under it never moves when an answer
+   arrives or leaves - his own rule, "evry thung must be in same place!" */
+.cutnote{display:block;font-family:var(--mono);font-size:10.5px;color:var(--mute);
+  text-align:center;margin:8px 0 0;line-height:1.35;max-width:300px;min-height:15px}
 .bigcap{font-family:var(--mono);font-size:11px;color:var(--ink);margin:12px 0 0;
   text-align:center;min-height:38px}
 /* The height is pinned with min-height alone. display:flex was tried first and broke
@@ -736,6 +743,12 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    same move used for the section labels in Notes. */
 .savedp .runfrom{font-size:11.5px;color:var(--ink);margin:-7px 0 11px;padding-left:9px;
   border-left:3px solid var(--line)}
+/* V11100 - a run saved before the whole wall. It carries a BLUE rule, not a red one:
+   Moos's rule of 24 Sep is that red is for warnings and blue for notes and
+   corrections, and nothing here is going wrong - the run is simply older than the way
+   the app answers now, and scanning it again fixes it. */
+.savedp .runold{font-size:11.5px;color:var(--ink);margin:9px 0 2px;padding-left:9px;
+  border-left:3px solid var(--blue);line-height:1.45}
 .liboff{color:var(--ink);border-bottom:2px solid var(--red);padding-bottom:1px}
 .savedp .runpep{display:flex;align-items:center;gap:9px;border-radius:10px;padding:8px 10px;
   margin:0 0 11px;background:var(--sunk);border:1px solid var(--line);
@@ -947,7 +960,14 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 @media (min-width:390px){ .appbar .barlock{font-size:15px} }
 @media (min-width:430px){ .appbar .barlock{font-size:16.5px} }
 /* the logo alone, for a moment, before the app */
-.splash{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;
+/* V11100 - the logo screen is the logo ALONE. Moos: "the first logo page must not dhow
+   buttons." It carried z-index 40, the same as the strip at the foot of the page, and a
+   tie is won by whatever is written later - the strip is, so Start and the sponsor tab
+   painted straight through the logo for the first second of every open. Nothing else in
+   the app goes above 40, so lifting the logo clear of it costs nothing and moves
+   nothing. It is a cover, not a hiding place: the whole screen is opaque, so the strip
+   is not merely out of sight, it cannot be reached either. */
+.splash{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:14px;
   background:var(--bg);cursor:pointer;transition:opacity .34s ease}
 /* V9800 - his name, under the mark. It rises with the mark rather than separately, a
@@ -971,7 +991,7 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 @media (prefers-reduced-motion:reduce){.splash .wm{animation:none}}
 /* V10400 - the sponsor tab, hung off the left of Start the way 5Gaaaps hangs one off
    "Add a book". Its right edge is bitten out with an arc of the button's own radius
-   plus 3px, so the round end of Start nests into it with the same air all the way
+   plus the air, so the round end of Start nests into it with the same air all the way
    round. Start is 150 wide and stands alone on the first screen, so its left edge is
    always 50% - 75px; anchoring the tab's right tip to that plus the 23px radius keeps
    the two locked together on every width WITHOUT moving the button. Measured: at 360px
@@ -980,13 +1000,22 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
    the flag about 4s and the words about 10. No 3D - each face flattens to a line and
    the other opens out of it, which paints the same on every phone and never leaves a
    blank where a back face should be. */
+/* V11100 - the air is 6px, not 3. Moos sent the running app and the two shapes had
+   become one: on HIS phone a protein was chosen, so Start was BLACK, and the tab is
+   black too. The nesting was measured with Start still grey and waiting, where the two
+   colours did the separating on their own; with both black, 3px of page between them
+   stopped reading as air and started reading as a crack down one shape. The bite keeps
+   its centre exactly on the button's round end - 100, 23 in the tab's own box - so the
+   air is still the same all the way round; only the radius grows, 23 + 6 = 29, and the
+   arc starts where that circle crosses the top edge, 100 - sqrt(29^2 - 23^2) = 82.34.
+   The right padding grows by the same 3px so the words keep the clearance they had. */
 .spontab{position:absolute;right:calc(50% + 52px);top:8px;width:100px;height:46px;
   z-index:0;display:block;text-decoration:none;-webkit-tap-highlight-color:transparent}
 .spontab .f{position:absolute;inset:0;display:flex;align-items:center;
-  background:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%2046%22%3E%3Cpath%20d=%22M23%200%20H87.9%20A26%2026%200%200%200%2087.9%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill=%22%230d141d%22/%3E%3C/svg%3E") left center/100px 46px no-repeat;
-  color:#fff;line-height:1;padding:0 28px 0 12px;transform-origin:50% 50%;
+  background:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%2046%22%3E%3Cpath%20d=%22M23%200%20H82.34%20A29%2029%200%200%200%2082.34%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill=%22%230d141d%22/%3E%3C/svg%3E") left center/100px 46px no-repeat;
+  color:#fff;line-height:1;padding:0 31px 0 12px;transform-origin:50% 50%;
   will-change:transform;backface-visibility:hidden}
-.spontab .f.one{justify-content:center;padding:0 28px 0 4px;animation:sponA 16s linear infinite}
+.spontab .f.one{justify-content:center;padding:0 31px 0 4px;animation:sponA 16s linear infinite}
 .spontab .f.two{animation:sponB 16s linear infinite}
 .spontab .f.one svg{width:27px;height:27px;flex:0 0 auto}
 .spontab b{font-family:var(--sans);font-size:7px;font-weight:500;opacity:.82;
@@ -1001,9 +1030,9 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
    colour the protein box now wears. The line is clipped to the path, so it follows the
    bite and the round cap exactly and is never cut off at the edge of the picture.
    Light mode keeps the black tab it always had. */
-:root[data-theme="dark"] .spontab .f{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Cpath%20d%3D%22M23%200%20H87.9%20A26%2026%200%200%200%2087.9%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M23%200%20H87.9%20A26%2026%200%200%200%2087.9%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill%3D%22%23222e3e%22%2F%3E%3Cpath%20d%3D%22M23%200%20H87.9%20A26%2026%200%200%200%2087.9%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill%3D%22none%22%20stroke%3D%22%2355637a%22%20stroke-width%3D%223%22%20clip-path%3D%22url%28%23c%29%22%2F%3E%3C%2Fsvg%3E");}
+:root[data-theme="dark"] .spontab .f{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Cpath%20d%3D%22M23%200%20H82.34%20A29%2029%200%200%200%2082.34%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M23%200%20H82.34%20A29%2029%200%200%200%2082.34%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill%3D%22%23222e3e%22%2F%3E%3Cpath%20d%3D%22M23%200%20H82.34%20A29%2029%200%200%200%2082.34%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill%3D%22none%22%20stroke%3D%22%2355637a%22%20stroke-width%3D%223%22%20clip-path%3D%22url%28%23c%29%22%2F%3E%3C%2Fsvg%3E");}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .spontab .f{
-  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Cpath%20d%3D%22M23%200%20H87.9%20A26%2026%200%200%200%2087.9%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M23%200%20H87.9%20A26%2026%200%200%200%2087.9%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill%3D%22%23222e3e%22%2F%3E%3Cpath%20d%3D%22M23%200%20H87.9%20A26%2026%200%200%200%2087.9%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill%3D%22none%22%20stroke%3D%22%2355637a%22%20stroke-width%3D%223%22%20clip-path%3D%22url%28%23c%29%22%2F%3E%3C%2Fsvg%3E");}}
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Cpath%20d%3D%22M23%200%20H82.34%20A29%2029%200%200%200%2082.34%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M23%200%20H82.34%20A29%2029%200%200%200%2082.34%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill%3D%22%23222e3e%22%2F%3E%3Cpath%20d%3D%22M23%200%20H82.34%20A29%2029%200%200%200%2082.34%2046%20H23%20A23%2023%200%200%201%2023%200%20Z%22%20fill%3D%22none%22%20stroke%3D%22%2355637a%22%20stroke-width%3D%223%22%20clip-path%3D%22url%28%23c%29%22%2F%3E%3C%2Fsvg%3E");}}
 @keyframes sponA{0%,22%{transform:scaleY(1)} 28%,94%{transform:scaleY(0)} 100%{transform:scaleY(1)}}
 @keyframes sponB{0%,25%{transform:scaleY(0)} 31%,91%{transform:scaleY(1)} 97%,100%{transform:scaleY(0)}}
 /* with animation switched off it simply rests on the words */
@@ -1600,7 +1629,11 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
          which piece the immune system grips, which is not the question - the question
          is which piece exactly ONE holder grips and no other. -->
       <p class="homelede"><span class="sci-only">Finding the only holder that can grip a slice.</span><span class="abs-only">Finding the only holder that can hold a piece.</span></p>
-      <p class="homelib">The runs are kept in the <b>shared library</b> &mdash; the last page.</p>
+      <!-- V11100 - one name for one screen. This line still called it "the last page"
+           while the walk picker in the bar calls it "3 - Result", so the landing was
+           pointing at a page by a name that appears nowhere in the app. It IS still the
+           last page; it is the word "Result" that a person has to be able to find. -->
+      <p class="homelib">The runs are kept in the <b>shared library</b> &mdash; step 3, Result.</p>
     </div>
   </div>
 
@@ -2491,7 +2524,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V11000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V11100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -2553,8 +2586,11 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           <ul class="tiny" style="margin:0;padding-left:16px">
             <li>No accounts, no advertising, no tracking.</li>
             <li>Whatever you paste is scored on your own device. It is never sent anywhere.</li>
+            <!-- V11100 - there is no step 5. The walk is three steps and the groove
+                 sits under "Also here" in the picker; this was naming a page by a
+                 number the app stopped using. -->
             <li>The only thing the app fetches is the measured structure 1A6A, from the public
-                protein databank, and only when you open step 5 in Science.</li>
+                protein databank, and only when you open the Groove page in Science.</li>
             <li>Your theme and wording choices are remembered in your own browser, nowhere else.</li>
           </ul>
         </div>
@@ -3858,7 +3894,11 @@ function runProtein(){
   var seq=clean(document.getElementById('protseq').value);
   var w=parseInt(document.getElementById('win').value,10);
   if(seq.length<w){ document.getElementById('count').textContent='Paste a protein at least '+w+' residues long.'; return; }
-  if(!TWINOK){ var twin=runTwin(seq,w,alleleLabel()); if(twin){ showTwin(twin); return; } }
+  /* V11100 - only a WHOLE answer is worth offering back instead of scanning. A run
+     saved before the wall existed holds one holder's column and a 20-slice sample of
+     the rest, so being handed it is not being spared the work, it is being given a
+     smaller answer and told it is the same one. */
+  if(!TWINOK){ var twin=runTwin(seq,w,alleleLabel(),true); if(twin){ showTwin(twin); return; } }
   TWINOK=false; hideTwin();
   results=[]; selected=-1; RANKED=false; SORTBY='str'; resetRank();
   var ci=JTAB.col(alleleLabel());
@@ -5952,7 +5992,9 @@ function sendText(){
   L.push('Protein: ' + (pname ? pname : 'Jo-1 (histidyl-tRNA synthetase)'));
   L.push('');
   if(!r){
-    L.push('No slice chosen yet. Scan in step 2, then pick one in step 4.');
+    /* V11100 - the walk is three steps: the protein is step 1 and the slices are
+       picked off the result, not off a step 4 that no longer exists. */
+    L.push('No slice chosen yet. Scan in step 1, then pick one from the result.');
   }else{
     L.push('Chosen slice: ' + r.name);
     L.push('Letters: ' + r.seq);
@@ -6574,11 +6616,25 @@ function runsFind(id){ for(var i=0;i<RUNS.length;i++) if(RUNS[i].id===id) return
    an answer already. Scanning it again spends the time to arrive back where the
    library stands. So the question is asked rather than the work repeated - and a scan
    that IS run again replaces the old entry instead of standing beside it as a twin. */
-function runTwin(seq,w,holder){
+/* V11100 - and a run saved BEFORE the whole wall is not the same answer.
+   Moos: "Although i did new scan but still 2 is there why? So this is normal!?" It was
+   not normal. He pressed Scan, the app found a run for that same protein, cut and
+   holder sitting in his library, and offered it back instead of doing the work - but
+   that run was made the old way, where only ONE holder's column was worked out and the
+   other 116 were asked about the top 20 slices of 495. Measured on the app: Jo-1 cut at
+   16 gives 3 slices to DRB1*03:01 when it is scanned properly; his old run said 2.
+   So the question "have I answered this already?" now means "have I answered it
+   WHOLE?", and only a run carrying the wall (cnt) can say yes. Saving still looks for
+   any twin at all, whole or not - that is how the old one gets replaced rather than
+   left standing beside its own replacement. */
+function runTwin(seq,w,holder,wholeOnly){
   var s=(seq||'').slice(0,24000);
   for(var i=0;i<RUNS.length;i++){
     var r=RUNS[i];
-    if(r && r.win===w && r.holder===holder && (r.seq||'')===s) return r;
+    if(r && r.win===w && r.holder===holder && (r.seq||'')===s){
+      if(wholeOnly && !(r.cnt && r.cnt.length)) continue;
+      return r;
+    }
   }
   return null;
 }
@@ -7269,8 +7325,11 @@ function renderSaved(){
        tap now; the run is chosen by name from the list above. */
     + '';
   if(!all.length){
+    /* V11100 - scanning is step 1 now. The walk was eight pages when this line was
+       written and the protein sat on step 2; it is three steps and the protein comes
+       first, so this was sending people to the holders. */
     card.innerHTML='<div class="panel savedp"><p class="runempty">Nothing saved yet. '
-      +'Run a scan in step 2 and it keeps itself.</p></div>';
+      +'Run a scan in step 1 and it keeps itself.</p></div>';
     drawGrid(null);
     return;
   }
@@ -7303,7 +7362,14 @@ function renderSaved(){
   out+='<p class="runwho">'+esc(r.holder)+' · '+r.n+' '+sa('slices','pieces')+' · window '+r.win+'</p>';
   if(!libMine(r)) out+='<p class="runfrom">from the shared library</p>';
   out+=runLine(r.ic);
-  if(c){
+  /* V11100 - the split is only drawn for a run that was answered WHOLE.
+     An old run keeps a sel array too, but only for the 20 slices Narrow ever looked at,
+     so runCounts divides by 20 and the bar below would read as if those twenty were the
+     whole protein. That is how Moos's landing came to say 2 where a proper scan of the
+     same protein at the same cut gives 3. A run with no wall behind it says what it is
+     instead, and what to do about it. */
+  var whole = !!(r.cnt && r.cnt.length);
+  if(c && whole){
     out+='<div class="runsplit">'
       +'<i style="background:var(--green);width:'+(c.alone/c.tot*100).toFixed(1)+'%"></i>'
       +'<i style="background:var(--blue);width:'+(c.mild/c.tot*100).toFixed(1)+'%"></i>'
@@ -7312,8 +7378,14 @@ function renderSaved(){
       +'<span><i style="background:var(--green)"></i>'+c.alone+' this holder alone</span>'
       +'<span><i style="background:var(--blue)"></i>'+c.mild+' one or two</span>'
       +'<span><i style="background:var(--red)"></i>'+c.many+' more</span></div>';
+  } else if(c){
+    /* V11100 - and the old line here pointed at a button on a step that no longer
+       exists: "Narrow this run in step 4". Narrow is retired and the walk is three
+       steps. */
+    out+='<p class="runold">Answered the old way &mdash; only <b>'+c.tot+'</b> of '+r.n+' '
+       + sa('slices','pieces')+' were ever asked. Scan it again and every one is.</p>';
   } else {
-    out+='<p class="tiny" style="margin:8px 0 2px">Narrow this run in step 4 and the split appears here.</p>';
+    out+='<p class="runold">No answer kept with this run. Scan it again.</p>';
   }
   if(r.best && r.best.seq){
     out+='<div class="runpep"><span>'+esc(r.best.seq)+'</span><span class="tag">'
@@ -7435,8 +7507,27 @@ window.JO1RUNS=function(){ return RUNS; };
    slices, in order along the protein, green where that slice grips this holder and
    nothing else. The number in front of it is the count of those. Before any scan has
    run there is nothing true to show, so it says 495 in grey and stays still. */
+/* V11100 - the landing's number is about WHAT IS PICKED, and only when the whole wall
+   stands behind it.
+   Two things were wrong here at once, and Moos found both from one screenshot.
+     - it returned the newest run carrying any answer at all, whatever protein that run
+       was for. That was harmless while the landing had no chooser on it. Now that the
+       chooser lives on this screen, a number answering for a protein nobody has picked
+       is a label stuck on the wrong thing.
+     - it accepted runs saved BEFORE the whole wall. Those were worked out from one
+       holder's top 20 slices of 495, so they are not answers, they are samples. His
+       phone read 2 where a fresh scan of that same protein at that same cut gives 3.
+   A partly-answered run does not get the landing. The waiting count is shown instead,
+   and Scan now does the work properly rather than offering the old reading back. */
 function homeRun(){
-  for(var i=0;i<RUNS.length;i++) if(RUNS[i].sel) return RUNS[i];
+  var el=document.getElementById('protseq');
+  var s=clean(el?el.value:'').slice(0,24000);
+  if(!s) return null;
+  var w=parseInt((document.getElementById('win')||{value:'15'}).value,10)||15;
+  for(var i=0;i<RUNS.length;i++){
+    var r=RUNS[i];
+    if(r.sel && r.cnt && r.seq===s && r.win===w) return r;
+  }
   return null;
 }
 /* V10000 - the life of the big number on the landing.
@@ -7516,75 +7607,81 @@ function paintHome(){
       if(r.ic[i]!=null && r.ic[i]<bestIc){ bestIc=r.ic[i]; best=i; }
     }
   }
-  fan.innerHTML = r
-    ? '<div class="bignum">'+sciNum(alone)+'</div><p class="bigcap">of <b>'+r.n+'</b> slices grip '
-      +esc(r.holder)+' alone</p>'
-      /* V9800 - the waiting number pulses too. It carried style="animation:none", so the
-         only screen Moos ever looks at before a scan had a dead number on it - and when
-         he said the pulse was missing, he was looking at exactly this. The pulse is the
-         same one the answered number uses. */
-    : (function(){
-        /* V9800 - the landing chooses the protein. It used to announce "495 slices of
-           Jo-1" before anybody had chosen anything, which is a claim, not a fact. The
-           number now follows whatever is loaded, and what loads it is right here. */
-        var s=clean((document.getElementById('protseq')||{value:''}).value);
-        var ww=parseInt((document.getElementById('win')||{value:'15'}).value,10)||15;
-        var n=Math.max(0, s.length-ww+1);
-        var isJo1=(s===JO1_PROTEIN);
-        /* V10000 - NO NUMBER until a protein has been chosen. Moos: "I want the default
-           shows no number! And numbers are shown after choosing the desises."
-           He is right, and it is the same objection he made about the old landing: a
-           number standing on the first screen is a claim about something, and before a
-           choice there is nothing for it to be about. V9800 made the number follow the
-           protein; this stops it existing at all until there IS one. The dropdown opens
-           on "Choose a protein", and the number appears the moment one is picked.
-           A protein chosen before is still remembered and comes back with its number,
-           so the empty state is what a NEW phone sees, not something to get past every
-           morning - that was his own objection, "he need ti choose! The app will not
-           start!?", and it still stands. */
-        /* V10100 - what is drawn comes from PICKMODE, not from guessing at the
-           sequence. The old code worked the state out from whatever was loaded - empty
-           meant "Choose a protein", Jo-1's letters meant Jo-1, anything else meant
-           paste - which cannot express the state the user is in most often: paste
-           chosen, nothing pasted yet. The first repaint on that state snapped the
-           dropdown back to "Choose a protein" and hid the boxes under the cursor.
-           V10000 - the waiting number ROLLS. Moos: "We just make it Count up continuous
-           untill the user choose!" Not 000, which claims zero slices, and not an empty
-           gap that makes the screen jump when a number arrives. The rolling digits are
-           aria-hidden: three new digits every tenth of a second read aloud is noise,
-           and the caption underneath carries the meaning. */
-        var mode = PICKMODE;
-        var waiting = (mode!=='jo1') && !n;      /* nothing to count yet */
-        return (waiting ? '<div class="bignum numoff rolling" aria-hidden="true">'
-                          +sciNum('000')+'</div>'
-                        : '<div class="bignum numoff">'+sciNum(n)+'</div>')
-          +'<p class="bigcap">'
-          +  (waiting ? (mode==='paste' ? 'paste a protein to begin'
-                                        : 'choose a protein to begin')
-                      : ('slices of <b class="pname">'
-                         +esc(isJo1?'Jo-1':(PNAME||'this protein'))
-                         +'</b>, none of them asked yet'))
-          +'</p>'
-          +'<div class="pickbar">'
-          +  '<select id="hpick" aria-label="Which protein">'
-          +    '<option value="none"'+(mode==='none'?' selected':'')+'>Choose a protein</option>'
-          +    '<option value="jo1"'+(mode==='jo1'?' selected':'')+'>Jo-1</option>'
-          +    '<option value="paste"'+(mode==='paste'?' selected':'')+'>Paste another protein</option>'
-          +  '</select>'
-          +'</div>'
-          /* V10400 - why the app opened where it did. Moos opened it, saw Jo-1 and
-             asked whether that was normal; if it caught him out it will catch others.
-             It is shown only once a protein HAS been chosen, so the first person
-             never sees it, and it sits under the chooser so nothing above it moves. */
-          +(waiting ? '' : '<span class="lastnote">the app opens on the last protein'
-                           +' you chose</span>')
-          +'<input id="hname" type="text" aria-label="What is it called"'
-          +  (mode==='paste'?'':' hidden')+' placeholder="What is it called? e.g. insulin"'
-          +  ' value="'+esc(PNAME||'')+'">'
-          +'<textarea id="hseq" rows="3" spellcheck="false" aria-label="Paste a protein"'
-          +  (mode==='paste'?'':' hidden')+' placeholder="Paste the letters of any protein">'
-          +  (mode==='paste'?esc(s):'')+'</textarea>';
-      })();
+  /* V11100 - THE LANDING IS THE CHOOSER, ALWAYS.
+     Moos, on the running app: "i canot choose the protten at front...also i am
+     thanking we always land on choose priten!" He was right, and it was worse than it
+     looked from the screen. The chooser was drawn only in the branch for a phone with
+     NOTHING saved on it. So the app worked on its first day and then quietly stopped
+     having a way to pick a protein at all: from the first saved run onwards the only
+     road to one was step 1, and the landing - the screen everybody lands on - just
+     reported an old answer.
+     The number and its line still change with the state; that is their job. Everything
+     a person TOUCHES is now drawn in both states, in the same order, at the same place
+     down the screen, which is his standing rule: "evry thung must be in same place! And
+     open new containers must happen down!" */
+  var s=clean((document.getElementById('protseq')||{value:''}).value);
+  var ww=parseInt((document.getElementById('win')||{value:'15'}).value,10)||15;
+  var n=Math.max(0, s.length-ww+1);
+  var isJo1=(s===JO1_PROTEIN);
+  /* V10100 - what is drawn comes from PICKMODE, not from guessing at the sequence. The
+     old code worked the state out from whatever was loaded - empty meant "Choose a
+     protein", Jo-1's letters meant Jo-1, anything else meant paste - which cannot
+     express the state the user is in most often: paste chosen, nothing pasted yet. */
+  var mode=PICKMODE;
+  var waiting=(mode!=='jo1') && !n;        /* nothing to count yet */
+  var head;
+  if(r){
+    /* V11100 - and the number SAYS WHAT IT IS ABOUT. Moos sent a picture of his phone
+       reading "2 of 494 slices grip DRB1*03:01 alone" and asked why it had not moved.
+       Nothing on that screen said Jo-1, and nothing said the 494 came from cutting the
+       509 letters into SIXTEENS - fifteens give 495. A number with no subject is not an
+       answer, it is a number. */
+    head='<div class="bignum">'+sciNum(alone)+'</div>'
+       + '<p class="bigcap">of <b>'+r.n+'</b> '+sa('slices','pieces')
+       + ' of <b class="pname">'+esc(r.name||'this protein')+'</b> '
+       + sa('grip','hold')+' '+esc(r.holder)+' alone</p>'
+       + '<span class="cutnote">cut at '+r.win+'</span>';
+  } else {
+    /* V10000 - NO NUMBER until a protein has been chosen. Moos: "I want the default
+       shows no number! And numbers are shown after choosing the desises." A number
+       standing on the first screen is a claim about something, and before a choice
+       there is nothing for it to be about. The waiting digits ROLL - "We just make it
+       Count up continuous untill the user choose!" - not 000, which claims zero
+       slices, and not an empty gap that makes the screen jump when a number arrives.
+       They are aria-hidden: three new digits every tenth of a second read aloud is
+       noise, and the caption underneath carries the meaning. */
+    head=(waiting ? '<div class="bignum numoff rolling" aria-hidden="true">'
+                    +sciNum('000')+'</div>'
+                  : '<div class="bignum numoff">'+sciNum(n)+'</div>')
+       + '<p class="bigcap">'
+       + (waiting ? (mode==='paste' ? 'paste a protein to begin'
+                                    : 'choose a protein to begin')
+                  : (sa('slices','pieces')+' of <b class="pname">'
+                     +esc(isJo1?'Jo-1':(PNAME||'this protein'))
+                     +'</b>, none of them asked yet'))
+       + '</p>'
+       + '<span class="cutnote">'+(waiting?'':'cut at '+ww)+'</span>';
+  }
+  fan.innerHTML = head
+    + '<div class="pickbar">'
+    +   '<select id="hpick" aria-label="Which protein">'
+    +     '<option value="none"'+(mode==='none'?' selected':'')+'>Choose a protein</option>'
+    +     '<option value="jo1"'+(mode==='jo1'?' selected':'')+'>Jo-1</option>'
+    +     '<option value="paste"'+(mode==='paste'?' selected':'')+'>Paste another protein</option>'
+    +   '</select>'
+    + '</div>'
+    /* V10400 - why the app opened where it did. Moos opened it, saw Jo-1 and asked
+       whether that was normal; if it caught him out it will catch others. It is shown
+       only once a protein HAS been chosen, so the first person never sees it, and it
+       sits under the chooser so nothing above it moves. */
+    + (waiting ? '' : '<span class="lastnote">the app opens on the last protein'
+                      +' you chose</span>')
+    + '<input id="hname" type="text" aria-label="What is it called"'
+    +   (mode==='paste'?'':' hidden')+' placeholder="What is it called? e.g. insulin"'
+    +   ' value="'+esc(PNAME||'')+'">'
+    + '<textarea id="hseq" rows="3" spellcheck="false" aria-label="Paste a protein"'
+    +   (mode==='paste'?'':' hidden')+' placeholder="Paste the letters of any protein">'
+    +   (mode==='paste'?esc(s):'')+'</textarea>';
   /* V10000 - and now the number is on the page, make it move: roll while nothing is
      chosen, count up to the real figure the moment one is. */
   numLife();

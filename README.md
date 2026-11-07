@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V11000**.
+Version **V11100**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -51,6 +51,13 @@ Everything runs in the browser. No server, no build step.
   through `/api/library`. With the library unreachable the app falls back to this phone's
   own runs and says so.
 - **Notes** - sources, pocket chemistry, and the safety record of this approach.
+
+From V11100 the first screen carries the protein chooser on every visit. Until then it
+was drawn only when nothing had been saved, so a phone that had run one scan had no way
+to pick a protein at all. The number on that screen names the protein and the cut it was
+made at, and a run saved before the whole wall existed is no longer offered back in place
+of scanning - those were worked out from one holder's top 20 slices of 495, and handing
+one back as an answer is how the app came to report 2 where a full scan gives 3.
 
 ## Deploy
 
