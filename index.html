@@ -516,6 +516,13 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   margin:14px 0 0;width:100%;max-width:320px}
 .pickbar select{width:100%;font:inherit;font-size:14px;padding:9px 10px;border-radius:10px;
   border:2px solid var(--line);background:var(--panel);color:var(--ink)}
+/* V11700 - the protein and the cut, side by side, because the number above them is
+   made of both. The protein takes whatever is left; the cut is only ever two digits,
+   so it is given exactly the room two digits and the arrow need and no more. */
+/* the cut sits under the protein, the same width, and is not there at all until a
+   protein has been chosen. Its box carries the whole phrase - "cut at 15" - because a
+   bare figure under a protein name says nothing. */
+.pickbar select.cutpick[hidden]{display:none}
 .inner.home input#hname{width:100%;max-width:320px;margin:9px 0 0;font:inherit;
   font-size:13.5px;padding:9px 11px;border-radius:10px;border:2px solid var(--line);
   background:var(--panel);color:var(--ink)}
@@ -630,6 +637,14 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    arrives or leaves - his own rule, "evry thung must be in same place!" */
 .cutnote{display:block;font-family:var(--mono);font-size:10.5px;color:var(--mute);
   text-align:center;margin:8px 0 0;line-height:1.35;max-width:300px;min-height:15px}
+/* V11500 - the answer at the head of step 3. The same number and the same line as the
+   landing, a size down: on the landing it is the whole screen, here it stands over the
+   grid it is drawn from and must not shout over it. */
+.gridans{display:flex;flex-direction:column;align-items:center;margin:0 0 16px;
+  padding:0 0 14px;border-bottom:1px solid var(--line)}
+.gridans .bignum{font-size:40px;margin:0}
+.gridans .bigcap{margin:8px 0 0;min-height:0}
+.gridans .cutnote{margin:6px 0 0;min-height:0}
 .bigcap{font-family:var(--mono);font-size:11px;color:var(--ink);margin:12px 0 0;
   text-align:center;min-height:38px}
 /* The height is pinned with min-height alone. display:flex was tried first and broke
@@ -1569,6 +1584,10 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
   <select id="notesel" class="notesel" aria-label="Notes and contact">
     <option value="" selected>Notes</option>
     <option value="about">About</option>
+    <!-- V11200 - two pages lifted out of About, which had grown to 414 lines against
+         10 to 41 for every other page here. -->
+    <option value="road">The disease, A to Z</option>
+    <option value="why">Why one groove</option>
     <option value="faq">Questions</option>
     <option value="how">How to use it</option>
     <option value="read">Reading it</option>
@@ -1633,7 +1652,8 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
            while the walk picker in the bar calls it "3 - Result", so the landing was
            pointing at a page by a name that appears nowhere in the app. It IS still the
            last page; it is the word "Result" that a person has to be able to find. -->
-      <p class="homelib">The runs are kept in the <b>shared library</b> &mdash; step 3, Result.</p>
+      <!-- V11300 - not shared any more. Nothing is sent; the library is this phone. -->
+      <p class="homelib">The runs are kept in <b>your library</b> &mdash; step 3, Result.</p>
     </div>
   </div>
 
@@ -1683,7 +1703,9 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         <div class="hlafield">
           <select id="allele" aria-label="Which holder"></select>
         </div>
-        <p class="tiny" style="margin:11px 0 0"><span class="sci-only">117 types. If the holder is not known, leave <b>DRB1*03:01</b> &mdash; the one linked to anti-Jo-1.</span><span class="abs-only">117 kinds of holder. If the holder is not known, leave it as it is &mdash; this is the one tied to the Jo-1 illness.</span></p>
+        <!-- V11600 - this used to say "leave DRB1*03:01". Nothing is left as it is any
+             more: a run is a protein and a holder, and changing one clears the other. -->
+        <p class="tiny" style="margin:11px 0 0"><span class="sci-only">117 types, and none is chosen for you. Changing the protein clears this, because a different protein is a different question. <b>DRB1*03:01</b> is the one linked to anti-Jo-1, if that is the question you are asking.</span><span class="abs-only">117 kinds of holder, and none is picked for you. Changing the protein clears this, because a different protein is a different question. <b>DRB1*03:01</b> is the one tied to the Jo-1 illness, if that is what you are asking about.</span></p>
       </div>
       <div class="panel">
         <h3><span class="sci-only">Checked live</span><span class="abs-only">Three known examples</span></h3>
@@ -1921,14 +1943,16 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
       <p class="steplede sci-only"><b>Step 3 of 3</b> &middot; the result</p>
       <p class="steplede abs-only"><b>Step 3 of 3</b> &middot; what came out</p>
       <div class="panel">
-        <h3>Shared library</h3>
+        <h3>Your library</h3>
         <!-- V9900 - this line used to offer Export as the way anybody else could see a
              run, because that was the only way there was. The library is genuinely
              shared now, so it says what actually happens, including the part worth
              knowing before you paste something. -->
-        <p class="tiny" style="margin:0 0 11px">Every scan keeps itself here, and goes to a
-        library everyone using the app shares &mdash; so other people can read it, and you
-        can read theirs. Export still writes a file you can keep or send yourself.</p>
+        <!-- V11300 - this said runs go to a library everyone shares. They do not any
+             more: nothing is sent at all. -->
+        <p class="tiny" style="margin:0 0 11px">Every scan keeps itself here, on this phone.
+        Nothing is sent anywhere. Export writes a file you can keep or send yourself, and
+        that is the only way a run leaves your device.</p>
         <!-- V10700 - the wall of marks is gone. Moos: "the libbat wall is confusing,
              we dont knwo what proten is there". Every mark was the same grey square,
              so the only way to learn which run was which was to tap each one. A run
@@ -1959,18 +1983,36 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
     <div class="inner">
       <div class="modeslot"></div>
       <section class="notepage" data-note="about">
+      <!-- V11200 - About was 414 lines against 10 to 41 for every other note page, and
+           Moos said so: "i want to resection the about! It uas all ot of information! I
+           want to move things out as independent pages!" It is three pages now. What a
+           stranger needs first stays here; the biology and the argument for going after
+           one groove have pages of their own, reachable from the same menu. Nothing was
+           rewritten in the move - the words are the words that were already there. -->
       <!-- V9800 - what the app is, for someone who is not a scientist. It is the first
            thing in Notes on purpose: it is what Moos hands to a sponsor. -->
       <div class="panel mission">
         <h3>What this is</h3>
-        <p>In some diseases the immune system turns on the body itself. In one of them it
-        attacks a protein called <b>Jo-1</b>, and the lungs and muscles pay the price. The
-        attack starts small: one short piece of that protein gets picked up and held out to
-        the immune system, like a wanted poster.</p>
-        <p><b>ONLY ONE is a free app that hunts for that piece.</b> It cuts Jo-1 into all 495
-        of its pieces and tests every one of them against 117 different people's immune
-        systems &mdash; about <b>58,000 checks</b> &mdash; looking for the rare piece that one
-        person's body reacts to and almost nobody else's.</p>
+        <!-- V11200 - the app is not about one protein and this page should not open as
+             if it were. Moos: "And we shos the jo-1 as example! Right!?" He is right,
+             and since V11000 it is simply true: one press scans every slice of ANY
+             protein against all 117 holders, and the Grid is drawn for any run. Jo-1 is
+             the protein that comes loaded and the one every number on these pages is
+             worked out from, which is what an example is. -->
+        <p>In some diseases the immune system turns on the body itself. The attack starts
+        small: one short piece of a protein gets picked up and held out to the immune
+        system, like a wanted poster.</p>
+        <p><b>ONLY ONE is a free app that hunts for that piece.</b> Give it any protein. It
+        cuts it into every overlapping piece and tests every one against 117 different
+        people's immune systems, looking for the rare piece that one person's body reacts
+        to and almost nobody else's.</p>
+        <p><b>Jo-1 is the worked example</b>, and it is the one loaded when the app opens.
+        It is the protein attacked in one of these diseases, where the lungs and muscles pay
+        the price. Cut into fifteens it makes 495 slices, so one press is about
+        <b>58,000 checks</b> &mdash; and 61 of those 495 turn out to belong to a single
+        holder. Everything on these pages is worked out from Jo-1 because it has to be
+        worked out from something. Paste a protein of your own and the app does the same
+        for it.</p>
         <p>That difference is the whole point: a piece that everyone reacts to cannot be
         blocked without weakening normal defence against infection, but a piece belonging to
         one person can.</p>
@@ -1980,18 +2022,84 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
              until V9900 the first one was: the library was localStorage, one phone. The
              library is now genuinely shared, which makes the old promise false, so it is
              replaced by a plain description of what actually travels. -->
-        <p>The app runs on an ordinary phone, in a browser, free. Every search is saved to
-        a library that everyone using the app shares, so the next person starts where the
-        last one stopped &mdash; which means the protein you paste, its name and its
-        results are sent to that library and other people can read them. Nothing else
-        about you is sent, and there is no account and no sign-in. If you would rather a
-        protein stayed private, do not paste it here.</p>
+        <!-- V11300 - the library stopped being shared, so this paragraph goes back to
+             the plain promise it used to make, which is true again: nothing is sent. -->
+        <p>The app runs on an ordinary phone, in a browser, free. <b>Nothing you paste ever
+        leaves your device.</b> Every scan is kept on the phone that ran it, there is no
+        account and no sign-in, and no protein, name or result is sent anywhere. If you
+        want to pass a run to somebody, Export writes a file and you send it yourself.</p>
         <p>It is a search tool, not a diagnosis &mdash; it hands you a shortlist for a
         laboratory to test, not an answer.</p>
         <p class="missiongoal"><b>The mission is simple: take a search that today needs a
         university, and put it in the hands of anyone willing to look.</b></p>
       </div>
 
+      <div class="panel story">
+        <h3>The story</h3>
+        <p style="margin:0 0 8px">Jo-1 is a protein every one of your cells needs. In some people the
+        immune system turns on it, and the muscles and the lungs pay for it.</p>
+        <p style="margin:0 0 8px">The whole thing starts in a groove. One HLA molecule picks up a short
+        piece of Jo-1, fifteen letters long, and holds it up for a T cell to read. <b>Which piece gets
+        picked decides everything that follows.</b></p>
+        <p style="margin:0 0 8px">So that is the question this app was built around &mdash; and it was
+        built by a designer, on a phone, because it turns out a phone can answer it.</p>
+      </div>
+      <div class="panel story">
+        <h3>Why this method</h3>
+        <p style="margin:0 0 8px">ONLY ONE was built by <b>Moosa Silwadi</b>, an architect and designer,
+        after his own diagnosis of anti-Jo-1 antisynthetase syndrome in 2026. Not a laboratory
+        project &mdash; one person reading, asking, and checking.</p>
+        <p style="margin:0 0 8px">The reading kept arriving at the same fork. One road quiets the whole
+        immune system: it works, and it costs the ordinary defences against germs. The other road
+        goes after one thing only &mdash; the single groove where this disease is ordered.
+        <b>A key for one lock, instead of cutting the power to the whole building.</b></p>
+        <p style="margin:0 0 8px">That is the method ONLY ONE was built for. It does not treat anything
+        and it does not design a medicine. It narrows: hundreds of possible slices down to the few
+        worth a laboratory's time, and it refuses the ones that would grip everybody else's holder too.</p>
+        <p style="margin:0">Two attempts at this idea reached trial years ago and both were stopped,
+        because a peptide that sits in the groove can wake the cells it was meant to quiet. That is in
+        the Warning panel below, and it is the reason the app narrows carefully instead of promising
+        anything.</p>
+      </div>
+      <div class="panel">
+        <h3>What makes it useful</h3>
+        <p style="margin:0 0 8px">The established tools score a piece against <b>one</b> HLA type. That
+        is the right first question, and they answer it well.</p>
+        <p style="margin:0 0 8px">This app asks the second one: <b>does the same piece also grip
+        everybody else's holder?</b> A piece that grips many types would blunt normal defence against
+        germs &mdash; so a tight score on its own is not good news. It is a warning sign waiting to be
+        checked.</p>
+        <p style="margin:0">117 holders, every one of them, in about two seconds, in your own browser.
+        That check is the app.</p>
+      </div>
+      <div class="panel">
+        <h3>What is new here</h3>
+        <dl class="howto qa">
+          <dt>The 117 check is the main move</dt>
+          <dd>Not a feature buried in a menu. It is the button under the map, and the whole app is
+          arranged around it.</dd>
+          <dt>Narrowing turns the list upside down</dt>
+          <dd>Rank every slice by how few other people it grips and the order reverses: the tightest
+          piece is often the worst candidate. That reversal is the finding, and it is the thing you
+          cannot see by scoring one holder at a time.</dd>
+          <dt>It runs on your phone, not on a server</dt>
+          <dd>The trained networks are inside the page. No upload, no account, no waiting. Your
+          sequence never leaves your phone.</dd>
+          <dt>One engine, two languages</dt>
+          <dd>Science gives you the nanomolar numbers. Abstract gives you the same answer in plain
+          words. One switch, same engine underneath.</dd>
+          <dt>The groove is a real picture</dt>
+          <dd>Built on measured coordinates from PDB 1A6A, with the chosen letters laid along the
+          measured path &mdash; turn it, slide it, open it full screen. Not a cartoon drawn to look
+          convincing.</dd>
+        </dl>
+      </div>
+      </section>
+
+      <!-- V11200 - the biology, lifted whole out of About. It is the longest thing
+           in Notes by far and it is a different kind of reading from the page a
+           sponsor opens first. Jo-1 is the worked example throughout. -->
+      <section class="notepage" data-note="road" hidden>
       <!-- V9800 - the whole road, A to Z. Moos could not join the dots between his
            disease, this app and the decoy idea, and neither could a sponsor reading the
            paragraph above on its own. It is written as text, not drawn as a picture, so
@@ -2088,9 +2196,15 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           <div class="azc"><b>The judge</b><span>A T cell. It reads what the scavenger is
             holding up and decides. Each one recognises exactly one shape, out of millions
             patrolling. In this disease a single judge gives the wrong verdict.</span></div>
+          <!-- V11200 - the B cell carries a hand too. Moos asked which cells hold the
+               slice up and this card named only the scavenger, so the B cell read as if
+               it only ever makes antibodies. It shows as well, and that matters here:
+               showing is not one cell's job, it is a job three kinds of cell do, which
+               is why the 117 hands are worth rehearsing at all. -->
           <div class="azc"><b>The factory</b><span>A B cell. It cannot start without the judge's
             permission. Given it, it pours out antibodies for months &mdash; the anti-Jo-1 a blood
-            test reads.</span></div>
+            test reads. It carries the same hand the scavenger does and shows slices too, so
+            three kinds of cell hold pieces up: macrophage, dendritic cell and B cell.</span></div>
           <div class="azc"><b>The killer</b><span>Another white blood cell, waiting for orders.
             It destroys the cells it is pointed at. In this disease it goes into muscle and lung
             tissue, and it is the one that does most of the actual damage.</span></div>
@@ -2206,6 +2320,12 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         <p class="azend"><b>So this is not a cure and not a treatment. It is the shortlist that
         has to exist before either one can &mdash; and today it is the only one there is.</b></p>
       </div>
+      </section>
+
+      <!-- V11200 - the argument, lifted whole out of About: why one groove is worth
+           going after at all, what the app actually does about it, and why the
+           slice that grips hardest is the wrong one to pick. -->
+      <section class="notepage" data-note="why" hidden>
       <div class="panel whyp">
         <h3>Why go after one groove?</h3>
         <p class="sub">The whole idea, in one picture</p>
@@ -2312,66 +2432,31 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         in the one pocket that differs. The app ranks on the second.</p>
       </div>
 
-      <div class="panel story">
-        <h3>The story</h3>
-        <p style="margin:0 0 8px">Jo-1 is a protein every one of your cells needs. In some people the
-        immune system turns on it, and the muscles and the lungs pay for it.</p>
-        <p style="margin:0 0 8px">The whole thing starts in a groove. One HLA molecule picks up a short
-        piece of Jo-1, fifteen letters long, and holds it up for a T cell to read. <b>Which piece gets
-        picked decides everything that follows.</b></p>
-        <p style="margin:0 0 8px">So that is the question this app was built around &mdash; and it was
-        built by a designer, on a phone, because it turns out a phone can answer it.</p>
+      <!-- V11200 - Moos, half joking: "So why not injuctiong all 495 as treatment". It is
+           the obvious question and the app had no answer to it anywhere, even though the
+           whole argument for hunting ONE slice is the answer. It belongs on this page
+           rather than in Questions: it is the argument, not a detail. -->
+      <div class="panel whyp">
+        <h3>Why not just use all 495?</h3>
+        <p class="lede">Because that is, near enough, the whole protein &mdash; and that is
+        what has already been tried.</p>
+        <p>Cut Jo-1 into 495 overlapping slices and put them all back together and you have
+        Jo-1 again. Every failed trial in the record below injected either a whole protein or
+        a guessed piece of one.</p>
+        <div class="whyrows">
+          <div class="whyrow r"><b>It feeds the fire</b><span>&mdash; one of those 495 is the
+            piece already driving the attack. More of it is more of the thing you are trying
+            to stop. CGP77116 was halted after 8 patients: 3 had flares caused by the
+            treatment itself.</span></div>
+          <div class="whyrow r"><b>It quiets what you need</b><span>&mdash; most of the 495 are
+            pieces every holder grips. Teach the body to ignore those and you have weakened
+            normal defence against infection along with the disease.</span></div>
+          <div class="whyrow g"><b>One slice, one holder</b><span>&mdash; a piece that only
+            a single holder grips reaches that holder's disease and almost nothing else.
+            That is the whole bet, and it is the one thing nobody has tried.</span></div>
+        </div>
       </div>
-      <div class="panel story">
-        <h3>Why this method</h3>
-        <p style="margin:0 0 8px">ONLY ONE was built by <b>Moosa Silwadi</b>, an architect and designer,
-        after his own diagnosis of anti-Jo-1 antisynthetase syndrome in 2026. Not a laboratory
-        project &mdash; one person reading, asking, and checking.</p>
-        <p style="margin:0 0 8px">The reading kept arriving at the same fork. One road quiets the whole
-        immune system: it works, and it costs the ordinary defences against germs. The other road
-        goes after one thing only &mdash; the single groove where this disease is ordered.
-        <b>A key for one lock, instead of cutting the power to the whole building.</b></p>
-        <p style="margin:0 0 8px">That is the method ONLY ONE was built for. It does not treat anything
-        and it does not design a medicine. It narrows: hundreds of possible slices down to the few
-        worth a laboratory's time, and it refuses the ones that would grip everybody else's holder too.</p>
-        <p style="margin:0">Two attempts at this idea reached trial years ago and both were stopped,
-        because a peptide that sits in the groove can wake the cells it was meant to quiet. That is in
-        the Warning panel below, and it is the reason the app narrows carefully instead of promising
-        anything.</p>
-      </div>
-      <div class="panel">
-        <h3>What makes it useful</h3>
-        <p style="margin:0 0 8px">The established tools score a piece against <b>one</b> HLA type. That
-        is the right first question, and they answer it well.</p>
-        <p style="margin:0 0 8px">This app asks the second one: <b>does the same piece also grip
-        everybody else's holder?</b> A piece that grips many types would blunt normal defence against
-        germs &mdash; so a tight score on its own is not good news. It is a warning sign waiting to be
-        checked.</p>
-        <p style="margin:0">117 holders, every one of them, in about two seconds, in your own browser.
-        That check is the app.</p>
-      </div>
-      <div class="panel">
-        <h3>What is new here</h3>
-        <dl class="howto qa">
-          <dt>The 117 check is the main move</dt>
-          <dd>Not a feature buried in a menu. It is the button under the map, and the whole app is
-          arranged around it.</dd>
-          <dt>Narrowing turns the list upside down</dt>
-          <dd>Rank every slice by how few other people it grips and the order reverses: the tightest
-          piece is often the worst candidate. That reversal is the finding, and it is the thing you
-          cannot see by scoring one holder at a time.</dd>
-          <dt>It runs on your phone, not on a server</dt>
-          <dd>The trained networks are inside the page. No upload, no account, no waiting. Your
-          sequence never leaves your phone.</dd>
-          <dt>One engine, two languages</dt>
-          <dd>Science gives you the nanomolar numbers. Abstract gives you the same answer in plain
-          words. One switch, same engine underneath.</dd>
-          <dt>The groove is a real picture</dt>
-          <dd>Built on measured coordinates from PDB 1A6A, with the chosen letters laid along the
-          measured path &mdash; turn it, slide it, open it full screen. Not a cartoon drawn to look
-          convincing.</dd>
-        </dl>
-      </div>
+
       </section>
       <section class="notepage" data-note="faq" hidden>
       <div class="panel">
@@ -2380,8 +2465,34 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           <dt>Is this medical advice?</dt>
           <dd>No. It is a research filter. It cannot diagnose anything and it cannot tell you anything
           about your own body.</dd>
+          <!-- V11600 - this said "No. Leave DRB1*03:01". Nothing is left as it is now:
+               a run is a protein AND a holder, and both are chosen every time. -->
           <dt>Do I need to know my HLA type?</dt>
-          <dd>No. Leave DRB1*03:01 &mdash; the type linked to anti-Jo-1 &mdash; and the app works.</dd>
+          <dd>You have to choose one, because an answer is only an answer for a particular
+          holder. You do not need it to be <i>yours</i>: pick any of the 117 and the app
+          works. <b>DRB1*03:01</b> is the one linked to anti-Jo-1. Changing the protein
+          clears the choice, because a different protein is a different question.</dd>
+          <!-- V11200 - four questions Moos asked out loud while reading the app, none of
+               which it answered anywhere. "So how we know this hilder from 117 is inside
+               the body!?", "So each disease has its own holder?", "So everyone has
+               DRB1*03:01" - the last one a straight misreading that the app had given him
+               no way to correct. -->
+          <dt>Do I have all 117?</dt>
+          <dd>No. You carry a handful &mdash; half inherited from your mother, half from your
+          father, and the same handful for life. The 117 here are the types <b>other people</b>
+          carry, so a slice can be tried against a population instead of against one person.</dd>
+          <dt>Are the holders different in different cells?</dt>
+          <dd>No. Every cell in your body that shows slices &mdash; macrophage, dendritic cell,
+          B cell &mdash; holds up the <b>same</b> set, because they all read your own DNA. The
+          holder does not change from cell to cell. Only the slice in it does.</dd>
+          <dt>How would I find out which holders I have?</dt>
+          <dd>A test called HLA typing, from a cheek swab or a blood sample. A laboratory does
+          it, and it is routine &mdash; it is the same test transplant matching uses.</dd>
+          <dt>Does each disease have its own holder?</dt>
+          <dd>No. What matters is a <b>pair</b>: a holder and a slice. One holder can be linked
+          to several diseases, and one disease to several holders &mdash; coeliac runs with two,
+          DQ2 and DQ8. And a holder is a risk, not a cause: most people who carry a risk type
+          never get anything. The holder only decides which slices can be held up at all.</dd>
           <dt>Where do the numbers come from?</dt>
           <dd>The MHCnuggets class II networks, trained on measured binding data and published with
           their paper. They are predictions, not measurements.</dd>
@@ -2396,6 +2507,15 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           <dt>What counts as a good result?</dt>
           <dd>Tight on this holder <b>and</b> loose on the other 116. Tight on everything is the result
           that should stop you.</dd>
+          <!-- V11200 - Moos read "no other holder can grip it" as "no other person", which
+               is a reasonable reading of the word alone and is not what the app means. -->
+          <dt>&ldquo;Only one holder&rdquo; &mdash; one holder, or one person?</dt>
+          <dd>One <b>holder</b>. When the app says a slice is gripped by one holder alone, it
+          means none of the other 116 grips it &mdash; not that nobody else in the world holds
+          it. Anyone carrying that same type has the same hand and would grip it the same way.
+          And &ldquo;the other 116&rdquo; is not every holder there is: about <b>11,910</b> class II
+          types are named in IPD-IMGT/HLA, and only these 117 have a trained network. How much
+          of the population the 117 cover has not been measured, so the app does not claim it.</dd>
           <dt>Does this design a medicine?</dt>
           <dd>No. It narrows. It takes hundreds of possibilities down to a handful worth a laboratory's
           time &mdash; and the Warning panel below says what happened the last two times this idea
@@ -2406,20 +2526,33 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
       <section class="notepage" data-note="how" hidden>
       <div class="panel">
         <h3>How to use it</h3>
+        <!-- V11200 - rewritten for the walk the app actually has. This page still
+             described four steps in the old order - Holder first, then Protein, then
+             Results, then Groove - and told people to press a "Load Jo-1" button that
+             came out in V9800 and a "Check this slice against all 117 types" button that
+             Scan made unnecessary in V11000. A page of instructions for buttons that are
+             not there is worse than no page. -->
         <dl class="howto">
-          <dt>1 &middot; Holder</dt>
-          <dd>Pick whose HLA type you are testing. Every number in the app depends on this one choice.
-          If the holder is not known, leave DRB1*03:01 &mdash; the type linked to anti-Jo-1.</dd>
-          <dt>2 &middot; Protein</dt>
-          <dd>Paste a protein, drop a FASTA file, or press <b>Load Jo-1</b>. Press <b>Scan</b> and every
-          window along it is scored.</dd>
-          <dt>3 &middot; Results</dt>
-          <dd>The map draws grip strength along the whole protein; peaks are the slices that grip.
-          Drag across it, or use <b>&#9664; &#9654;</b> to step one slice at a time and
-          <b>+ &minus;</b> to zoom in. Then press <b>Check this slice against all 117 types</b> &mdash;
-          that is the answer worth having.</dd>
-          <dt>4 &middot; Groove</dt>
-          <dd>The selected slice drawn in the holder's groove, with the four pockets marked.</dd>
+          <dt>1 &middot; Slices</dt>
+          <dd>Choose the protein on the first screen &mdash; Jo-1 is there as the worked
+          example, or paste any protein of your own. Set how long a slice is (15 unless you
+          have a reason). Then choose a holder in step 2, and press <b>Scan</b>: one press
+          scores <b>every</b> slice against <b>all 117</b> holders, and the bar says how
+          long it has left.</dd>
+          <dt>2 &middot; Holders</dt>
+          <dd>Pick whose HLA type the answer is pointed at. It does not decide the work
+          &mdash; the scan does all 117 whatever is chosen &mdash; only whose column is read
+          out. Nothing is picked for you, and choosing a new protein clears it again:
+          a different protein is a different question. <b>DRB1*03:01</b> is the one linked
+          to anti-Jo-1.</dd>
+          <dt>3 &middot; Result</dt>
+          <dd>The Grid: one square per slice, green where exactly one holder of the 117
+          grips it. Tap a square to open its 117, tap a holder to see its numbers. The graph
+          above it draws how many of the 117 grip each slice along the protein.</dd>
+          <dt>Also here</dt>
+          <dd>Under the walk picker: <b>Graph</b>, <b>Shortlist</b> and <b>Groove</b> &mdash;
+          the chosen slice drawn in the holder's groove with its four pockets marked. They
+          are not steps on the way to an answer, so they sit outside the walk.</dd>
         </dl>
       </div>
       </section>
@@ -2524,7 +2657,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           DR3 motif: Geluk A, et al. <i>J Immunol</i> 1994;152:5742. Pockets: Doytchinova IA, Flower DR; Kaabinejadian S, et al. <i>Front Immunol</i> 2022;13:835454; Scholz EM, et al. <i>Front Immunol</i> 2017;8:984. HLA risk: Rothwell S, et al. <i>Ann Rheum Dis</i> 2019. Jo-1 protein: UniProt P12081. Structure referenced: PDB 1A6A (Ghosh P, et al. <i>Nature</i> 1995;378:457).<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V11100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V11700 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -3507,17 +3640,35 @@ function register(seq){
 }
 
 /* ================= allele picker ================= */
+/* V11600 - NOTHING IS PRE-PICKED, not even DRB1*03:01.
+   Moos, after watching insulin come back measured against a holder nobody had chosen
+   for it: "yes defintitly....when you start new dieses you srtat new prtenet and
+   hoders...every thng is new", and then "we need ot do same for jo-1...right?".
+   The holder used to open on DRB1*03:01 and simply stay there while the protein
+   changed underneath it, so a run could be a question nobody had asked. A run is a
+   protein AND a holder; both are chosen, every time. */
 var sel=document.getElementById('allele');
+(function(){
+  var o0=document.createElement('option');
+  o0.value=''; o0.textContent='Choose a holder'; o0.selected=true;
+  sel.appendChild(o0);
+})();
 ALLELES.forEach(function(a){
   var o=document.createElement('option'); o.value=a.f; o.textContent=a.label;
-  if(a.label==='DRB1*03:01') o.selected=true;
   sel.appendChild(o);
 });
-function alleleLabel(){ return sel.options[sel.selectedIndex].textContent; }
+/* '' while nothing is chosen. Everything that needs a holder asks holderChosen first. */
+function alleleLabel(){ return sel.value ? sel.options[sel.selectedIndex].textContent : ''; }
+function holderChosen(){ return !!sel.value; }
 
 function paintPockets(){
   var hosts=document.querySelectorAll('.js-pockets'); if(!hosts.length) return;
   var host={ set innerHTML(v){ Array.prototype.forEach.call(hosts,function(h){ h.innerHTML=v; }); } };
+  if(!holderChosen()){
+    host.innerHTML='<p class="tiny" style="margin:0">Choose a holder above and its four '
+      +'pockets are drawn here.</p>';
+    return;
+  }
   var pk=POCKETS_BY_ALLELE[alleleLabel()];
   if(!pk){ host.innerHTML='<p class="tiny" style="margin:0">No sequence on file for this type.</p>'; return; }
   var cols={P1:'var(--p1)',P4:'var(--p4)',P6:'var(--p6)',P9:'var(--p9)'};
@@ -3542,6 +3693,17 @@ function ctrlVal(i, c){
   var q=NUG.score(c.s); return q?q.ic50:null;
 }
 function runControls(){
+  /* V11600 - nothing is pre-picked, so these panels have a state they never had: no
+     holder at all. Saying "none of the three belongs to this HLA type" when no type
+     has been named is a reading of something that was never read. */
+  if(!holderChosen()){
+    setAll('.js-valid', CONTROLS.map(function(c){ return c.n+' \u2014 nM'; }).join('   \u00b7   '));
+    setAll('.js-validnote', ABS
+      ? 'Choose a holder above and the three are measured against it.'
+      : 'Choose an HLA type above and the three controls are scored against it.');
+    paintPockets();
+    return;
+  }
   var out=CONTROLS.map(function(c,ci_){
     var q={ic50:ctrlVal(ci_,c)};
     var hit=(c.home===alleleLabel());
@@ -3569,6 +3731,17 @@ function showError(){
   if(r) r.addEventListener('click', function(){ loadError=null; setAllele().then(function(){ runProtein(); }); });
 }
 function setAllele(){
+  /* V11600 - nothing is pre-picked, so this now runs with no holder at all: at startup,
+     and again every time a new protein clears the choice. There is nothing to load for
+     a holder nobody has named, and trying was worse than useless - NUG.load('') fails,
+     which set loadError, and runProtein refuses outright while loadError is set. The
+     app would have sat there declining to scan with no way back. */
+  if(!holderChosen()){
+    loading=false; loadError=null; setBusy(false);
+    document.getElementById('statdot').className='dot';
+    if(typeof runControls==='function') runControls();
+    return Promise.resolve();
+  }
   loading=true;
   document.getElementById('statdot').className='dot';
   setBusy(true);
@@ -3715,7 +3888,9 @@ function placeNoteSel(v){
    Measured on all nine Notes pages - pressing it changed NOTHING on seven of them
    (Notes, About, Questions, How to use it, Safety, Sources, Contact) and only
    changed Reading it (65% of the picture) and Reference (74%). A control that does
-   nothing is worse than no control, so on those seven it is put away. */
+   nothing is worse than no control, so on those seven it is put away.
+   V11200 - eleven pages now. The two lifted out of About carry no second wording
+   either, so they are not in the list below and the switch stays away from them. */
 var SWNOTE={'read':1, 'ref':1};
 function noteHasSwitch(){
   var sec=document.querySelector('.notepage:not([hidden])');
@@ -3821,6 +3996,27 @@ function stepBy(d){
 document.getElementById('nav-back').addEventListener('click', function(){ stepBy(-1); });
 document.getElementById('nav-next').addEventListener('click', function(){ stepBy(1); });
 window.JO1={ go:function(id){ showTab(id); markNav(); },
+  /* V11600 - the checks pick a holder through here. Nothing is pre-picked any more,
+     so every check that scans has to answer the holder half of the question; driving
+     the dropdown by hand in fourteen files would be fourteen copies of the same
+     fourteen lines. The GATE itself - that nothing is chosen on opening, that Scan
+     refuses without one, that a new protein clears it - is driven through the real
+     picker by the holder check, which is where that belongs. */
+  hold:function(label){
+    var want=label||'DRB1*03:01';
+    for(var i=0;i<sel.options.length;i++){
+      if(sel.options[i].textContent===want){
+        sel.selectedIndex=i;
+        sel.dispatchEvent(new Event('change',{bubbles:true}));
+        /* choosing a holder disables Scan while the numbers load, and a check clicks
+           Scan in the same tick. When the table is already in memory there is nothing
+           to wait for, so the buttons are let go again at once. */
+        if(JTAB.ready()){ loading=false; setBusy(false); }
+        return want;
+      }
+    }
+    return null;
+  },
   /* V9900 - the library has no numbered tab, so go() cannot reach it. The checks open
      it through here and read the merged list; nothing else uses this. */
   lib:function(){ showView('view-lib'); return (typeof LIB==='function')? LIB() : []; },
@@ -3891,6 +4087,12 @@ function ensureNet(){
 }
 function runProtein(){
   if(loadError){ showError(); return; }
+  /* V11600 - a scan needs BOTH halves of the question. */
+  if(!holderChosen()){
+    document.getElementById('count').textContent =
+      'Choose a holder in step 2 first \u2014 a run is a protein and a holder.';
+    return;
+  }
   var seq=clean(document.getElementById('protseq').value);
   var w=parseInt(document.getElementById('win').value,10);
   if(seq.length<w){ document.getElementById('count').textContent='Paste a protein at least '+w+' residues long.'; return; }
@@ -3960,8 +4162,12 @@ function finishScan(seq, w){
       autoSave();
       /* V11000 - the result is only shown once it is FINISHED. Before this the app
          jumped to the list the moment the first column was done and then kept working
-         on a screen you had already left, with the bar out of sight behind you. */
-      showTab('t-res');
+         on a screen you had already left, with the bar out of sight behind you.
+         V11500 - and it lands on STEP 3, the Result, not on the Graph. The walk has
+         been three steps since V11000 and the Graph stopped being one of them, so a
+         scan was finishing by dropping you on a page that is not on the way anywhere.
+         Moos found it by asking what happens after a scan. */
+      showView('view-lib');
     });
   };
   /* a pasted protein is judged against ITS OWN lines, never Jo-1's borrowed ones -
@@ -4000,6 +4206,14 @@ function wallSaid(cnt){
 }
 
 function runDecoy(){
+  /* V11600 - this needs a holder as much as the other scan does: every swap is scored
+     against one. Without the guard it fell into ensureNet() with an empty key and sat
+     there retrying forever. */
+  if(!holderChosen()){
+    document.getElementById('count').textContent =
+      'Choose a holder in step 2 first \u2014 a run is a protein and a holder.';
+    return;
+  }
   /* every swapped letter is a new peptide, so only the network can answer this one */
   if(NUG.key()!==sel.value){ ensureNet().then(runDecoy).catch(function(){}); return; }
   var pep=clean(document.getElementById('pepseq').value);
@@ -4037,6 +4251,8 @@ var PNAME='';
    and the moment the screen repainted on that state it snapped the dropdown back to
    "Choose a protein" with the boxes hidden. The mode is now remembered as itself. */
 var PICKMODE='none';
+/* V11600 - what the holder was last chosen FOR. A different protein clears it. */
+var LASTSEQ='';
 /* which sequence the name was typed for. A name belongs to one protein; if the letters
    change, the name is dropped rather than left sitting on something else. */
 var PNAMEFOR='';
@@ -4092,6 +4308,12 @@ function loadChoice(){
   dest.value = (pick.value==='jo1')  ? JO1_PROTEIN
              : (pick.value==='none') ? ''
              : clean(box? box.value : '');
+  /* V11600 - a new protein is a new question, so the holder goes with it. Moos: "when
+     you start new dieses you srtat new prtenet and hoders...every thng is new". */
+  if(clean(dest.value)!==LASTSEQ){
+    LASTSEQ=clean(dest.value);
+    if(typeof sel!=='undefined' && sel){ sel.value=''; if(typeof setAllele==='function') setAllele(); }
+  }
   PNAMEFOR = dest.value;
   rememberProt(dest.value, PNAME);
   dest.dispatchEvent(new Event('input',{bubbles:true}));
@@ -4211,6 +4433,24 @@ document.addEventListener('change', function(e){
   }, true);
   setTimeout(syncChoiceUI, 120);
 })();
+/* V11700 - the cut is on two screens now - the first one and step 1 - and they are
+   one choice, not two. Whichever is moved, the other follows and the landing repaints,
+   because the big number is made of it. */
+document.addEventListener('change', function(e){
+  if(!e.target) return;
+  var w=document.getElementById('win');
+  if(e.target.id==='hwin' && w && w.value!==e.target.value){
+    w.value=e.target.value;
+    w.dispatchEvent(new Event('change',{bubbles:true}));
+    return;
+  }
+  if(e.target.id==='win'){
+    var h=document.getElementById('hwin');
+    if(h && h.value!==e.target.value) h.value=e.target.value;
+    var home=document.getElementById('view-home');
+    if(home && !home.hidden && typeof paintHome==='function') paintHome();
+  }
+});
 /* the note answers one exact question, so any change to the question takes it away */
 ['protseq','win'].forEach(function(id){
   var e=document.getElementById(id);
@@ -6431,19 +6671,18 @@ grip.addEventListener('click', function(){ toggleSheet(); });
 grip.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ toggleSheet(); e.preventDefault(); } });
 
 /* ================= start ================= */
-/* V9800 - open on whatever protein was last chosen on this device; Jo-1 if none. */
+/* V11300 - the app ALWAYS opens on "Choose a protein". Moos: "i want the defalut always
+   and on choose proten?"
+   V9800 opened on whatever was last chosen, and V10400 added a line under the chooser
+   explaining that, because he had opened the app, found Jo-1 already there and asked
+   whether that was normal. The explanation was the wrong fix: a screen that needs a
+   note saying why it is showing something is a screen showing the wrong thing. Nothing
+   is loaded now, so the first thing on the first screen is the choice.
+   The last protein is still REMEMBERED - picking "Paste another protein" is where that
+   matters - it is simply not loaded for you. */
 (function(){
-  var back=recallProt();
-  if(back){ document.getElementById('protseq').value=back.s; PNAME=back.n||'';
-            PNAMEFOR=back.s;
-            /* V10100 - a remembered protein comes back with its MODE, so the dropdown
-               shows what was chosen rather than being inferred from the letters. */
-            PICKMODE = (back.s===JO1_PROTEIN) ? 'jo1' : 'paste'; }
-  /* V10000 - a phone that has never chosen starts EMPTY, so the first screen shows no
-     number. It used to arrive pre-filled with Jo-1, which is what put 495 on a screen
-     where nothing had been chosen. A phone that HAS chosen still comes back to it
-     above, so the empty state is only ever seen once. */
-  else document.getElementById('protseq').value='';
+  document.getElementById('protseq').value='';
+  PNAME=''; PNAMEFOR=''; PICKMODE='none';
 })();
 paintRegister(register(JO1));
 boot3D();
@@ -6565,47 +6804,29 @@ function LIB(){
   if(out.length>RUNCAP) out.length=RUNCAP;
   return out;
 }
-function libFetch(force){
-  if(SHAREBUSY) return;
-  var now=Date.now();
-  if(!force && SHAREOK  && now-SHAREAT<SHAREFRESH) return;
-  if(!force && SHAREOFF && now-SHAREAT<SHARERETRY) return;
-  SHAREBUSY=true;
-  fetch(LIBURL, {cache:'no-store'})
-    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function(j){
-      SHARED=(j && j.runs && j.runs.length)? j.runs : [];
-      SHAREOK=true; SHAREOFF=false; SHAREAT=Date.now(); SHAREBUSY=false;
-      if(typeof renderSaved==='function') renderSaved();
-    })
-    .catch(function(){
-      /* No library reachable - offline, opened from a file, or not deployed yet. The
-         app keeps working on this phone's own runs and SAYS the library is out of
-         reach, rather than showing a short list with no reason for it. */
-      SHAREOFF=true; SHAREAT=Date.now(); SHAREBUSY=false;
-      if(typeof renderSaved==='function') renderSaved();
-    });
-}
+/* V11300 - NOTHING LEAVES THE PHONE ANY MORE.
+   Moos worked this out and he was right. The library was shared for one reason: a scan
+   was expensive, so repeating one somebody had already run was waste. V11000 made the
+   whole wall one press - Jo-1 at 15 comes back in 168 ms from the shipped table, and a
+   pasted protein's whole wall is about 15 seconds. So sharing now saves a stranger
+   fifteen seconds and costs them their protein, which is a bad trade; before V11000 it
+   was not one. His words: "now it is easy to to run a scan...for all 495 vs 117....in
+   one go! the idea of sharing beofre was that no need to repeat and start new scan!"
+   The three calls are gone rather than guarded, so there is no setting, no flag and no
+   path left that could send anything. SHARED stays empty, LIB() is this phone's runs,
+   and the Questions page's old promise - "No. Everything runs inside the page on your
+   device" - is true again as written. */
+function libFetch(force){ /* nothing to fetch: the library is this phone */ }
 /* a summary has no ic array; the body is fetched the moment one is looked at */
 function libIsSummary(r){ return !!r && !r.ic; }
 function libFull(id, cb){
-  if(FULL[id]){ cb(FULL[id]); return; }
-  fetch(LIBURL+'?id='+encodeURIComponent(id), {cache:'no-store'})
-    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function(j){ if(j && j.run){ FULL[j.run.id]=j.run; cb(j.run); } else cb(null); })
-    .catch(function(){ cb(null); });
+  /* V11300 - every run held is a whole one now, so there is no body to go and get. */
+  var i=runsFind(id);
+  cb(i>=0 ? RUNS[i] : null);
 }
 /* sending one up must never hold the app back, and must never lose it if it fails:
    the run is already saved on this phone before this is called */
-function libShare(run){
-  if(!run) return;
-  try{
-    fetch(LIBURL, {method:'POST', headers:{'content-type':'application/json'},
-                   body:JSON.stringify(run)})
-      .then(function(r){ if(r && r.ok) libFetch(true); })
-      .catch(function(){});
-  }catch(e){}
-}
+function libShare(run){ /* V11300 - a run is never sent anywhere */ }
 function runsLoad(){
   try{ var r=JSON.parse(localStorage.getItem(RUNKEY)||'[]'); RUNS=(r&&r.length)?r:[]; }
   catch(e){ RUNS=[]; }
@@ -6771,7 +6992,7 @@ function fillRunPick(){
    piece - that split is everywhere else in the app and the Grid missed it. Moos:
    "Sometimes you use pices ans Sometimes slices!" */
 function sa(sci, abs){ return ABS ? abs : sci; }
-var GRIDSLICE=null;
+var GRIDSLICE=null, GRIDNUM=null;
 /* V10700 stage 3 - and which of the 117 is open inside it. Shuts whenever the slice
    or the run changes, because a holder's numbers belong to one slice of one run. */
 var GRIDHOLD=null;
@@ -7184,16 +7405,37 @@ function drawGrid(r, show){
   }
   var g=gridData(r);
   if(!g){ wrap.innerHTML=''; return; }
+  /* V11500 - the answer, at the head of the page it belongs to.
+     It is the same figure the landing shows and it is worked out the same way: how
+     many slices this run's holder grips and no other of the 117 does. g.alone is a
+     different number - slices that belong to ONE holder, whichever holder that is -
+     and putting that here under the same word would be two answers wearing one name. */
+  var mine=0;
+  if(r.sel) for(var ai=0; ai<r.sel.length; ai++) if(r.sel[ai]===0) mine++;
   if(GRIDSLICE!=null && (GRIDSLICE<0 || GRIDSLICE>=g.S)) GRIDSLICE=null;
   if(GRIDSLICE==null) GRIDHOLD=null;
   if(GRIDWALL && !JTAB.fits(r.seq, r.win)) GRIDWALL=false;
-  wrap.innerHTML = gridShape(g) + gridSquares(g)
+  var minePad=String(mine).padStart(String(g.S).length,'0');
+  wrap.innerHTML = '<div class="gridans"><div class="bignum" data-of="'+g.S+'">'
+      + sciNum(minePad)+'</div>'
+      + '<p class="bigcap">of <b>'+g.S+'</b> '+sa('slices','pieces')+' of '
+      + '<b class="pname">'+esc(r.name||'this protein')+'</b> '+sa('grip','hold')+' '
+      + esc(r.holder)+' alone</p>'
+      + '<span class="cutnote">cut at '+r.win+'</span></div>'
+    + gridShape(g) + gridSquares(g)
     /* Moos's poster, behind a button: the whole thing at once, and a file of it */
     + '<div class="gwrow"><button type="button" id="gwopen">'
       + (GRIDWALL ? 'Hide full view' : 'Full view') + '</button>'
       + '<button type="button" id="gwexp">Export picture</button></div>'
     + (GRIDWALL ? gridWallBox(r) : '')
     + (GRIDSLICE==null ? '' : gridSliceBox(r, GRIDSLICE));
+  /* V11500 - the number spins in, but only when it is a NEW answer. drawGrid runs
+     again every time a square or a holder is tapped, and a figure that re-spun under
+     the finger each time would be noise, not an arrival. */
+  if(GRIDNUM!==r.id+':'+mine){
+    GRIDNUM=r.id+':'+mine;
+    if(!reducedMotion()) spinTo('.gridans .bignum', minePad, String(g.S), true);
+  }
   if(GRIDWALL){
     var cv=document.getElementById('gwcanvas');
     if(cv) wallPaint(r, cv, 'screen');
@@ -7318,9 +7560,9 @@ function renderSaved(){
   /* V9900 - the count is the shared one, and the line says where it came from. "6
      saved" meant one phone; it has to say whose runs these are now. */
   var mine=RUNS.length, others=all.length-mine;
-  cap.innerHTML='<b>'+all.length+'</b> of 400 in the library'
-    + (others>0 ? ' &middot; '+mine+' yours, '+others+' from others' : ' &middot; all yours')
-    + (SHAREOFF ? ' &middot; <span class="liboff">shared library unreachable</span>' : '')
+  /* V11300 - every run here is this phone's, so there is nothing to say about whose
+     they are and no library to be unreachable. */
+  cap.innerHTML='<b>'+all.length+'</b> of 400 on this phone'
     /* V10700 - "tap one to open it" pointed at the wall of marks. There is nothing to
        tap now; the run is chosen by name from the list above. */
     + '';
@@ -7360,7 +7602,6 @@ function renderSaved(){
   out+='<div class="runtop"><span class="runttl">'+esc(r.name)+'</span>'
      +'<span class="runwhen">'+runWhen(r.at)+'</span></div>';
   out+='<p class="runwho">'+esc(r.holder)+' · '+r.n+' '+sa('slices','pieces')+' · window '+r.win+'</p>';
-  if(!libMine(r)) out+='<p class="runfrom">from the shared library</p>';
   out+=runLine(r.ic);
   /* V11100 - the split is only drawn for a run that was answered WHOLE.
      An old run keeps a sel array too, but only for the 20 slices Narrow ever looked at,
@@ -7557,10 +7798,20 @@ function homeGone(){
   var h=document.getElementById('view-home');
   return !h || h.hidden || document.hidden;
 }
+/* V11400 - every number on the landing, not only the waiting one. .bignum.numoff is
+   the count of slices; the ANSWER is a plain .bignum, and it was never animated. */
+var NUMSEL='.inner.home .bignum';
 function numLife(){
   rollStop();
-  var el=document.querySelector('.inner.home .bignum.numoff');
+  var el=document.querySelector(NUMSEL);
   if(!el){ NUMSHOWN=null; return; }
+  /* V11500 - a spin that happens on a page nobody is looking at is a spin spent.
+     Moos saw it straight away: "there is nio spin?". The landing is repainted while
+     the scan finishes - autoSave calls paintHome - so the answer was recorded as
+     already shown, on a hidden page, and by the time he walked back to Start there
+     was nothing left to do. Forgetting it while the page is away means the next visit
+     spins, which is the only visit that counts. */
+  if(homeGone()){ NUMSHOWN=null; return; }
 
   if(el.classList.contains('rolling')){
     NUMSHOWN=null;
@@ -7574,20 +7825,75 @@ function numLife(){
     return;
   }
 
+  /* V11500 - the figure is taken as WRITTEN, not as a number. The answer is padded to
+     the width of the slice count - 5 of 495 is drawn 005 - so all three reels spin and
+     all three come to rest. Moos: "it must shows 495 spin then it show 5,, that what i
+     mean...005". parseInt would have thrown the padding away and spun one reel. */
   var svg=el.querySelector('svg');
-  var target=parseInt(svg? (svg.getAttribute('aria-label')||'0') : '0', 10);
-  if(!isFinite(target) || target<=0){ NUMSHOWN=target; return; }
+  var target=svg? (svg.getAttribute('aria-label')||'') : '';
+  if(!/^[0-9]+$/.test(target)){ NUMSHOWN=target; return; }
   if(NUMSHOWN===target || reducedMotion()){ NUMSHOWN=target; return; }
   NUMSHOWN=target;
 
-  var pad=String(target).length, t0=null, DUR=820;
+  /* V11400 - the number SPINS and stops, one digit at a time, left to right.
+     Moos: "when choosing the protese th enumbers keep moving and becoms 5 that wil eb
+     more cool", and then, when I asked it back as a picture: "The numbers spin, then
+     stop on the answer. Like a slot machine. Yes?" - "yes".
+     It replaces a count-up from zero, which only ever ran on the waiting number and
+     was wrong twice over: an answer of 5 counted 1,2,3,4,5 reads as five of something
+     arriving, not as one figure being found, and the ANSWER itself never moved at all
+     because it carries no .numoff - it simply appeared. The spin runs on whichever
+     number is there, for every protein, the first time and every time.
+     Reduced motion is honoured above: the figure is just set. */
+  /* an ANSWER begins on the slice count it came out of: 495, grey, then the reels.
+     The waiting count has nothing to come from, so it just spins. */
+  var isAnswer = !el.classList.contains('numoff');
+  var count = isAnswer ? (el.getAttribute('data-of')||'') : '';
+  spinTo(NUMSEL, target, count, !!count);
+}
+/* V11400 - the spin itself, so any number anywhere can use it. V11500 - and one does:
+   the answer on step 3 arrives the same way, which is the moment it is actually worth
+   watching. Moos: "then what happen after scan?" - and when I said the spin only lived
+   on the Start screen, "If you stay on the result page you never see it.?" */
+/* V11500 - and it starts from the figure that was already there.
+   Moos: "you dont undersadn the spin must strat gray from 495 right". It does now: the
+   grey slice count is held for a moment, the reels turn, and the number that comes to
+   rest is the answer - which is when it goes green. One number becoming another, not a
+   new number appearing with a flourish. `from` is what it starts on and `grey` keeps
+   the waiting colour until the last reel stops. */
+function spinTo(sel, target, from, grey){
+  var str=String(target), n=str.length;
+  if(!n) return;
+  var el0=document.querySelector(sel);
+  if(el0 && from){
+    el0.innerHTML=sciNum(String(from));
+    if(grey) el0.classList.add('numoff');
+  }
+  var HOLD = (el0 && from) ? 260 : 0;
+  /* V11500 - longer, and the SAME length whatever the figure.
+     Moos: "i want the spin to b longer", and then the part that mattered more - "what
+     about the first page when it answer 5". A fixed start plus a gap per digit made
+     the spin as long as the number: 1.56s for 495, a single second for 5. So the one
+     figure anybody is actually waiting for got the shortest spin of all, which is
+     backwards. The whole thing takes 1.56s now whether it lands on 5 or on 495; only
+     the start moves, so each digit still settles one after another. */
+  var TOTAL=1560, PER=280;
+  var SPIN=Math.max(600, TOTAL-(n-1)*PER)+HOLD, t0=null;
   (function step(ts){
     if(t0===null) t0=ts||performance.now();
-    var k=Math.min(1, ((ts||performance.now())-t0)/DUR), e=1-Math.pow(1-k,3);
-    var live=document.querySelector('.inner.home .bignum.numoff');
+    var live=document.querySelector(sel);
+    /* gone, or the waiting roll took over while this was running */
     if(!live || live.classList.contains('rolling')) return;
-    live.innerHTML=sciNum(String(Math.round(target*e)).padStart(pad,'0'));
-    if(k<1) requestAnimationFrame(step);
+    var t=(ts||performance.now())-t0;
+    if(t<HOLD){ requestAnimationFrame(step); return; }   /* the old figure, held */
+    var out='', settled=true;
+    for(var i=0;i<n;i++){
+      if(t >= SPIN + i*PER) out += str.charAt(i);
+      else { out += String(Math.floor(Math.random()*10)); settled=false; }
+    }
+    live.innerHTML=sciNum(out);
+    if(settled && grey) live.classList.remove('numoff');   /* it lands, and it is green */
+    if(!settled) requestAnimationFrame(step);
   })();
 }
 document.addEventListener('visibilitychange', function(){
@@ -7636,11 +7942,14 @@ function paintHome(){
        Nothing on that screen said Jo-1, and nothing said the 494 came from cutting the
        509 letters into SIXTEENS - fifteens give 495. A number with no subject is not an
        answer, it is a number. */
-    head='<div class="bignum">'+sciNum(alone)+'</div>'
+    /* V11500 - padded to the width of the count it is part of, so 5 of 495 reads 005
+       and all three reels spin. Moos: "it must shows 495 spin then it show 5...005" */
+    head='<div class="bignum" data-of="'+r.n+'">'
+       + sciNum(String(alone).padStart(String(r.n).length,'0'))+'</div>'
        + '<p class="bigcap">of <b>'+r.n+'</b> '+sa('slices','pieces')
        + ' of <b class="pname">'+esc(r.name||'this protein')+'</b> '
        + sa('grip','hold')+' '+esc(r.holder)+' alone</p>'
-       + '<span class="cutnote">cut at '+r.win+'</span>';
+
   } else {
     /* V10000 - NO NUMBER until a protein has been chosen. Moos: "I want the default
        shows no number! And numbers are shown after choosing the desises." A number
@@ -7660,8 +7969,22 @@ function paintHome(){
                      +esc(isJo1?'Jo-1':(PNAME||'this protein'))
                      +'</b>, none of them asked yet'))
        + '</p>'
-       + '<span class="cutnote">'+(waiting?'':'cut at '+ww)+'</span>';
+
   }
+  /* V11700 - the CUT is on the first screen too, beside the protein.
+     Moos: "also we need to mention and choose the number of slices form th estart
+     too, right? because 459 in gray it means 15 slice right?" He is right and it is
+     the whole reason: the grey number on this screen is made of exactly two things -
+     which protein, and how long a slice is. 495 is Jo-1 cut at 15; at 16 it is 494.
+     A number whose second ingredient was two screens away was a number you could not
+     check. The little line that used to read "cut at 15" is gone with it: the control
+     says it, and says it where it can be changed. */
+  /* V11700 - the box says what the number IS, not just a bare figure. "15" sitting
+     beside the protein tells nobody anything; "cut at 15" is the whole sentence, and
+     it fits in the box itself, so no label is needed beside it and none can be
+     dropped on a narrow phone. */
+  var wopts=[15,14,16,18,20].map(function(v){
+    return '<option value="'+v+'"'+(v===ww?' selected':'')+'>cut at '+v+'</option>'; }).join('');
   fan.innerHTML = head
     + '<div class="pickbar">'
     +   '<select id="hpick" aria-label="Which protein">'
@@ -7669,13 +7992,21 @@ function paintHome(){
     +     '<option value="jo1"'+(mode==='jo1'?' selected':'')+'>Jo-1</option>'
     +     '<option value="paste"'+(mode==='paste'?' selected':'')+'>Paste another protein</option>'
     +   '</select>'
+    /* V11700 - the cut appears only once a protein has been chosen, and it appears
+       BELOW. Moos: "all menus are shown after choosing the protein, no need to show to
+       many drop menus at the beginning!" Two dropdowns on a screen that is asking one
+       question is two questions. And it opens downward, pushing only what is under it,
+       which is his standing rule for this screen - putting it beside the protein would
+       have shrunk the protein box the moment it appeared, which is movement. */
+    +   '<select id="hwin" class="cutpick" aria-label="How long a slice is"'
+    +     (mode==='none'?' hidden':'')+'>'+wopts+'</select>'
     + '</div>'
     /* V10400 - why the app opened where it did. Moos opened it, saw Jo-1 and asked
-       whether that was normal; if it caught him out it will catch others. It is shown
-       only once a protein HAS been chosen, so the first person never sees it, and it
-       sits under the chooser so nothing above it moves. */
-    + (waiting ? '' : '<span class="lastnote">the app opens on the last protein'
-                      +' you chose</span>')
+       whether that was normal; if it caught him out it will catch others.
+       V11300 - it no longer opens on anything, so there is nothing to explain. The line
+       is kept as an empty one of the same height, because the boxes under it must not
+       move when a protein is chosen - "evry thung must be in same place". */
+    + '<span class="lastnote">&nbsp;</span>'
     + '<input id="hname" type="text" aria-label="What is it called"'
     +   (mode==='paste'?'':' hidden')+' placeholder="What is it called? e.g. insulin"'
     +   ' value="'+esc(PNAME||'')+'">'

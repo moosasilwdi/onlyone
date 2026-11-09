@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V11100**.
+Version **V11700**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -58,6 +58,21 @@ to pick a protein at all. The number on that screen names the protein and the cu
 made at, and a run saved before the whole wall existed is no longer offered back in place
 of scanning - those were worked out from one holder's top 20 slices of 495, and handing
 one back as an answer is how the app came to report 2 where a full scan gives 3.
+
+From V11300 **nothing leaves the device.** The library was shared so that nobody had to
+repeat an expensive scan; V11000 made a whole scan one press (168 ms for Jo-1 from the
+shipped table, about 15 seconds for a pasted protein live), so sharing had come to save
+a stranger fifteen seconds and cost them their protein. The three network calls are
+gone rather than guarded. Runs are kept on the phone that made them and Export is the
+only way one leaves.
+
+From V11600 a run is **a protein and a holder**, and both are chosen every time. Nothing
+is pre-picked, not even DRB1*03:01, and choosing a new protein clears the holder: a
+different protein is a different question. One consequence worth knowing - the app now
+downloads nothing at all until a holder is named.
+
+From V11700 the **cut** is on the first screen beside the protein, because the number on
+that screen is made of both: Jo-1 cut at 15 is 495 slices, cut at 16 it is 494.
 
 ## Deploy
 
