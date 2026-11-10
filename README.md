@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V11700**.
+Version **V11800**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -73,6 +73,16 @@ downloads nothing at all until a holder is named.
 
 From V11700 the **cut** is on the first screen beside the protein, because the number on
 that screen is made of both: Jo-1 cut at 15 is 495 slices, cut at 16 it is 494.
+
+From V11800 the app **says what it is doing**. Scan is greyed until a holder is chosen,
+and the reason stands under the button instead of in the results caption off the screen -
+pressed with nothing chosen, V11700 refused in silence. Coming out of the notes returns
+you to the page you left, whichever of the eight it was; six of them came back to Holders
+before. The phone's own back gesture now steps inside the app rather than leaving it, and
+what the 117 holders cover is no longer unknown: they contain all 27 molecules of the
+published reference panel, so they reach at least as far as its figure of over 98% of
+people in every major population. That percentage is the panel's own, from allele
+frequency data - a floor, not a count made here.
 
 ## Deploy
 
