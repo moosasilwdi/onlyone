@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V12000**.
+Version **V12100**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -91,6 +91,18 @@ showing the page you came from, and a phone's picker fires nothing when you tap 
 entry it is already showing, so that picker could not get you out of the notes from
 any of the eight pages. And every page now carries the version in the footer, on the
 line above Built with Claude, read off the Sources line so the two cannot disagree.
+
+From V12100 the app **says its own answer**. Step 3 used to end with a grid and a
+number: *005 of 495 slices of Jo-1 grip DRB1*03:01 alone.* It never said **which**
+five. A last card, THE ONLY ONE, now names them - the letters, where they sit in the
+protein, and how tightly they are held, tightest first - and each one opens its 117
+holders at a tap. There is a file of just those five.
+
+The result screen is four cards instead of one long one, each saying what it is:
+your library, ALL SLICES, All holders, THE ONLY ONE.
+
+Step 1 leads with the count in a box of its own, with the protein and the slice
+length full width underneath and the choice pill last. Step 2 is yellow.
 
 From V12000 **Scan stands on step 2**, under the holder picker. A scan needs a
 protein and a holder, and step 2 is the first screen where both have been chosen;

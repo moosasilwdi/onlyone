@@ -89,7 +89,13 @@
 /* Each step wears its own colour, vivid. Button text is white everywhere and
    carries a dark outline, which is what makes it readable on the light fills. */
 :root[data-page="home"]{--gold:#f5b700;--mauve:#f5b700;--btn:#111720;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#8a6104;--accink:#8a6104}
-:root[data-page="hla"]{--gold:#1565d8;--mauve:#1565d8;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 2px rgba(0,0,0,.38);--mauvedeep:#1565d8;--accink:#1565d8}
+/* V12100 - STEP 2 IS YELLOW. Moos: "make it yellow and more hight", then "evry
+   thing to be yellow the top and down man", then "2 to be balck in th eround...ans
+   use nice vivid yelow". #ffc400 is the vivid one of his four colours.
+   --onmauve stays white on purpose: it dresses Back and Next, which sit on the black
+   bar, and turning it dark once before made them unreadable. The number in the round
+   and the label on Scan are turned black by name, just below. */
+:root[data-page="hla"]{--gold:#ffc400;--mauve:#ffc400;--btn:#ffc400;--onmauve:#fff;--onbtn:#14181f;--btnsh:none;--mauvedeep:#8a6104;--accink:#8a6104}
 :root[data-page="work"]{--gold:#cf2c20;--mauve:#cf2c20;--btn:#cf2c20;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 2px rgba(0,0,0,.38);--mauvedeep:#cf2c20;--accink:#cf2c20}
 /* V12000 - the Result had no colour written for it, so it fell back to the app
    default and came out the same blue as step 2. That was a gap, not a choice.
@@ -101,7 +107,7 @@
 :root[data-page="info"]{--gold:#1565d8;--mauve:#1565d8;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 2px rgba(0,0,0,.38);--mauvedeep:#1565d8;--accink:#1565d8}
 @media (prefers-color-scheme:dark){
 :root:not([data-theme="light"])[data-page="home"]{--gold:#ffc233;--mauve:#ffc233;--btn:#39445a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
-:root:not([data-theme="light"])[data-page="hla"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
+:root:not([data-theme="light"])[data-page="hla"]{--gold:#ffc400;--mauve:#ffc400;--btn:#ffc400;--onmauve:#fff;--onbtn:#14181f;--btnsh:none;--mauvedeep:#ffc400;--accink:#ffc400}
 :root:not([data-theme="light"])[data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#ff6f68;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
 :root:not([data-theme="light"])[data-page="res"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root:not([data-theme="light"])[data-page="list"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
@@ -110,12 +116,11 @@
 :root:not([data-theme="light"])[data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 }
 :root[data-theme="dark"][data-page="home"]{--gold:#ffc233;--mauve:#ffc233;--btn:#39445a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
-:root[data-theme="dark"][data-page="hla"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
+:root[data-theme="dark"][data-page="hla"]{--gold:#ffc400;--mauve:#ffc400;--btn:#ffc400;--onmauve:#fff;--onbtn:#14181f;--btnsh:none;--mauvedeep:#ffc400;--accink:#ffc400}
 :root[data-theme="dark"][data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#ff6f68;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
 :root[data-theme="dark"][data-page="res"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root[data-theme="dark"][data-page="list"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root[data-theme="dark"][data-page="lib"]{--gold:#45c46a;--mauve:#45c46a;--btn:#45c46a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
-:root[data-theme="dark"][data-page="lib"] .appbar .notesel{border-color:#0d141d}
 :root[data-theme="dark"][data-page="3d"]{--gold:#45c46a;--mauve:#45c46a;--btn:#45c46a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
 :root[data-theme="dark"][data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 @media (prefers-color-scheme:dark){
@@ -227,8 +232,10 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    The first screen carries no colour at all, so a gold ring on it was the only coloured
    thing present, and it looked like a button rather than a label. Black there, the
    stage's colour everywhere else. */
+/* V12100 - lib comes OFF this list. The rule above is about pages that carry no
+   colour in their content, and step 3 stopped being one of those in V12000 when the
+   Result was given green. Moos: "why result is not green in header". */
 :root[data-page="home"] .appbar .notesel,
-:root[data-page="lib"] .appbar .notesel,
 :root[data-page="info"] .appbar .notesel{border-color:var(--ink)}
 /* V8200 - and on a dark page it turns over with everything else: a white pill with
    dark type, the same way Start does. */
@@ -237,11 +244,9 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .appbar .notesel{
   background-color:#e8edf4;color:#0d141d;border-color:var(--gold)}
   :root:not([data-theme="light"])[data-page="home"] .appbar .notesel,
-  :root:not([data-theme="light"])[data-page="lib"] .appbar .notesel,
   :root:not([data-theme="light"])[data-page="info"] .appbar .notesel{border-color:#0d141d}}
 :root[data-theme="dark"] .appbar .notesel{background-color:#e8edf4;color:#0d141d;border-color:var(--gold)}
 :root[data-theme="dark"][data-page="home"] .appbar .notesel,
-:root[data-theme="dark"][data-page="lib"] .appbar .notesel,
 :root[data-theme="dark"][data-page="info"] .appbar .notesel{border-color:#0d141d}
 .appbar .notesel[hidden]+.themebtn,.appbar .themebtn{margin-left:auto}
 /* V11000 - the walk picker sits first and keeps the pill's old look; the notes shrink
@@ -755,6 +760,54 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   line-height:1.5}
 .savedp .runlab{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
   color:var(--mute);font-weight:600;margin:0 0 6px}
+/* V12100 - and it is a TITLE, not a label. Moos: "LARGE MAN THIS IS TITLE". The
+   squares are the main picture on this screen; the small grey mono line was the
+   same weight as a field name above a dropdown. */
+.savedp .runlab.gridttl,.gridttl{font-size:15px;letter-spacing:.02em;color:var(--ink);
+  font-weight:700;margin:0 0 8px}
+/* one picture to a box, sunk a shade so each reads as its own thing inside the
+   white library card rather than as one long drawing */
+.gcard{margin:0}
+/* V12100 - the answer card. Green is the app's colour for "exactly one holder", and
+   this card is nothing but those slices, so it carries that colour on its edge. */
+/* V12100 - and it stands apart like every other card. Measured: 12px between the
+   library, the slices and the holders, and 0 under the holders card, because that
+   panel sits inside a plain div of its own and carries no bottom margin. Moos saw it
+   at once: "WHY ATTACHED n sapce". */
+#runcard>.panel,#onecard>.panel{margin-bottom:12px}
+.onlyp{border-color:color-mix(in srgb,var(--green) 45%,var(--line))}
+.onlyp .runttl{color:var(--green)}
+.onlyp .onlyttl{letter-spacing:.03em;font-weight:800}
+.onlyp .onlycnt{margin:12px 0 6px}
+/* V12100 - GREEN MEANS THE ANSWER, and only that. Moos: "why open above is green?"
+   Open was green because the whole of step 3 is green, and that was fine until the
+   answer card arrived wearing the same colour - green then said two things on one
+   screen. Open keeps a green edge so it still belongs to this step, and the filled
+   green is left to the card that holds the answer. */
+#view-lib #runopen{background:var(--panel);color:var(--green);
+  border-color:color-mix(in srgb,var(--green) 55%,var(--line));
+  text-shadow:none;box-shadow:var(--lift)}
+#view-lib #runopen:hover{filter:none;border-color:var(--green)}
+/* V12100 - the app's main action buttons all stand 56px: the pill on step 1, Scan on
+   step 2, and this. Moos: "make the button hight same as th eyello win step 2,,,why
+   you keeo forgeting". A check measures all three together now, so it cannot slip
+   again. */
+.onlyp #oneexp{min-height:56px;font-size:17px;padding:17px 18px}
+.onlyp .onepick{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  width:100%;text-align:left;cursor:pointer;background:var(--sunk);
+  box-shadow:none;font-weight:inherit}
+.onlyp .onepick:active{transform:translateY(1px)}
+.onlyp .onepick:hover{border-color:var(--green)}
+.onlyp .onlylab{font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--mute);font-weight:600;margin:10px 0 2px}
+.onlyp .onlyhold{font-family:var(--mono);font-size:21px;font-weight:700;
+  letter-spacing:-.01em;color:var(--ink);margin:0 0 2px;line-height:1.15}
+@media (max-width:360px){ .onlyp .onlyhold{font-size:18px} }
+.onlyp .runpep{border-color:color-mix(in srgb,var(--green) 30%,var(--line))}
+.gcard>:first-child{margin-top:0}
+.gcard .gridttl{margin-top:16px}
+.gcard>.gridttl:first-child{margin-top:0}
+.gcard .taphint{margin-bottom:0}
 .savedp .runtop{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
 .savedp .runttl{font-size:16px;font-weight:700;letter-spacing:-.01em}
 .savedp .runwhen{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--mute)}
@@ -1220,6 +1273,19 @@ button:disabled{opacity:.5;cursor:default}
   color:var(--mute);text-align:center;display:block;width:100%;
   background:none;border:0;padding:0;cursor:pointer}
 .scanwhy u{text-underline-offset:2px}
+/* V12100 - yellow needs dark ink on it. Every one of these rules hardcodes white,
+   which is right on the red, blue and green pages and unreadable on this one. */
+/* :not(.navbtn) matters. Back and Next wear .go too, and they sit on the BLACK bar,
+   not on yellow - turning them dark once already made them unreadable there, and it
+   is the second time this exact rule has caught it. */
+:root[data-page="hla"] button.go:not(.navbtn),
+:root[data-page="hla"] a.sendmail,
+:root[data-page="hla"] .dots button[aria-pressed="true"] i,
+:root[data-page="hla"] .stepbox i{color:#14181f;text-shadow:none}
+/* and SCAN stands as tall as the pill on step 1 - 56px - with air under it so it is
+   never the last thing jammed against the bar. Moos sent a photograph of exactly
+   that happening once; it is measured on every build now. */
+:root[data-page="hla"] #runprot{padding:17px 18px;font-size:17px;margin-bottom:14px}
 .scanwhy:hover{color:var(--ink)}
 /* V11800 - on a 320px phone this line wraps to three rows and step 2 had only 0.7px
    left above the Back/Next bar. Moos photographed Scan sitting under that bar once
@@ -1231,6 +1297,45 @@ label.drop:hover{border-color:var(--gold);color:var(--ink)}
 input[type=file]{display:none}
 .segs{display:flex;gap:7px;margin-bottom:11px}
 .segs button{flex:1;min-width:0}
+/* V12100 - STEP 1, REBUILT TOP TO BOTTOM.
+   Moos drew this one himself over a long sitting: the count first, in its own box;
+   the protein and its two settings under it, each the whole width; the choice last.
+   The pill is the part that took the longest. It measured 56px all along - exactly
+   the height of Scan on step 2 - and still read as the shorter of the two, because
+   it sat 3px inside a sunken track, so the red shape the eye measures was 50. The
+   track keeps its border and loses its padding: the red now fills it edge to edge
+   and the two buttons finally look like one family. */
+#view-work .segs{gap:0;padding:0;border:1px solid var(--line);border-radius:999px;
+  background:var(--sunk);box-shadow:inset 0 1px 2px rgba(0,0,0,.05);margin:22px 0 0}
+#view-work .segs button{border:0;background:transparent;border-radius:999px;
+  padding:19px 12px;color:var(--mute);box-shadow:none;font-weight:600;font-size:15px;
+  line-height:18px}
+#view-work .segs button[aria-pressed="true"]{background:#cf2c20;color:#fff;
+  box-shadow:0 1px 2px rgba(0,0,0,.22)}
+/* the count, in a box of its own. 10/8 padding, not 16/14: with the caption inside it
+   the box came out 132px tall and Moos said "the container numer is huge". The air is
+   out of the top, the bottom and the gap under the digits, and both parts stayed in -
+   "no keep all in th eocntainer but reduce th ehight.....why you seperta it". */
+.numcard{text-align:center;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;box-shadow:var(--sink);padding:22px 10px 16px;margin:0 0 20px}
+.numcard:empty{display:none}
+/* black, not the landing's grey and not the answer's green. Moos, asked which the
+   step 1 figure should wear: "yes black". It is a count of pieces, not an answer. */
+.numcard .bignum,
+.numcard .bignum.numoff{margin:0;color:var(--ink);filter:none}
+.numcard .bigcap{margin:4px 0 0;min-height:0}
+/* each setting takes a whole row and says what it is above itself */
+#view-work .ctrls{display:block}
+#view-work .ctrls .lbl{display:block;font-family:var(--mono);font-size:10px;
+  letter-spacing:.08em;color:var(--mute);margin:0 0 6px;text-transform:uppercase}
+#view-work .ctrls .lbl+*{margin-top:0}
+#view-work .ctrls .drop{display:flex;align-items:center;justify-content:center;
+  width:100%;height:50px;margin:0 0 12px;border:1px solid var(--line);border-style:solid;
+  border-radius:12px;background:var(--panel);color:var(--ink);font-size:15px;
+  font-weight:600;box-shadow:var(--sink)}
+#view-work .ctrls .winfld{width:100%;margin:0}
+#view-work .ctrls .winfld select{height:50px;width:100%;border-radius:12px;
+  font-size:15px;font-weight:600}
 .prog{height:3px;background:var(--sunk);border-radius:2px;overflow:hidden;margin-top:10px}
 .prog i{display:block;height:100%;width:0;background:var(--gold);transition:width .12s linear}
 
@@ -1314,6 +1419,10 @@ input[type=file]{display:none}
 .hlacard{border-color:color-mix(in srgb,var(--gold) 38%,var(--line));
   background:linear-gradient(to bottom,color-mix(in srgb,var(--gold) 7%,var(--panel)),var(--panel) 62%)}
 .hlacard>h3{color:var(--accink)}
+/* V12100 - on blue, 7% of the page colour read as white. On yellow it reads as
+   yellow, and Moos asked why the card had gone that colour. The tinted edge stays -
+   it is what ties the card to the step - and the wash inside comes off. */
+:root[data-page="hla"] .hlacard{background:var(--panel)}
 .story{border-color:color-mix(in srgb,var(--gold) 30%,var(--line));
   border-left:3px solid var(--gold)}
 .story>h3{color:var(--accink)}
@@ -1776,10 +1885,12 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
       <p class="steplede abs-only"><b>Step 1 of 3</b> &middot; which protein to cut up</p>
       <p class="tiny" id="installhint" style="display:none;margin:0 0 10px">Keep it as an app: tap <b>Share</b>, then <b>Add to Home Screen</b>.</p>
 
-      <div class="segs">
-        <button type="button" id="t-seg-prot" aria-pressed="true">A whole protein</button>
-        <button type="button" id="t-seg-dec" aria-pressed="false">One slice, varied</button>
-      </div>
+      <!-- V12100 - the COUNT comes first on step 1, in a box of its own. Moos:
+           "i want the nubers abive first thing on top", then "now i wan the nubers in
+           step 1 to be in a ocntainer too". The figure is what the step is for - how
+           many pieces this protein makes at this cut - so it leads, and the two things
+           that decide it sit directly under it. -->
+      <div class="numcard" id="numcard"></div>
 
       <div class="panel" id="pane-prot">
         <h3>Protein</h3>
@@ -1797,13 +1908,15 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
                could be chosen. The landing owns that now, so this was two buttons for
                one job. The choice is on the first screen; this panel keeps the file
                loader and the window size. -->
+          <span class="lbl">Load a file</span>
           <label class="drop" for="fastain">FASTA file</label>
           <input type="file" id="fastain" accept=".fasta,.fa,.txt,.seq">
           <!-- V10600 - "winfld" marks this one as the SHORT field. Every other .fld on
                a phone takes a whole row, which is right for a long holder name and
                wrong for a two-digit number: it filled 300px of a 300px row and pushed
                "FASTA file" onto a line of its own, making step 2 too tall to fit. -->
-          <label class="fld winfld"><span>Window</span>
+          <span class="lbl">Slice length</span>
+          <label class="fld winfld">
             <select id="win"><option>15</option><option>14</option><option>16</option><option>18</option><option>20</option></select>
           </label>
         </div>
@@ -1821,6 +1934,14 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
             <option value="all">Everything</option>
           </select>
         </label>
+      </div>
+
+      <!-- V12100 - and the CHOICE comes last. Moos: "can we move th epill down". It
+           is the rarer of the two things on this step - a whole protein is the normal
+           road - so it stops being the first thing the eye lands on. -->
+      <div class="segs">
+        <button type="button" id="t-seg-prot" aria-pressed="true">A whole protein</button>
+        <button type="button" id="t-seg-dec" aria-pressed="false">One slice, varied</button>
       </div>
 
       <!-- V10600 - shortened by four words so it holds one line on a phone instead of
@@ -2002,6 +2123,16 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           <select id="runpick" aria-label="Which run to look at"></select>
         </label>
         <p class="fancap" id="runcap" style="margin:8px 0 10px"><b>0</b> saved</p>
+        <!-- V12100 - the ANSWER belongs with the run it answers for, so it stays in
+             this card with the picker. The drawings moved out to one of their own. -->
+        <div id="ansslot"></div>
+      </div>
+      <!-- V12100 - THE PICTURES, IN A CARD OF THEIR OWN. Moos drew a red box round
+           this whole block: "i mean the area in red to be in a seprated container".
+           The line, the squares, the key, the tap line and the export buttons are one
+           thing - how this run looks - and they were sharing a card with the library's
+           own words and its picker. -->
+      <div class="panel" id="gridpanel">
         <!-- V10700 - THE GRID. Every slice of the chosen protein, one square each,
              with the shape above them: how many of the 117 grip each slice. Grey is
              nobody, blue is more than one, green is the one case worth having - a
@@ -2014,6 +2145,10 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         </div>
       </div>
       <div id="runcard"></div>
+      <!-- V12100 - THE ANSWER ITSELF, LAST. Moos: "i want a final container to be the
+           ONLY ONE". The app is named after this and never showed it: 005 says how
+           many slices this holder grips alone, and no screen said WHICH. -->
+      <div id="onecard"></div>
     </div>
   </div>
 
@@ -2703,7 +2838,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V12000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V12100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -3899,6 +4034,7 @@ function showView(v){
   if(v==='view-3d' && typeof vcStart==='function') vcStart();
   if(v==='view-lib' && typeof renderSaved==='function') renderSaved();
   if(v==='view-home' && typeof paintHome==='function') setTimeout(paintHome,0);
+  if(v==='view-work' && typeof paintStep1==='function') setTimeout(paintStep1,0);
   if(typeof placeSwitch==='function') placeSwitch(v);
   if(typeof placeNoteSel==='function') placeNoteSel(v);
   if(typeof placeSponsor==='function') placeSponsor(v);
@@ -4472,6 +4608,9 @@ function loadChoice(){
 }
 /* the number follows as you type, so there is nothing to press to see it */
 document.addEventListener('input', function(e){
+  if(e.target && e.target.id==='protseq' && typeof paintStep1==='function') paintStep1();
+});
+document.addEventListener('input', function(e){
   if(!e.target) return;
   if(e.target.id!=='hseq' && e.target.id!=='hname') return;
   var n=document.querySelector('.bigcap'), big=document.querySelector('.bignum');
@@ -4581,6 +4720,7 @@ document.addEventListener('change', function(e){
   if(e.target.id==='win'){
     var h=document.getElementById('hwin');
     if(h && h.value!==e.target.value) h.value=e.target.value;
+    if(typeof paintStep1==='function') paintStep1();
     var home=document.getElementById('view-home');
     if(home && !home.hidden && typeof paintHome==='function') paintHome();
   }
@@ -7209,6 +7349,10 @@ function gridSquares(g){
        +(cell+3.2).toFixed(2)+'" rx="2.6" fill="none" stroke="var(--ink)"'
        +' stroke-width="1.1"/>';
   }
+  /* V12100 - the squares get a name of their own. The line above them had one -
+     "How many of the 117 grip each slice" - and the squares borrowed it, so the
+     heading read as the title of both pictures when it belongs to the graph.
+     Moos asked what the grid was called, then named it himself: "ALL SLICES". */
   return '<svg class="gridsq" viewBox="-2 -2 '+(W+4)+' '+(H+4).toFixed(1)+'"'
     +' aria-label="'+g.S+' '+sa('slices','pieces')+', '+g.alone
       +' gripped by one holder only. Tap one.">'
@@ -7508,7 +7652,8 @@ function openGrid(r, show){
   var wrap=document.getElementById('gridwrap');
   var g=gridData(r);
   if(wrap && g){
-    wrap.innerHTML = gridShape(g) + gridSquares(g)
+    wrap.innerHTML = '<div class="gcard"><p class="runlab gridttl">All '
+      +sa('slices','pieces')+'</p>'+gridShape(g)+gridSquares(g)+'</div>'
       + '<p class="gridnone" id="netnote">Opening the 117 holders\u2026</p>';
   }
   ensureNet().then(function(){
@@ -7519,7 +7664,12 @@ function drawGrid(r, show){
   var wrap=document.getElementById('gridwrap'); if(!wrap) return;
   /* a run from somebody else arrives as a summary with no letters in it; its card
      already says "Opening it...", so the grid says nothing until the body lands */
-  if(!r || libIsSummary(r)){ wrap.innerHTML=''; return; }
+  if(!r || libIsSummary(r)){
+    wrap.innerHTML='';
+    var a0=document.getElementById('ansslot'); if(a0) a0.innerHTML='';
+    var gp0=document.getElementById('gridpanel'); if(gp0) gp0.hidden=true;
+    return; }
+  var gp=document.getElementById('gridpanel'); if(gp) gp.hidden=false;
   /* V11000 - a run scanned from here on carries its own wall, so the Grid draws for
      any protein and any window. Only a run saved BEFORE that still needs the shipped
      Jo-1 table, and only a run that has neither can say nothing. */
@@ -7554,13 +7704,26 @@ function drawGrid(r, show){
   if(GRIDSLICE==null) GRIDHOLD=null;
   if(GRIDWALL && !JTAB.fits(r.seq, r.win)) GRIDWALL=false;
   var minePad=String(mine).padStart(String(g.S).length,'0');
-  wrap.innerHTML = '<div class="gridans"><div class="bignum" data-of="'+g.S+'">'
+  var ans=document.getElementById('ansslot');
+  if(ans) ans.innerHTML = '<div class="gridans"><div class="bignum" data-of="'+g.S+'">'
       + sciNum(minePad)+'</div>'
       + '<p class="bigcap">of <b>'+g.S+'</b> '+sa('slices','pieces')+' of '
       + '<b class="pname">'+esc(r.name||'this protein')+'</b> '+sa('grip','hold')+' '
       + esc(r.holder)+' alone</p>'
-      + '<span class="cutnote">cut at '+r.win+'</span></div>'
-    + gridShape(g) + gridSquares(g)
+      + '<span class="cutnote">cut at '+r.win+'</span></div>';
+  wrap.innerHTML =
+    /* V12100 - ONE PICTURE PER BOX. Moos: "we need to seperate this chart right?"
+       The line and the squares are two different drawings answering two different
+       questions, and they sat in one white card sharing one heading, so the heading
+       read as the title of both. They share ONE box, set apart from the number and
+       the buttons around it - "the graph and the chart together, in one container
+       detached from the rest" - and each keeps its own title inside it. */
+      /* V12100 - the title LEADS the card, above the graph, the way All holders
+         does below. Moos: "why all slices below the graph while all holders above
+         the graph? why?" It had been sitting where the squares begin, which made it
+         read as the heading of the squares alone rather than of the card. */
+      '<div class="gcard"><p class="runlab gridttl">All '+sa('slices','pieces')+'</p>'
+        +gridShape(g)+gridSquares(g)+'</div>'
     /* Moos's poster, behind a button: the whole thing at once, and a file of it */
     + '<div class="gwrow"><button type="button" id="gwopen">'
       + (GRIDWALL ? 'Hide full view' : 'Full view') + '</button>'
@@ -7687,6 +7850,82 @@ function run117(r){
     +'<p class="taphint flat">The tightest '+sa('slice','piece')
       +' of this run \u2014 nothing to tap here.</p>';
 }
+/* V12100 - the slices this holder, and no other of the 117, grips. r.sel[i]===0 is
+   what the scan already wrote for each slice; this just names them. Tightest first,
+   because that is the one worth making. */
+function onlyOneCard(r){
+  var box=document.getElementById('onecard'); if(!box) return;
+  if(!r || !r.seq || !r.sel){ box.innerHTML=''; return; }
+  var hits=[], i;
+  for(i=0;i<r.sel.length;i++) if(r.sel[i]===0)
+    hits.push({i:i, ic:(r.ic&&r.ic[i]!=null)?r.ic[i]:null});
+  hits.sort(function(a,b){ return (a.ic==null)-(b.ic==null) || a.ic-b.ic; });
+  var out='<div class="panel savedp onlyp">'
+    /* V12100 - in capitals: it is the app's own name, and this card is the app's
+       answer. Moos: "the only one must be in caps". */
+    +'<div class="runtop"><span class="runttl onlyttl">THE ONLY ONE</span>'
+    /* V12100 - the count LEFT this corner. On every other card that corner holds the
+       run's time, so a count sitting there read as a different kind of thing. It is
+       a label for the rows, so it sits directly above them. Moos: "is th eloation
+       corret of th e5 of 459?" */
+    +'<span class="runwhen">'+runWhen(r.at)+'</span></div>'
+    /* V12100 - the HOLDER, large. Moos: "we need to show the holder name large and
+       nice right". An answer here is a slice AND a holder; the slices were set out in
+       their own rows and the holder was a word inside a grey sentence. */
+    /* V12100 - and it says WHAT that name is. Moos: "shoud we say holder some where?"
+       Nothing on the card called DRB1*03:01 a holder; it was simply a large word.
+       One word, not three: "The only holder" under a card titled "The only one" said
+       the same thing twice, which he caught at once. */
+    +'<p class="onlylab">'+sa('Holder','Holder')+'</p>'
+    +'<p class="onlyhold">'+esc(r.holder)+'</p>'
+    /* V12100 - "116 what?" - Moos, and he was right: the number stood on its own
+       with nothing to count. It is the other 116 HOLDERS of the 117. */
+    +'<p class="runwho">'+esc(r.name)+' \u00b7 none of the other 116 '
+    +sa('holders','holders')+' '+sa('grip','hold')+' them</p>';
+  if(!hits.length){
+    out+='<p class="runempty">No '+sa('slice','piece')+' of this protein is gripped by '
+      +esc(r.holder)+' alone. Every one it grips, others grip too.</p></div>';
+    box.innerHTML=out; return;
+  }
+  out+='<p class="onlylab onlycnt">'+hits.length+' of '+r.n+' '+sa('slices','pieces')+'</p>';
+  for(i=0;i<hits.length;i++){
+    var h=hits[i], seq=r.seq.slice(h.i, h.i+r.win);
+    /* V12100 - each row OPENS. Moos: "are they clickable and downladable". They were
+       five lines of text under a card named after them, and the one thing a person
+       wants next - who else comes near this slice - was already built, up in the
+       grid. The row opens that same drawer and brings the screen to it. */
+    out+='<button type="button" class="runpep onepick" data-s="'+h.i+'">'
+      +'<span>'+esc(seq)+'</span><span class="tag">'
+      +(h.i+1)+'\u2013'+(h.i+r.win)+(h.ic==null?'':' \u00b7 '+nm(h.ic)+' nM')
+      +'</span></button>';
+  }
+  out+='<p class="taphint">Tap any '+sa('slice','piece')+' to open its 117 holders.</p>'
+    +'<div class="runrow"><button type="button" class="go" id="oneexp">'
+    +'Export these '+hits.length+'</button></div></div>';
+  box.innerHTML=out;
+  /* tapping a row opens that slice in the grid above, then brings it into view -
+     the grid's own scroll only ever travels DOWN, and this card sits below it */
+  box.addEventListener('click', function(ev){
+    var t=ev.target && ev.target.closest ? ev.target.closest('.onepick') : null;
+    if(!t) return;
+    var k=parseInt(t.getAttribute('data-s'),10); if(!isFinite(k)) return;
+    GRIDSLICE=k; GRIDHOLD=null;
+    drawGrid(r);
+    var bx=document.querySelector('#gridwrap .gridslice');
+    if(bx) try{ bx.scrollIntoView({block:'center', behavior:'smooth'}); }
+           catch(e){ bx.scrollIntoView(); }
+  });
+  var ex=document.getElementById('oneexp');
+  if(ex) ex.addEventListener('click', function(){
+    dlJSON('ONLYONE-'+String(r.name).replace(/\s+/g,'-')+'-'
+      +String(r.holder).replace(/[^A-Za-z0-9]+/g,'')+'-only.json',
+      { jo1:1, onlyone:{
+          protein:r.name, holder:r.holder, window:r.win, of:r.n,
+          slices:hits.map(function(h){ return {
+            at:h.i+1, to:h.i+r.win, seq:r.seq.slice(h.i,h.i+r.win), nM:h.ic }; })
+        }});
+  });
+}
 function renderSaved(){
   runsLoad.done || (runsLoad(), runsLoad.done=true);
   libFetch(false);                       /* V9900 - and everyone else's */
@@ -7710,6 +7949,7 @@ function renderSaved(){
        first, so this was sending people to the holders. */
     card.innerHTML='<div class="panel savedp"><p class="runempty">Nothing saved yet. '
       +'Run a scan in step 1 and it keeps itself.</p></div>';
+    onlyOneCard(null);
     drawGrid(null);
     return;
   }
@@ -7736,10 +7976,17 @@ function renderSaved(){
     });
     return;
   }
+  /* V12100 - this card has a NAME now. Moos: "th e3rd container must have th etitle
+     ALL HOLDERS". It was headed with the protein's name, which is what the card above
+     it is already about, so the two read as the same thing said twice. What is
+     actually in here is the other half of the answer: the tightest slice of the run
+     and how all 117 holders treat it. The run's own name and date move to the line
+     underneath, where they belong as a caption. */
   out+='<div class="panel savedp">';
-  out+='<div class="runtop"><span class="runttl">'+esc(r.name)+'</span>'
+  out+='<div class="runtop"><span class="runttl">All '+sa('holders','holders')+'</span>'
      +'<span class="runwhen">'+runWhen(r.at)+'</span></div>';
-  out+='<p class="runwho">'+esc(r.holder)+' · '+r.n+' '+sa('slices','pieces')+' · window '+r.win+'</p>';
+  out+='<p class="runwho">'+esc(r.name)+' · '+esc(r.holder)+' · '+r.n+' '
+     +sa('slices','pieces')+' · window '+r.win+'</p>';
   out+=runLine(r.ic);
   /* V11100 - the split is only drawn for a run that was answered WHOLE.
      An old run keeps a sel array too, but only for the 20 slices Narrow ever looked at,
@@ -7783,6 +8030,7 @@ function renderSaved(){
      +(mineHere?'<button type="button" id="rundel">Delete</button>':'')+'</div>';
   out+='</div>';
   card.innerHTML=out;
+  onlyOneCard(r);
   document.getElementById('runopen').addEventListener('click', function(){ openRun(r); });
   document.getElementById('runexp').addEventListener('click', function(){
     dlJSON('ONLYONE-'+r.name.replace(/\s+/g,'-')+'-'+r.id+'.json', {jo1:1, runs:[r]}); });
@@ -8041,6 +8289,32 @@ document.addEventListener('visibilitychange', function(){
     if(h && !h.hidden) numLife();
   }
 });
+/* V12100 - STEP 1 CARRIES THE COUNT NOW.
+   The landing has always shown it; step 1 is where the two things that MAKE it live -
+   the protein and the cut - so showing the figure anywhere but above them was asking
+   someone to change a number they could not see. Same digits, same drawing, same
+   caption shape as the landing, so the figure that followed them in from the first
+   screen is recognisably the same figure. It is painted, never animated: the spin
+   belongs to the landing, where the number is the arrival. */
+function paintStep1(){
+  var box=document.getElementById('numcard'); if(!box) return;
+  var s=clean((document.getElementById('protseq')||{value:''}).value);
+  var ww=parseInt((document.getElementById('win')||{value:'15'}).value,10)||15;
+  var n=Math.max(0, s.length-ww+1);
+  var isJo1=(s===JO1_PROTEIN);
+  var who=isJo1 ? 'Jo-1' : (PNAME||'this protein');
+  if(!n){
+    /* no protein yet: grey zeros, and the caption says what is missing rather than
+       claiming the protein makes none. The box never leaves the page, so nothing
+       below it moves when a protein arrives - his standing rule. */
+    box.innerHTML='<div class="bignum numoff">'+sciNum('000')+'</div>'
+      +'<p class="bigcap">paste or load a protein to begin</p>';
+    return;
+  }
+  box.innerHTML='<div class="bignum numoff">'+sciNum(String(n))+'</div>'
+    +'<p class="bigcap">'+sa('slices','pieces')+' of <b class="pname">'+esc(who)
+    +'</b>, cut at <b>'+ww+'</b></p>';
+}
 function paintHome(){
   var fan=document.querySelector('.inner.home .fan'); if(!fan) return;
   var inner=document.querySelector('.inner.home');
