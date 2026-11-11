@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V11800**.
+Version **V12000**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -84,19 +84,44 @@ published reference panel, so they reach at least as far as its figure of over 9
 people in every major population. That percentage is the panel's own, from allele
 frequency data - a floor, not a count made here.
 
+From V11900 the app stops leaving you standing still. The line under a greyed Scan
+is itself the way to step 2, because naming a place and not going there is its own
+dead end. The header picker reads **Notes** while a note is open: it used to go on
+showing the page you came from, and a phone's picker fires nothing when you tap the
+entry it is already showing, so that picker could not get you out of the notes from
+any of the eight pages. And every page now carries the version in the footer, on the
+line above Built with Claude, read off the Sources line so the two cannot disagree.
+
+From V12000 **Scan stands on step 2**, under the holder picker. A scan needs a
+protein and a holder, and step 2 is the first screen where both have been chosen;
+on step 1 the button could only send people away to fetch the other half, and a
+button that sends you elsewhere is a signpost. Moos read it off the screens
+himself. It comes out blue without anyone painting it, because every step wears
+its own colour - which also stops it breaking his rule that red is for warnings.
+Step 3 is green at last: it never had a colour written for it and had been falling
+back to the app default, the same blue as step 2.
+
 ## Deploy
 
-Static site plus one function. Publish directory is the repository root.
+A static site, nothing else. Publish directory is the repository root.
 
-    index.html                     the whole app
-    w-DRB1.txt                     54 trained networks
-    w-DRB345.txt                    7
-    w-DQ.txt                       38
-    w-DP.txt                       18
-    netlify.toml                   publish directory, functions directory, cache headers
-    package.json                   the one dependency the function needs
-    netlify/functions/library.mjs  the shared library
+    index.html           the whole app
+    w-DRB1.txt           54 trained networks
+    w-DRB345.txt          7
+    w-DQ.txt             38
+    w-DP.txt             18
+    w-jo1.txt            the shipped Jo-1 table, every slice against all 117
+    netlify.toml         publish directory and cache headers
+    package.json         left from the shared library, nothing imports it now
+    icon.png             the mark
+    apple-touch-icon.png the mark, for a home-screen shortcut
     README.md
+
+There is no function any more. Until V11300 a Netlify function kept a shared library
+of runs; sharing was removed because a whole scan became one press, and the function
+was deleted with it. netlify.toml still names a functions directory that no longer
+exists, and package.json still lists the dependency that function used - both are
+harmless and both are left for Moos to decide on.
 
 Each bundle is base64 float32, 139,952 characters per network, sliced by index in the browser.
 Nothing to install or compile.

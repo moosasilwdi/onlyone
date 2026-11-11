@@ -91,6 +91,10 @@
 :root[data-page="home"]{--gold:#f5b700;--mauve:#f5b700;--btn:#111720;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#8a6104;--accink:#8a6104}
 :root[data-page="hla"]{--gold:#1565d8;--mauve:#1565d8;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 2px rgba(0,0,0,.38);--mauvedeep:#1565d8;--accink:#1565d8}
 :root[data-page="work"]{--gold:#cf2c20;--mauve:#cf2c20;--btn:#cf2c20;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 2px rgba(0,0,0,.38);--mauvedeep:#cf2c20;--accink:#cf2c20}
+/* V12000 - the Result had no colour written for it, so it fell back to the app
+   default and came out the same blue as step 2. That was a gap, not a choice.
+   Moos picked green, which also marks the end of the walk. */
+:root[data-page="lib"]{--gold:#1ea84c;--mauve:#1ea84c;--btn:#1ea84c;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#0f7a36;--accink:#0f7a36}
 :root[data-page="res"]{--gold:#f5b700;--mauve:#f5b700;--btn:#f5b700;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#8a6104;--accink:#8a6104}
 :root[data-page="list"]{--gold:#f5b700;--mauve:#f5b700;--btn:#f5b700;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#8a6104;--accink:#8a6104}
 :root[data-page="3d"]{--gold:#1ea84c;--mauve:#1ea84c;--btn:#1ea84c;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#0f7a36;--accink:#0f7a36}
@@ -101,7 +105,8 @@
 :root:not([data-theme="light"])[data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#ff6f68;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
 :root:not([data-theme="light"])[data-page="res"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root:not([data-theme="light"])[data-page="list"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
-:root:not([data-theme="light"])[data-page="3d"]{--gold:#45c46a;--mauve:#45c46a;--btn:#45c46a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
+:root:not([data-theme="light"])[data-page="lib"]{--gold:#45c46a;--mauve:#45c46a;--btn:#45c46a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
+  :root:not([data-theme="light"])[data-page="3d"]{--gold:#45c46a;--mauve:#45c46a;--btn:#45c46a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
 :root:not([data-theme="light"])[data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 }
 :root[data-theme="dark"][data-page="home"]{--gold:#ffc233;--mauve:#ffc233;--btn:#39445a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
@@ -109,6 +114,8 @@
 :root[data-theme="dark"][data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#ff6f68;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
 :root[data-theme="dark"][data-page="res"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root[data-theme="dark"][data-page="list"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
+:root[data-theme="dark"][data-page="lib"]{--gold:#45c46a;--mauve:#45c46a;--btn:#45c46a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
+:root[data-theme="dark"][data-page="lib"] .appbar .notesel{border-color:#0d141d}
 :root[data-theme="dark"][data-page="3d"]{--gold:#45c46a;--mauve:#45c46a;--btn:#45c46a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
 :root[data-theme="dark"][data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 @media (prefers-color-scheme:dark){
@@ -1109,6 +1116,9 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
    grip weights, in the browser - so "powered by" would say something that is not true,
    and Moos does not want anything in here he could be caught out on.
    It catches no taps, so the page can still be scrolled under it. */
+/* V11900 - Moos: "version make it small". It is a stamp, not a title: it reads
+   smaller than the name and the credit it sits between. */
+.tabstrip .builtwith .appver{font-size:8px;letter-spacing:.04em;opacity:.85}
 .tabstrip .builtwith{flex:1 0 100%;margin:8px 0 0;text-align:center;
   font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;line-height:1;
   color:var(--mute);pointer-events:none}
@@ -1207,7 +1217,10 @@ button.go:hover{filter:brightness(1.08);border-color:var(--btn)}
 button.go:active{filter:brightness(.96)}
 button:disabled{opacity:.5;cursor:default}
 .scanwhy{margin:6px 0 0;font-family:var(--mono);font-size:10.5px;line-height:1.38;
-  color:var(--mute);text-align:center}
+  color:var(--mute);text-align:center;display:block;width:100%;
+  background:none;border:0;padding:0;cursor:pointer}
+.scanwhy u{text-underline-offset:2px}
+.scanwhy:hover{color:var(--ink)}
 /* V11800 - on a 320px phone this line wraps to three rows and step 2 had only 0.7px
    left above the Back/Next bar. Moos photographed Scan sitting under that bar once
    already; 0.7px is the same fault one rounding away. */
@@ -1572,6 +1585,12 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
       <option value="view-res">Graph</option>
       <option value="view-list">Shortlist</option>
       <option value="view-3d">Groove</option>
+      <!-- V11800 - the notes need an entry of their own. Without one the picker went
+           on showing the page you came FROM while you were reading a note, and a
+           phone's picker fires nothing when you tap the entry it is already showing:
+           measured, 0 events from all eight pages. Moos hit it from Start. With this
+           here the picker reads Notes, so every entry in it is a real change. -->
+      <option value="view-info">Notes</option>
     </optgroup>
   </select>
   <span class="brandmid"><button type="button" class="home-link" id="homelink" title="Back to the start"><span class="lockup barlock" role="img" aria-label="ONLY ONE"><span class="lockw">ONLY</span><span class="wm" aria-hidden="true"></span><span class="lockw">NE</span></span></button><span class="beta">BETA</span></span>
@@ -1623,7 +1642,11 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
   <button type="button" class="go navbtn" id="nav-next">Next</button>
   <!-- V10500 - under the buttons, on every page. BUILT, not POWERED: nothing in this
        app calls out to anything when it runs. -->
-  <p class="builtwith">Built with Claude</p>
+  <!-- V11900 - the version on EVERY page, on the SAME line as Built with Claude.
+       Moos: "no version number before and same line with buti with claude". It is
+       read off the Sources line rather than typed here, so the two can never
+       disagree about which version this is. -->
+  <p class="builtwith">ONLYONE <span class="appver" id="appver"></span> Built with Claude</p>
   <!-- V10400 - shown on the first screen only, where Start stands alone -->
   <a class="spontab" id="spontab" href="https://timelinelab.app" target="_blank"
      rel="noopener" aria-label="Sponsored by TIMELINE - timelinelab.app" hidden>
@@ -1713,6 +1736,28 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
              more: a run is a protein and a holder, and changing one clears the other. -->
         <p class="tiny" style="margin:11px 0 0"><span class="sci-only">117 types, and none is chosen for you. Changing the protein clears this, because a different protein is a different question. <b>DRB1*03:01</b> is the one linked to anti-Jo-1, if that is the question you are asking.</span><span class="abs-only">117 kinds of holder, and none is picked for you. Changing the protein clears this, because a different protein is a different question. <b>DRB1*03:01</b> is the one tied to the Jo-1 illness, if that is what you are asking about.</span></p>
       </div>
+      <!-- V12000 - Scan lives HERE now, under the holder, not on step 1.
+           Moos worked it out: "So it must be above the button...and must be drop
+           menu right. Not somthing small and below." A scan needs a protein AND a
+           holder, and only on this step are both of them chosen - so this is the
+           first screen where the button can honestly be pressed. On step 1 it had
+           to send people away to fetch the other half, and a button that sends you
+           somewhere else is not a button, it is a signpost. -->
+      <div class="prog" id="wallprog" hidden><i id="wallbar"></i></div>
+      <p class="tiny wallnote" id="wallnote" hidden></p>
+      <p class="btncap"><span class="sci-only">Cuts the protein into every slice, scores each.</span><span class="abs-only">Cuts the protein into every piece, tests each.</span></p>
+      <button type="button" class="go" id="runprot">Scan</button>
+      <button type="button" class="scanwhy" id="scanwhy" hidden></button>
+      <div class="twinnote" id="twinnote" hidden>
+        <h4>Already in the library</h4>
+        <p id="twinwhen"></p>
+        <div class="pair">
+          <button type="button" class="go" id="twinopen">Open it</button>
+          <button type="button" id="twinagain">Scan again</button>
+        </div>
+      </div>
+      <button type="button" class="go" id="rundec" hidden>Scan</button>
+      <button type="button" class="scanwhy" id="decwhy" hidden></button>
       <div class="panel">
         <h3><span class="sci-only">Checked live</span><span class="abs-only">Three known examples</span></h3>
         <p class="mono tiny js-valid" style="margin:0 0 6px">&mdash;</p>
@@ -1787,21 +1832,6 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
            What will hapoen...we should have final result!" He is right, so Scan now
            does the whole wall and this line reports it while it runs, with a time
            worked out from the work already done - never a guess made beforehand. -->
-      <div class="prog" id="wallprog" hidden><i id="wallbar"></i></div>
-      <p class="tiny wallnote" id="wallnote" hidden></p>
-      <p class="btncap"><span class="sci-only">Cuts the protein into every slice, scores each.</span><span class="abs-only">Cuts the protein into every piece, tests each.</span></p>
-      <button type="button" class="go" id="runprot">Scan</button>
-      <p class="scanwhy" id="scanwhy" hidden></p>
-      <div class="twinnote" id="twinnote" hidden>
-        <h4>Already in the library</h4>
-        <p id="twinwhen"></p>
-        <div class="pair">
-          <button type="button" class="go" id="twinopen">Open it</button>
-          <button type="button" id="twinagain">Scan again</button>
-        </div>
-      </div>
-      <button type="button" class="go" id="rundec" hidden>Scan</button>
-      <p class="scanwhy" id="decwhy" hidden></p>
     </div>
   </div>
 
@@ -2673,7 +2703,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V11800 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V12000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -3794,10 +3824,25 @@ var BUSY=false;
    itself where nobody could read it. One function owns the state now, so being busy
    and being unanswerable cannot overwrite each other. */
 function scanWhy(){
+  /* V12000 - it used to say "in step 2", because the button was on step 1 and the
+     holder was not. Both are on this screen now, so it points up, not away. */
   return (typeof ABS!=='undefined' && ABS)
-    ? 'Choose a holder in step 2 first \u2014 a run is a protein and a holder.'
-    : 'Choose an HLA type in step 2 first \u2014 a run is a protein and a holder.';
+    ? 'Choose a holder <u>above</u> first \u2014 a run is a protein and a holder.'
+    : 'Choose an HLA type <u>above</u> first \u2014 a run is a protein and a holder.';
 }
+/* Moos, on the live V11800: "also nothing works here". Nothing was broken - every
+   control on that screen answered - but the one big button was correctly greyed and
+   the line under it named a place with no way of getting there. Telling someone
+   where to go and leaving them looking at it is its own fault. The line IS the way
+   now: the whole of it is the target, so it does not need a small word hit. */
+document.addEventListener('click', function(e){
+  var t = e.target && e.target.closest ? e.target.closest('.scanwhy') : null;
+  if(!t) return;
+  /* V12000 - the holder is on this same screen now, so the line opens the picker
+     rather than walking you to another step. */
+  var a=document.getElementById('allele');
+  if(a){ try{ a.focus(); a.scrollIntoView({block:'center'}); }catch(err){} }
+});
 function scanGate(){
   var none = (typeof holderChosen==='function') ? !holderChosen() : false;
   [['runprot','scanwhy'],['rundec','decwhy']].forEach(function(pair){
@@ -3810,7 +3855,7 @@ function scanGate(){
     var up = !!btn && !btn.hidden && btn.getBoundingClientRect().height>0;
     if(why){
       why.hidden = !(none && up);
-      if(!why.hidden) why.textContent = scanWhy();
+      if(!why.hidden) why.innerHTML = scanWhy();
     }
   });
 }
@@ -4035,8 +4080,9 @@ function markNav(){
     var found=false;
     for(var oi=0;oi<st.options.length;oi++)
       if(st.options[oi].value===now){ st.selectedIndex=oi; found=true; break; }
-    /* the notes are not on the walk: leave the picker showing where you came from */
-    if(!found && now!=='view-info') st.selectedIndex=0;
+    /* V11800 - the notes have their own entry now, so they are found like any other
+       page. This line is left for a page that genuinely has no entry. */
+    if(!found) st.selectedIndex=0;
   }
   var box=document.getElementById('stepbox'), num=document.getElementById('stepnum');
   if(box&&num){
@@ -4082,6 +4128,9 @@ function stepBy(d){
   });
   var mail=document.getElementById('mailto');
   if(mail){ var a='timelinelabteam@gmail.com'; mail.textContent=a; mail.href='mailto:'+a+'?subject=ONLY ONE'; }
+  var av=document.getElementById('appver');
+  if(av){ var m3=(document.querySelector('.refs')||{textContent:''}).textContent.match(/V\d{4,5}/);
+          av.textContent=m3?m3[0]:''; }
   var vl=document.getElementById('verline');
   if(vl){ var m2=(document.querySelector('.refs')||{textContent:''}).textContent.match(/V\d{4,5}/); vl.textContent=m2?m2[0]:''; }
 })();
