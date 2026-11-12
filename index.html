@@ -1416,6 +1416,25 @@ button:disabled{opacity:.5;cursor:default}
    that happening once; it is measured on every build now. */
 /* V12300 - Scan keeps its height; the colour comes from the page, which is blue again */
 :root[data-page="hla"] #runprot{padding:17px 18px;font-size:17px;margin-bottom:14px}
+/* V12400 - SCAN LINES UP WITH THE DROPDOWN. Moos: "this button not same width as new
+   width,,and has no air below". Measured: Scan stood 362px, the full card width, while
+   the HLA dropdown it belongs to stood 330px inside the card's padding - so the one
+   control and the button that fires it did not share an edge. Scan now takes the
+   dropdown's 330 and is centred under it, and the air below goes 14px -> 26px so it is
+   not read as the lid of the card beneath it. The caption above moves with it.
+   The inset is taken, not typed: the dropdown sits 16px inside the card on every
+   width, so Scan takes the same 16px rather than a fixed 330 that only matched a
+   390px phone. */
+:root[data-page="hla"] #runprot,
+:root[data-page="hla"] #rundec{width:calc(100% - 32px);display:block;
+  margin-left:16px;margin-right:16px;margin-bottom:26px}
+:root[data-page="hla"] .btncap{padding-left:16px;padding-right:16px}
+/* V12400 - but not on a 320px phone: measured, those 32px tip "Cuts the protein into
+   every slice, scores each." onto a second line. The caption lining up with the
+   button is a nicety; the line not breaking is not. Below 360px it keeps the card's
+   full width. */
+@media (max-width:359px){
+  :root[data-page="hla"] .btncap{padding-left:0;padding-right:0} }
 .scanwhy:hover{color:var(--ink)}
 /* V11800 - on a 320px phone this line wraps to three rows and step 2 had only 0.7px
    left above the Back/Next bar. Moos photographed Scan sitting under that bar once
@@ -2135,7 +2154,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 
       <div class="noscan" id="noscan" hidden>
         <h3>Nothing scanned yet</h3>
-        <p>Go to step 2, press <b>Scan</b>, and the whole protein is cut into pieces
+        <p>Press <b>Scan</b> on step 2, and the whole protein is cut into pieces
            and scored. The results land here.</p>
         <button type="button" class="go" id="toscan">Go</button>
       </div>
@@ -2183,7 +2202,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 
       <div class="noscan" id="noscan2" hidden>
         <h3>Nothing scanned yet</h3>
-        <p>Scan a protein in step 2 and the shortlist lands here.</p>
+        <p>Press <b>Scan</b> on step 2 and the shortlist lands here.</p>
         <button type="button" class="go" id="toscan2">Go</button>
       </div>
       <div class="narrow">
@@ -3038,7 +3057,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V12300 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V12400 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4356,7 +4375,11 @@ function showHome(){
   TABS.forEach(function(t){ document.getElementById(t[0]).setAttribute('aria-pressed','false'); });
   showView('view-home');
 }
-document.getElementById('toscan2').addEventListener('click', function(){ showTab('t-prot'); });
+/* V12400 - Go goes to STEP 2, where Scan is. Both of these were written when Scan
+   lived on step 1; V12000 moved it under the holder and nobody moved these with it,
+   so a line that read "Scan a protein in step 2" handed you step 1 and nothing to
+   press. Moos, on the live app: "when i press GO nothign happen i go to step1 why?" */
+document.getElementById('toscan2').addEventListener('click', function(){ showTab('t-hla'); });
 document.getElementById('homelink').addEventListener('click', showHome);
 /* The numbers only show where you are. Back and Next are the whole of the navigation. */
 /* V11000 - THREE STEPS. Moos's own shape for the app, after working out that the
@@ -6333,7 +6356,7 @@ function sayWhat(){
         + 'Pick one in step 3, or take the tightest one now.'
         + '<br><button type="button" class="pickbtn" id="pickbest">Use the tightest piece</button>'
       : '<b>Nothing scanned yet.</b> ' + HOLDER_IS + ' '
-        + 'Scan a protein in step 2, then choose a piece in step 3.';
+        + 'Press Scan on step 2, then choose a piece in step 3.';
     var pb=document.getElementById('pickbest');
     if(pb) pb.addEventListener('click', function(){
       var best=null;
@@ -7263,7 +7286,7 @@ function setSort(k){
 }
 document.getElementById('rankbtn').addEventListener('click', rankSelectivity);
 document.getElementById('toscan').addEventListener('click', function(){
-  setMode('prot'); showTab('t-prot');
+  setMode('prot'); showTab('t-hla');     /* V12400 - step 2, where Scan is */
 });
 document.getElementById('sort-sel').addEventListener('click', function(){ setSort('sel'); });
 document.getElementById('sort-str').addEventListener('click', function(){ setSort('str'); });
@@ -8017,7 +8040,24 @@ function gridWallBox(r){
    fifteen they ship with it. For anything else the 117 networks have to be in memory,
    and a page that was reloaded does not have them - so they are fetched first, with a
    line saying so, rather than every holder being drawn grey as if it said no. */
+/* V12400 - the grey wall. A run scanned here carries its own wall (r.cnt), which
+   draws the 495 squares without the shipped table. But ONE slice's 117 holders are
+   not in the run - they are read from the table, slice by slice. After a reload the
+   table is not in memory (V12200 stopped loading it at startup so the app opens
+   fast), so every holder came back as "no answer" and was drawn grey: 0 grip, 0
+   loose, 117 do not, the arrows changed nothing you could see, and the squares had
+   nothing behind them to tap. For a protein the table answers, fetch the table. */
+function needTable(r){ return !!r && JTAB.fits(r.seq, r.win) && !JTAB.ready(); }
+function withTable(r, then){
+  var wrap=document.getElementById('gridwrap');
+  if(wrap) wrap.innerHTML='<p class="gridnone">Working out the grid\u2026</p>';
+  JTAB.load().then(then).catch(function(){
+    if(wrap) wrap.innerHTML='<p class="gridnone">The table of numbers could not be'
+      +' read, so the grid is not drawn. Everything else on this page still works.</p>';
+  });
+}
 function openGrid(r, show){
+  if(needTable(r)){ withTable(r, function(){ drawGrid(r, show); }); return; }
   if(runFromTable(r) || netsReady() || (GRIDSLICE==null && !GRIDWALL)){
     drawGrid(r, show); return;
   }
@@ -8052,11 +8092,13 @@ function drawGrid(r, show){
       +' again and it will be.</p>';
     return;
   }
-  if(!own && !JTAB.ready()){
+  /* V12400 - this used to be gated on !own, so a run carrying its own wall never
+     fetched the table - and then a slice's 117 holders had nothing to read. */
+  if(needTable(r)){
     wrap.innerHTML='<p class="gridnone">Working out the grid\u2026</p>';
     JTAB.load().then(function(){
       var now=LIB()[PICKRUN];
-      if(now && now.id===r.id) drawGrid(now);
+      drawGrid(now && now.id===r.id ? now : r, show);
     }).catch(function(){
       wrap.innerHTML='<p class="gridnone">The table of numbers could not be read, so'
         +' the grid is not drawn. Everything else on this page still works.</p>';

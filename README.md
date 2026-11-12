@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V12300**.
+Version **V12400**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -9,6 +9,34 @@ Screens peptides against 117 HLA class II types and ranks what sits in the groov
 are the types this app's engine can score, not all that exist - about 11,910 class II types
 are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
+
+
+## V12400 - the grey wall, and the two Go buttons
+
+Three faults Moos found on the live app, all fixed and each with a check of its own
+that fails on V12300.
+
+**The grey wall.** After a reload, opening a slice showed all 117 holders grey -
+"0 grip it, 0 hold it loosely, 117 do not" - the arrows changed the slice but
+nothing on screen moved, and the squares answered no tap. The run carries its own
+495-square wall, so the grid drew; but ONE slice's 117 holders are read from the
+shipped table, and V12200 stopped loading that table at startup so the app would
+open fast. Nothing fetched it back. Every holder came back "no answer" and was
+drawn grey. The grid now fetches the table when the run is a protein the table
+answers. Slice 474 reads 15 grip, 44 loose, 58 do not, which is what the table
+holds. The app still opens with nothing downloaded.
+
+**Both Go buttons.** The Go on the empty shortlist and the Go on the empty result
+page were written when Scan lived on step 1. V12000 moved Scan to step 2 and left
+them pointing at step 1, so pressing Go handed you a page with nothing to press.
+Both land on step 2 now, and three lines of wording read "Press Scan on step 2".
+
+**Scan lines up with the dropdown.** Scan stood at the card's full width while the
+holder dropdown it fires stood 16px inside the card, so the control and its button
+did not share an edge. Scan now takes the dropdown's own inset - measured, not a
+typed number, so it holds from 320px to 500px - and the air below it goes from 14px
+to 26px. Below 360px the caption keeps the full width, because the inset tipped it
+onto a second line.
 
 ## What it does
 
