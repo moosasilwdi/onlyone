@@ -768,6 +768,54 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 /* one picture to a box, sunk a shade so each reads as its own thing inside the
    white library card rather than as one long drawing */
 .gcard{margin:0}
+.pocketbars .pbwait{color:var(--mute);letter-spacing:.35em;opacity:.65}
+/* V12200 - THE HAND THAT SHOWS YOU IT IS A BUTTON.
+   Moos: "we need to show that these squares are clickable visually?" On a phone
+   there is no hover, so a grid of flat squares has nothing to say it can be
+   pressed - the line underneath said so in words, and words are not what a thumb
+   reads. A hand comes in once, presses a square twice, and a ring spreads out of
+   it. It sits BESIDE the square, never on it - "the hand you are showing it must
+   be in the side not in the way" - and it never comes back once you have tapped
+   that grid yourself. */
+.tapteach{position:absolute;width:44px;height:44px;pointer-events:none;z-index:7;
+  opacity:0;transform-origin:20% 10%;
+  animation:ttIn .35s ease-out forwards, ttPress 1.1s ease-in-out .45s 2}
+@keyframes ttIn{from{opacity:0;transform:translate(14px,16px) scale(1.2)}
+                to{opacity:1;transform:translate(0,0) scale(1)}}
+@keyframes ttPress{0%,100%{transform:translate(0,0) scale(1)}
+                   45%{transform:translate(-3px,-3px) scale(.86)}}
+.tapteachring{position:absolute;border:3px solid #cf2c20;border-radius:6px;
+  pointer-events:none;z-index:6;opacity:0;
+  animation:ttRing 1.1s ease-out .45s 2}
+@keyframes ttRing{0%{opacity:.9;transform:scale(1)}
+                  70%{opacity:0;transform:scale(2.6)}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.tapteach,.tapteachring{display:none}}
+/* V12200 - THE LENS. Moos: "can we add lence effect,,,so the user finger wil have
+   zoom on the grid this will help th e suer not to click wongly". A square is nine
+   pixels across and a fingertip covers four of them, so the grid was a game of
+   chance. A fisheye was tried first and thrown out: to make the middle bigger
+   inside a fixed box the rim has to shrink, which makes the edge squares HARDER to
+   hit - "the side button at the edge one are more small now" - and it moves the
+   squares, so the grid stops being a map of the protein while you touch it.
+   The lens magnifies a COPY that floats above the finger. Nothing underneath
+   moves, nothing shrinks, and the red frame inside it names the square that will
+   open when you lift off. */
+.lenshost{position:relative}
+.jlens{position:absolute;width:104px;height:104px;border-radius:50%;
+  overflow:hidden;pointer-events:none;z-index:9;display:none;
+  border:3px solid #cf2c20;background:var(--panel);
+  box-shadow:0 6px 18px -4px rgba(0,0,0,.45)}
+.jlens.on{display:block}
+.jlens>.jlensin{position:absolute;transform-origin:0 0}
+.jlens>.jlenscross{position:absolute;border:2px solid #14181f;border-radius:4px}
+@media (prefers-reduced-motion:reduce){.jlens{display:none!important}}
+/* V12200 - the open square keeps a red ring that breathes, so it can be found at a
+   glance among 495. It is a stroke, not a shadow: an SVG rect inside the grid, so
+   nothing on the page moves and nothing is covered. */
+@keyframes jo1open{0%,100%{stroke-opacity:1;stroke-width:1.9}
+                   50%{stroke-opacity:.45;stroke-width:2.6}}
+.gridring,.gslring{animation:jo1open 1.7s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.gridring,.gslring{animation:none}}
 /* V12100 - the answer card. Green is the app's colour for "exactly one holder", and
    this card is nothing but those slices, so it carries that colour on its edge. */
 /* V12100 - and it stands apart like every other card. Measured: 12px between the
@@ -793,6 +841,13 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    you keeo forgeting". A check measures all three together now, so it cannot slip
    again. */
 .onlyp #oneexp{min-height:56px;font-size:17px;padding:17px 18px}
+/* V12200 - an ALL row carries three things, so it wraps: the letters on their own
+   line, then the one holder that grips them and where they sit. */
+.gslgo{margin-top:10px}
+.gslgo button{width:100%}
+.onlyp .onepick2{flex-wrap:wrap;row-gap:3px}
+.onlyp .onepick2 .oseq{flex:1 1 100%}
+.onlyp .ohold{font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--green)}
 .onlyp .onepick{display:flex;align-items:center;justify-content:space-between;gap:8px;
   width:100%;text-align:left;cursor:pointer;background:var(--sunk);
   box-shadow:none;font-weight:inherit}
@@ -974,8 +1029,8 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
 /* V8000 - the mark is Moos's JO ONE lockup: the lungs are the O of ONE. It is a picture, not a path, so it is set
    once here as a variable and reused: the bar and the splash both read it, and the
    dark copy (light letters, no white plate behind the badge) is written only once. */
-:root{--wmlight:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%22-6%20-6%20366%20366%22%3E%3Cpath%20d=%22M258%20258%20L330%20330%22%20stroke=%22%231565d8%22%20stroke-width=%2244%22%20stroke-linecap=%22round%22%20fill=%22none%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%22146%22%20fill=%22none%22%20stroke=%22%231565d8%22%20stroke-width=%2226%22/%3E%3Ccircle%20cx=%22108%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22160%22%20r=%2240%22%20fill=%22%23e0342a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3C/svg%3E");
-      --wmdark:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%22-6%20-6%20366%20366%22%3E%3Cpath%20d=%22M258%20258%20L330%20330%22%20stroke=%22%234b92ff%22%20stroke-width=%2244%22%20stroke-linecap=%22round%22%20fill=%22none%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%22146%22%20fill=%22none%22%20stroke=%22%234b92ff%22%20stroke-width=%2226%22/%3E%3Ccircle%20cx=%22108%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22160%22%20r=%2240%22%20fill=%22%23ff5147%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3C/svg%3E")}
+:root{--wmlight:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%22-6%20-6%20366%20366%22%3E%3Cpath%20d=%22M258%20258%20L330%20330%22%20stroke=%22%23cf2c20%22%20stroke-width=%2244%22%20stroke-linecap=%22round%22%20fill=%22none%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%22146%22%20fill=%22none%22%20stroke=%22%23cf2c20%22%20stroke-width=%2226%22/%3E%3Ccircle%20cx=%22108%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%2256%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22108%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22160%22%20r=%2240%22%20fill=%22%23149455%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22160%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22212%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22264%22%20r=%2213%22%20fill=%22%23b0bac7%22/%3E%3C/svg%3E");
+      --wmdark:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%22-6%20-6%20366%20366%22%3E%3Cpath%20d=%22M258%20258%20L330%20330%22%20stroke=%22%23ff6f68%22%20stroke-width=%2244%22%20stroke-linecap=%22round%22%20fill=%22none%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%22146%22%20fill=%22none%22%20stroke=%22%23ff6f68%22%20stroke-width=%2226%22/%3E%3Ccircle%20cx=%22108%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%2256%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22108%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22160%22%20r=%2240%22%20fill=%22%232fc274%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22160%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%2256%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22264%22%20cy=%22212%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22108%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22160%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3Ccircle%20cx=%22212%22%20cy=%22264%22%20r=%2213%22%20fill=%22%2355637a%22/%3E%3C/svg%3E")}
 /* V10400 - the name is set in ORBITRON, the squared face whose O is a rounded
    square, which is what Moos chose off the three closest to the old logo's letters.
    It is cut down to the five letters the name uses - O N L Y E - so the whole font
@@ -1422,7 +1477,22 @@ input[type=file]{display:none}
 /* V12100 - on blue, 7% of the page colour read as white. On yellow it reads as
    yellow, and Moos asked why the card had gone that colour. The tinted edge stays -
    it is what ties the card to the step - and the wash inside comes off. */
-:root[data-page="hla"] .hlacard{background:var(--panel)}
+/* V12200 - OPTION ONE. Moos: "Dont do yellow fir container! Just yellow string
+   yellow line for drop container at border!", then "Only at the drop menu container
+   i said", then "Option one! Make HLA black. The traingle black. HLA title larger."
+   So: the card is plain, the yellow is a line round the menu and nowhere else, and
+   the words on it are black - his own rule that yellow never carries type. */
+:root[data-page="hla"] .hlacard{background:var(--panel);
+  border-color:var(--line)}
+:root[data-page="hla"] .hlacard>h3{color:var(--ink);font-size:14px;
+  letter-spacing:.05em}
+:root[data-page="hla"] .hlafield select{
+  background-color:var(--panel);
+  border:1px solid #ffc400;
+  color:var(--ink);
+  box-shadow:var(--sink);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%2314181f' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+:root[data-page="hla"] .hlafield select:hover{border-color:#e0ac00}
 .story{border-color:color-mix(in srgb,var(--gold) 30%,var(--line));
   border-left:3px solid var(--gold)}
 .story>h3{color:var(--accink)}
@@ -1685,7 +1755,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
   <select id="stepsel" class="notesel stepsel" aria-label="Where you are">
     <optgroup label="The walk" id="stepgrp">
       <option value="view-home">Start</option>
-      <option value="view-work">1 &middot; Slices</option>
+      <option value="view-work">1 &middot; Protein</option>
       <option value="view-hla">2 &middot; Holders</option>
       <option value="view-lib">3 &middot; Result</option>
     </optgroup>
@@ -1834,16 +1904,19 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 
   <div class="view" id="view-hla">
     <div class="inner">
-      <p class="steplede sci-only"><b>Step 2 of 3</b> &middot; whose holder</p>
-      <p class="steplede abs-only"><b>Step 2 of 3</b> &middot; whose body are we testing</p>
+      <p class="steplede sci-only"><b>Step 2 of 3</b> &middot; <b>Holders</b></p>
+      <p class="steplede abs-only"><b>Step 2 of 3</b> &middot; <b>Holders</b></p>
       <div class="panel hlacard">
         <h3><span class="sci-only">HLA type</span><span class="abs-only">Whose body</span></h3>
         <div class="hlafield">
           <select id="allele" aria-label="Which holder"></select>
         </div>
         <!-- V11600 - this used to say "leave DRB1*03:01". Nothing is left as it is any
-             more: a run is a protein and a holder, and changing one clears the other. -->
-        <p class="tiny" style="margin:11px 0 0"><span class="sci-only">117 types, and none is chosen for you. Changing the protein clears this, because a different protein is a different question. <b>DRB1*03:01</b> is the one linked to anti-Jo-1, if that is the question you are asking.</span><span class="abs-only">117 kinds of holder, and none is picked for you. Changing the protein clears this, because a different protein is a different question. <b>DRB1*03:01</b> is the one tied to the Jo-1 illness, if that is what you are asking about.</span></p>
+             more: a run is a protein and a holder, and changing one clears the other.
+             V12200 - and it opens on ALL 117, so the line no longer says none is
+             chosen; one is, and it is all of them. Moos caught the stale words the
+             moment the option appeared. -->
+        <p class="tiny" style="margin:11px 0 0"><span class="sci-only">All 117 to begin with, so a scan is ready at once &mdash; the answer is every slice exactly one of them grips. Choose a single type and the answer narrows to that one. Changing the protein puts it back to all 117. <b>DRB1*03:01</b> is the one linked to anti-Jo-1.</span><span class="abs-only">All 117 to begin with, so you can run it straight away &mdash; the answer is every piece that exactly one holder holds. Pick a single holder and the answer narrows to that one. Changing the protein puts it back to all 117. <b>DRB1*03:01</b> is the one tied to the Jo-1 illness.</span></p>
       </div>
       <!-- V12000 - Scan lives HERE now, under the holder, not on step 1.
            Moos worked it out: "So it must be above the button...and must be drop
@@ -1873,7 +1946,10 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         <p class="tiny js-validnote" style="margin:0"></p>
       </div>
       <div class="panel">
-        <h3><span class="sci-only">Its pockets</span><span class="abs-only">Its four holes</span></h3>
+        <!-- V12200 - "its" pointed at a holder that may not be chosen. The panel is
+             headed by what it shows, and the word for one groove's own four is
+             carried by the line inside it instead. -->
+        <h3><span class="sci-only">The four pockets</span><span class="abs-only">The four holes</span></h3>
         <div class="js-pockets"></div>
       </div>
     </div>
@@ -1881,8 +1957,8 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 
   <div class="view" id="view-work">
     <div class="inner">
-      <p class="steplede sci-only"><b>Step 1 of 3</b> &middot; which protein</p>
-      <p class="steplede abs-only"><b>Step 1 of 3</b> &middot; which protein to cut up</p>
+      <p class="steplede sci-only"><b>Step 1 of 3</b> &middot; <b>Protein</b></p>
+      <p class="steplede abs-only"><b>Step 1 of 3</b> &middot; <b>Protein</b></p>
       <p class="tiny" id="installhint" style="display:none;margin:0 0 10px">Keep it as an app: tap <b>Share</b>, then <b>Add to Home Screen</b>.</p>
 
       <!-- V12100 - the COUNT comes first on step 1, in a box of its own. Moos:
@@ -2099,8 +2175,8 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
   <!-- V7800: the shared library, the last page of the walk -->
   <div class="view" id="view-lib" hidden>
     <div class="inner savedp">
-      <p class="steplede sci-only"><b>Step 3 of 3</b> &middot; the result</p>
-      <p class="steplede abs-only"><b>Step 3 of 3</b> &middot; what came out</p>
+      <p class="steplede sci-only"><b>Step 3 of 3</b> &middot; <b>Result</b></p>
+      <p class="steplede abs-only"><b>Step 3 of 3</b> &middot; <b>Result</b></p>
       <div class="panel">
         <h3>Your library</h3>
         <!-- V9900 - this line used to offer Export as the way anybody else could see a
@@ -2709,7 +2785,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
              Scan made unnecessary in V11000. A page of instructions for buttons that are
              not there is worse than no page. -->
         <dl class="howto">
-          <dt>1 &middot; Slices</dt>
+          <dt>1 &middot; Protein</dt>
           <dd>Choose the protein on the first screen &mdash; Jo-1 is there as the worked
           example, or paste any protein of your own. Set how long a slice is (15 unless you
           have a reason). Then choose a holder in step 2, and press <b>Scan</b>: one press
@@ -2838,7 +2914,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V12100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V12200 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -3829,10 +3905,21 @@ function register(seq){
    changed underneath it, so a run could be a question nobody had asked. A run is a
    protein AND a holder; both are chosen, every time. */
 var sel=document.getElementById('allele');
+/* V12200 - AND THE WHOLE WALL IS A CHOICE OF ITS OWN.
+   Moos, on the 117: "but why choose, we need all of them right, 117!?" - and he was
+   right that the app had always been doing the work anyway. A scan scores every
+   slice against all 117 whatever is picked; the pick only decided whose answer the
+   screen pointed at. So "All 117 holders" stops being a thing you cannot ask for.
+   Picked, the answer is no longer "5 slices only DRB1*03:01 grips" but "61 slices
+   that exactly one holder grips, and here is which holder each one belongs to". */
+var ALLHOLD='*ALL*';
 (function(){
   var o0=document.createElement('option');
-  o0.value=''; o0.textContent='Choose a holder'; o0.selected=true;
+  o0.value=''; o0.textContent='Choose a holder';
   sel.appendChild(o0);
+  var oa=document.createElement('option');
+  oa.value=ALLHOLD; oa.textContent='All 117 holders'; oa.selected=true;
+  sel.appendChild(oa);
 })();
 ALLELES.forEach(function(a){
   var o=document.createElement('option'); o.value=a.f; o.textContent=a.label;
@@ -3841,6 +3928,9 @@ ALLELES.forEach(function(a){
 /* '' while nothing is chosen. Everything that needs a holder asks holderChosen first. */
 function alleleLabel(){ return sel.value ? sel.options[sel.selectedIndex].textContent : ''; }
 function holderChosen(){ return !!sel.value; }
+/* every place that needs ONE holder asks this, not holderChosen */
+function allHolders(){ return sel.value===ALLHOLD; }
+function oneHolder(){ return !!sel.value && sel.value!==ALLHOLD; }
 
 function paintPockets(){
   var hosts=document.querySelectorAll('.js-pockets'); if(!hosts.length) return;
@@ -3848,6 +3938,35 @@ function paintPockets(){
   if(!holderChosen()){
     host.innerHTML='<p class="tiny" style="margin:0">Choose a holder above and its four '
       +'pockets are drawn here.</p>';
+    return;
+  }
+  /* V12200 - four pockets belong to ONE groove. With all 117 in the question there
+     is no single groove to draw, and "no sequence on file for this type" was the
+     wrong reason for an empty panel. */
+  if(typeof allHolders==='function' && allHolders()){
+    /* V12200 - the panel teaches rather than waits. Moos, looking at an empty box:
+       "do we need this container?" It was earning nothing while all 117 were in the
+       question - a title with "its" pointing at no holder, and a line telling you to
+       go and pick one. Every groove has the same four pockets in the same places;
+       that is worth saying, and it is the thing the real drawing is a drawing OF.
+       Pick a type and the letters of that groove take these rows' place. */
+    var gcols={P1:'var(--p1)',P4:'var(--p4)',P6:'var(--p6)',P9:'var(--p9)'};
+    var gpos={P1:'\u03b285, \u03b286',P4:'\u03b213, \u03b270, \u03b271, \u03b274',
+              P6:'\u03b211, \u03b230',P9:'\u03b29, \u03b257'};
+    var gplain={P1:'hole 1',P4:'hole 2',P6:'hole 3',P9:'hole 4'};
+    var gsaid={P1:'holds the first tooth',P4:'holds the second',
+               P6:'holds the third',P9:'holds the fourth'};
+    host.innerHTML='<p class="tiny" style="margin:0 0 8px">'+(ABS
+      ? 'Every holder has these same four holes. Which letters line them is what makes one holder different from the next \u2014 pick a holder above to see its own.'
+      : 'All 117 grooves have these same four pockets, at these same positions. The letters that line them are what differ \u2014 choose a type above to see its own.')
+      +'</p><div class="pocketbars">'
+      + ['P1','P4','P6','P9'].map(function(k){
+          return '<div class="pb"><div class="h" style="color:'+gcols[k]+'">'
+               + '<span class="sci-only">'+k+'</span><span class="abs-only">'+gplain[k]+'</span></div>'
+               + '<div class="r pbwait">\u2014 \u2014 \u2014</div>'
+               + '<div class="n"><span class="sci-only">'+gpos[k]+'</span>'
+               + '<span class="abs-only">'+gsaid[k]+'</span></div></div>';
+        }).join('') + '</div>';
     return;
   }
   var pk=POCKETS_BY_ALLELE[alleleLabel()];
@@ -3893,6 +4012,20 @@ function runControls(){
   }).join('   ·   ');
   setAll('.js-valid', out);
   paintPockets();
+  /* V12200 - with ALL 117 asked there is nothing to "switch to", and the three are
+     not pointed at any one holder. The line says what it can honestly say: each one
+     is shown against its own published holder, and picking a single type is what
+     makes the mark appear. */
+  if(typeof allHolders==='function' && allHolders()){
+    setAll('.js-validnote', ABS
+      ? 'All 117 are in the question, so none of the three is marked. Pick one holder '
+        +'above - DRB1*01:01, DRB1*15:01 or DRB1*03:01 - and the piece known to belong '
+        +'to it should tighten.'
+      : 'All 117 types are in the question, so none of the three is marked. Choose one '
+        +'above - DRB1*01:01, DRB1*15:01 or DRB1*03:01 - and the epitope whose '
+        +'published type that is should be the tightest of the three.');
+    return;
+  }
   var homeHere=CONTROLS.filter(function(c){ return c.home===alleleLabel(); });
   setAll('.js-validnote', homeHere.length
     ? (ABS ? '\u25b8 marks the piece that is known to be held by the holder you picked. It should be the tightest of the three.'
@@ -3924,6 +4057,18 @@ function setAllele(){
     if(typeof runControls==='function') runControls();
     return Promise.resolve();
   }
+  /* V12200 - ALL 117 is the opening state, and nothing is downloaded for it until
+     somebody asks for an answer. Moos's standing rule for every app he builds: it
+     must always open fast, never slower. Choosing a single holder still loads the
+     table at once, because that choice is a deliberate act; the default is not, and
+     making it cost 310 KB on open would have made every start slower for everyone.
+     Scan loads the table itself when it is pressed, with the bar to show for it. */
+  if(allHolders()){
+    loading=false; loadError=null; setBusy(false);
+    document.getElementById('statdot').className = JTAB.ready() ? 'dot on' : 'dot';
+    if(typeof runControls==='function') runControls();
+    return Promise.resolve();
+  }
   loading=true;
   document.getElementById('statdot').className='dot';
   setBusy(true);
@@ -3936,6 +4081,16 @@ function setAllele(){
     loadError=null;
     runControls();
   }).catch(function(){
+  /* V12200 - "All 117" is answered from the wall, which is the table's own job.
+     There is no single network to fall back to, so say so rather than loading one
+     holder's net and quietly answering a different question. */
+  if(allHolders()){
+    loading=false; setBusy(false);
+    document.getElementById('statdot').className='dot bad';
+    loadError='All 117 holders needs the shipped table, and it could not be read.';
+    showError();
+    return;
+  }
   return NUG.load(sel.value).then(function(){
     loading=false; setBusy(false);
     document.getElementById('statdot').className='dot on';
@@ -4377,6 +4532,37 @@ function runProtein(){
   if(!TWINOK){ var twin=runTwin(seq,w,alleleLabel(),true); if(twin){ showTwin(twin); return; } }
   TWINOK=false; hideTwin();
   results=[]; selected=-1; RANKED=false; SORTBY='str'; resetRank();
+  /* V12200 - ALL 117 AT ONCE. There is no column to read, because the question is
+     not "how does one holder treat each slice" but "how many holders treat it at
+     all". Each slice is still given a number so the list and the profile mean
+     something: the TIGHTEST of the 117 - how hard this piece is held by whichever
+     holder holds it best. The answer itself comes from the wall, below. */
+  if(allHolders()){
+    if(!JTAB.fits(seq,w)){
+      document.getElementById('count').textContent =
+        'All 117 holders is answered from the shipped table, which covers Jo-1 cut at '
+        +'15. Choose one holder for this protein, or cut Jo-1 at 15.';
+      return;
+    }
+    setBusy(true);
+    JTAB.load().then(function(){
+      var N=ALLELES.length;
+      for(var st=0; st<JTAB.slices; st++){
+        var bestv=null;
+        for(var k=0;k<N;k++){
+          var v=JTAB.at(st,k);
+          if(v!=null && isFinite(v) && (bestv==null || v<bestv)) bestv=v;
+        }
+        results.push({name:(st+1)+'\u2013'+(st+w), seq:seq.slice(st,st+w),
+                      ic50:bestv, start:st});
+      }
+      setBusy(false);
+      results.sort(function(a,b){ return (a.ic50==null)-(b.ic50==null) || a.ic50-b.ic50; });
+      REF=null; drawRows(); finishScan(seq,w);
+    }).catch(function(){ setBusy(false);
+      document.getElementById('count').textContent='The table could not be read.'; });
+    return;
+  }
   var ci=JTAB.col(alleleLabel());
   if(JTAB.fits(seq,w) && ci>=0){
     setBusy(true);
@@ -4579,10 +4765,16 @@ function loadChoice(){
              : (pick.value==='none') ? ''
              : clean(box? box.value : '');
   /* V11600 - a new protein is a new question, so the holder goes with it. Moos: "when
-     you start new dieses you srtat new prtenet and hoders...every thng is new". */
+     you start new dieses you srtat new prtenet and hoders...every thng is new".
+     V12200 - it goes back to ALL 117, not to nothing. That rule exists so a run is
+     never measured against a holder nobody chose; "all of them" names no holder to
+     stand in for one, and it is the question the scan has always answered anyway. */
   if(clean(dest.value)!==LASTSEQ){
     LASTSEQ=clean(dest.value);
-    if(typeof sel!=='undefined' && sel){ sel.value=''; if(typeof setAllele==='function') setAllele(); }
+    if(typeof sel!=='undefined' && sel){
+      sel.value=(typeof ALLHOLD!=='undefined')?ALLHOLD:'';
+      if(typeof setAllele==='function') setAllele();
+    }
   }
   PNAMEFOR = dest.value;
   rememberProt(dest.value, PNAME);
@@ -6765,6 +6957,17 @@ function scanWall(seq, w, rows, done){
 function selFromCnt(cnt, rows, mineIdx, seq, w){
   var byStart=rows.slice().sort(function(a,b){ return a.start-b.start; });
   var out=new Array(byStart.length);
+  /* V12200 - with ALL 117 chosen there is no "mine". sel is what the screen reads to
+     say a slice is the good kind, and with every holder in the question the good kind
+     is the slice EXACTLY ONE of them grips. So 0 - the app's mark for "nobody else" -
+     is written for cnt 1, and the rest keep the count of the others. */
+  if(typeof allHolders==='function' && allHolders()){
+    for(var j=0;j<byStart.length;j++){
+      out[j] = cnt[j]>0 ? (cnt[j]-1) : -1;
+      byStart[j].sel = out[j];
+    }
+    return out;
+  }
   for(var i=0;i<byStart.length;i++){
     var mine;
     if(JTAB.ready() && JTAB.fits(seq,w) && mineIdx>=0) mine=gripsTight(JTAB.at(i,mineIdx), mineIdx);
@@ -7164,6 +7367,9 @@ function autoSave(){
        for everything that was not Jo-1, so a library of other proteins was a library of
        identical labels. PNAME is what was typed on the landing. */
     name:(seq===JO1_PROTEIN?'Jo-1':(PNAME||'Pasted protein')), seq:seq.slice(0,24000),
+    /* V12200 - a run against ALL 117 is a different question from a run against one
+       of them, and every screen that reads it has to know which it is holding. */
+    all:(typeof allHolders==='function' && allHolders()) ? 1 : 0,
     win:w, n:ic.length, ic:ic, sel:null, h117:null,
     /* V11000 - how many of the 117 grip each slice. The whole answer, kept with the
        run, so the Grid can be drawn for ANY protein and any window - not just Jo-1
@@ -7344,10 +7550,15 @@ function gridSquares(g){
        +(cell+gap).toFixed(2)+'" fill="transparent"/>';
     /* the open one keeps a ring around it, drawn OUTSIDE its own square so the
        colour underneath is not covered up and nothing on the grid moves */
-    if(i===GRIDSLICE) ring='<rect class="gridring" x="'+(+x-1.6).toFixed(2)+'" y="'
-       +(+y-1.6).toFixed(2)+'" width="'+(cell+3.2).toFixed(2)+'" height="'
-       +(cell+3.2).toFixed(2)+'" rx="2.6" fill="none" stroke="var(--ink)"'
-       +' stroke-width="1.1"/>';
+    /* V12200 - RED, and it breathes. Moos: "when clicking the square it become
+       radiant and pulse so the user know which one he click". A thin dark ring on a
+       grid of 495 squares is easy to lose; the one you opened should be findable
+       without hunting for it. It still stands OUTSIDE the square, so the colour
+       underneath - which is the answer - is never covered. */
+    if(i===GRIDSLICE) ring='<rect class="gridring" x="'+(+x-2.6).toFixed(2)+'" y="'
+       +(+y-2.6).toFixed(2)+'" width="'+(cell+5.2).toFixed(2)+'" height="'
+       +(cell+5.2).toFixed(2)+'" rx="3.4" fill="none" stroke="#cf2c20"'
+       +' stroke-width="1.9"/>';
   }
   /* V12100 - the squares get a name of their own. The line above them had one -
      "How many of the 117 grip each slice" - and the squares borrowed it, so the
@@ -7422,9 +7633,9 @@ function gridSliceBox(r, s){
     out+='<rect class="sq" x="'+x+'" y="'+y
        +'" width="'+cell.toFixed(2)+'" height="'+cell.toFixed(2)+'" rx="1.4" fill="'
        +['var(--green)','var(--blue)','var(--gridgrey)'][cls]+'"/>';
-    if(k===GRIDHOLD) ring='<rect class="gslring" x="'+(+x-1.8).toFixed(2)+'" y="'
-       +(+y-1.8).toFixed(2)+'" width="'+(cell+3.6).toFixed(2)+'" height="'
-       +(cell+3.6).toFixed(2)+'" rx="3" fill="none" stroke="var(--ink)" stroke-width="1.2"/>';
+    if(k===GRIDHOLD) ring='<rect class="gslring" x="'+(+x-2.6).toFixed(2)+'" y="'
+       +(+y-2.6).toFixed(2)+'" width="'+(cell+5.2).toFixed(2)+'" height="'
+       +(cell+5.2).toFixed(2)+'" rx="3.4" fill="none" stroke="#cf2c20" stroke-width="1.9"/>';
     /* the same finger-sized tile the grid above uses, so no tap lands in a gap */
     hit+='<rect class="hit" data-k="'+k+'" x="'+(c*gx).toFixed(2)+'" y="'
        +(rr*(cell+gap)).toFixed(2)+'" width="'+gx.toFixed(2)+'" height="'
@@ -7451,6 +7662,12 @@ function gridSliceBox(r, s){
     +'<span><i style="background:var(--gridgrey)"></i>'+loose+' do not</span>'
     +'</div>'
     +'<p class="taphint">Tap any holder to see its numbers.</p>'
+    /* V12200 - a door to the picture. Moos asked whether the Groove should become a
+       fourth step; it should not - the answer is finished at step 3 and nothing
+       makes you go there. What was missing was the other direction: with ONE slice
+       in front of you, there was no way to see that slice lying in the groove. */
+    +'<div class="runrow gslgo"><button type="button" id="gsl3d" data-s="'+s+'">'
+    +sa('See this slice in the groove','See this piece in the holder')+'</button></div>'
     +(GRIDHOLD==null ? '' : gridHolderBox(r, s, GRIDHOLD))
     +'</div>';
 }
@@ -7707,9 +7924,13 @@ function drawGrid(r, show){
   var ans=document.getElementById('ansslot');
   if(ans) ans.innerHTML = '<div class="gridans"><div class="bignum" data-of="'+g.S+'">'
       + sciNum(minePad)+'</div>'
+      /* V12200 - the sentence depends on which question was asked. "grip All 117
+         holders alone" is not English and not the question: with every holder in it,
+         the answer is the slices exactly ONE of them grips. */
       + '<p class="bigcap">of <b>'+g.S+'</b> '+sa('slices','pieces')+' of '
-      + '<b class="pname">'+esc(r.name||'this protein')+'</b> '+sa('grip','hold')+' '
-      + esc(r.holder)+' alone</p>'
+      + '<b class="pname">'+esc(r.name||'this protein')+'</b> '
+      + (r.all ? ('are '+sa('gripped','held')+' by exactly one holder')
+               : (sa('grip','hold')+' '+esc(r.holder)+' alone'))+'</p>'
       + '<span class="cutnote">cut at '+r.win+'</span></div>';
   wrap.innerHTML =
     /* V12100 - ONE PICTURE PER BOX. Moos: "we need to seperate this chart right?"
@@ -7742,18 +7963,42 @@ function drawGrid(r, show){
     if(cv) wallPaint(r, cv, 'screen');
   }
   var sq=wrap.querySelector('.gridsq');
+  /* V12200 - the hand, once, on the grid of slices */
+  if(sq && typeof teachTap==='function') setTimeout(function(){
+    teachTap('#gridwrap .gridsq','slices','green'); }, 420);
+  /* V12200 - and the lens, on the grid of slices. A touch opens the magnifier
+     instead of the square; lifting off opens whichever square the red frame was
+     on. A mouse is left exactly as it was - the click handler below still owns it. */
+  if(sq && typeof lensFor==='function') lensFor(sq, 25, function(i){
+    if(!isFinite(i) || i<0) return;
+    if(typeof teachOff==='function') teachOff('slices');
+    GRIDSLICE = (GRIDSLICE===i) ? null : i;
+    GRIDHOLD = null;
+    openGrid(r, GRIDSLICE!=null);
+  });
   if(sq) sq.addEventListener('click', function(ev){
     var t=ev.target, i=t && t.getAttribute && t.getAttribute('data-s');
     if(i==null) return;
+    if(typeof teachOff==='function') teachOff('slices');
     i=parseInt(i,10); if(!isFinite(i)) return;
     GRIDSLICE = (GRIDSLICE===i) ? null : i;   /* tapping the open one shuts it */
     GRIDHOLD = null;                          /* a holder belongs to one slice */
     openGrid(r, GRIDSLICE!=null);
   });
   var hs=wrap.querySelector('.gslsq');
+  /* V12200 - and once on the 117 holders, the first time a drawer opens */
+  if(hs && typeof teachTap==='function') setTimeout(function(){
+    teachTap('#gridwrap .gslsq','holders','green'); }, 520);
+  if(hs && typeof lensFor==='function') lensFor(hs, 13, function(k){
+    if(!isFinite(k) || k<0 || k>=ALLELES.length) return;
+    if(typeof teachOff==='function') teachOff('holders');
+    GRIDHOLD = (GRIDHOLD===k) ? null : k;
+    openGrid(r, GRIDHOLD!=null);
+  });
   if(hs) hs.addEventListener('click', function(ev){
     var t=ev.target, k=t && t.getAttribute && t.getAttribute('data-k');
     if(k==null) return;
+    if(typeof teachOff==='function') teachOff('holders');
     k=parseInt(k,10); if(!isFinite(k)) return;
     GRIDHOLD = (GRIDHOLD===k) ? null : k;
     openGrid(r, GRIDHOLD!=null);
@@ -7783,6 +8028,19 @@ function drawGrid(r, show){
   });
   var x=document.getElementById('gslclose');
   if(x) x.addEventListener('click', function(){ GRIDSLICE=null; GRIDHOLD=null; drawGrid(r); });
+  /* V12200 - open THIS slice in the 3D groove. The run is loaded back into the
+     result list first, because the picture is drawn from the chosen row there, and
+     the run being looked at may not be the one last scanned. */
+  var g3=document.getElementById('gsl3d');
+  if(g3) g3.addEventListener('click', function(){
+    var st=parseInt(g3.getAttribute('data-s'),10); if(!isFinite(st)) return;
+    if(typeof openRun==='function') openRun(r);
+    var idx=-1;
+    for(var q=0;q<results.length;q++) if(results[q].start===st){ idx=q; break; }
+    if(idx<0) return;
+    if(typeof select==='function') select(idx);
+    showTab('t-3d');
+  });
   /* The grid can be 25 rows tall, so a drawer opening under it opens off the bottom
      of the screen - tap a square, nothing appears to happen. The page is brought
      down to it, and ONLY down, and only AS LITTLE AS WILL DO: just enough to show
@@ -7853,6 +8111,146 @@ function run117(r){
 /* V12100 - the slices this holder, and no other of the 117, grips. r.sel[i]===0 is
    what the scan already wrote for each slice; this just names them. Tightest first,
    because that is the one worth making. */
+/* V12200 - for an ALL run, WHICH of the 117 is the one. The wall already counted
+   them; this finds the one it counted, by the same rule it counted with, so the name
+   on the row and the number in the grid can never disagree. */
+/* V12200 - the one-time demonstration. It is drawn OVER the grid, in a layer of
+   its own, so not one square moves and nothing on the page shifts - his standing
+   rule. It runs once per grid, ever: the flag is kept on this phone, and the first
+   real tap on that grid puts it away for good. */
+/* V12200 - the lens itself. It is wired to whichever grid asks for it; the copy
+   inside is re-read from the live SVG each time it is shown, so it can never drift
+   out of step with the grid it is magnifying. It only ever appears while a finger
+   is down, and it stays inside the card: pushed up against a wall it stops there
+   and the red frame goes on moving inside it, so the lens never covers the graph
+   above, the bar below, or hangs off the side. */
+function lensFor(sq, cols, onPick){
+  if(!sq || !sq.parentNode) return;
+  var host=sq.parentNode;
+  if(getComputedStyle(host).position==='static') host.classList.add('lenshost');
+  var lens=host.querySelector('.jlens');
+  if(!lens){
+    lens=document.createElement('div'); lens.className='jlens';
+    lens.innerHTML='<div class="jlensin"></div><div class="jlenscross"></div>';
+    host.appendChild(lens);
+  }
+  var inner=lens.querySelector('.jlensin'), cross=lens.querySelector('.jlenscross');
+  var Z=3.2, R=52, LIFT=64;
+  var live=null;
+  /* The copy is laid inside the lens so that the point under the finger sits at
+     the lens centre. A point (px,py) of the grid sits at ((px-ix)*Z,(py-iy)*Z)
+     from the copy's own corner, so the corner goes at R minus that. The lens box
+     may be pushed away from the finger to stay inside the card; that moves the
+     box, not what it shows. */
+  function show(px,py){
+    var hb=host.getBoundingClientRect(), sb=sq.getBoundingClientRect();
+    if(!sb.width) return;
+    var key=Math.round(sb.width)+'x'+Math.round(sb.height)+':'+sq.innerHTML.length;
+    if(inner.getAttribute('data-k')!==key){
+      inner.innerHTML=sq.outerHTML;
+      inner.setAttribute('data-k', key);
+    }
+    inner.style.width=sb.width+'px';
+    inner.style.transform='scale('+Z+')';
+    var ix=sb.x-hb.x, iy=sb.y-hb.y;
+    inner.style.left=(R-(px-ix)*Z)+'px';
+    inner.style.top=(R-(py-iy)*Z)+'px';
+    /* the square the finger is actually on */
+    var gx=sb.width/cols, cell=gx*0.80;
+    var c=Math.floor((px-ix)/gx), rr=Math.floor((py-iy)/gx);
+    var sxx=ix+c*gx, syy=iy+rr*gx;
+    cross.style.width=(cell*Z)+'px'; cross.style.height=(cell*Z)+'px';
+    cross.style.left=(R+(sxx-px)*Z)+'px';
+    cross.style.top=(R+(syy-py)*Z)+'px';
+    /* above the finger, and never outside the card */
+    var lx=px-R, ly=py-R-LIFT;
+    var maxX=hb.width-(R*2+6), maxY=hb.height-(R*2+6);
+    if(lx<0) lx=0; if(maxX>0 && lx>maxX) lx=maxX;
+    if(ly<0) ly=0; if(maxY>0 && ly>maxY) ly=maxY;
+    lens.style.left=lx+'px'; lens.style.top=ly+'px';
+    lens.classList.add('on');
+    live={c:c, r:rr};
+  }
+  function hide(pick){
+    lens.classList.remove('on');
+    if(pick && live && onPick) onPick(live.r*cols+live.c);
+    live=null;
+  }
+  function at(e){
+    var t=(e.touches && e.touches[0]) || e;
+    var hb=host.getBoundingClientRect();
+    return [t.clientX-hb.x, t.clientY-hb.y];
+  }
+  if(sq.getAttribute('data-lens')==='1') return;
+  sq.setAttribute('data-lens','1');
+  sq.addEventListener('touchstart', function(e){
+    var p=at(e); show(p[0],p[1]); e.preventDefault(); }, {passive:false});
+  sq.addEventListener('touchmove', function(e){
+    var p=at(e); show(p[0],p[1]); e.preventDefault(); }, {passive:false});
+  sq.addEventListener('touchend', function(e){ hide(true); e.preventDefault(); }, {passive:false});
+  sq.addEventListener('touchcancel', function(){ hide(false); });
+}
+var TEACH_KEY='jo1-taught-v1';
+function taught(which){
+  try{ return (JSON.parse(localStorage.getItem(TEACH_KEY)||'{}'))[which]===1; }
+  catch(e){ return true; }        /* no storage: never nag */
+}
+function markTaught(which){
+  try{ var o=JSON.parse(localStorage.getItem(TEACH_KEY)||'{}');
+       o[which]=1; localStorage.setItem(TEACH_KEY, JSON.stringify(o)); }catch(e){}
+}
+var TEACH_HAND='<svg viewBox="0 0 24 24" width="44" height="44">'
+ +'<g stroke="#14181f" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" fill="none">'
+ +'<path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74a4.5 4.5 0 1 0-5 0z"/>'
+ +'<path d="M18.84 15.87l-4.54-2.26a1.3 1.3 0 0 0-.54-.11H13v-6a1.5 1.5 0 0 0-3 0v10.74l-3.43-.72a1.2 1.2 0 0 0-1.03.3l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></g>'
+ +'<path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74a4.5 4.5 0 1 0-5 0z" fill="#14181f"/>'
+ +'<path d="M18.84 15.87l-4.54-2.26a1.3 1.3 0 0 0-.54-.11H13v-6a1.5 1.5 0 0 0-3 0v10.74l-3.43-.72a1.2 1.2 0 0 0-1.03.3l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z" fill="#ffc400"/></svg>';
+function teachTap(sel, which, pickFill){
+  if(taught(which)) return;
+  var sq=document.querySelector(sel); if(!sq) return;
+  var host=sq.parentNode; if(!host) return;
+  if(host.querySelector('.tapteach')) return;
+  var cells=[].slice.call(sq.querySelectorAll('.sq'));
+  if(!cells.length) return;
+  var want=cells.filter(function(r){
+    return (r.getAttribute('fill')||'').indexOf(pickFill)>=0; });
+  var target=want.length ? want[Math.min(6, want.length-1)] : cells[Math.floor(cells.length/2)];
+  var hb=host.getBoundingClientRect(), tb=target.getBoundingClientRect();
+  if(!tb.width) return;
+  var cs=getComputedStyle(host);
+  if(cs.position==='static') host.style.position='relative';
+  var ring=document.createElement('div');
+  ring.className='tapteachring';
+  ring.style.left=(tb.x-hb.x-4)+'px'; ring.style.top=(tb.y-hb.y-4)+'px';
+  ring.style.width=(tb.width+8)+'px'; ring.style.height=(tb.height+8)+'px';
+  host.appendChild(ring);
+  var hand=document.createElement('div');
+  hand.className='tapteach';
+  hand.style.left=(tb.x-hb.x+tb.width*0.70)+'px';
+  hand.style.top=(tb.y-hb.y+tb.height*0.75)+'px';
+  hand.innerHTML=TEACH_HAND;
+  host.appendChild(hand);
+  setTimeout(function(){
+    if(ring.parentNode) ring.parentNode.removeChild(ring);
+    if(hand.parentNode) hand.parentNode.removeChild(hand);
+  }, 3000);
+}
+function teachOff(which){
+  markTaught(which);
+  [].forEach.call(document.querySelectorAll('.tapteach,.tapteachring'), function(e){
+    if(e.parentNode) e.parentNode.removeChild(e); });
+}
+function soleHolder(r, i){
+  if(!JTAB.ready() || !JTAB.fits(r.seq, r.win)) return '';
+  var found='';
+  for(var k=0;k<ALLELES.length;k++){
+    if(gripsTight(JTAB.at(i,k), k)){
+      if(found) return '';            /* more than one - not an answer */
+      found=ALLELES[k].label;
+    }
+  }
+  return found;
+}
 function onlyOneCard(r){
   var box=document.getElementById('onecard'); if(!box) return;
   if(!r || !r.seq || !r.sel){ box.innerHTML=''; return; }
@@ -7860,6 +8258,8 @@ function onlyOneCard(r){
   for(i=0;i<r.sel.length;i++) if(r.sel[i]===0)
     hits.push({i:i, ic:(r.ic&&r.ic[i]!=null)?r.ic[i]:null});
   hits.sort(function(a,b){ return (a.ic==null)-(b.ic==null) || a.ic-b.ic; });
+  /* V12200 - which question this run asked: one holder, or all 117 of them */
+  var ALLRUN = !!r.all;
   var out='<div class="panel savedp onlyp">'
     /* V12100 - in capitals: it is the app's own name, and this card is the app's
        answer. Moos: "the only one must be in caps". */
@@ -7876,12 +8276,19 @@ function onlyOneCard(r){
        Nothing on the card called DRB1*03:01 a holder; it was simply a large word.
        One word, not three: "The only holder" under a card titled "The only one" said
        the same thing twice, which he caught at once. */
-    +'<p class="onlylab">'+sa('Holder','Holder')+'</p>'
-    +'<p class="onlyhold">'+esc(r.holder)+'</p>'
     /* V12100 - "116 what?" - Moos, and he was right: the number stood on its own
-       with nothing to count. It is the other 116 HOLDERS of the 117. */
-    +'<p class="runwho">'+esc(r.name)+' \u00b7 none of the other 116 '
-    +sa('holders','holders')+' '+sa('grip','hold')+' them</p>';
+       with nothing to count. It is the other 116 HOLDERS of the 117.
+       V12200 - and with ALL 117 asked, no single holder heads the card at all: the
+       holder is different on every row, so it is named on the row itself. */
+    + (ALLRUN
+       ? '<p class="onlylab">'+sa('Holders','Holders')+'</p>'
+         +'<p class="onlyhold">one each, of 117</p>'
+         +'<p class="runwho">'+esc(r.name)+' \u00b7 every '+sa('slice','piece')
+         +' here is '+sa('gripped','held')+' by a single holder and by no other</p>'
+       : '<p class="onlylab">'+sa('Holder','Holder')+'</p>'
+         +'<p class="onlyhold">'+esc(r.holder)+'</p>'
+         +'<p class="runwho">'+esc(r.name)+' \u00b7 none of the other 116 '
+         +sa('holders','holders')+' '+sa('grip','hold')+' them</p>');
   if(!hits.length){
     out+='<p class="runempty">No '+sa('slice','piece')+' of this protein is gripped by '
       +esc(r.holder)+' alone. Every one it grips, others grip too.</p></div>';
@@ -7894,8 +8301,12 @@ function onlyOneCard(r){
        five lines of text under a card named after them, and the one thing a person
        wants next - who else comes near this slice - was already built, up in the
        grid. The row opens that same drawer and brings the screen to it. */
-    out+='<button type="button" class="runpep onepick" data-s="'+h.i+'">'
-      +'<span>'+esc(seq)+'</span><span class="tag">'
+    var who = ALLRUN ? soleHolder(r, h.i) : '';
+    out+='<button type="button" class="runpep onepick'+(who?' onepick2':'')
+      +'" data-s="'+h.i+'">'
+      +'<span class="oseq">'+esc(seq)+'</span>'
+      +(who?'<span class="ohold">'+esc(who)+'</span>':'')
+      +'<span class="tag">'
       +(h.i+1)+'\u2013'+(h.i+r.win)+(h.ic==null?'':' \u00b7 '+nm(h.ic)+' nM')
       +'</span></button>';
   }

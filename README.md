@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V12100**.
+Version **V12200**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -91,6 +91,24 @@ showing the page you came from, and a phone's picker fires nothing when you tap 
 entry it is already showing, so that picker could not get you out of the notes from
 any of the eight pages. And every page now carries the version in the footer, on the
 line above Built with Claude, read off the Sources line so the two cannot disagree.
+
+From V12200 the app opens on **all 117 holders**. A scan always scored every slice
+against all 117; the holder you picked only decided whose answer the screen pointed
+at. So "All 117 holders" is a choice of its own now, and the one the app starts on -
+nothing to choose before you can scan. Its answer is 61: the slices of Jo-1 that
+exactly one of the 117 grips. THE ONLY ONE lists all 61 and names the one holder on
+every row.
+
+The grid can be hit now. A yellow hand presses a square once, to show the squares
+are buttons; the square you open keeps a red ring that breathes; and holding a
+finger on the grid raises a lens at 3.2x above it, with a frame on the square that
+will open when you lift off. A fisheye was built first and thrown out - it shrank
+the rim squares, which are already the hardest to hit, and it moved the squares, so
+the grid stopped being a map of the protein while you touched it.
+
+The three steps are named Protein, Holders and Result, on the page and in the
+picker. The mark is red and green now: red frames what you are on, green is the
+slice exactly one holder grips.
 
 From V12100 the app **says its own answer**. Step 3 used to end with a grid and a
 number: *005 of 495 slices of Jo-1 grip DRB1*03:01 alone.* It never said **which**
