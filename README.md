@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V12200**.
+Version **V12300**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -91,6 +91,24 @@ showing the page you came from, and a phone's picker fires nothing when you tap 
 entry it is already showing, so that picker could not get you out of the notes from
 any of the eight pages. And every page now carries the version in the footer, on the
 line above Built with Claude, read off the Sources line so the two cannot disagree.
+
+From V12300 the walk is **five steps**: Protein, Holders, Result, Shortlist,
+Groove. The shortlist and the Groove were reachable but nothing led to them, which
+also left Next dead at the end of step 3. They are steps 4 and 5 now, and each
+step wears one of the four colours - red, blue, green, yellow - with the Groove
+taking the app's ink, because repeating a colour would make two steps look alike.
+
+The Graph came off. It drew the same profile step 3 already draws; its one useful
+part, the arrows that walk the protein slice by slice, moved into the slice drawer
+where a slice is already in hand.
+
+The SCIENCE / ABSTRACT switch is gone from every page. It asked a question most
+people never answered and cost every screen it sat on a row. The plain-English
+wording is untouched in the file; the app simply stays on Science.
+
+On the shortlist, the Send panel moved to the top - it had been 16,922 pixels down,
+under all 120 rows - and lost its Send/Hide button: the text is simply there,
+written for whichever slice is chosen, with Copy and Email beneath it.
 
 From V12200 the app opens on **all 117 holders**. A scan always scored every slice
 against all 117; the holder you picked only decided whose answer the screen pointed
