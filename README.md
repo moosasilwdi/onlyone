@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V12400**.
+Version **V12500**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -10,6 +10,47 @@ are the types this app's engine can score, not all that exist - about 11,910 cla
 are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
+
+
+## V12500 - the lens is gone, and step 4 answers under your finger
+
+**The lens is removed.** Moos: "I dont like the lense concept remove it." The 3.2x
+magnifier that rose under a finger on the two grids is gone, element, styles and
+all. A tap opens the square under the finger as it did before V12200; the whole
+cell is the tap target, so a near miss still lands on a slice, and the teaching
+hand and the breathing red ring stay.
+
+**The card detail opens under the card you tapped.** Tapping the fourth card on
+step 4 used to fill a panel 16,118px further down the page - and leave it shut, so
+a tap did nothing you could see. The panel is not copied: the one that exists is
+moved under the card and opened, so the crosscheck machinery comes with it. The
+card you touched does not move - when the panel leaves a card higher up the page
+shortens above your finger, so the page is scrolled by exactly that much in the
+same frame. Only the cards below it go down.
+
+**Step 4 leads to step 5.** Moos: "there is no relationship between step4 and
+step5!". There was one - step 5 was already drawn from the slice chosen on step 4,
+measured doing exactly that - but nothing said so. The detail now carries the same
+button the slice drawer carries on step 3: "See this slice in the groove".
+
+**"Check across all 117 types" is removed.** Moos: "why to choose 117! We already
+showing all 117 cards right!?" Every scan already goes through all 117 for every
+slice - measured, all 120 cards carry their chip before that button is touched,
+with All 117 chosen and with one holder chosen. It was left from the app that
+scanned ONE holder. Its one unique line, naming the other holders that also grip
+the slice, is on step 3 where the 117 squares are there to tap. And on All 117 its
+box contradicted the band above it - "Mostly selective" over "Not held" - because
+it compares nM across holders that each have their own grip line.
+
+**The button that remains is the page's own yellow**, full width, 56px, with black
+type at 9.9:1 - the same as Copy, Email and the sort pill beside it.
+
+**A fault caught by the suite while building this.** V12400 made the grid fetch the
+shipped table whenever it covers the run. If that fetch failed - no signal, or the
+file blocked - the grid gave up and said "not drawn", even though the run carries
+its own 495 squares and the 117 networks can still answer for one slice. It falls
+back to that road now. The fast check proves both roads give the same verdict and
+the same numbers: the table 36ms and 0.30 MB, the networks 129ms and 15.62 MB.
 
 ## V12400 - the grey wall, and the two Go buttons
 

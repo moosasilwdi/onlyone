@@ -820,25 +820,10 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 @keyframes ttRing{0%{opacity:.9;transform:scale(1)}
                   70%{opacity:0;transform:scale(2.6)}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.tapteach,.tapteachring{display:none}}
-/* V12200 - THE LENS. Moos: "can we add lence effect,,,so the user finger wil have
-   zoom on the grid this will help th e suer not to click wongly". A square is nine
-   pixels across and a fingertip covers four of them, so the grid was a game of
-   chance. A fisheye was tried first and thrown out: to make the middle bigger
-   inside a fixed box the rim has to shrink, which makes the edge squares HARDER to
-   hit - "the side button at the edge one are more small now" - and it moves the
-   squares, so the grid stops being a map of the protein while you touch it.
-   The lens magnifies a COPY that floats above the finger. Nothing underneath
-   moves, nothing shrinks, and the red frame inside it names the square that will
-   open when you lift off. */
-.lenshost{position:relative}
-.jlens{position:absolute;width:104px;height:104px;border-radius:50%;
-  overflow:hidden;pointer-events:none;z-index:9;display:none;
-  border:3px solid #cf2c20;background:var(--panel);
-  box-shadow:0 6px 18px -4px rgba(0,0,0,.45)}
-.jlens.on{display:block}
-.jlens>.jlensin{position:absolute;transform-origin:0 0}
-.jlens>.jlenscross{position:absolute;border:2px solid #14181f;border-radius:4px}
-@media (prefers-reduced-motion:reduce){.jlens{display:none!important}}
+/* V12400 - the lens is gone. Moos: "I dont like the lense concept remove it."
+   A tap opens the square under the finger, as it did before V12200; the whole
+   cell is the target, so a near miss still lands on a slice, and the teaching
+   hand and the breathing red ring stay. */
 /* V12200 - the open square keeps a red ring that breathes, so it can be found at a
    glance among 495. It is a stroke, not a shadow: an SVG rect inside the grid, so
    nothing on the page moves and nothing is covered. */
@@ -879,6 +864,12 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   font-size:11px;color:var(--mute)}
 .gslgo{margin-top:10px}
 .gslgo button{width:100%}
+/* V12400 - the card detail opens under the card now, so its button is seen for the
+   first time. It stood 35px while Copy, Email and the sort pill on the same page
+   stand 56px - measured. Moos: "the buttons hight in th eshort list must be same as
+   in step 1 and 2 etc". It matches the page it sits on, and wears that page's own
+   colour, which on step 4 is yellow with black type. */
+#sheetwrap .gslgo button{min-height:56px}
 .onlyp .onepick2{flex-wrap:wrap;row-gap:3px}
 .onlyp .onepick2 .oseq{flex:1 1 100%}
 .onlyp .ohold{font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--green)}
@@ -2249,12 +2240,26 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         </div>
         <div class="body">
           <div id="detail"><p class="tiny" style="margin:0">Run a scan.</p></div>
-          <div class="ctrls" style="margin-top:10px">
-            <button type="button" id="crosscheck">Check across all 117 types</button>
-            <span class="tiny" id="ccstat"></span>
+          <!-- V12400 - THE DOOR FROM STEP 4 TO STEP 5. Moos: "there is no
+               relationship between step4 and step5!". There was one - step 5 draws
+               whichever slice is chosen here, and it was measured doing exactly
+               that - but nothing on this page said so, so the walk looked like it
+               ended at the shortlist. This is the same button, with the same words,
+               that the slice drawer carries on step 3. -->
+          <div class="runrow gslgo">
+            <button type="button" class="go" id="togroove"><span class="sci-only">See this slice in the groove</span><span class="abs-only">See this piece in the holder</span></button>
           </div>
-          <div class="prog"><i id="ccbar"></i></div>
-          <div id="ccout"></div>
+          <!-- V12400 - "Check across all 117 types" is gone. Moos: "why to choose
+               117! We already showing all 117 cards right!?" - and he is right.
+               Every scan already goes through all 117 for every slice: measured,
+               all 120 cards carry their chip before that button is touched, both
+               with All 117 chosen and with one holder chosen. It was left from the
+               app that scanned ONE holder, when the other 116 had to be asked for
+               separately. Its one unique line - naming the other holders that also
+               grip the slice - is on step 3, where the 117 squares are there to
+               tap. And on All 117, which is the default, its box contradicted the
+               band above it: "Mostly selective" over "Not held", because it
+               compares nM across holders that each have their own grip line. -->
         </div>
       </div>
 
@@ -3057,7 +3062,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V12400 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V12500 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -5093,8 +5098,50 @@ document.getElementById('pepseq').addEventListener('keydown', function(e){ if(e.
 document.getElementById('filt').addEventListener('change', function(){ if(mode==='dec') runDecoy(); });
 
 /* ================= table ================= */
+/* V12400 - THE DETAIL OPENS UNDER THE CARD YOU TAPPED.
+   Moos: "step4 clicking the cards the result is doen closed need to be open at
+   bottom that us bad because it iscto way far doen". Measured: tapping the fourth
+   card filled a panel 16,247px further down the page, and left it shut - so a tap
+   did nothing you could see. It is the same fault the Send box had in V12300.
+   The panel is not copied or rebuilt: the one that exists is MOVED to sit directly
+   under the card, and opened. Everything in it - the crosscheck, its bar, its
+   output - comes with it, because it is the same element. Only what sits BELOW the
+   card moves down; the card you touched does not shift, which is his standing rule.
+   It is put back where it belongs before the list is redrawn, or innerHTML would
+   throw it away. */
+var SHEETHOME=null;
+function sheetHome(){
+  var sh=document.getElementById('sheetwrap'); if(!sh) return;
+  if(!SHEETHOME) SHEETHOME=sh.parentNode;
+  if(sh.parentNode!==SHEETHOME) SHEETHOME.appendChild(sh);
+}
+/* the panel leaving a card ABOVE this one shortens the page above your finger, so
+   the card you just touched would jump up - measured once at 313px. The page is
+   scrolled by exactly that much in the same frame, so the card stays under the
+   finger and only what is BELOW it moves. */
+function scrollerFor(el){
+  for(var n=el; n && n!==document.body; n=n.parentNode){
+    if(n.nodeType!==1) continue;
+    var o=getComputedStyle(n).overflowY;
+    if((o==='auto'||o==='scroll') && n.scrollHeight>n.clientHeight+2) return n;
+  }
+  return document.scrollingElement || document.documentElement;
+}
+function sheetUnder(card){
+  var sh=document.getElementById('sheetwrap'); if(!sh || !card) return;
+  if(!SHEETHOME) SHEETHOME=sh.parentNode;
+  var was=card.getBoundingClientRect().top;
+  if(card.nextSibling!==sh) card.parentNode.insertBefore(sh, card.nextSibling);
+  sh.hidden=false;
+  sh.setAttribute('data-open','1');
+  var g=document.getElementById('sheetgrip'); if(g) g.setAttribute('aria-expanded','true');
+  var ch=document.getElementById('sheetchev'); if(ch) ch.textContent='close';
+  var now=card.getBoundingClientRect().top, d=now-was;
+  if(d){ var sc=scrollerFor(card); if(sc) sc.scrollTop += d; }
+}
 function drawRows(){
   var tb=document.getElementById('rows'), isDec=(mode==='dec');
+  sheetHome();                      /* V12400 - out of the list before it is redrawn */
   var shown=results.slice(0,120), html='';
   shown.forEach(function(r,i){
     var v=verdict(r,isDec);
@@ -5297,11 +5344,12 @@ document.getElementById('rows').addEventListener('click', function(e){
   var c=e.target.closest('.card'); if(c&&c.hasAttribute('data-i')){
     if(typeof teachOff==='function') teachOff('cards');
     select(+c.getAttribute('data-i'));
+    sheetUnder(c);                  /* V12400 - the answer, under your finger */
   }
 });
 document.getElementById('rows').addEventListener('keydown', function(e){
   if(e.key!=='Enter'&&e.key!==' ') return;
-  var c=e.target.closest('.card'); if(c&&c.hasAttribute('data-i')){ select(+c.getAttribute('data-i')); e.preventDefault(); }
+  var c=e.target.closest('.card'); if(c&&c.hasAttribute('data-i')){ select(+c.getAttribute('data-i')); sheetUnder(c); e.preventDefault(); }
 });
 
 function select(i){
@@ -6932,6 +6980,14 @@ function crossCheck(){
       bar=document.getElementById('ccbar'), out=document.getElementById('ccout'),
       btn2=document.getElementById('cc2'), bar2=document.getElementById('cc2bar'),
       prog2=document.getElementById('cc2prog'), band=document.getElementById('selband');
+  /* V12400 - step 4's Check and the box it wrote into are gone, so there is nothing
+     to write. The Graph page keeps its own Check; it is not on the walk. Every
+     element below is read through a stand-in, so a missing one cannot throw. */
+  if(!out) return;
+  var NIL={style:{},dataset:{},classList:{add:function(){},remove:function(){}},
+           setAttribute:function(){},removeAttribute:function(){}};
+  btn=btn||NIL; stat=stat||NIL; bar=bar||NIL; btn2=btn2||NIL;
+  bar2=bar2||NIL; prog2=prog2||NIL; band=band||NIL;
   btn.disabled=true; btn2.disabled=true; out.innerHTML='';
   stat.textContent='loading networks\u2026';
   prog2.hidden=false; band.hidden=true;
@@ -7015,8 +7071,9 @@ function tabFits(){
   var w=parseInt(document.getElementById('win').value,10);
   return JTAB.fits(clean(box.value), w);
 }
-document.getElementById('crosscheck').addEventListener('click', crossCheck);
-document.getElementById('cc2').addEventListener('click', crossCheck);
+(function(){ var a=document.getElementById('crosscheck'), b=document.getElementById('cc2');
+  if(a) a.addEventListener('click', crossCheck);
+  if(b) b.addEventListener('click', crossCheck); })();
 
 // ===== narrowing: run all 117 holders on the top slices, then rank by selectivity =====
 var RANKED=false, SORTBY='sel', RANKN=20;
@@ -7317,6 +7374,12 @@ function toggleSheet(force){
   document.getElementById('sheetchev').textContent = open?'close':'open';
 }
 grip.addEventListener('click', function(){ toggleSheet(); });
+/* V12400 - step 4 -> step 5. The row is already chosen, and the groove is drawn
+   from that choice, so there is nothing to pass: just go. */
+(function(){
+  var tg=document.getElementById('togroove');
+  if(tg) tg.addEventListener('click', function(){ showTab('t-3d'); });
+})();
 grip.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ toggleSheet(); e.preventDefault(); } });
 
 /* ================= start ================= */
@@ -8048,16 +8111,28 @@ function gridWallBox(r){
    loose, 117 do not, the arrows changed nothing you could see, and the squares had
    nothing behind them to tap. For a protein the table answers, fetch the table. */
 function needTable(r){ return !!r && JTAB.fits(r.seq, r.win) && !JTAB.ready(); }
-function withTable(r, then){
+/* If the table will not come - no signal, or it is blocked - a run that carries its
+   own wall is NOT stuck: the 495 squares are in the run, and the 117 networks can
+   still answer for one slice, which is how this worked before the table existed.
+   So a failed fetch falls through to the road that was always there; it must never
+   end at "the grid is not drawn" while the app still has a way to draw it. */
+function withTable(r, then, fallback){
   var wrap=document.getElementById('gridwrap');
   if(wrap) wrap.innerHTML='<p class="gridnone">Working out the grid\u2026</p>';
   JTAB.load().then(then).catch(function(){
+    if(fallback) return fallback();
     if(wrap) wrap.innerHTML='<p class="gridnone">The table of numbers could not be'
       +' read, so the grid is not drawn. Everything else on this page still works.</p>';
   });
 }
 function openGrid(r, show){
-  if(needTable(r)){ withTable(r, function(){ drawGrid(r, show); }); return; }
+  if(needTable(r)){
+    withTable(r, function(){ drawGrid(r, show); }, function(){ openGridNoTable(r, show); });
+    return;
+  }
+  openGridNoTable(r, show);
+}
+function openGridNoTable(r, show){
   if(runFromTable(r) || netsReady() || (GRIDSLICE==null && !GRIDWALL)){
     drawGrid(r, show); return;
   }
@@ -8100,11 +8175,18 @@ function drawGrid(r, show){
       var now=LIB()[PICKRUN];
       drawGrid(now && now.id===r.id ? now : r, show);
     }).catch(function(){
+      /* the run's own wall still draws the 495 squares, and the networks still
+         answer for one slice - only a run with neither has nothing to show */
+      if(own){ drawGridBody(r, show); return; }
       wrap.innerHTML='<p class="gridnone">The table of numbers could not be read, so'
         +' the grid is not drawn. Everything else on this page still works.</p>';
     });
     return;
   }
+  drawGridBody(r, show);
+}
+function drawGridBody(r, show){
+  var wrap=document.getElementById('gridwrap'); if(!wrap) return;
   var g=gridData(r);
   if(!g){ wrap.innerHTML=''; return; }
   /* V11500 - the answer, at the head of the page it belongs to.
@@ -8163,16 +8245,6 @@ function drawGrid(r, show){
   /* V12200 - the hand, once, on the grid of slices */
   if(sq && typeof teachTap==='function') setTimeout(function(){
     teachTap('#gridwrap .gridsq','slices','green'); }, 420);
-  /* V12200 - and the lens, on the grid of slices. A touch opens the magnifier
-     instead of the square; lifting off opens whichever square the red frame was
-     on. A mouse is left exactly as it was - the click handler below still owns it. */
-  if(sq && typeof lensFor==='function') lensFor(sq, 25, function(i){
-    if(!isFinite(i) || i<0) return;
-    if(typeof teachOff==='function') teachOff('slices');
-    GRIDSLICE = (GRIDSLICE===i) ? null : i;
-    GRIDHOLD = null;
-    openGrid(r, GRIDSLICE!=null);
-  });
   if(sq) sq.addEventListener('click', function(ev){
     var t=ev.target, i=t && t.getAttribute && t.getAttribute('data-s');
     if(i==null) return;
@@ -8186,12 +8258,6 @@ function drawGrid(r, show){
   /* V12200 - and once on the 117 holders, the first time a drawer opens */
   if(hs && typeof teachTap==='function') setTimeout(function(){
     teachTap('#gridwrap .gslsq','holders','green'); }, 520);
-  if(hs && typeof lensFor==='function') lensFor(hs, 13, function(k){
-    if(!isFinite(k) || k<0 || k>=ALLELES.length) return;
-    if(typeof teachOff==='function') teachOff('holders');
-    GRIDHOLD = (GRIDHOLD===k) ? null : k;
-    openGrid(r, GRIDHOLD!=null);
-  });
   if(hs) hs.addEventListener('click', function(ev){
     var t=ev.target, k=t && t.getAttribute && t.getAttribute('data-k');
     if(k==null) return;
@@ -8325,78 +8391,6 @@ function run117(r){
    its own, so not one square moves and nothing on the page shifts - his standing
    rule. It runs once per grid, ever: the flag is kept on this phone, and the first
    real tap on that grid puts it away for good. */
-/* V12200 - the lens itself. It is wired to whichever grid asks for it; the copy
-   inside is re-read from the live SVG each time it is shown, so it can never drift
-   out of step with the grid it is magnifying. It only ever appears while a finger
-   is down, and it stays inside the card: pushed up against a wall it stops there
-   and the red frame goes on moving inside it, so the lens never covers the graph
-   above, the bar below, or hangs off the side. */
-function lensFor(sq, cols, onPick){
-  if(!sq || !sq.parentNode) return;
-  var host=sq.parentNode;
-  if(getComputedStyle(host).position==='static') host.classList.add('lenshost');
-  var lens=host.querySelector('.jlens');
-  if(!lens){
-    lens=document.createElement('div'); lens.className='jlens';
-    lens.innerHTML='<div class="jlensin"></div><div class="jlenscross"></div>';
-    host.appendChild(lens);
-  }
-  var inner=lens.querySelector('.jlensin'), cross=lens.querySelector('.jlenscross');
-  var Z=3.2, R=52, LIFT=64;
-  var live=null;
-  /* The copy is laid inside the lens so that the point under the finger sits at
-     the lens centre. A point (px,py) of the grid sits at ((px-ix)*Z,(py-iy)*Z)
-     from the copy's own corner, so the corner goes at R minus that. The lens box
-     may be pushed away from the finger to stay inside the card; that moves the
-     box, not what it shows. */
-  function show(px,py){
-    var hb=host.getBoundingClientRect(), sb=sq.getBoundingClientRect();
-    if(!sb.width) return;
-    var key=Math.round(sb.width)+'x'+Math.round(sb.height)+':'+sq.innerHTML.length;
-    if(inner.getAttribute('data-k')!==key){
-      inner.innerHTML=sq.outerHTML;
-      inner.setAttribute('data-k', key);
-    }
-    inner.style.width=sb.width+'px';
-    inner.style.transform='scale('+Z+')';
-    var ix=sb.x-hb.x, iy=sb.y-hb.y;
-    inner.style.left=(R-(px-ix)*Z)+'px';
-    inner.style.top=(R-(py-iy)*Z)+'px';
-    /* the square the finger is actually on */
-    var gx=sb.width/cols, cell=gx*0.80;
-    var c=Math.floor((px-ix)/gx), rr=Math.floor((py-iy)/gx);
-    var sxx=ix+c*gx, syy=iy+rr*gx;
-    cross.style.width=(cell*Z)+'px'; cross.style.height=(cell*Z)+'px';
-    cross.style.left=(R+(sxx-px)*Z)+'px';
-    cross.style.top=(R+(syy-py)*Z)+'px';
-    /* above the finger, and never outside the card */
-    var lx=px-R, ly=py-R-LIFT;
-    var maxX=hb.width-(R*2+6), maxY=hb.height-(R*2+6);
-    if(lx<0) lx=0; if(maxX>0 && lx>maxX) lx=maxX;
-    if(ly<0) ly=0; if(maxY>0 && ly>maxY) ly=maxY;
-    lens.style.left=lx+'px'; lens.style.top=ly+'px';
-    lens.classList.add('on');
-    live={c:c, r:rr};
-  }
-  function hide(pick){
-    lens.classList.remove('on');
-    if(pick && live && onPick) onPick(live.r*cols+live.c);
-    live=null;
-  }
-  function at(e){
-    var t=(e.touches && e.touches[0]) || e;
-    var hb=host.getBoundingClientRect();
-    return [t.clientX-hb.x, t.clientY-hb.y];
-  }
-  if(sq.getAttribute('data-lens')==='1') return;
-  sq.setAttribute('data-lens','1');
-  sq.addEventListener('touchstart', function(e){
-    var p=at(e); show(p[0],p[1]); e.preventDefault(); }, {passive:false});
-  sq.addEventListener('touchmove', function(e){
-    var p=at(e); show(p[0],p[1]); e.preventDefault(); }, {passive:false});
-  sq.addEventListener('touchend', function(e){ hide(true); e.preventDefault(); }, {passive:false});
-  sq.addEventListener('touchcancel', function(){ hide(false); });
-}
 var TEACH_KEY='jo1-taught-v1';
 function taught(which){
   try{ return (JSON.parse(localStorage.getItem(TEACH_KEY)||'{}'))[which]===1; }
