@@ -3062,7 +3062,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V12500 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V12600 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4698,7 +4698,16 @@ function runProtein(){
      saved before the wall existed holds one holder's column and a 20-slice sample of
      the rest, so being handed it is not being spared the work, it is being given a
      smaller answer and told it is the same one. */
-  if(!TWINOK){ var twin=runTwin(seq,w,alleleLabel(),true); if(twin){ showTwin(twin); return; } }
+  /* V12600 - PRESSING SCAN ALWAYS GIVES YOU AN ANSWER. Moos: "I make scan but
+     nothing happened! Step 4 does not change nothing happened to it too."
+     Measured: with the same run already saved, Scan showed the "Already in the
+     library" panel and stopped - 0 results, 0 rows, step 4 still saying "Nothing
+     scanned yet". A press of Scan ended in nothing unless you noticed the panel
+     and pressed "Open it". The saved run IS the answer - the panel said so itself,
+     "scanning again does the same work" - so it is opened straight away, and the
+     note becomes one quiet line saying where it came from, with Scan again beside
+     it for anyone who wants the work redone. */
+  if(!TWINOK){ var twin=runTwin(seq,w,alleleLabel(),true); if(twin){ useTwin(twin); return; } }
   TWINOK=false; hideTwin();
   results=[]; selected=-1; RANKED=false; SORTBY='str'; resetRank();
   /* V12200 - ALL 117 AT ONCE. There is no column to read, because the question is
@@ -7573,8 +7582,30 @@ function runTwin(seq,w,holder,wholeOnly){
 }
 var TWINOK=false;
 function hideTwin(){ var n=document.getElementById('twinnote'); if(n) n.hidden=true; }
+/* V12600 - open the run that is already there, and say so in one line. The panel
+   keeps its place on the page so nothing moves; only its words and its buttons
+   change. Scan again forces the real work, exactly as before. */
+function useTwin(r){
+  var n=document.getElementById('twinnote');
+  if(n){
+    var h=n.querySelector('h4');
+    if(h) h.textContent='Opened from your library';
+    var w=document.getElementById('twinwhen');
+    if(w) w.textContent='You already had this run, from '+runWhen(r.at)
+      +'. Nothing was worked out again, because scanning gives the same answer.';
+    var o=document.getElementById('twinopen'); if(o) o.hidden=true;
+    var a=document.getElementById('twinagain');
+    if(a){ a.hidden=false;
+           a.onclick=function(){ hideTwin(); TWINOK=true; runProtein(); }; }
+    n.hidden=false;
+  }
+  PICKRUN=0;
+  openRun(r, 'view-lib');          /* step 3, where a fresh scan lands too */
+}
 function showTwin(r){
   var n=document.getElementById('twinnote'); if(!n) return;
+  var h=n.querySelector('h4'); if(h) h.textContent='Already in the library';
+  var ob=document.getElementById('twinopen'); if(ob) ob.hidden=false;
   var w=document.getElementById('twinwhen');
   if(w) w.textContent=r.holder+' · '+(r.name||'protein')+' · scanned '+runWhen(r.at)
     +'. Opening it costs nothing; scanning again does the same work and replaces it.';
@@ -8723,7 +8754,7 @@ function dlJSON(name, obj){
       .then(function(){ btn.disabled=false; });
   });
 })();
-function openRun(r){
+function openRun(r, land){
   document.getElementById('protseq').value=r.seq||'';
   var wsel=document.getElementById('win');
   for(var i=0;i<wsel.options.length;i++) if(wsel.options[i].value===String(r.win)) wsel.selectedIndex=i;
@@ -8737,8 +8768,11 @@ function openRun(r){
   results.sort(function(a,b){ return (a.ic50==null)-(b.ic50==null) || a.ic50-b.ic50; });
   if(RANKED && typeof setSort==='function') setSort('sel'); else drawRows();
   /* V12300 - a reopened run lands on the SHORTLIST, which is step 4 and shows it.
-     It used to land on the Graph, which is no longer a page anyone can reach. */
-  showTab('t-list'); markNav();
+     It used to land on the Graph, which is no longer a page anyone can reach.
+     V12600 - unless the caller says otherwise: a Scan that reused a saved run
+     lands on step 3, the Result, which is where a fresh scan lands. */
+  if(land==='view-lib'){ showView('view-lib'); if(typeof renderSaved==='function') renderSaved(); markNav(); }
+  else { showTab('t-list'); markNav(); }
   setAllele();
 }
 (function(){
