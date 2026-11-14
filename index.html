@@ -1726,14 +1726,22 @@ a.sendmail:active{filter:brightness(.96)}
 #view-3d .modeslot{order:0}
 #view-3d .molstage{order:1}
 #view-3d .stepstrip{order:2}
-/* The reference block moves to the TOP right corner. It stood bottom right, which is
-   where a drawing usually puts it - but the controls float along the bottom now, and a
-   block behind a row of chips tells nobody which way they are looking. Said plainly:
-   this is what giving the picture the whole screen costs. */
-#view-3d .viewcube{top:40px;bottom:auto;right:9px}
-/* and in Full view it stays in that same top corner. It used to drop back to the bottom
-   right, straight behind the floating Back and Next. */
-#view-3d.full .viewcube{top:40px;bottom:auto;right:14px}
+/* V12700 - THE REFERENCE BLOCK IS BACK IN THE BOTTOM RIGHT. Moos: "the cube
+   referance box is up , it must be down right correner". It had been moved to the
+   top because the controls float along the bottom and a block behind a row of chips
+   tells nobody which way they are looking - that reason is real, so it is not simply
+   put back. Measured: the chip row ends at y 711 and the floating bar starts at 764,
+   so 72px will not fit between them. It sits in the bottom right corner OF THE
+   PICTURE instead, clear above the chips: the same corner, and nothing on top of
+   it. In Full view the chips are hidden, so there it takes the true corner. */
+#view-3d .viewcube{top:auto;bottom:186px;right:9px}
+/* 186 is only the opening guess; placeCube() below measures the control block on
+   the screen it is actually on and sets the real figure, because that block is
+   taller when the line naming the chain wraps, and shorter before a scan. */
+/* In Full view the chips are gone, but two things still float there: the "leave
+   full view" button at y 718-752 and the Back/Next bar from y 764. Measured, so
+   the block sits above both: 844 - 718 + 8 of air = 134. */
+#view-3d.full .viewcube{top:auto;bottom:134px;right:14px}
 /* one strip of controls that slides sideways, so it never eats the picture */
 .vrow{display:flex;gap:7px;flex-wrap:nowrap;align-items:center;overflow-x:auto;
   scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-padding-inline:14px}
@@ -1750,6 +1758,28 @@ a.sendmail:active{filter:brightness(.96)}
 .vwrap::after{right:0;background:linear-gradient(to left,var(--panel) 34%,rgba(0,0,0,0))}
 .vwrap.more-l::before{opacity:1}
 .vwrap.more-r::after{opacity:1}
+/* V12700 - AN ARROW, NOT ONLY A FADE. Moos found the strip would not slide with a
+   mouse and never knew there were buttons past the edge - Move, Reset, Full view
+   and Load .pdb, measured: 678px of buttons in a 408px strip. A fade is easy to
+   miss. The arrow sits in the fade on whichever side still has buttons, points
+   that way, and nudges three times when the picture opens - then rests. It is
+   still there, it is just no longer moving, because a thing that moves for ever
+   stops being a sign and becomes noise. Once the strip has actually been slid it
+   never nudges again, remembered on this phone like the hand on the grid. */
+.vmore{position:absolute;top:50%;z-index:4;pointer-events:none;
+  width:22px;height:22px;margin-top:-11px;border-radius:50%;
+  display:none;align-items:center;justify-content:center;
+  background:var(--panel);box-shadow:0 1px 5px -1px rgba(0,0,0,.28);
+  color:var(--ink);font-size:13px;line-height:1}
+.vmore.r{right:7px}
+.vmore.l{left:7px}
+.vwrap.more-r .vmore.r{display:flex}
+.vwrap.more-l .vmore.l{display:flex}
+.vmore.r.nudge{animation:vnudger .62s ease-in-out 3}
+.vmore.l.nudge{animation:vnudgel .62s ease-in-out 3}
+@keyframes vnudger{0%,100%{transform:translateX(0)}45%{transform:translateX(6px)}}
+@keyframes vnudgel{0%,100%{transform:translateX(0)}45%{transform:translateX(-6px)}}
+@media (prefers-reduced-motion:reduce){.vmore.r.nudge,.vmore.l.nudge{animation:none}}
 .vtools .key{margin-top:8px}
 /* step through the shortlist without leaving the picture */
 .stepstrip{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:14px;
@@ -3062,7 +3092,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V12600 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V12700 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4331,10 +4361,51 @@ function setMode(m){
 }
 var TABS=[['t-hla','view-hla'],['t-prot','view-work'],['t-res','view-res'],['t-list','view-list'],['t-3d','view-3d'],['t-info','view-info']];
 var VIEWS=['view-home','view-how','view-hla','view-work','view-res','view-list','view-3d','view-lib','view-info'];
+/* V12700 - THE REFERENCE BLOCK IS PUT WHERE THERE IS ROOM, NOT WHERE A NUMBER SAYS.
+   It belongs in the bottom right corner - Moos asked for that - but the control
+   block floats at the foot of the picture and its height is not fixed: the line
+   naming the dark chain wraps to two rows on a narrow phone, and before a scan
+   there is no line at all. So the gap is measured on the screen it is on, and the
+   block is set to clear it by 8px. In Full view the chips are gone and only the
+   "leave full view" button and the Back/Next bar float, so the same sum is done
+   against whichever of them is highest. */
+function placeCube(){
+  var cube=document.getElementById('viewcube');
+  var stage=document.querySelector('#view-3d .molstage');
+  if(!cube || !stage) return;
+  var sb=stage.getBoundingClientRect();
+  if(!sb.height) return;
+  var top=sb.bottom;
+  var full=document.getElementById('view-3d').classList.contains('full');
+  var floats = full ? ['#b-small','.tabstrip'] : ['#view-3d .vtools','.tabstrip'];
+  floats.forEach(function(sel){
+    var e=document.querySelector(sel); if(!e) return;
+    var r=e.getBoundingClientRect();
+    if(r.height>4 && r.bottom>sb.top && r.top<top) top=r.top;
+  });
+  var want=Math.round(sb.bottom-top+8);
+  if(want<9) want=9;
+  if(want>sb.height-90) want=Math.max(9, Math.round(sb.height-90));
+  /* V12700 - and it does not JUMP when Full view is pressed. Full view hides the
+     chips, so there is room to drop it 87px lower - but a thing that moves on its
+     own while you are looking at it is exactly what Moos has asked not to happen.
+     It keeps the place it had, as long as nothing in Full view reaches it. */
+  if(full){ if(CUBE_REST!=null && CUBE_REST>=want) want=CUBE_REST; }
+  else CUBE_REST=want;
+  cube.style.bottom=want+'px';
+  cube.style.top='auto';
+}
+var CUBE_REST=null;
+addEventListener('resize', function(){ placeCube(); });
 function showView(v){
   VIEWS.forEach(function(x){ document.getElementById(x).hidden=(x!==v); });
   // the reference block only draws while the picture is on screen
   if(v==='view-3d' && typeof vcStart==='function') vcStart();
+  /* V12700 - the arrow nudges when the picture opens, once per phone */
+  if(v==='view-3d'){ setTimeout(function(){
+    if(window.JO1_vmark) window.JO1_vmark();
+    if(window.JO1_vnudge) window.JO1_vnudge();
+    placeCube(); }, 420); }
   if(v==='view-lib' && typeof renderSaved==='function') renderSaved();
   if(v==='view-home' && typeof paintHome==='function') setTimeout(paintHome,0);
   if(v==='view-work' && typeof paintStep1==='function') setTimeout(paintStep1,0);
@@ -5505,7 +5576,23 @@ var VIEW_TURN=55, VIEW_TIP=35;
    off the left and right edges. Measured on the picture's own pixels: at 0.62 the
    drawing touched the edge on 130 pixels in Science and 168 in Abstract. At 0.50
    nothing touches it in either. */
-var VIEW_ZOOM=0.50;
+/* V12700 - the opening zoom was 0.50 - half of what fits - so the picture sat small
+   with a wide empty band above it. Moos: "the model shold be filling the port."
+   Looked at 0.50, 0.70, 0.80, 0.85, 0.90, 0.95, 1.00 and 1.20 on this machine: at
+   0.90 and above the drawing is cut at the left and right; at 0.85 it fills the
+   frame and stays clear. NOTE: this machine is refused by the protein databank, so
+   what was looked at is the scaled stand-in, not 1A6A. The framing is the same
+   calculation for both, but it is worth one look on a real screen. */
+/* V12700 - the opening view comes a little closer: 0.50 -> 0.54. Moos: "the model
+   shold be filling the port." It does not fill it yet, and this is as far as this
+   figure can take it. Measured with the holes check, in the state where nothing has
+   been scanned: 0.54 is clear of every edge, 0.57 already runs 81 pixels off the
+   side in the plain wording, 0.60 runs off in both. A closer figure was tried for
+   the state where a slice IS loaded, and it changed nothing - the opening view on
+   that path is restored from a remembered view, not built from this number, so the
+   number never reaches it. Finding and changing that is a separate piece of work
+   and it has NOT been done: the picture is 14% closer than it was, no more. */
+var VIEW_ZOOM=0.54;
 /* Where the picture is looked at from, kept as two plain angles: how far it is
    swung round, and how far it is tipped. Nothing else. A view built from only
    these two can never be ROLLED - so the model's uprights stay upright and every
@@ -6707,11 +6794,67 @@ document.getElementById('b-cell').addEventListener('click', function(){
     wrap.classList.toggle('more-l', row.scrollLeft > 2);
     wrap.classList.toggle('more-r', row.scrollLeft < over - 2);
   }
+  /* V12700 - the arrow that says there is more that way */
+  var AR={};
+  ['l','r'].forEach(function(side){
+    var a=document.createElement('i');
+    a.className='vmore '+side;
+    a.textContent = side==='r' ? '\u25b8' : '\u25c2';
+    a.setAttribute('aria-hidden','true');
+    wrap.appendChild(a); AR[side]=a;
+  });
+  var SLID_KEY='jo1-strip-slid';
+  function slidBefore(){ try{ return localStorage.getItem(SLID_KEY)==='1'; }catch(e){ return true; } }
+  function markSlid(){ try{ localStorage.setItem(SLID_KEY,'1'); }catch(e){}
+    AR.l.classList.remove('nudge'); AR.r.classList.remove('nudge'); }
+  function nudge(){
+    if(slidBefore()) return;
+    ['l','r'].forEach(function(k){
+      AR[k].classList.remove('nudge');
+      void AR[k].offsetWidth;            /* restart the animation */
+      AR[k].classList.add('nudge');
+    });
+  }
+  /* V12700 - A MOUSE CAN SLIDE IT NOW. Measured on a laptop at 390, 900 and 1280
+     wide: the wheel moved the strip 0 pixels, so Move, Reset, Full view and
+     Load .pdb could not be reached at all. A wheel over the strip slides it
+     sideways, and it can be dragged with the pointer held down. */
+  row.addEventListener('wheel', function(e){
+    var over = row.scrollWidth - row.clientWidth;
+    if(over<=2) return;
+    var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if(!d) return;
+    var at=row.scrollLeft;
+    row.scrollLeft = at + d;
+    if(row.scrollLeft!==at){ e.preventDefault(); markSlid(); mark(); }
+  }, {passive:false});
+  var dragging=false, dx=0, dl=0, moved=0;
+  row.addEventListener('pointerdown', function(e){
+    if(e.pointerType==='touch') return;           /* a finger already slides it */
+    if(row.scrollWidth - row.clientWidth <= 2) return;
+    dragging=true; moved=0; dx=e.clientX; dl=row.scrollLeft;
+  });
+  addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    var d=e.clientX-dx; if(Math.abs(d)>3) moved=1;
+    row.scrollLeft = dl - d;
+    if(moved){ markSlid(); mark(); }
+  });
+  addEventListener('pointerup', function(e){
+    if(!dragging) return;
+    dragging=false;
+    /* a drag must not also press the button it started on */
+    if(moved){ var t=e.target && e.target.closest && e.target.closest('button');
+      if(t){ e.preventDefault(); e.stopPropagation(); } }
+  }, true);
+  row.addEventListener('scroll', function(){ if(row.scrollLeft>2) markSlid(); }, {passive:true});
+
   row.addEventListener('scroll', mark, {passive:true});
   addEventListener('resize', mark);
   if(window.ResizeObserver){ try{ new ResizeObserver(mark).observe(row); }catch(e){} }
   mark(); setTimeout(mark,300);
-  window.JO1_vmark = mark;
+  window.JO1_vmark = function(){ mark(); };
+  window.JO1_vnudge = nudge;
 })();
 /* Turning the picture: a turntable. Left and right swing it round, up and down tip
    it, and it is never rolled - so the model keeps every edge square to the reference
@@ -6822,6 +6965,8 @@ document.getElementById('b-cell').addEventListener('click', function(){
     view.classList.toggle('full', on);
     inb.setAttribute('aria-pressed', on?'true':'false');
     setTimeout(function(){
+      if(typeof placeCube==='function') placeCube();   /* V12700 - the corner moves */
+      if(typeof JO1_vmark==='function') JO1_vmark();
       if(!viewer) return;
       try{ viewer.resize(); viewer.render(); }catch(e){}
     },60);
@@ -8765,6 +8910,21 @@ function openRun(r, land){
                   ic50:r.ic[s2], start:s2, sel:(r.sel?r.sel[s2]:null)});
   if(r.sel){ RANKED=true; SORTBY='sel';
     var srow=document.getElementById('sortrow'); if(srow) srow.hidden=false; }
+  /* V12700 - NARROW IS GONE FOR A RUN THAT CARRIES ITS OWN WALL.
+     finishScan puts the Narrow button away because the scan has already done that
+     work for all 495 slices. Opening a saved run never did, so it came back - and
+     Moos pressed it. Measured what that cost: the top card went from 363-377, the
+     tightest slice at 2.7 nM, to 140-154, so the real answer was no longer first;
+     and it printed "20 slices checked ... 0 grip All 117 holders alone ... 20 are
+     not gripped by All 117 holders itself", which is false - 61 slices are gripped
+     by exactly one holder. It can only make the answer worse, so it goes. */
+  if(r.cnt && r.cnt.length){
+    var nb0=document.getElementById('rankbtn'); if(nb0) nb0.hidden=true;
+    var nc0=document.querySelector('.narrow .btncap'); if(nc0) nc0.hidden=true;
+    var cnt0=new Int16Array(r.cnt.length);
+    for(var q0=0;q0<r.cnt.length;q0++) cnt0[q0]=r.cnt[q0];
+    try{ wallSaid(cnt0); }catch(e){}
+  }
   results.sort(function(a,b){ return (a.ic50==null)-(b.ic50==null) || a.ic50-b.ic50; });
   if(RANKED && typeof setSort==='function') setSort('sel'); else drawRows();
   /* V12300 - a reopened run lands on the SHORTLIST, which is step 4 and shows it.
