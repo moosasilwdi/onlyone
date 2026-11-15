@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V12800**.
+Version **V12900**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -11,6 +11,34 @@ are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 
+
+## V12900 - words you can read on every button, and the arrows set free
+
+Four things Moos found on the live app.
+
+**White type on a white pill.** On step 5 in the dark, a pressed button - Holes,
+Teeth - was white type on a near-white pill: 1.2:1, unreadable. The pressed state
+took the page's accent colour as its fill while the type stayed white, and in the
+dark every accent turns light. The type now takes the page's own "ink on the
+button" figure, so it follows the fill instead of being fixed: white on the red
+and the blue, black on the green and the yellow, and black on every colour in the
+dark. Measured, not guessed - 182 readings of real painted colour across five
+screens in both schemes, the lowest 5.2:1.
+
+**The result arrows were buried.** The row that walks through the answers -
+left arrow, "1 of 120", right arrow - sat entirely underneath the floating
+Back/Next bar, so it could not be pressed. It has its own row now, above that
+bar. Moving it shortened the picture by 50px, so the 3D framing was measured
+again: 1.18 fills 94% across and keeps 16 and 28 device pixels clear of the
+edges, where 1.26 touched the left edge.
+
+**The step pill in the header.** It was an outline with the colour only in its
+frame. It is filled solid with the step's own colour now, on all seven screens
+in both schemes.
+
+**A stale line in the email.** The text the app writes for you still said to
+press Narrow, a button removed in V12700. A run saved before that now says so
+plainly instead of pointing at a button that no longer exists.
 
 ## V12800 - the air gap above the picture
 
