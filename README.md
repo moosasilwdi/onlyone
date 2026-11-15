@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V12700**.
+Version **V12800**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -11,6 +11,30 @@ are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 
+
+## V12800 - the air gap above the picture
+
+Moos: "there is still air gap above the midel waste of space! The model must be
+larger." He was right, and V12700's explanation of it was wrong. The zoom figure
+was never the cause.
+
+Measured on the real screen: 35% of the picture empty ABOVE the drawing and 1%
+below, its middle 88px low. The viewer centres the model in the WHOLE canvas - but
+the canvas does not all show. The line naming the dark chain covers its top and the
+floating controls cover 148px of its bottom, so the model hung low and ran behind
+the buttons. Zooming in only cropped the bottom harder, which is why V12700's
+attempt looked like it did nothing.
+
+frameGroove() lifts the picture by the difference between the middle of the canvas
+and the middle of the part that can actually be seen - read off the page, not typed,
+so it follows that caption line when it wraps to two rows - and then brings it 5%
+closer. Measured after: 19% empty above, 14% below, 95% across, nothing touching an
+edge.
+
+The 5% is applied only when a scan is loaded. With nothing scanned the picture is
+the bare groove, which lies wider: the holes check found that same 5% running the
+drawing 70px off the edge. The lift itself is safe in both states, because it only
+undoes the layout.
 
 ## V12700 - the Narrow button, the reference block, and a strip a mouse can slide
 

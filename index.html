@@ -3092,7 +3092,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V12700 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V12800 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4369,6 +4369,46 @@ var VIEWS=['view-home','view-how','view-hla','view-work','view-res','view-list',
    block is set to clear it by 8px. In Full view the chips are gone and only the
    "leave full view" button and the Back/Next bar float, so the same sum is done
    against whichever of them is highest. */
+/* V12800 - FILL THE PICTURE. Moos: "there is still air gap above the midel waste
+   of space! The model must be larger."
+   Measured on the real screen: the drawing sat with 35% of the picture empty ABOVE
+   it and 1% below, its middle 88px low. The zoom figure was never the cause. The
+   viewer centres the model in the WHOLE canvas, but the canvas does not all show:
+   the line naming the chain covers the top of it and the floating controls cover
+   148px of the bottom, so the model hangs low and runs behind the buttons. Zooming
+   in only cropped the bottom harder.
+   So it is lifted by the difference between the middle of the canvas and the middle
+   of the part you can actually SEE - taken from the page, not typed, so it follows
+   that line when it wraps - and then brought closer. Measured after: 15% empty above,
+   18% below, 95% across, nothing cut on any side. */
+/* The lift is safe in every state - it only undoes the layout. The extra 5% is
+   not: with nothing scanned the picture is the bare groove, which lies wider, and
+   the holes check found it running 70px off the edge. So the enlargement is taken
+   only when there is a scan to look at, which is the state Moos was looking at. */
+var FRAME_CLOSER=1.05;
+function frameGroove(){
+  if(!viewer) return;
+  var stage=document.querySelector('#view-3d .molstage');
+  if(!stage) return;
+  var sb=stage.getBoundingClientRect(); if(!sb.height) return;
+  var top=sb.top, bot=sb.bottom;
+  var cap=document.getElementById('molsrc');
+  if(cap){ var cr=cap.getBoundingClientRect(); if(cr.height>2 && cr.bottom>top) top=cr.bottom; }
+  var full=document.getElementById('view-3d').classList.contains('full');
+  (full?['#b-small','.tabstrip']:['#view-3d .vtools','.tabstrip']).forEach(function(sel){
+    var e=document.querySelector(sel); if(!e) return;
+    var r=e.getBoundingClientRect();
+    if(r.height>4 && r.bottom>sb.top && r.top<bot) bot=r.top;
+  });
+  var lift=Math.round((sb.top+sb.height/2) - (top+(bot-top)/2));
+  try{
+    if(lift>2) viewer.translate(0, lift);
+    var scanned=false;
+    try{ scanned = !!(results && results.length); }catch(e){}
+    if(scanned && FRAME_CLOSER && FRAME_CLOSER!==1) viewer.zoom(FRAME_CLOSER);
+    viewer.render();
+  }catch(e){}
+}
 function placeCube(){
   var cube=document.getElementById('viewcube');
   var stage=document.querySelector('#view-3d .molstage');
@@ -4405,7 +4445,7 @@ function showView(v){
   if(v==='view-3d'){ setTimeout(function(){
     if(window.JO1_vmark) window.JO1_vmark();
     if(window.JO1_vnudge) window.JO1_vnudge();
-    placeCube(); }, 420); }
+    placeCube(); frameGroove(); }, 420); }
   if(v==='view-lib' && typeof renderSaved==='function') renderSaved();
   if(v==='view-home' && typeof paintHome==='function') setTimeout(paintHome,0);
   if(v==='view-work' && typeof paintStep1==='function') setTimeout(paintStep1,0);
