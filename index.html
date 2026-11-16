@@ -107,34 +107,34 @@
 /* V12000 - the Result had no colour written for it, so it fell back to the app
    default and came out the same blue as step 2. That was a gap, not a choice.
    Moos picked green, which also marks the end of the walk. */
-:root[data-page="lib"]{--gold:#1ea84c;--mauve:#1ea84c;--btn:#1ea84c;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#0f7a36;--accink:#0f7a36}
+:root[data-page="lib"]{--gold:#1ea84c;--mauve:#1ea84c;--btn:#1ea84c;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#0f7a36;--accink:#0f7a36}
 /* V12300 - STEP 5 IS BLACK. Four colours, five steps: repeating one would make two
    steps look alike, which is the fault V12000 was built to end. The Groove is the
    picture page, so it takes the ink the first screen uses and carries no colour of
    its own - the colour in it belongs to the four pockets. */
 :root[data-page="3d"]{--gold:#111720;--mauve:#111720;--btn:#111720;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 2px rgba(0,0,0,.38);--mauvedeep:#111720;--accink:#111720}
-:root[data-page="res"]{--gold:#f5b700;--mauve:#f5b700;--btn:#f5b700;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#8a6104;--accink:#8a6104}
+:root[data-page="res"]{--gold:#f5b700;--mauve:#f5b700;--btn:#f5b700;--onmauve:#fff;--onbtn:#14181f;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#8a6104;--accink:#8a6104}
 :root[data-page="list"]{--gold:#f5b700;--mauve:#f5b700;--btn:#f5b700;--onmauve:#fff;--onbtn:#14181f;--btnsh:none;--mauvedeep:#8a6104;--accink:#8a6104}
 
 :root[data-page="info"]{--gold:#1565d8;--mauve:#1565d8;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 2px rgba(0,0,0,.38);--mauvedeep:#1565d8;--accink:#1565d8}
 @media (prefers-color-scheme:dark){
 :root:not([data-theme="light"])[data-page="home"]{--gold:#ffc233;--mauve:#ffc233;--btn:#39445a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
-:root:not([data-theme="light"])[data-page="hla"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
-:root:not([data-theme="light"])[data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#ff6f68;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
-:root:not([data-theme="light"])[data-page="res"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
+:root:not([data-theme="light"])[data-page="hla"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
+:root:not([data-theme="light"])[data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#cf2c20;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
+:root:not([data-theme="light"])[data-page="res"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#14181f;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root:not([data-theme="light"])[data-page="list"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#14181f;--btnsh:none;--mauvedeep:#ffc233;--accink:#ffc233}
-:root:not([data-theme="light"])[data-page="lib"]{--gold:#45c46a;--mauve:#45c46a;--btn:#45c46a;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
+:root:not([data-theme="light"])[data-page="lib"]{--gold:#45c46a;--mauve:#45c46a;--btn:#1ea84c;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
   :root:not([data-theme="light"])[data-page="3d"]{--gold:#e8edf4;--mauve:#e8edf4;--btn:#e8edf4;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#e8edf4;--accink:#e8edf4}
-:root:not([data-theme="light"])[data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
+:root:not([data-theme="light"])[data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 }
 :root[data-theme="dark"][data-page="home"]{--gold:#ffc233;--mauve:#ffc233;--btn:#39445a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
-:root[data-theme="dark"][data-page="hla"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
-:root[data-theme="dark"][data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#ff6f68;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
-:root[data-theme="dark"][data-page="res"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
+:root[data-theme="dark"][data-page="hla"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
+:root[data-theme="dark"][data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#cf2c20;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
+:root[data-theme="dark"][data-page="res"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#14181f;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root[data-theme="dark"][data-page="list"]{--gold:#ffc233;--mauve:#ffc233;--btn:#ffc233;--onmauve:#fff;--onbtn:#14181f;--btnsh:none;--mauvedeep:#ffc233;--accink:#ffc233}
-:root[data-theme="dark"][data-page="lib"]{--gold:#45c46a;--mauve:#45c46a;--btn:#45c46a;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
+:root[data-theme="dark"][data-page="lib"]{--gold:#45c46a;--mauve:#45c46a;--btn:#1ea84c;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#45c46a;--accink:#45c46a}
 :root[data-theme="dark"][data-page="3d"]{--gold:#e8edf4;--mauve:#e8edf4;--btn:#e8edf4;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#e8edf4;--accink:#e8edf4}
-:root[data-theme="dark"][data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#6aa9ff;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
+:root[data-theme="dark"][data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 @media (prefers-color-scheme:dark){
 :root:not([data-theme="light"]) .steps li:nth-child(1){--sti:#6aa9ff}
 :root:not([data-theme="light"]) .steps li:nth-child(2){--sti:#ff6f68}
@@ -175,7 +175,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   width:20px;height:20px;border-radius:50%;background:var(--sunk);color:var(--mute);
   font-family:var(--mono);font-size:10px;font-weight:600;flex:0 0 auto;
   border:1px solid var(--line);transition:background .14s,color .14s,border-color .14s}
-.dots button[aria-pressed="true"] i{background:var(--btn);color:#fff;text-shadow:var(--btnsh);border-color:var(--btn);
+.dots button[aria-pressed="true"] i{background:var(--btn);color:var(--onbtn);text-shadow:var(--btnsh);border-color:var(--btn);
   box-shadow:0 2px 6px -1px color-mix(in srgb,var(--btn) 55%,transparent)}
 .dots button i{box-shadow:var(--sink)}
 
@@ -276,17 +276,17 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    each one before it was written - the lowest is 5.2:1.
    The first screen and the Notes page keep their black pill: they carry no colour
    of their own in their content, which is the reason written down in V10400. */
-.appbar .stepsel{background-color:var(--gold);color:var(--onbtn);border-color:var(--gold)}
+.appbar .stepsel{background-color:var(--btn);color:var(--onbtn);border-color:var(--btn)}
 :root[data-page="home"] .appbar .stepsel,
 :root[data-page="info"] .appbar .stepsel{background-color:var(--ink);color:var(--panel);border-color:var(--ink)}
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]) .appbar .stepsel{
-    background-color:var(--gold);color:var(--onbtn);border-color:var(--gold)}
+    background-color:var(--btn);color:var(--onbtn);border-color:var(--btn)}
   :root:not([data-theme="light"])[data-page="home"] .appbar .stepsel,
   :root:not([data-theme="light"])[data-page="info"] .appbar .stepsel{
     background-color:#e8edf4;color:#0d141d;border-color:#0d141d}}
 :root[data-theme="dark"] .appbar .stepsel{
-  background-color:var(--gold);color:var(--onbtn);border-color:var(--gold)}
+  background-color:var(--btn);color:var(--onbtn);border-color:var(--btn)}
 :root[data-theme="dark"][data-page="home"] .appbar .stepsel,
 :root[data-theme="dark"][data-page="info"] .appbar .stepsel{
   background-color:#e8edf4;color:#0d141d;border-color:#0d141d}
@@ -436,7 +436,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;
   font-weight:600;color:var(--mute);box-shadow:none;white-space:nowrap;cursor:pointer}
 .modesw button:hover{color:var(--ink);border:0}
-.modesw button[aria-pressed="true"]{background:var(--btn);color:#fff;
+.modesw button[aria-pressed="true"]{background:var(--btn);color:var(--onbtn);
   text-shadow:var(--btnsh);box-shadow:var(--lift)}
 /* V10400 - the Science/Abstract switch and the menu pill carry the SAME stage colour,
    so they move together. Moos: "When change you need ti change the abstract button too
@@ -1306,7 +1306,7 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
   margin:0 -20px;position:relative;z-index:2}
 .stepbox i{display:inline-flex;align-items:center;justify-content:center;font-style:normal;
   width:44px;height:44px;border-radius:50%;font-family:var(--mono);font-size:17px;font-weight:600;
-  background:var(--btn);color:#fff;text-shadow:var(--btnsh);
+  background:var(--btn);color:var(--onbtn);text-shadow:var(--btnsh);
   /* V8600 - the ring used to be the bar's own colour, so it vanished into it. With the
      bar gone it takes the floating buttons' colour instead, so Back, the number and
      Next still read as one control rather than three things over the page. */
@@ -1711,7 +1711,7 @@ input[type=file]{display:none}
 /* the mail link has to LOOK like the button beside it - button.go only dresses
    real buttons, so the link is dressed the same way here */
 a.sendmail{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
-  background:var(--btn);color:#fff;text-shadow:var(--btnsh);border:1px solid var(--btn);
+  background:var(--btn);color:var(--onbtn);text-shadow:var(--btnsh);border:1px solid var(--btn);
   border-radius:11px;font-weight:600;font-size:14px;padding:11px 18px;
   box-shadow:0 1px 0 rgba(0,0,0,.25), 0 6px 14px -8px color-mix(in srgb,var(--btn) 70%,transparent)}
 a.sendmail:hover{filter:brightness(1.08)}
@@ -1745,6 +1745,55 @@ a.sendmail:active{filter:brightness(.96)}
    stayed white with it. It takes the page's own "ink on the button" now, which is
    18:1 in the dark and unchanged in the light. */
 #view-3d .vrow button[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--onbtn)}
+/* V14000 - A BUTTON YOU CANNOT SEE. Moos, looking at step 5 in the dark: "the blak
+   buttons to have light behind them in the dark mood becuse they are not shown".
+   Measured on the live page: the unpressed pill is rgb(19,27,36) over a page of
+   rgb(4,6,10) - 1.1:1, and its edge 1.33:1. The word on it reads at 14.8, so the
+   letters float with no button under them. A control's own shape wants 3:1 to
+   register at all. The fill below is #5c6a84: the shape stands at 3.7 and the white
+   word on it at 5.5, and the pressed pill stays the bright one, so the two states
+   are still told apart at a glance. The light theme is untouched - there the panel
+   already stands off the page. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) #view-3d .vrow button,
+  :root:not([data-theme="light"]) #view-3d .vrow .drop{
+    background:#5c6a84;border-color:#5c6a84;color:#fff}
+}
+:root[data-theme="dark"] #view-3d .vrow button,
+:root[data-theme="dark"] #view-3d .vrow .drop{
+  background:#5c6a84;border-color:#5c6a84;color:#fff}
+:root[data-theme="dark"] #view-3d .vrow button[aria-pressed="true"],
+:root[data-theme="dark"] #view-3d .vrow .drop[aria-pressed="true"]{
+  background:var(--btn);border-color:var(--btn);color:var(--onbtn)}
+/* V14000 - the same fault in two more places in the dark, and the same measurement:
+   the step 1 choice track stands at 1.1:1 against the page with a 1.42 edge, and the
+   round sun button at 1.08 with a 1.2 edge. Neither is a black pill on a black page
+   by design - they simply borrow a hairline colour meant for a pale page. They keep
+   their dark fill, which the red half of the choice needs to stay the loud one, and
+   take an edge that can be seen: 3.7:1. The drop-downs are in the same state and in
+   the same line - the run picker on step 3 and the cut picker on step 1 both stood
+   at 1.2:1 - and the typing boxes go with them so a form does not end up half
+   outlined and half not. The pill in the bar keeps its own border, which is already
+   the colour it is filled with. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) #view-work .segs,
+  :root:not([data-theme="light"]) .themebtn,
+  :root:not([data-theme="light"]) .appbar .menubtn,
+  :root:not([data-theme="light"]) select,
+  :root:not([data-theme="light"]) input[type=text],
+  :root:not([data-theme="light"]) textarea{border-color:#5c6a84}
+}
+:root[data-theme="dark"] #view-work .segs,
+:root[data-theme="dark"] .themebtn,
+:root[data-theme="dark"] .appbar .menubtn,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] input[type=text],
+:root[data-theme="dark"] textarea{border-color:#5c6a84}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) #view-3d .vrow button[aria-pressed="true"]{
+    background:var(--btn);border-color:var(--btn);color:var(--onbtn)}
+}
+
 #view-3d .molwhat{font-size:11px;line-height:1.45;margin:0 0 5px;
   background:color-mix(in srgb,var(--panel) 88%,transparent);border-radius:9px;
   -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
@@ -3141,7 +3190,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V12900 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V14000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>

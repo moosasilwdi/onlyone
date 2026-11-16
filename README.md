@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V12900**.
+Version **V14000**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -11,6 +11,33 @@ are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 
+
+## V14000 - the word on a colour, and buttons you can see in the dark
+
+Two rules from Moos, both measured before and after.
+
+**"text in color button or pill to be white excpet in yellow to be black becuse
+yellow is light color."** Every button, every step pill and the round in the
+Back/Next bar now carries a white word on red, blue and green, and a black one on
+yellow - the same in the light theme and the dark one. In the dark the buttons also
+stopped borrowing the pale twin of each colour and wear the real one, which turned
+up a fault nobody had reported: the round in the bar was white on pale green at
+2.2:1. White on the vivid green reads 3.1:1 rather than 4.5, which is Moos's own
+decision taken with the figure in front of him - "The green is very dark...why...
+just ised normal vivid green with white" - and it is written into the contrast and
+onword checks as that, so it stays visible instead of disappearing under a lower
+floor. Everything else in the app still has to reach 4.5.
+
+**"the blak buttons to have light behind them in the dark mood becuse they are not
+shown."** In the dark the unpressed buttons under the picture on step 5 stood at
+1.1:1 against the page, with a 1.33 edge: the word read at 14.8 with nothing under
+it that looked like a button. They take a #5c6a84 fill now - shape 3.7, white word
+5.5 - while the pressed pill stays the bright one, so the two states are still told
+apart at a glance. The same fault, measured in the same pass, was in the drop-downs
+(1.2), the round sun button (1.08) and the choice track on step 1 (1.1); those keep
+their dark fill and take an edge that can be seen.
+
+The version skips V13000. Moos avoids 13.
 
 ## V12900 - words you can read on every button, and the arrows set free
 
