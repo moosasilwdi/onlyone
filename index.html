@@ -116,8 +116,15 @@
 :root[data-page="res"]{--gold:#f5b700;--mauve:#f5b700;--btn:#f5b700;--onmauve:#fff;--onbtn:#14181f;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#8a6104;--accink:#8a6104}
 :root[data-page="list"]{--gold:#f5b700;--mauve:#f5b700;--btn:#f5b700;--onmauve:#fff;--onbtn:#14181f;--btnsh:none;--mauvedeep:#8a6104;--accink:#8a6104}
 
+/* V14100 - "How it works" had no colour written for it at all, so it fell back to
+   the app default and wore a blue pill while Notes, its twin, wore the black one.
+   Moos: "why blue pill in header for how it works?" It takes the same ink the
+   first screen and Notes take, for the reason written in V10400: these pages
+   carry no colour of their own in their content. */
+:root[data-page="how"]{--gold:#111720;--mauve:#111720;--btn:#111720;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 2px rgba(0,0,0,.38);--mauvedeep:#111720;--accink:#111720}
 :root[data-page="info"]{--gold:#1565d8;--mauve:#1565d8;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 2px rgba(0,0,0,.38);--mauvedeep:#1565d8;--accink:#1565d8}
 @media (prefers-color-scheme:dark){
+:root:not([data-theme="light"])[data-page="how"]{--gold:#ffc233;--mauve:#ffc233;--btn:#39445a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root:not([data-theme="light"])[data-page="home"]{--gold:#ffc233;--mauve:#ffc233;--btn:#39445a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root:not([data-theme="light"])[data-page="hla"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 :root:not([data-theme="light"])[data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#cf2c20;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
@@ -127,6 +134,7 @@
   :root:not([data-theme="light"])[data-page="3d"]{--gold:#e8edf4;--mauve:#e8edf4;--btn:#e8edf4;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#e8edf4;--accink:#e8edf4}
 :root:not([data-theme="light"])[data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 }
+:root[data-theme="dark"][data-page="how"]{--gold:#ffc233;--mauve:#ffc233;--btn:#39445a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root[data-theme="dark"][data-page="home"]{--gold:#ffc233;--mauve:#ffc233;--btn:#39445a;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 0 rgba(0,0,0,.55), 1px 1px 0 rgba(0,0,0,.45), -1px 1px 0 rgba(0,0,0,.45), 0 0 4px rgba(0,0,0,.5);--mauvedeep:#ffc233;--accink:#ffc233}
 :root[data-theme="dark"][data-page="hla"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 :root[data-theme="dark"][data-page="work"]{--gold:#ff6f68;--mauve:#ff6f68;--btn:#cf2c20;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#ff6f68;--accink:#ff6f68}
@@ -248,6 +256,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    colour in their content, and step 3 stopped being one of those in V12000 when the
    Result was given green. Moos: "why result is not green in header". */
 :root[data-page="home"] .appbar .notesel,
+:root[data-page="how"] .appbar .notesel,
 :root[data-page="info"] .appbar .notesel{border-color:var(--ink)}
 /* V8200 - and on a dark page it turns over with everything else: a white pill with
    dark type, the same way Start does. */
@@ -256,9 +265,11 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .appbar .notesel{
   background-color:#e8edf4;color:#0d141d;border-color:var(--gold)}
   :root:not([data-theme="light"])[data-page="home"] .appbar .notesel,
+  :root:not([data-theme="light"])[data-page="how"] .appbar .notesel,
   :root:not([data-theme="light"])[data-page="info"] .appbar .notesel{border-color:#0d141d}}
 :root[data-theme="dark"] .appbar .notesel{background-color:#e8edf4;color:#0d141d;border-color:var(--gold)}
 :root[data-theme="dark"][data-page="home"] .appbar .notesel,
+:root[data-theme="dark"][data-page="how"] .appbar .notesel,
 :root[data-theme="dark"][data-page="info"] .appbar .notesel{border-color:#0d141d}
 .appbar .notesel[hidden]+.themebtn,.appbar .themebtn{margin-left:auto}
 /* V11000 - the walk picker sits first and keeps the pill's old look; the notes shrink
@@ -278,16 +289,19 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    of their own in their content, which is the reason written down in V10400. */
 .appbar .stepsel{background-color:var(--btn);color:var(--onbtn);border-color:var(--btn)}
 :root[data-page="home"] .appbar .stepsel,
+:root[data-page="how"] .appbar .stepsel,
 :root[data-page="info"] .appbar .stepsel{background-color:var(--ink);color:var(--panel);border-color:var(--ink)}
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]) .appbar .stepsel{
     background-color:var(--btn);color:var(--onbtn);border-color:var(--btn)}
   :root:not([data-theme="light"])[data-page="home"] .appbar .stepsel,
+  :root:not([data-theme="light"])[data-page="how"] .appbar .stepsel,
   :root:not([data-theme="light"])[data-page="info"] .appbar .stepsel{
     background-color:#e8edf4;color:#0d141d;border-color:#0d141d}}
 :root[data-theme="dark"] .appbar .stepsel{
   background-color:var(--btn);color:var(--onbtn);border-color:var(--btn)}
 :root[data-theme="dark"][data-page="home"] .appbar .stepsel,
+:root[data-theme="dark"][data-page="how"] .appbar .stepsel,
 :root[data-theme="dark"][data-page="info"] .appbar .stepsel{
   background-color:#e8edf4;color:#0d141d;border-color:#0d141d}
 /* V11000 - the bars sit LAST, at the very right end, with the sun and moon inside
@@ -1494,12 +1508,24 @@ input[type=file]{display:none}
 .numcard .bignum.numoff{margin:0;color:var(--ink);filter:none}
 .numcard .bigcap{margin:4px 0 0;min-height:0}
 /* each setting takes a whole row and says what it is above itself */
-#view-work .ctrls{display:block}
+/* V14100 - THE FILE AND THE CUT, ON ONE LINE. Moos: "may be the FASTA button we
+   make it 2/3 and slice lenght 1/3 all in one line!" - his own idea, and the right
+   one: step 1 measured 790px tall against the 764 above the Back/Next bar, so it
+   overflowed by 26 and his choice pill scrolled under the bar. Laying these two
+   side by side takes out a 50px field, its label and the gap under it - 82px - and
+   the step fits with room to spare. The label on the short one goes from SLICE
+   LENGTH to CUT AT: at 320px a third of the row is 87px, where the long label wraps
+   to two lines and the short one does not. */
+#view-work .ctrls{display:grid;grid-template-columns:2fr 1fr;column-gap:9px;align-items:end}
+#view-work .ctrls .lbl:nth-of-type(1){grid-column:1;grid-row:1}
+#view-work .ctrls .drop{grid-column:1;grid-row:2}
+#view-work .ctrls .lbl:nth-of-type(2){grid-column:2;grid-row:1}
+#view-work .ctrls .winfld{grid-column:2;grid-row:2}
 #view-work .ctrls .lbl{display:block;font-family:var(--mono);font-size:10px;
   letter-spacing:.08em;color:var(--mute);margin:0 0 6px;text-transform:uppercase}
 #view-work .ctrls .lbl+*{margin-top:0}
 #view-work .ctrls .drop{display:flex;align-items:center;justify-content:center;
-  width:100%;height:50px;margin:0 0 12px;border:1px solid var(--line);border-style:solid;
+  width:100%;height:50px;margin:0;border:1px solid var(--line);border-style:solid;
   border-radius:12px;background:var(--panel);color:var(--ink);font-size:15px;
   font-weight:600;box-shadow:var(--sink)}
 #view-work .ctrls .winfld{width:100%;margin:0}
@@ -1703,6 +1729,21 @@ input[type=file]{display:none}
 /* the result, packed up to pass on. Nothing leaves the phone by itself - this
    writes it out and the person decides where it goes. */
 .sendwrap{margin-top:12px}
+.sendfold{margin:11px 0 0}
+.sendfold summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--mute);padding:9px 11px;border:1px solid var(--line);border-radius:9px;
+  background:var(--sunk)}
+.sendfold summary::-webkit-details-marker{display:none}
+.sendfold summary::after{content:"";width:9px;height:9px;margin-left:auto;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:rotate(45deg) translate(-2px,-2px);transition:transform .15s}
+.sendfold[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.sendfold summary:hover{color:var(--ink);border-color:var(--mute)}
+.sendfold .sendtext{margin-top:9px}
+/* the box sets its own display, and an author rule beats the browser's own
+   "hide what is inside a shut fold", so the fold is told to hide it here. */
+.sendfold:not([open]) .sendtext{display:none}
 .sendtext{white-space:pre-wrap;word-break:break-word;font-family:var(--mono);font-size:11.5px;
   line-height:1.55;color:var(--ink);background:var(--sunk);border:1px solid var(--line);
   border-radius:10px;padding:11px 12px;margin:11px 0 0;max-height:240px;overflow:auto}
@@ -1775,18 +1816,47 @@ a.sendmail:active{filter:brightness(.96)}
    at 1.2:1 - and the typing boxes go with them so a form does not end up half
    outlined and half not. The pill in the bar keeps its own border, which is already
    the colour it is filled with. */
+/* V14100 - THE STANDARD FOR A CONTROL IN THE DARK. Moos, looking at step 1:
+   "in dark mode th rbalck buttons are not shown, so you need to give them back
+   light,, make sure this is the standerd in all pages in the app".
+   V14000 gave these an edge they could be seen by; he wants the FILL. Measured in
+   the dark on all eight pages, fifteen controls stood between 1.00 and 1.25 against
+   the page: the sun button everywhere, FASTA file, the slice length, both halves of
+   the choice, and the protein, holder and run pickers. They take #5c6a84 now - the
+   shape stands at 3.7 and the white word on it at 5.5.
+   What is left out, and why: a control already wearing one of the four colours
+   keeps its colour; the step pill and the notes pill carry the page colour, so they
+   are not touched; the Back/Next bar keeps its white pill; and the typing boxes keep
+   their dark fill with the edge, because a sheet of pasted letters is read better on
+   the dark than on a slab of grey. */
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) #view-work .segs,
   :root:not([data-theme="light"]) .themebtn,
   :root:not([data-theme="light"]) .appbar .menubtn,
-  :root:not([data-theme="light"]) select,
+  :root:not([data-theme="light"]) label.drop,
+  :root:not([data-theme="light"]) #view-work .ctrls .drop,
+  :root:not([data-theme="light"]) #view-list .drop,
+  :root:not([data-theme="light"]) select:not(.stepsel):not(.notesel),
+  :root:not([data-theme="light"]) #view-3d .vrow button,
+  :root:not([data-theme="light"]) #view-3d .vrow .drop,
+  :root:not([data-theme="light"]) #view-work .segs button:not([aria-pressed="true"]){
+    background:#5c6a84;border-color:#5c6a84;color:#fff}
+  :root:not([data-theme="light"]) select:not(.stepsel):not(.notesel){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;background-size:11px 7px}
+  :root:not([data-theme="light"]) #view-work .segs,
   :root:not([data-theme="light"]) input[type=text],
   :root:not([data-theme="light"]) textarea{border-color:#5c6a84}
 }
-:root[data-theme="dark"] #view-work .segs,
 :root[data-theme="dark"] .themebtn,
 :root[data-theme="dark"] .appbar .menubtn,
-:root[data-theme="dark"] select,
+:root[data-theme="dark"] label.drop,
+:root[data-theme="dark"] #view-work .ctrls .drop,
+:root[data-theme="dark"] #view-list .drop,
+:root[data-theme="dark"] select:not(.stepsel):not(.notesel),
+:root[data-theme="dark"] #view-3d .vrow button,
+:root[data-theme="dark"] #view-3d .vrow .drop,
+:root[data-theme="dark"] #view-work .segs button:not([aria-pressed="true"]){
+  background:#5c6a84;border-color:#5c6a84;color:#fff}
+:root[data-theme="dark"] select:not(.stepsel):not(.notesel){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;background-size:11px 7px}
+:root[data-theme="dark"] #view-work .segs,
 :root[data-theme="dark"] input[type=text],
 :root[data-theme="dark"] textarea{border-color:#5c6a84}
 @media (prefers-color-scheme:dark){
@@ -2221,7 +2291,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
                a phone takes a whole row, which is right for a long holder name and
                wrong for a two-digit number: it filled 300px of a 300px row and pushed
                "FASTA file" onto a line of its own, making step 2 too tall to fit. -->
-          <span class="lbl">Slice length</span>
+          <span class="lbl">Cut at</span>
           <label class="fld winfld">
             <select id="win"><option>15</option><option>14</option><option>16</option><option>18</option><option>20</option></select>
           </label>
@@ -2340,7 +2410,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
            practical purpose the answer was no. It belongs with the sorting, where
            the whole list is in hand. -->
       <div class="panel sendwrap" id="sendwrap" hidden>
-        <p class="btncap"><span class="sci-only">Package the chosen slice, the holder and the numbers to pass on.</span><span class="abs-only">Make a copy of what you found, to send to someone.</span></p>
+        <p class="btncap"><span class="sci-only">Your result as text &mdash; copy it or email it.</span><span class="abs-only">What you found, as text &mdash; copy it or email it.</span></p>
         <!-- V12300 - the Send/Hide button is gone. Moos: "the word send and hid is
              confusing" - and it was: Send sent nothing, it opened a box, and then
              the same button said Hide. A button whose word changes is a thing to
@@ -2348,11 +2418,20 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
              point of the panel, so it is simply there, with the two things you can
              actually do underneath it. -->
         <div id="sendbox">
-          <pre class="sendtext" id="sendtext"></pre>
           <div class="sendrow">
             <button type="button" class="go" id="b-copy">Copy</button>
             <a class="go sendmail" id="b-mail" href="#">Email</a>
           </div>
+          <!-- V14100 - the text itself is folded away. Moos: "we need th emessage to
+               be a drop menu no need to show it". It was 306px of a page he has to
+               scroll, showing him what he is about to send rather than letting him
+               send it. The two things he can do are first; the text is one tap under
+               them. The word on the fold does NOT change when it opens - that was the
+               Send/Hide confusion taken out in V12300 - it names what is inside. -->
+          <details class="sendfold" id="sendfold">
+            <summary><span class="sci-only">The text</span><span class="abs-only">The text</span></summary>
+            <pre class="sendtext" id="sendtext"></pre>
+          </details>
           <p class="tiny" id="sendnote" style="margin:9px 0 0"></p>
         </div>
       </div>
@@ -2367,16 +2446,22 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           <span class="chev" id="sheetchev">open</span>
         </div>
         <div class="body">
-          <div id="detail"><p class="tiny" style="margin:0">Run a scan.</p></div>
           <!-- V12400 - THE DOOR FROM STEP 4 TO STEP 5. Moos: "there is no
                relationship between step4 and step5!". There was one - step 5 draws
                whichever slice is chosen here, and it was measured doing exactly
                that - but nothing on this page said so, so the walk looked like it
                ended at the shortlist. This is the same button, with the same words,
-               that the slice drawer carries on step 3. -->
+               that the slice drawer carries on step 3.
+               V14100 - and it comes FIRST in the panel now. Moos: "when clicking a
+               rsult we must see the button see this siclice in gorove!" It was last,
+               under everything the panel says, and measured on his screen it opened
+               at 767-823 - inside the floating bar's band, so the one thing he wanted
+               was the one thing covered. At the head of the panel it is the first
+               thing under the title, before a word of reading. -->
           <div class="runrow gslgo">
             <button type="button" class="go" id="togroove"><span class="sci-only">See this slice in the groove</span><span class="abs-only">See this piece in the holder</span></button>
           </div>
+          <div id="detail"><p class="tiny" style="margin:0">Run a scan.</p></div>
           <!-- V12400 - "Check across all 117 types" is gone. Moos: "why to choose
                117! We already showing all 117 cards right!?" - and he is right.
                Every scan already goes through all 117 for every slice: measured,
@@ -3190,7 +3275,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V14000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V14100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>

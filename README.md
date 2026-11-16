@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V14000**.
+Version **V14100**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -11,6 +11,41 @@ are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 
+
+## V14100 - five things from Moos's own screens
+
+**A control you cannot see in the dark.** V14000 gave the plain controls an edge;
+Moos wanted the fill: "in dark mode th rbalck buttons are not shown, so you need to
+give them back light,, make sure this is the standerd in all pages in the app".
+Measured in the dark across all eight pages, fifteen controls stood between 1.00 and
+1.25 against the page - the sun button everywhere, FASTA file, the cut picker, both
+halves of the choice on step 1, and the protein, holder and run pickers. They carry
+#5c6a84 now: shape 3.7, white word 5.5. A control wearing one of the four colours
+keeps its colour, the step pill and notes pill carry the page's colour, the
+Back/Next bar keeps its white pill, and the typing boxes keep the dark behind the
+letters.
+
+**The file and the cut, on one line.** Moos's own idea: "may be the FASTA button we
+make it 2/3 and slice lenght 1/3 all in one line!" Step 1 measured 790px against the
+764 above the floating bar, so it overflowed and his choice pill kept sliding under
+it. Side by side takes out a 50px field, its label and the gap - 82px - and the step
+fits. The short label went from SLICE LENGTH to CUT AT: at 320px a third of the row
+is 87px, where the long one wraps and the short one does not.
+
+**"How it works" wore a blue pill.** No colour had ever been written for that page,
+so it fell through to the app's default while Notes, its twin in the same menu, wore
+the ink one. It takes the ink pill now, in both themes.
+
+**The message on step 4 is folded away.** It was 306px of text sitting open above
+the two buttons. Copy and Email come first; the text is one tap under a fold whose
+word does not change when it opens - the Send/Hide confusion taken out in V12300 is
+not coming back in another shape. The line above it says what it is: "Your result as
+text - copy it or email it."
+
+**"See this slice in the groove" is the first thing in the panel.** It had been last
+since V12400, under everything the panel says, and measured when a card is opened it
+sat at 767-823 - inside the floating bar's band, so the one thing Moos wanted was the
+one thing covered. It opens at 575 now, with the bar starting at 764.
 
 ## V14000 - the word on a colour, and buttons you can see in the dark
 
