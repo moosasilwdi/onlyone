@@ -907,6 +907,33 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    in step 1 and 2 etc". It matches the page it sits on, and wears that page's own
    colour, which on step 4 is yellow with black type. */
 #sheetwrap .gslgo button{min-height:56px}
+/* V14200 - THE MENU IS THE APP'S OWN NOW. Moos: "the drop menues looks bad and why
+   coloured, they must be white with transpaern2 25% and larger widht and opens
+   smoothliy with aniamtion". The list a <select> drops is drawn by the browser, not
+   by the page: it takes the select's own colour, it is as wide as its longest word,
+   and it cannot be animated. So the pill stays a real <select> - everything that
+   drives the app still drives it - and the list it would have dropped is drawn here
+   instead: white at 75%, the page showing through, wider than the pill, sliding
+   open. */
+.pickmenu{position:fixed;z-index:60;min-width:252px;max-width:86vw;max-height:70vh;
+  overflow:auto;padding:8px;border-radius:16px;
+  background:rgba(255,255,255,.75);
+  -webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow:0 20px 50px -14px rgba(0,0,0,.55), 0 2px 8px -4px rgba(0,0,0,.4);
+  opacity:0;transform:translateY(-10px) scale(.97);transform-origin:top left;
+  transition:opacity .17s ease, transform .2s cubic-bezier(.2,.8,.2,1);
+  pointer-events:none}
+.pickmenu[data-open="1"]{opacity:1;transform:none;pointer-events:auto}
+.pickmenu .grp{font-family:var(--mono);font-size:10px;letter-spacing:.09em;
+  text-transform:uppercase;color:#5a6474;padding:10px 12px 5px}
+.pickmenu button{display:block;width:100%;text-align:left;border:0;background:transparent;
+  padding:12px 12px;border-radius:11px;font-family:inherit;font-size:15px;font-weight:600;
+  color:#11171f;box-shadow:none;min-height:0;line-height:1.2}
+.pickmenu button:hover{background:rgba(17,23,32,.07)}
+.pickmenu button[aria-current="true"]{background:rgba(17,23,32,.1)}
+.pickshade{position:fixed;inset:0;z-index:59;background:transparent}
+@media (prefers-reduced-motion:reduce){ .pickmenu{transition:none} }
 .onlyp .onepick2{flex-wrap:wrap;row-gap:3px}
 .onlyp .onepick2 .oseq{flex:1 1 100%}
 .onlyp .ohold{font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--green)}
@@ -1488,13 +1515,29 @@ input[type=file]{display:none}
    it sat 3px inside a sunken track, so the red shape the eye measures was 50. The
    track keeps its border and loses its padding: the red now fills it edge to edge
    and the two buttons finally look like one family. */
-#view-work .segs{gap:0;padding:0;border:1px solid var(--line);border-radius:999px;
-  background:var(--sunk);box-shadow:inset 0 1px 2px rgba(0,0,0,.05);margin:22px 0 0}
-#view-work .segs button{border:0;background:transparent;border-radius:999px;
-  padding:19px 12px;color:var(--mute);box-shadow:none;font-weight:600;font-size:15px;
-  line-height:18px}
-#view-work .segs button[aria-pressed="true"]{background:#cf2c20;color:#fff;
-  box-shadow:0 1px 2px rgba(0,0,0,.22)}
+/* V14200 - the track's line is an INSET ring, not a border. A border adds its 2px
+   to the box, and the pill has to stand 56px inside a track no more than 4px bigger
+   - the figure onecard and s1card have held since V12100. The ring draws the same
+   line inside the 60. */
+#view-work .segs{position:relative;gap:0;padding:2px;border:0;
+  border-radius:999px;background:var(--sunk);
+  box-shadow:inset 0 0 0 1px var(--line), inset 0 1px 2px rgba(0,0,0,.05);
+  margin:22px 0 0;touch-action:pan-y;user-select:none}
+#view-work .segs .thumb{position:absolute;top:2px;bottom:2px;left:2px;
+  width:calc(50% - 2px);border-radius:999px;background:#cf2c20;
+  box-shadow:0 1px 2px rgba(0,0,0,.22);
+  transition:transform .22s cubic-bezier(.2,.8,.2,1);transform:translateX(0)}
+#view-work .segs[data-sel="dec"] .thumb{transform:translateX(100%)}
+#view-work .segs[data-drag="1"] .thumb{transition:none}
+/* V14200 - 19px, not 16: the pill has stood 56px since V12100, the same height as
+   Scan on step 2, and the onecard and s1card checks hold it there. The track gives
+   the thumb a 2px gutter, so the pill is 56 inside a 60 track - a 4px surround, the
+   most those checks allow. */
+#view-work .segs button{position:relative;z-index:1;border:0;background:transparent;
+  border-radius:999px;padding:19px 12px;color:var(--mute);box-shadow:none;
+  font-weight:600;font-size:15px;line-height:18px;transition:color .18s}
+#view-work .segs button[aria-pressed="true"]{background:transparent;color:#fff;
+  box-shadow:none}
 /* the count, in a box of its own. 10/8 padding, not 16/14: with the caption inside it
    the box came out 132px tall and Moos said "the container numer is huge". The air is
    out of the top, the bottom and the gap under the digits, and both parts stayed in -
@@ -1816,49 +1859,62 @@ a.sendmail:active{filter:brightness(.96)}
    at 1.2:1 - and the typing boxes go with them so a form does not end up half
    outlined and half not. The pill in the bar keeps its own border, which is already
    the colour it is filled with. */
-/* V14100 - THE STANDARD FOR A CONTROL IN THE DARK. Moos, looking at step 1:
-   "in dark mode th rbalck buttons are not shown, so you need to give them back
-   light,, make sure this is the standerd in all pages in the app".
-   V14000 gave these an edge they could be seen by; he wants the FILL. Measured in
-   the dark on all eight pages, fifteen controls stood between 1.00 and 1.25 against
-   the page: the sun button everywhere, FASTA file, the slice length, both halves of
-   the choice, and the protein, holder and run pickers. They take #5c6a84 now - the
-   shape stands at 3.7 and the white word on it at 5.5.
-   What is left out, and why: a control already wearing one of the four colours
-   keeps its colour; the step pill and the notes pill carry the page colour, so they
-   are not touched; the Back/Next bar keeps its white pill; and the typing boxes keep
-   their dark fill with the edge, because a sheet of pasted letters is read better on
-   the dark than on a slab of grey. */
+/* V14200 - THE DARK LANGUAGE: VERY DARK, WITH THE LIGHT ON AN EDGE.
+   Moos: "the gary color must be very dark with inner ligt if it si drop menu and
+   outer light if it si pill or button".
+   V14100 made these controls light grey slabs, which he could see but did not want.
+   The fill goes back to very dark - #141c27, a shade off the page - and the light
+   moves to an edge, which is what says whether a thing is pressed or typed into:
+     a BUTTON or pill  takes the light on the OUTSIDE  - it stands up off the page
+     a DROP MENU       takes the light on the INSIDE   - it is a recess you open
+   The edge is #8c9ab2, which stands 5.2:1 from the page, so a control is still
+   found at a glance - the darkctl check measures that edge now, not the fill.
+   The first screen and Notes keep the ink pill, anything wearing one of the four
+   colours keeps its colour, and the Back/Next bar keeps its white pill. */
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]) .themebtn,
   :root:not([data-theme="light"]) .appbar .menubtn,
   :root:not([data-theme="light"]) label.drop,
   :root:not([data-theme="light"]) #view-work .ctrls .drop,
   :root:not([data-theme="light"]) #view-list .drop,
-  :root:not([data-theme="light"]) select:not(.stepsel):not(.notesel),
   :root:not([data-theme="light"]) #view-3d .vrow button,
-  :root:not([data-theme="light"]) #view-3d .vrow .drop,
-  :root:not([data-theme="light"]) #view-work .segs button:not([aria-pressed="true"]){
-    background:#5c6a84;border-color:#5c6a84;color:#fff}
-  :root:not([data-theme="light"]) select:not(.stepsel):not(.notesel){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;background-size:11px 7px}
-  :root:not([data-theme="light"]) #view-work .segs,
+  :root:not([data-theme="light"]) #view-3d .vrow .drop{
+    background:#141c27;border-color:#8c9ab2;color:#fff;
+    box-shadow:0 0 0 1px rgba(140,154,178,.55), 0 3px 10px -5px rgba(200,214,235,.5)}
+  :root:not([data-theme="light"]) select:not(.stepsel):not(.notesel),
+  :root:not([data-theme="light"]) .sendfold summary{
+    background:#141c27;border-color:#2b3a4f;color:#fff;
+    box-shadow:inset 0 0 0 1.5px rgba(176,190,212,.92), inset 0 3px 6px -3px rgba(0,0,0,.95)}
+  :root:not([data-theme="light"]) select:not(.stepsel):not(.notesel){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 11px center;background-size:11px 7px}
+  :root:not([data-theme="light"]) #view-work .segs{background:#141c27;border:0;
+    box-shadow:inset 0 0 0 1.5px rgba(176,190,212,.92), inset 0 3px 6px -3px rgba(0,0,0,.95)}
+  :root:not([data-theme="light"]) #view-work .segs button:not([aria-pressed="true"]){color:#cfd8e6}
   :root:not([data-theme="light"]) input[type=text],
-  :root:not([data-theme="light"]) textarea{border-color:#5c6a84}
+  :root:not([data-theme="light"]) textarea{border-color:#5c6a84;
+    box-shadow:inset 0 0 0 1px rgba(176,190,212,.55)}
 }
 :root[data-theme="dark"] .themebtn,
 :root[data-theme="dark"] .appbar .menubtn,
 :root[data-theme="dark"] label.drop,
 :root[data-theme="dark"] #view-work .ctrls .drop,
 :root[data-theme="dark"] #view-list .drop,
-:root[data-theme="dark"] select:not(.stepsel):not(.notesel),
 :root[data-theme="dark"] #view-3d .vrow button,
-:root[data-theme="dark"] #view-3d .vrow .drop,
-:root[data-theme="dark"] #view-work .segs button:not([aria-pressed="true"]){
-  background:#5c6a84;border-color:#5c6a84;color:#fff}
-:root[data-theme="dark"] select:not(.stepsel):not(.notesel){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;background-size:11px 7px}
-:root[data-theme="dark"] #view-work .segs,
+:root[data-theme="dark"] #view-3d .vrow .drop{
+  background:#141c27;border-color:#8c9ab2;color:#fff;
+  box-shadow:0 0 0 1px rgba(140,154,178,.55), 0 3px 10px -5px rgba(200,214,235,.5)}
+:root[data-theme="dark"] select:not(.stepsel):not(.notesel),
+:root[data-theme="dark"] .sendfold summary{
+  background:#141c27;border-color:#2b3a4f;color:#fff;
+  box-shadow:inset 0 0 0 1.5px rgba(176,190,212,.92), inset 0 3px 6px -3px rgba(0,0,0,.95)}
+:root[data-theme="dark"] select:not(.stepsel):not(.notesel){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 11px center;background-size:11px 7px}
+:root[data-theme="dark"] #view-work .segs{background:#141c27;border:0;
+  box-shadow:inset 0 0 0 1.5px rgba(176,190,212,.92), inset 0 3px 6px -3px rgba(0,0,0,.95)}
+:root[data-theme="dark"] #view-work .segs button:not([aria-pressed="true"]){color:#cfd8e6}
 :root[data-theme="dark"] input[type=text],
-:root[data-theme="dark"] textarea{border-color:#5c6a84}
+:root[data-theme="dark"] textarea{border-color:#5c6a84;
+  box-shadow:inset 0 0 0 1px rgba(176,190,212,.55)}
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]) #view-3d .vrow button[aria-pressed="true"]{
     background:var(--btn);border-color:var(--btn);color:var(--onbtn)}
@@ -2315,7 +2371,14 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
       <!-- V12100 - and the CHOICE comes last. Moos: "can we move th epill down". It
            is the rarer of the two things on this step - a whole protein is the normal
            road - so it stops being the first thing the eye lands on. -->
-      <div class="segs">
+      <!-- V14200 - ONE PILL WITH A SLIDING THUMB. Moos: "here the pill it looks
+           like 2 buttons" and "the slide pill button in proten page musr act as pill
+           wwith slide, slide to be realtime". The red half was painted on whichever
+           button was pressed, so the two read as two buttons. The red is its own
+           piece now - it slides between the halves, and it follows a finger dragged
+           across the track in real time, snapping to the nearer half when let go. -->
+      <div class="segs" id="segs" data-sel="prot">
+        <i class="thumb" aria-hidden="true"></i>
         <button type="button" id="t-seg-prot" aria-pressed="true">A whole protein</button>
         <button type="button" id="t-seg-dec" aria-pressed="false">One slice, varied</button>
       </div>
@@ -2458,6 +2521,13 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
                at 767-823 - inside the floating bar's band, so the one thing he wanted
                was the one thing covered. At the head of the panel it is the first
                thing under the title, before a word of reading. -->
+          <!-- V12400 - THE DOOR FROM STEP 4 TO STEP 5. Moos: "there is no
+               relationship between step4 and step5!".
+               V14100 - first in the panel, not last.
+               V14200 - and the page is lifted just enough that it lands above the
+               Back/Next bar, which is what he drew: "the button must be always
+               abiove th enexx bitton". Pinning it to the bar was tried and was not
+               what he meant - it belongs to the panel, under the slice's own name. -->
           <div class="runrow gslgo">
             <button type="button" class="go" id="togroove"><span class="sci-only">See this slice in the groove</span><span class="abs-only">See this piece in the holder</span></button>
           </div>
@@ -3275,7 +3345,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V14100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V14200 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4949,6 +5019,8 @@ Array.prototype.forEach.call(document.querySelectorAll('.nextbtn,.backbtn'), fun
 /* the two kinds of scan */
 function setSeg(which){
   setMode(which);
+  var seg=document.getElementById('segs');
+  if(seg) seg.setAttribute('data-sel', which==='dec'?'dec':'prot');
   document.getElementById('t-seg-prot').setAttribute('aria-pressed', which==='prot'?'true':'false');
   document.getElementById('t-seg-dec').setAttribute('aria-pressed', which==='dec'?'true':'false');
   document.getElementById('runprot').hidden = (which!=='prot');
@@ -4956,6 +5028,44 @@ function setSeg(which){
 }
 document.getElementById('t-seg-prot').addEventListener('click', function(){ setSeg('prot'); });
 document.getElementById('t-seg-dec').addEventListener('click', function(){ setSeg('dec'); });
+/* V14200 - the thumb follows the finger. The track is half a thumb wide either side
+   of the middle, so the sum is simply "which half is the finger in", and the picture
+   is moved by hand while the finger is down - no transition - then handed back to
+   the transition on release, which carries it the rest of the way. */
+(function(){
+  var seg=document.getElementById('segs'); if(!seg) return;
+  var thumb=seg.querySelector('.thumb'), down=false, moved=false, startX=0;
+  function halfW(){ return (seg.clientWidth-4)/2; }
+  function place(x){
+    var r=seg.getBoundingClientRect();
+    var off=Math.max(0, Math.min(halfW(), x - r.left - 2 - halfW()/2));
+    thumb.style.transform='translateX('+off+'px)';
+  }
+  function side(x){
+    var r=seg.getBoundingClientRect();
+    return (x - r.left) > r.width/2 ? 'dec' : 'prot';
+  }
+  seg.addEventListener('pointerdown', function(e){
+    if(e.button) return;
+    down=true; moved=false; startX=e.clientX;
+    seg.setAttribute('data-drag','1');
+    try{ seg.setPointerCapture(e.pointerId); }catch(_){}
+  });
+  seg.addEventListener('pointermove', function(e){
+    if(!down) return;
+    if(Math.abs(e.clientX-startX)>3) moved=true;
+    if(moved) place(e.clientX);
+  });
+  function end(e){
+    if(!down) return;
+    down=false;
+    seg.removeAttribute('data-drag');
+    thumb.style.transform='';
+    if(moved) setSeg(side(e.clientX));      /* a drag chooses by where it was let go */
+  }
+  seg.addEventListener('pointerup', end);
+  seg.addEventListener('pointercancel', end);
+})();
 /* V9800 - its button is gone; see the note in the markup. */
 document.getElementById('fastain').addEventListener('change', function(e){
   var f=e.target.files&&e.target.files[0]; if(!f) return;
@@ -5449,7 +5559,21 @@ function sheetUnder(card){
   var g=document.getElementById('sheetgrip'); if(g) g.setAttribute('aria-expanded','true');
   var ch=document.getElementById('sheetchev'); if(ch) ch.textContent='close';
   var now=card.getBoundingClientRect().top, d=now-was;
-  if(d){ var sc=scrollerFor(card); if(sc) sc.scrollTop += d; }
+  var sc=scrollerFor(card);
+  if(d && sc) sc.scrollTop += d;
+  /* V14200 - and then just enough more that the door to step 5 lands ABOVE the
+     floating bar. Moos drew it: the card he tapped, the panel under it, and the
+     button in plain sight. Without this, tapping a card low on the page opens the
+     panel below the fold and the button goes with it - which is what he kept
+     seeing. The lift is the overlap and nothing more, so the card he tapped stays
+     on the screen. */
+  if(sc) requestAnimationFrame(function(){
+    var g=document.getElementById('togroove'); if(!g) return;
+    var bar=document.querySelector('.tabstrip'); if(!bar) return;
+    var gr=g.getBoundingClientRect(), br=bar.getBoundingClientRect();
+    var over=gr.bottom-(br.top-10);
+    if(over>0) sc.scrollTop += over;
+  });
 }
 function drawRows(){
   var tb=document.getElementById('rows'), isDec=(mode==='dec');
@@ -7776,6 +7900,90 @@ grip.addEventListener('click', function(){ toggleSheet(); });
   if(tg) tg.addEventListener('click', function(){ showTab('t-3d'); });
 })();
 grip.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ toggleSheet(); e.preventDefault(); } });
+
+/* V14200 - the app's own drop menu. The <select> stays exactly where it was and
+   keeps every job it had: it holds the value, it fires change, and the checks and
+   the keyboard still use it. Only the LIST is ours - the browser's is stopped from
+   opening and this is put in its place. */
+(function(){
+  var menu=null, shade=null, owner=null;
+  function close(){
+    if(!menu) return;
+    menu.removeAttribute('data-open');
+    var m=menu, sh=shade;
+    setTimeout(function(){ if(m&&m.parentNode) m.parentNode.removeChild(m);
+                           if(sh&&sh.parentNode) sh.parentNode.removeChild(sh); }, 200);
+    menu=null; shade=null;
+    if(owner){ owner.removeAttribute('data-menuopen'); owner=null; }
+  }
+  function build(sel){
+    var m=document.createElement('div');
+    m.className='pickmenu'; m.setAttribute('role','listbox');
+    function addOpt(o){
+      if(o.disabled) return;
+      var b=document.createElement('button');
+      b.type='button'; b.textContent=o.textContent.trim();
+      b.setAttribute('role','option');
+      if(o.value===sel.value) b.setAttribute('aria-current','true');
+      b.addEventListener('click', function(){
+        close();
+        if(sel.value!==o.value){ sel.value=o.value;
+          sel.dispatchEvent(new Event('change',{bubbles:true})); }
+      });
+      m.appendChild(b);
+    }
+    [].forEach.call(sel.children, function(n){
+      if(n.tagName==='OPTGROUP'){
+        var g=document.createElement('div'); g.className='grp';
+        g.textContent=n.label||''; m.appendChild(g);
+        [].forEach.call(n.children, addOpt);
+      } else if(n.tagName==='OPTION') addOpt(n);
+    });
+    return m;
+  }
+  function place(m, sel){
+    var r=sel.getBoundingClientRect();
+    m.style.visibility='hidden'; m.style.left='0px'; m.style.top='0px';
+    document.body.appendChild(m);
+    var w=m.offsetWidth, h=m.offsetHeight;
+    var left=Math.min(Math.max(8, r.left), innerWidth-w-8);
+    var top=r.bottom+8;
+    if(top+h>innerHeight-8) top=Math.max(8, r.top-8-h);
+    m.style.left=Math.round(left)+'px'; m.style.top=Math.round(top)+'px';
+    m.style.transformOrigin = (top<r.top? 'bottom left':'top left');
+    m.style.visibility='';
+  }
+  function open(sel){
+    close();
+    owner=sel; sel.setAttribute('data-menuopen','1');
+    shade=document.createElement('div'); shade.className='pickshade';
+    shade.addEventListener('pointerdown', function(e){ e.preventDefault(); close(); });
+    document.body.appendChild(shade);
+    menu=build(sel);
+    place(menu, sel);
+    requestAnimationFrame(function(){ if(menu) menu.setAttribute('data-open','1'); });
+  }
+  function hook(sel){
+    /* the step pill carries BOTH classes - stepsel and notesel - so without this it
+       was hooked twice and the second handler shut the menu the first had opened. */
+    if(!sel || sel.__picked) return;
+    sel.__picked=true;
+    sel.addEventListener('pointerdown', function(e){
+      if(e.pointerType==='mouse' && e.button) return;
+      e.preventDefault(); sel.blur();
+      if(owner===sel){ close(); return; }
+      open(sel);
+    });
+    sel.addEventListener('keydown', function(e){
+      if(e.key==='Escape') close();
+    });
+  }
+  hook(document.getElementById('stepsel'));
+  [].forEach.call(document.querySelectorAll('.appbar .notesel'), hook);
+  addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+  addEventListener('resize', close);
+  addEventListener('scroll', function(){ if(menu&&owner) place(menu, owner); }, true);
+})();
 
 /* ================= start ================= */
 /* V11300 - the app ALWAYS opens on "Choose a protein". Moos: "i want the defalut always

@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V14100**.
+Version **V14200**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -11,6 +11,37 @@ are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 
+
+## V14200 - the dark language, the app's own menu, and a pill that slides
+
+**Where the light goes in the dark.** V14100 made the plain controls light grey
+slabs; Moos wanted the opposite: "the gary color must be very dark with inner ligt
+if it si drop menu and outer light if it si pill or button". The fill is #141c27 now,
+a shade off the page, and the light sits on an edge - OUTSIDE a button or pill, so it
+reads as raised, INSIDE a drop menu, so it reads as a recess. The darkctl and seenbtn
+checks read that light now instead of demanding a light fill, and the dark check
+reads the inner line on the protein box for the same reason.
+
+**The menu is the app's own.** "the drop menues looks bad and why coloured, they must
+be white with transpaern2 25% and larger widht and opens smoothliy with aniamtion."
+The list a <select> drops is drawn by the browser: it takes the select's colour, it
+is as wide as its longest word, and it cannot be animated. The pill is still a real
+select - everything that drives the app still drives it, and so do the checks - but
+its list is stopped and the app draws one in its place: white at 75% with the page
+showing through, 252px against the pill's 126, sliding open. Both pills use it.
+
+**The switch is one pill with a sliding thumb.** "here the pill it looks like 2
+buttons" and "the slide pill button in proten page musr act as pill wwith slide,
+slide to be realtime". The red was painted onto whichever half was pressed. It is one
+piece now, inside one track, and it follows a finger dragged across it, snapping to
+the half the finger was in when it is let go.
+
+**The door to step 5, where it can be seen.** "still whien i click th eresutlt th
+ebutton is not shown,,,the button must be always abiove th enexx bitton" - and he
+drew it: the button inside the panel, under the slice's name, in plain sight. Tapping
+a card low on the page opened the panel below the fold and took the button with it,
+at 905 on a screen 844 tall. The page is lifted by exactly the overlap now, so the
+button lands above the bar and the card that was tapped stays on the screen.
 
 ## V14100 - five things from Moos's own screens
 
