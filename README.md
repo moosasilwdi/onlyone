@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V14200**.
+Version **V14400**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -11,6 +11,49 @@ are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 
+
+## V14400 - the panel is part of the card, and the dark page speaks up
+
+**One shape, not two.** Moos was shown both roads side by side and picked this one:
+"i want 1 but i wan tthe pannel to be exnded for the card an dhas frame yeloow
+around it". V14300 had parked the chosen-slice panel under the heading, where it
+covered the very card you had just tapped and wrote the slice out twice. The panel
+goes back beside that card and is now JOINED to it: the list's own 10px gap is
+cancelled, the border is dropped on the two edges that meet so no line runs across
+the middle, the shoulders there are square, the far corners stay round, and one
+frame in the page's colour is drawn round the pair. The new joinframe check measures
+all of it - the gap reads 0px.
+
+**A card tapped at the bottom lifts the page.** That same tap used to open the panel
+below the fold, putting the door to step 5 under the Back/Next bar. The page is
+lifted by the least amount that clears it. slicedock holds it.
+
+**Back light on the cards.** "also the cards and panels must have back light in dark
+theme so they are see[n]". Until now a result card's only outward shadow was black,
+which on a dark page shows nothing at all. Every card and the panel take the outer
+light the buttons have worn since V14200 - a light ring and a soft glow. The new
+cardlit check reads the shadow and fails anything whose only outward shadow is dark.
+
+**No grey words in the dark.** "no ,ore gray yext in th eapp in the dark mode, it
+must be white". --mute and --tcr resolve to the page ink in dark, and the few places
+that wrote a grey of their own by hand were changed with them. The new nogrey check
+walks all eight screens: 0 grey words, against 127 on the shortlist alone before.
+The light page keeps its greys - on white, white is not a colour.
+
+## V14300 - a scan that says it is running
+
+**The bar under the header.** "when i make scan in step 3 no animation bar is shown
+so i dont know what is happening." Every road into a scan - the shipped table, the
+network, a single slice - passes through one place, and that place now shows a 4px
+line under the header in the page's own colour, filled by the real count.
+
+**The one-slice road.** "after step 2 the app taking me to step 1 START, andi cannot
+go back!" Scanning a single slice used to end on the Graph page, which has come off
+the walk; it ends on step 4 now, and Back goes to step 3.
+
+**The shadow under Check.** "the text check has shadow why all these things
+happenings!" The yellow pages carry black type, which needs no outline; --btnsh is
+none on them.
 
 ## V14200 - the dark language, the app's own menu, and a pill that slides
 
