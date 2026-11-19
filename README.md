@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V14400**.
+Version **V14500**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -11,6 +11,28 @@ are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 
+
+## V14500 - the shape rides up, and the ring that was not ours
+
+**It goes to the header.** Moos, on the live V14400: "still the panel open but it
+does not move below th eheader". V14400 lifted the page only far enough to clear
+the Back/Next bar, so a card tapped low in the list opened with the foot of its
+panel still hidden. sheetUnder() now carries the tapped card to just under the
+header every time, wherever it was - 8px of air. Measured on the ninth card: it
+lands at 62 with the header ending at 54, and the foot of the shape sits at 480
+with the bar starting at 764, so the whole thing is in view. On V14400 the same tap
+left the card at 533 and the panel's foot at 949.
+
+**The white ring was the browser's.** A .card is a div carrying role=button and
+tabindex, and Chrome treats a TAP on one as keyboard focus, so it painted its own
+ring straight over the yellow frame. Measured on his live screen: card edge
+238,238,238, panel edge 236,196,81. The ring is ours now - the page colour, with an
+offset - and on the card joined to the panel there is none at all, because a ring
+there would cut the one shape in half. Tabbing to a card still shows where you are.
+
+**Thicker when clicked.** "make th eth eframe thicker when clicked" - the frame
+round the pair is 2px, on both halves, with the two edges that meet still carrying
+none. The gap between card and panel still measures 0px.
 
 ## V14400 - the panel is part of the card, and the dark page speaks up
 

@@ -1599,6 +1599,16 @@ input[type=file]{display:none}
   box-shadow:var(--raise);transition:border-color .13s,transform .13s}
 .card:hover{border-color:var(--gold)}
 .card[aria-selected="true"]{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold),var(--raise)}
+/* V14500 - a .card is a div carrying role=button and tabindex, and Chrome treats a
+   TAP on one as keyboard focus: it painted its own white ring straight over the
+   yellow frame. Measured on Moos's live screen: the card edge read 238,238,238 and
+   the panel edge 236,196,81. The ring is ours now and wears the page colour, and on
+   the card that is joined to the panel there is none at all - the frame round the
+   pair is the mark, and a ring there would cut the one shape in half. Tabbing to a
+   card still shows where you are. */
+#rows .card:focus{outline:none}
+#rows .card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+#rows .card.joined:focus-visible{outline:none}
 .card .pos{font-size:11px;color:var(--mute);font-family:var(--mono);letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .card .side{font-size:11.5px;font-family:var(--mono);color:var(--mute);justify-self:end;text-align:right}
 .anch{display:inline-flex;gap:4px;justify-self:end}
@@ -1682,10 +1692,12 @@ input[type=file]{display:none}
 .sheet{margin:0 0 12px;background:var(--panel);
   border:1px solid var(--line);border-radius:12px;padding:11px 13px;
   box-shadow:var(--raise)}
-#rows .card.joined{border-color:var(--gold);border-bottom:0;
+/* V14500 - "make th eth eframe thicker when clicked": the frame round the pair is
+   2px, not 1. The two edges that meet still carry none, so the shape stays one. */
+#rows .card.joined{border:2px solid var(--gold);border-bottom:0;
   border-bottom-left-radius:0;border-bottom-right-radius:0;
   box-shadow:none}
-#rows .sheet.joined{margin-top:-10px;margin-bottom:0;border-color:var(--gold);
+#rows .sheet.joined{margin-top:-10px;margin-bottom:0;border:2px solid var(--gold);
   border-top:0;border-top-left-radius:0;border-top-right-radius:0;
   border-bottom-left-radius:13px;border-bottom-right-radius:13px}
 .sheet[data-open="0"]{box-shadow:var(--raise)}
@@ -3413,7 +3425,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V14400 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V14500 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -5669,17 +5681,19 @@ function sheetUnder(card){
   var ch=document.getElementById('sheetchev'); if(ch) ch.textContent='close';
   if(sc){ var after=card.getBoundingClientRect().top;
           if(after!==before) sc.scrollTop += (after-before); }
-  /* V14400 - a card tapped at the very bottom of the view opens its panel below
-     the fold, and the door to step 5 lands under the Back/Next bar. The page is
-     lifted by the LEAST amount that clears it - the shape is 420px tall and the
-     room between the header and the bar is 710, so it always fits. */
+  /* V14500 - the shape RIDES UP to the header. Moos, on the live V14400: "still the
+     panel open but it does not move below th eheader". V14400 lifted the page only
+     far enough to clear the Back/Next bar, so a card tapped low opened with the foot
+     of its panel still hidden. The card you tapped is now carried to just under the
+     header every time, wherever it was, so the whole shape - card, button and words
+     - is in one place and in view. 8px of air under the header. */
   requestAnimationFrame(function(){
-    var g=document.getElementById('togroove'); if(!g || !sc) return;
-    var bar=document.querySelector('.tabstrip');
-    var floor=window.innerHeight - (bar? bar.getBoundingClientRect().height : 0) - 8;
-    var gr=g.getBoundingClientRect();
-    if(gr.bottom<=floor) return;
-    sc.scrollTop += Math.ceil(gr.bottom-floor);
+    if(!sc) return;
+    var head=document.querySelector('.appbar');
+    var ceil=(head? head.getBoundingClientRect().bottom : 0) + 8;
+    var cr=card.getBoundingClientRect();
+    var move=Math.round(cr.top-ceil);
+    if(move) sc.scrollTop += move;
   });
 }
 function drawRows(){
