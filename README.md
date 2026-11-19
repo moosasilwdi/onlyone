@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V14500**.
+Version **V14600**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -11,6 +11,22 @@ are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 
+
+## V14600 - one door to the groove
+
+**Step 3's button is gone.** Moos: "there is conflict between 3 and 4 both have see
+this slice in gorve" - step 3 carried a button with step 4's exact words - and "if
+i go to step 5 form 3 then i will miss step 4 thisi smy issue too", because it
+jumped the walk. Sending the slice on to step 4 instead was built and shown to him,
+and he turned it down: "i did not ask to put it in step 4!" It had pinned a
+226th-placed slice to the top of a list that promises tightest first. So the button
+and its handler simply come out, and nothing else moved: the shortlist is the plain
+top 120 in rank order again.
+
+The walk is one road now - step 3 is where you look, step 4 is where you choose,
+step 5 is the groove. The arrows that walk the 495 stay where they are; they are
+how the Result page is read, and the onegroove check holds them, the counter under
+them, and step 4's single door.
 
 ## V14500 - the shape rides up, and the ring that was not ours
 

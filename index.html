@@ -3425,7 +3425,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V14500 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V14600 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -8653,8 +8653,14 @@ function gridSliceBox(r, s){
     +'<span class="gslof">'+(s+1)+' of '+r.n+'</span>'
     +'<button type="button" id="gslnext" data-s="'+s+'" aria-label="The slice after"'
     +(s>=r.n-1?' disabled':'')+'>\u25b6</button></div>'
-    +'<div class="runrow gslgo"><button type="button" id="gsl3d" data-s="'+s+'">'
-    +sa('See this slice in the groove','See this piece in the holder')+'</button></div>'
+    /* V14600 - THE BUTTON IS GONE FROM STEP 3. It wore step 4's exact words and it
+       jumped from 3 to 5. Moos: "there is conflict between 3 and 4 both have see
+       this slice in gorve" and "if i go to step 5 form 3 then i will miss step 4
+       thisi smy issue too". Sending the slice on to step 4 instead was tried and he
+       turned it down - "i did not ask to put it in step 4!" - because it pushed a
+       226th-placed slice to the top of a list that promises tightest first. So the
+       walk is one road: step 3 is where you look, step 4 is where you choose, step
+       5 is the groove. The arrows stay; they are how you read the 495. */
     +(GRIDHOLD==null ? '' : gridHolderBox(r, s, GRIDHOLD))
     +'</div>';
 }
@@ -9050,16 +9056,6 @@ function drawGridBody(r, show){
   }
   if(gp) gp.addEventListener('click', function(){ stepSlice(-1); });
   if(gn) gn.addEventListener('click', function(){ stepSlice(1); });
-  var g3=document.getElementById('gsl3d');
-  if(g3) g3.addEventListener('click', function(){
-    var st=parseInt(g3.getAttribute('data-s'),10); if(!isFinite(st)) return;
-    if(typeof openRun==='function') openRun(r);
-    var idx=-1;
-    for(var q=0;q<results.length;q++) if(results[q].start===st){ idx=q; break; }
-    if(idx<0) return;
-    if(typeof select==='function') select(idx);
-    showTab('t-3d');
-  });
   /* The grid can be 25 rows tall, so a drawer opening under it opens off the bottom
      of the screen - tap a square, nothing appears to happen. The page is brought
      down to it, and ONLY down, and only AS LITTLE AS WILL DO: just enough to show
