@@ -1,6 +1,6 @@
 # ONLY ONE
 
-Version **V14600**.
+Version **V14800**.
 
 Named JO-One until V10200. The name changed because the app is no longer about one
 disease: any protein can be pasted in, and it measures its own grip lines.
@@ -11,6 +11,57 @@ are named in IPD-IMGT/HLA.
 Everything runs in the browser. No server, no build step.
 
 
+
+## V14800 - the names carry the filter, and the best one is marked
+
+**The five steps are named for the filtering they do.** Moos: "we need to renale
+steps to refelct the filtration process! Because now it us not clear!" Protein /
+Holders / Result / Shortlist / Groove named the PAGES and said nothing about the
+funnel the app is. Read the new five down and the narrowing is the names themselves:
+**1 Slice it, 2 Holders, 3 All pairs, 4 Only one, 5 Groove**. Step 4 takes the app's
+own name at the moment it is earned. The names are the same in the walk picker, on
+every page heading and on the How it works page, and PAGENAME - the one line where
+every page is named - was moved with them rather than left lying.
+
+Two names were cut down because they did not fit. The pill in the header has 93px of
+room and silently clips what is longer: "Who holds" measured 96 and "In the groove"
+101. The stepnames check measures every name against that room, so the next one that
+is too long is caught rather than shipped half-drawn.
+
+**The best one is marked.** Moos: "the best onlyone in step 4 to have blinking frame
+to highlight ot". A frame that blinks for ever is hard to read and fights his own
+rule that nothing on screen may jump about, so it is a badge that stays: BEST OF THE
+61, on the tightest row that exactly one holder grips - worked out from the results,
+wherever the list is sorted, and left off entirely when no such row is drawn rather
+than put on the wrong one. Black type on the yellow fill, 11.0:1.
+
+## V14700 - one scan at a time
+
+**Step 4 was reading a different scan from step 3.** Moos: "i noticed that step 4
+changes if i pick diffrent square from step 3". Tapping a square does nothing of the
+kind - that was measured and it does not - but step 3's WHICH RUN picker does, and
+it only moved step 3. Its handler set PICKRUN and called renderSaved(), which
+redraws that page alone; `results`, which steps 4 and 5 draw from, kept whatever
+scan was run last. Measured on V14600 with two saved runs of Jo-1, one against all
+117 holders and one against DRB1*03:01: step 3 showed 000 for one and 061 for the
+other while step 4 printed the same list both times, and nothing on either page said
+they disagreed. The handler now calls openRun(r,'view-lib'), which loads the chosen
+run into `results` and stays on step 3, so all three pages show one scan. Step 5 was
+measured too: picking the DRB1*03:01 run gives LWDAGIKAELLYKKN / DRB1*03:01, picking
+the all-117 run gives YDGLVGMFDPKGRKV / All 117 holders.
+
+**The "How it works" page is the walk the app actually takes.** Moos: "You need to
+update this how it wirks! Add steos to it so it is clear!" It listed "Pick the
+holder" before "Feed it a protein" - the wrong way round - and "Walk the graph",
+a page that came off the walk in V14300, and no row carried a number. The five rows
+are numbered now and named for their pages: 1 Protein, 2 Holders, 3 Result,
+4 Shortlist, 5 Groove, each wearing that page's own colour, with the ribbon that
+joins them re-ordered to match. The library row is marked as not a step. Every row
+stays ONE line, because that ribbon is drawn at fixed heights.
+
+**And the picker could not be read.** Every line said "Jo-1 window 15 495 slices" -
+identical for two runs of the same protein against different holders. The line names
+the holders now: "Jo-1 - All 117 holders - cut 15".
 
 ## V14600 - one door to the groove
 
@@ -558,9 +609,11 @@ alpha chain also contributes.
 A pasted protein is judged against its own grip lines, measured from its own slices; Jo-1 uses
 the table that ships with the app. The result line says which was used.
 
-What you paste is sent to a library other people can read. There is no account and no
-sign-in, and nothing else about you is sent. Anyone can post, so the function rebuilds
-every run from known fields at known sizes rather than storing what arrived.
+Nothing you paste leaves your device. Sharing was taken out in V11300 - libShare and
+libFetch send and fetch nothing, SHARED stays empty, and there is no setting or flag
+that could turn it back on. Every scan is saved in the library on that phone, listed
+in WHICH RUN on step 3; Export all writes a file you keep or send yourself, and that
+is the only way a run leaves the device.
 
 Predictions, not measurements. A laboratory would repeat them with NetMHCIIpan or MixMHC2pred
 and then test in cells. The groove geometry is generated at correct physical scale, not solved

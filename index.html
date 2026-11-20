@@ -144,16 +144,16 @@
 :root[data-theme="dark"][data-page="3d"]{--gold:#e8edf4;--mauve:#e8edf4;--btn:#e8edf4;--onmauve:#fff;--onbtn:#11171f;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#e8edf4;--accink:#e8edf4}
 :root[data-theme="dark"][data-page="info"]{--gold:#6aa9ff;--mauve:#6aa9ff;--btn:#1565d8;--onmauve:#fff;--onbtn:#fff;--btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45);--mauvedeep:#6aa9ff;--accink:#6aa9ff}
 @media (prefers-color-scheme:dark){
-:root:not([data-theme="light"]) .steps li:nth-child(1){--sti:#6aa9ff}
-:root:not([data-theme="light"]) .steps li:nth-child(2){--sti:#ff6f68}
-:root:not([data-theme="light"]) .steps li:nth-child(3){--sti:#ffc233}
-:root:not([data-theme="light"]) .steps li:nth-child(4){--sti:#ffc233}
-:root:not([data-theme="light"]) .steps li:nth-child(5){--sti:#45c46a}}
-:root[data-theme="dark"] .steps li:nth-child(1){--sti:#6aa9ff}
-:root[data-theme="dark"] .steps li:nth-child(2){--sti:#ff6f68}
-:root[data-theme="dark"] .steps li:nth-child(3){--sti:#ffc233}
-:root[data-theme="dark"] .steps li:nth-child(4){--sti:#ffc233}
-:root[data-theme="dark"] .steps li:nth-child(5){--sti:#45c46a}
+:root:not([data-theme="light"]) .steps li:nth-child(1){--stc:#ff6f68;--sti:#ff6f68}
+:root:not([data-theme="light"]) .steps li:nth-child(2){--stc:#6aa9ff;--sti:#6aa9ff}
+:root:not([data-theme="light"]) .steps li:nth-child(3){--stc:#45c46a;--sti:#45c46a}
+:root:not([data-theme="light"]) .steps li:nth-child(4){--stc:#ffc233;--sti:#e8edf4}
+:root:not([data-theme="light"]) .steps li:nth-child(5){--stc:#e8edf4;--sti:#e8edf4}}
+:root[data-theme="dark"] .steps li:nth-child(1){--stc:#ff6f68;--sti:#ff6f68}
+:root[data-theme="dark"] .steps li:nth-child(2){--stc:#6aa9ff;--sti:#6aa9ff}
+:root[data-theme="dark"] .steps li:nth-child(3){--stc:#45c46a;--sti:#45c46a}
+:root[data-theme="dark"] .steps li:nth-child(4){--stc:#ffc233;--sti:#e8edf4}
+:root[data-theme="dark"] .steps li:nth-child(5){--stc:#e8edf4;--sti:#e8edf4}
 *{box-sizing:border-box}
 /* anything hidden stays hidden, even where a rule sets display */
 [hidden]{display:none!important}
@@ -1091,7 +1091,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
    grid and the line ran through the words. */
 .snake{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0}
 .steps{list-style:none;margin:0;padding:0;width:100%;position:relative;z-index:1}
-.steps li{height:66px;display:flex;align-items:center;gap:10px;
+.steps li{min-height:66px;display:flex;align-items:center;gap:10px;
   background:none;border:0;border-radius:0;box-shadow:none;padding:0;margin:0;
   /* the words follow their own mark. Without this they inherit the landing's
      centring and every row's text drifts to the right, whichever side its mark is on. */
@@ -1101,11 +1101,14 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   background:color-mix(in srgb,var(--stc) 13%,var(--bg));border-radius:50%;padding:4px;
   color:var(--stc);box-shadow:0 0 0 5px var(--bg)}
 .steps li>div{flex:1 1 auto;min-width:0}
-.steps li:nth-child(1){--stc:#1565d8;--sti:#1565d8}
-.steps li:nth-child(2){--stc:#cf2c20;--sti:#cf2c20}
-.steps li:nth-child(3){--stc:#f5b700;--sti:#8a6104}
+/* V14700 - each row wears the colour of the page it names, in the app's own order:
+   1 Protein red, 2 Holders blue, 3 Result green, 4 Shortlist yellow, 5 Groove ink.
+   The yellow row's TYPE is the deep gold, never the yellow - Moos's rule. */
+.steps li:nth-child(1){--stc:#cf2c20;--sti:#cf2c20}
+.steps li:nth-child(2){--stc:#1565d8;--sti:#1565d8}
+.steps li:nth-child(3){--stc:#1ea84c;--sti:#0f7a36}
 .steps li:nth-child(4){--stc:#f5b700;--sti:#8a6104}
-.steps li:nth-child(5){--stc:#1ea84c;--sti:#0f7a36}
+.steps li:nth-child(5){--stc:#111720;--sti:#111720}
 .steps b{display:block;font-size:14.5px;font-weight:600;letter-spacing:-.01em}
 .steps li>div>span{display:block;font-size:11.5px;color:var(--mute);margin-top:2px;line-height:1.35}
 button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;border-radius:13px;
@@ -1694,6 +1697,44 @@ input[type=file]{display:none}
   box-shadow:var(--raise)}
 /* V14500 - "make th eth eframe thicker when clicked": the frame round the pair is
    2px, not 1. The two edges that meet still carry none, so the shape stays one. */
+/* V14900 - THE BEST ROW IS THE PAGE'S COLOUR, WHOLE. Moos: "The best of 61 i am
+   thinking we make the card it self yellow!" A badge marks a row; a filled card IS
+   the answer, seen before anything is read.
+   Everything inside it has to turn with it. The card's words are white and its bar
+   is yellow - on a yellow fill the words vanish and the bar disappears into the
+   background. So inside this one card the type goes BLACK (his rule: yellow fill
+   takes black type), the bar's track and fill go dark, and the quiet chips take a
+   dark outline instead of a pale one. The four anchor letters keep their own
+   colours - they are solid fills with white on them and they read on yellow. */
+.bestcard{background:var(--gold);border-color:var(--gold);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 60%,transparent),
+             0 6px 20px -6px color-mix(in srgb,var(--gold) 70%,transparent)}
+.bestcard .pos,.bestcard .side,.bestcard .pep,.bestcard .nmv,.bestcard .vd{color:#14181f}
+.bestcard .trk{background:rgba(20,24,31,.22)}
+.bestcard .vl{background:#14181f}
+.bestcard .selchip{color:#14181f;border-color:rgba(20,24,31,.45);background:transparent}
+.bestcard .vd::before{background:#14181f}
+.bestcard .bestchip{background:#14181f;color:#fff;
+  box-shadow:0 0 0 1px rgba(20,24,31,.5), 0 2px 8px -3px rgba(20,24,31,.6)}
+/* the frame round the joined pair is the page colour; on this card that IS the
+   fill, so the pair is held together by a dark edge instead */
+#rows .card.bestcard.joined{border-color:#14181f}
+#rows .card.bestcard.joined + .sheet.joined{border-color:#14181f}
+/* V15000 - the other half of the pair, under the letters. A row of step 4 is a slice
+   AND the one holder that grips it; the holder was never on it. Quiet type, the name
+   in bold, and black on the yellow best card - Moos's rule for type on yellow. */
+.card .heldby{grid-column:1/-1;font-family:var(--mono);font-size:11px;color:var(--mute);
+  letter-spacing:.03em;margin-top:3px;overflow-x:auto;white-space:nowrap}
+.card .heldby b{font-weight:700;color:var(--ink)}
+.bestcard .heldby,.bestcard .heldby b{color:#14181f}
+/* V14800 - the badge on the best one. The fill is the page's colour and the type
+   on it is BLACK, because that colour is yellow and yellow is light - Moos's rule.
+   It is a pill, so it reads as a mark on the row, not as another number. */
+.bestchip{display:inline-flex;align-items:center;background:var(--gold);color:#14181f;
+  font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-left:6px;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 55%,transparent),
+             0 2px 8px -3px color-mix(in srgb,var(--gold) 70%,transparent)}
 #rows .card.joined{border:2px solid var(--gold);border-bottom:0;
   border-bottom-left-radius:0;border-bottom-right-radius:0;
   box-shadow:none}
@@ -2179,15 +2220,22 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
   <select id="stepsel" class="notesel stepsel" aria-label="Where you are">
     <optgroup label="The walk" id="stepgrp">
       <option value="view-home">Start</option>
-      <option value="view-work">1 &middot; Protein</option>
+<!-- V14800 - THE STEPS ARE NAMED FOR THE FILTERING THEY DO. Moos: "we need to
+     renale steps to refelct the filtration process! Because now it us not
+     clear!" Protein / Holders / Result / Shortlist / Groove named the PAGES;
+     they said nothing about the funnel the app is. Read down the new five and
+     the narrowing is the names themselves: slice it, choose who holds, try
+     every pair, keep only the ones one holder grips, hold that one. Step 4
+     takes the app's own name at the moment it is earned. -->
+      <option value="view-work">1 &middot; Slice it</option>
       <option value="view-hla">2 &middot; Holders</option>
-      <option value="view-lib">3 &middot; Result</option>
+      <option value="view-lib">3 &middot; All pairs</option>
       <!-- V12300 - FIVE STEPS. Moos: "we need to add the numbers of steps to short
            list and grove!" They were off the walk, which left Next dead on step 3
            and two whole pages that nothing led to. The Graph came off instead: it
            drew the same profile step 3 already draws, and its one useful part - the
            arrows - moved into the slice drawer, where a slice is already in hand. -->
-      <option value="view-list">4 &middot; Shortlist</option>
+      <option value="view-list">4 &middot; Only one</option>
       <option value="view-3d">5 &middot; Groove</option>
     </optgroup>
     <optgroup label="Also here">
@@ -2303,8 +2351,11 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
       <div class="journey">
         <svg class="snake" viewBox="0 0 100 396" preserveAspectRatio="none" aria-hidden="true">
           <defs><linearGradient id="jg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="var(--wm1)"/><stop offset="30%" stop-color="var(--wm2)"/>
-            <stop offset="62%" stop-color="var(--wm3)"/><stop offset="100%" stop-color="var(--wm4)"/>
+            <!-- V14700 - the rows were re-ordered to the app's own walk, so the
+                 ribbon that joins them is re-ordered with them: red, blue, green,
+                 yellow. Same four colours, nothing new. -->
+            <stop offset="0%" stop-color="var(--wm2)"/><stop offset="30%" stop-color="var(--wm1)"/>
+            <stop offset="62%" stop-color="var(--wm4)"/><stop offset="100%" stop-color="var(--wm3)"/>
           </linearGradient></defs>
           <!-- the path leaves each mark, runs the margin, crosses in the gap between rows,
                and arrives at the next mark - it never passes through the words -->
@@ -2317,12 +2368,18 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
                 opacity=".75" vector-effect="non-scaling-stroke"/>
         </svg>
         <ol class="steps">
-          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 12 Q20 3 36 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 28 Q20 37 36 28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>Pick the holder</b><span><span class="sci-only">One of 117 HLA types</span><span class="abs-only">Whose body are we testing</span></span></div></li>
-          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20h34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="20" r="4" fill="currentColor"/><circle cx="20" cy="20" r="4" fill="currentColor"/><circle cx="28" cy="20" r="4" fill="currentColor"/></svg><div><b>Feed it a protein</b><span id="howprot">Jo-1 is already loaded</span></div></li>
-          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 31 L10 22 L15 27 L20 9 L26 24 L31 17 L37 27" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="9" r="3.8" fill="currentColor"/></svg><div><b>Walk the graph</b><span>Every stop, scored</span></div></li>
-          <li><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="10" width="34" height="5.6" rx="2.8" fill="currentColor"/><rect x="3" y="19" width="23" height="5.6" rx="2.8" fill="currentColor" opacity=".55"/><rect x="3" y="28" width="13" height="5.6" rx="2.8" fill="currentColor" opacity=".3"/></svg><div><b>Read the shortlist</b><span>Narrow to the fussiest few</span></div></li>
-          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 11 Q20 2 36 11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 29 Q20 38 36 29" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="20" r="3.6" fill="currentColor"/><circle cx="20" cy="20" r="3.6" fill="currentColor"/><circle cx="28" cy="20" r="3.6" fill="currentColor"/></svg><div><b>See it in the groove</b><span>The chosen piece, held</span></div></li>
-          <li><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="7" width="13" height="8" rx="2.4" fill="currentColor"/><rect x="23" y="7" width="13" height="8" rx="2.4" fill="currentColor" opacity=".45"/><rect x="4" y="19" width="13" height="8" rx="2.4" fill="currentColor" opacity=".45"/><rect x="23" y="19" width="13" height="8" rx="2.4" fill="currentColor" opacity=".45"/><rect x="4" y="31" width="13" height="8" rx="2.4" fill="currentColor" opacity=".45"/><rect x="23" y="31" width="13" height="8" rx="2.4" fill="currentColor" opacity=".2"/></svg><div><b>Shared library</b><span>Every scan saves itself</span></div></li>
+          <!-- V14700 - THE STEPS ARE NUMBERED AND IN THE ORDER THE APP WALKS.
+               Moos, on the live page: "You need to update this how it wirks! Add
+               steos to it so it is clear!" It listed the holder before the protein,
+               which is the wrong way round, and "Walk the graph", which is a page
+               that came off the walk in V14300. Each row now carries its step number
+               and its page's own colour, and the library is marked as not a step. -->
+          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20h34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="20" r="4" fill="currentColor"/><circle cx="20" cy="20" r="4" fill="currentColor"/><circle cx="28" cy="20" r="4" fill="currentColor"/></svg><div><b>1 &middot; Slice it</b><span id="howprot">Jo-1 is already loaded</span></div></li>
+          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 12 Q20 3 36 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 28 Q20 37 36 28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>2 &middot; Holders</b><span><span class="sci-only">All 117, or one HLA type &middot; then Scan</span><span class="abs-only">All 117 holders, or one &middot; then Scan</span></span></div></li>
+          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 31 L10 22 L15 27 L20 9 L26 24 L31 17 L37 27" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="9" r="3.8" fill="currentColor"/></svg><div><b>3 &middot; All pairs</b><span><span class="sci-only">The whole board &mdash; open any slice</span><span class="abs-only">The whole board &mdash; open any piece</span></span></div></li>
+          <li><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="10" width="34" height="5.6" rx="2.8" fill="currentColor"/><rect x="3" y="19" width="23" height="5.6" rx="2.8" fill="currentColor" opacity=".55"/><rect x="3" y="28" width="13" height="5.6" rx="2.8" fill="currentColor" opacity=".3"/></svg><div><b>4 &middot; Only one</b><span><span class="sci-only">Only slices that one holder grips</span><span class="abs-only">Only pieces that one holder grips</span></span></div></li>
+          <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 11 Q20 2 36 11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 29 Q20 38 36 29" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="20" r="3.6" fill="currentColor"/><circle cx="20" cy="20" r="3.6" fill="currentColor"/><circle cx="28" cy="20" r="3.6" fill="currentColor"/></svg><div><b>5 &middot; Groove</b><span><span class="sci-only">That slice, lying in the holder</span><span class="abs-only">That piece, lying in the holder</span></span></div></li>
+          <li><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="7" width="13" height="8" rx="2.4" fill="currentColor"/><rect x="23" y="7" width="13" height="8" rx="2.4" fill="currentColor" opacity=".45"/><rect x="4" y="19" width="13" height="8" rx="2.4" fill="currentColor" opacity=".45"/><rect x="23" y="19" width="13" height="8" rx="2.4" fill="currentColor" opacity=".45"/><rect x="4" y="31" width="13" height="8" rx="2.4" fill="currentColor" opacity=".45"/><rect x="23" y="31" width="13" height="8" rx="2.4" fill="currentColor" opacity=".2"/></svg><div><b>Your library</b><span><span class="sci-only">Not a step &mdash; every scan is kept on this phone</span><span class="abs-only">Not a step &mdash; every scan is kept on this phone</span></span></div></li>
         </ol>
       </div>
 
@@ -2385,8 +2442,8 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
 
   <div class="view" id="view-work">
     <div class="inner">
-      <p class="steplede sci-only"><b>Step 1 of 5</b> &middot; <b>Protein</b></p>
-      <p class="steplede abs-only"><b>Step 1 of 5</b> &middot; <b>Protein</b></p>
+      <p class="steplede sci-only"><b>Step 1 of 5</b> &middot; <b>Slice it</b></p>
+      <p class="steplede abs-only"><b>Step 1 of 5</b> &middot; <b>Slice it</b></p>
       <p class="tiny" id="installhint" style="display:none;margin:0 0 10px">Keep it as an app: tap <b>Share</b>, then <b>Add to Home Screen</b>.</p>
 
       <!-- V12100 - the COUNT comes first on step 1, in a box of its own. Moos:
@@ -2522,7 +2579,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
            as the three steps. Moos: "we need to show the step name above and nibers
            like oter pages...all pages must match". No number on these: they are not
            steps on the way to an answer, and giving them one would say they were. -->
-      <p class="steplede"><b>Step 4 of 5</b> &middot; <b>Shortlist</b></p>
+      <p class="steplede"><b>Step 4 of 5</b> &middot; <b>Only one</b></p>
       <!-- V14400 - THE PANEL IS PART OF THE CARD YOU TAP. Moos saw both roads side
            by side and chose this one: "i want 1 but i wan tthe pannel to be exnded
            for the card an dhas frame yeloow around it". It is moved next to that
@@ -2680,8 +2737,8 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
   <!-- V7800: the shared library, the last page of the walk -->
   <div class="view" id="view-lib" hidden>
     <div class="inner savedp">
-      <p class="steplede sci-only"><b>Step 3 of 5</b> &middot; <b>Result</b></p>
-      <p class="steplede abs-only"><b>Step 3 of 5</b> &middot; <b>Result</b></p>
+      <p class="steplede sci-only"><b>Step 3 of 5</b> &middot; <b>All pairs</b></p>
+      <p class="steplede abs-only"><b>Step 3 of 5</b> &middot; <b>All pairs</b></p>
       <div class="panel">
         <h3>Your library</h3>
         <!-- V9900 - this line used to offer Export as the way anybody else could see a
@@ -3313,7 +3370,8 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           grips it. Tap a square to open its 117, tap a holder to see its numbers. The graph
           above it draws how many of the 117 grip each slice along the protein.</dd>
           <dt>Also here</dt>
-          <dd>Under the walk picker: <b>Graph</b>, <b>Shortlist</b> and <b>Groove</b> &mdash;
+          <dd>Under the walk picker: <b>All pairs</b>, <b>Only one</b> and
+              <b>Groove</b> &mdash;
           the chosen slice drawn in the holder's groove with its four pockets marked. They
           are not steps on the way to an answer, so they sit outside the walk.</dd>
         </dl>
@@ -3425,7 +3483,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V14600 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V15000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4906,9 +4964,14 @@ function hereNow(){
   for(var i=0;i<VIEWS.length;i++){ if(!document.getElementById(VIEWS[i]).hidden) return VIEWS[i]; }
   return 'view-home';
 }
-var PAGENAME={'view-home':'Start', 'view-how':'Steps', 'view-hla':'Holders',
-  'view-work':'Slices', 'view-res':'Graph', 'view-list':'Shortlist',
-  'view-3d':'Groove', 'view-lib':'Result', 'view-info':'Notes'};
+/* V14800 - these are the names the app calls its own pages by. They were the OLD
+   names, left behind when the steps were renamed for the filtering they do, so the
+   map and the screens would have disagreed. Nothing reads it today - it is kept
+   because it is the one place every page is named in one line, and a map that
+   lies is worse than no map. */
+var PAGENAME={'view-home':'Start', 'view-how':'How it works', 'view-hla':'Holders',
+  'view-work':'Slice it', 'view-res':'Graph', 'view-list':'Only one',
+  'view-3d':'Groove', 'view-lib':'All pairs', 'view-info':'Notes'};
 /* V12300 - five numbers, because the walk is five steps. The shortlist and the
    Groove joined it, so the round in the bar has to count them; left as it was it
    went on reading 3 on both of them. */
@@ -5292,11 +5355,13 @@ function scanJobs(seq,w){
    is saved with the whole answer in it. Before this, a scan saved one holder's column
    and the other 116 were only ever asked about the top 20, by hand, on another screen. */
 var WALLCNT=null;
+var WALLONE=null;
 function finishScan(seq, w){
-  WALLCNT=null;
+  WALLCNT=null; WALLONE=null;
   var go=function(){
-    scanWall(seq, w, results, function(cnt){
-      WALLCNT=cnt;
+    scanWall(seq, w, results, function(cnt, one){
+      WALLCNT=cnt; WALLONE=one||null;
+      attachOne(WALLONE, results);
       if(cnt){
         selFromCnt(cnt, results, JTAB.col(alleleLabel()), seq, w);
         RANKED=true; SORTBY='sel';
@@ -5547,9 +5612,12 @@ function syncChoiceUI(){
      guards that rule never reached it, because this branch only speaks when something
      is pasted WITHOUT a name, which no check had done. "this protein" matches the two
      other places that name an unnamed one. */
+  /* V14700 - the row says what to DO as well as what is loaded. It has to stay one
+     line: the ribbon that joins the rows is drawn at fixed heights, so a row that
+     wraps pushes the drawing out of register. */
   if(hp) hp.textContent = s ? ((s===JO1_PROTEIN?'Jo-1':(PNAME||'this protein'))
-                               +' is already loaded')
-                            : 'nothing loaded yet';
+                               +' loaded \u00b7 set the cut')
+                            : 'nothing loaded yet \u00b7 pick or paste one';
   var home=document.getElementById('view-home'), nx=document.getElementById('nav-next');
   if(nx && home && !home.hidden){
     var box=document.getElementById('hseq'), pick=document.getElementById('hpick');
@@ -5699,6 +5767,20 @@ function sheetUnder(card){
 function drawRows(){
   var tb=document.getElementById('rows'), isDec=(mode==='dec');
   sheetHome();                      /* V12400 - out of the list before it is redrawn */
+  /* V14800 - THE BEST ONE IS MARKED. Moos: "the best onlyone in step 4 to have
+     blinking frame to highlight ot". A frame that blinks for ever is hard to read
+     and fights his own rule that nothing on screen should jump about, so it is a
+     badge instead - it stays, and it can be read.
+     What it marks is worked out, not assumed: the TIGHTEST row that is gripped by
+     exactly one holder, wherever the list is sorted and whatever is on top. If the
+     tightest such row falls past the 120 the list draws, or there is no one-holder
+     row at all, nothing is marked rather than the wrong row being marked. */
+  var aloneN=0, bestI=-1, bestV=Infinity;
+  for(var z=0; z<results.length; z++){
+    var rz=results[z];
+    if(rz && rz.sel===0){ aloneN++;
+      if(rz.ic50!=null && rz.ic50<bestV){ bestV=rz.ic50; bestI=z; } }
+  }
   var shown=results.slice(0,120), html='';
   shown.forEach(function(r,i){
     var v=verdict(r,isDec);
@@ -5709,13 +5791,19 @@ function drawRows(){
               + '<i class="a1">'+esc(rg.p1)+'</i><i class="a4">'+esc(rg.p4)+'</i>'
               + '<i class="a6">'+esc(rg.p6)+'</i><i class="a9">'+esc(rg.p9)+'</i></span>'
             : '\u2014');
-    html += '<div class="card" data-i="'+i+'" role="button" tabindex="0" aria-selected="'+(i===selected?'true':'false')+'">'
+    html += '<div class="card'+(i===bestI && i<120 ? ' bestcard' : '')
+      + '" data-i="'+i+'" role="button" tabindex="0" aria-selected="'+(i===selected?'true':'false')+'">'
       + '<span class="pos">'+esc(r.name)+'</span>'
       + '<span class="side">'+side+'</span>'
       + '<span class="pep">'+esc(r.seq)+'</span>'
+      + (r.sel===0 && r.only
+          ? '<span class="heldby">'+sa('held by','held by')+' <b>'+esc(r.only)+'</b></span>'
+          : '')
       + '<span class="meter"><span class="trk"><span class="vl" style="width:'+strengthPct(r.ic50)+'%"></span></span>'
       + '<span class="nmv">'+nm(r.ic50)+'</span></span>'
       + '<span class="tagrow"><span class="vd '+v.k+'">'+v.t+'</span>'
+      + (i===bestI && i<120 ? '<span class="bestchip">'
+          + sa('best of the '+aloneN,'best of the '+aloneN)+'</span>' : '')
       + (r.sel==null ? '' : '<span class="selchip s'+(r.sel<0?2:(r.sel===0?0:(r.sel<=2?1:2)))+'">'
           + (r.sel<0 ? 'not gripped here' : (r.sel===0 ? 'this holder alone' : 'grips '+r.sel+' other'+(r.sel===1?'':'s')))+'</span>')
       + '</span>'
@@ -5926,7 +6014,12 @@ function select(i){
     c.setAttribute('aria-selected', c.getAttribute('data-i')===String(i)?'true':'false');
   });
   var reg=r.reg||register(r.seq);
-  var isDR3=(alleleLabel()==='DRB1*03:01');
+  /* V15000 - the panel named the RUN, not the holder. With all 117 in the question
+     it read "All 117 holders" over a slice that belongs to exactly one of them, and
+     told the reader the pocket breakdown was not for them even when the one holder
+     IS DRB1*03:01. Both lines now follow the slice's own holder. */
+  var hl=(r.sel===0 && r.only) ? r.only : alleleLabel();
+  var isDR3=(hl==='DRB1*03:01');
   var bars='';
   if(reg){
     var pk=[['P1',reg.p1,M1[reg.p1]||0,'Val85/Val86 pocket'],['P4',reg.p4,M4[reg.p4]||0,'Lys71 + Arg74, electropositive'],
@@ -5937,12 +6030,12 @@ function select(i){
     }).join('');
   }
   var d='<p style="margin:0 0 6px"><b class="mono">'+esc(r.seq)+'</b> <span class="tiny">'+esc(r.name)+'</span></p>'
-      + '<p class="tiny" style="margin:0 0 4px">'+alleleLabel()+' · predicted '+nm(r.ic50)+' nM'
+      + '<p class="tiny" style="margin:0 0 4px">'+esc(hl)+' · predicted '+nm(r.ic50)+' nM'
       + (reg ? '<span class="sci-only"> · core <span class="mono">'+reg.core+'</span> · T cell face <span class="mono">'+reg.face+'</span></span>' : '')
       + (REF&&mode==='dec' ? ' · slice itself '+nm(REF.ic50)+' nM' : '')
       + '</p>'
       + (isDR3 && bars ? '<div class="pocketbars">'+bars+'</div>'
-                       : '<p class="tiny" style="margin:6px 0 0">Pocket breakdown is only meaningful for DRB1*03:01. For '+alleleLabel()+' the network score is the only reading here.</p>')
+                       : '<p class="tiny" style="margin:6px 0 0">Pocket breakdown is only meaningful for DRB1*03:01. For '+esc(hl)+' the network score is the only reading here.</p>')
       + '<p class="tiny" style="margin:10px 0 0">'+readOut(r)+'</p>';
   document.getElementById('detail').innerHTML=d;
   var sum=document.getElementById('sheetsum');
@@ -7545,7 +7638,10 @@ function sendText(){
           .textContent.match(/V\d{4,5}/)||['V?'])[0]);
   L.push('made ' + new Date().toISOString().slice(0,10));
   L.push('');
-  L.push('Holder (HLA type): ' + alleleLabel());
+  /* V15000 - with ALL 117 in the question this line used to read "All 117 holders",
+     which is the run, not the holder. The slice on the screen belongs to ONE of them
+     and now says which, so the text names that one. */
+  L.push('Holder (HLA type): ' + ((r && r.sel===0 && r.only) ? r.only : alleleLabel()));
   var pname = (document.getElementById('protname')||{value:''}).value;
   L.push('Protein: ' + (pname ? pname : 'Jo-1 (histidyl-tRNA synthetase)'));
   L.push('');
@@ -7569,7 +7665,7 @@ function sendText(){
         L.push('This holder does not grip this slice itself, so selectivity does not arise.');
       }else{
         L.push('Of the other 116 holders, it grips tightly: ' + r.sel);
-        L.push(r.sel===0 ? 'So on this check it fits this holder alone.'
+        L.push(r.sel===0 ? ('So on this check it fits ' + (r.only || 'this holder') + ' alone.')
                          : 'So it does not fit this holder alone.');
       }
     }
@@ -7749,17 +7845,23 @@ function scanWall(seq, w, rows, done){
   var byStart=rows.slice().sort(function(a,b){ return a.start-b.start; });
   var S=byStart.length;
   var cnt=new Int16Array(S);
+  /* V15000 - the count alone threw the answer away. A slice held by exactly ONE of
+     the 117 is the whole point of the app, and until now the app knew only that it
+     was one, never WHICH. one[s] carries that holder's index, -1 when the slice is
+     not held by exactly one. Moos: "So the researchers will never know which
+     holder!?" - they could not: it was not kept anywhere. */
+  var one=new Int16Array(S); one.fill(-1);
   if(!S){ done(null); return; }
 
   /* the shipped table answers the whole thing at once */
   if(JTAB.ready() && JTAB.fits(seq, w)){
     var M=Math.min(S, JTAB.slices);
     for(var s=0;s<M;s++){
-      var c=0;
-      for(var k=0;k<N;k++) if(gripsTight(JTAB.at(s,k),k)) c++;
-      cnt[s]=c;
+      var c=0, last=-1;
+      for(var k=0;k<N;k++) if(gripsTight(JTAB.at(s,k),k)){ c++; last=k; }
+      cnt[s]=c; one[s]=(c===1)?last:-1;
     }
-    done(cnt); return;
+    done(cnt, one); return;
   }
 
   var bar=document.getElementById('wallbar'),
@@ -7792,7 +7894,8 @@ function scanWall(seq, w, rows, done){
     if(note) note.hidden=true;
     if(bar) bar.style.width='0%';
     setBusy(false);
-    done(cnt);
+    for(var z=0;z<S;z++) if(cnt[z]!==1) one[z]=-1;
+    done(cnt, one);
   }
   function holder(){
     if(ai>=N){ finish(); return; }
@@ -7808,7 +7911,7 @@ function scanWall(seq, w, rows, done){
     var a=ALLELES[ai], end=Math.min(S, si+WALLCHUNK);
     for(; si<end; si++){
       var q=NUG.scoreWith(byStart[si].seq, a.f);
-      if(q && q.ic50!=null && gripsTight(q.ic50, ai)) cnt[si]++;
+      if(q && q.ic50!=null && gripsTight(q.ic50, ai)){ cnt[si]++; one[si]=ai; }
       scored++;
     }
     say();
@@ -7816,6 +7919,17 @@ function scanWall(seq, w, rows, done){
     else requestAnimationFrame(chunk);
   }
   holder();
+}
+/* V15000 - the name of the one holder, written onto the rows the screen reads. The
+   wall works in slice order, the rows are in strength order, so they are lined up by
+   start the same way selFromCnt does it. */
+function attachOne(one, rows){
+  if(!rows) return;
+  var byStart=rows.slice().sort(function(a,b){ return a.start-b.start; });
+  for(var i=0;i<byStart.length;i++){
+    var k = (one && i<one.length) ? one[i] : -1;
+    byStart[i].only = (k>=0 && k<ALLELES.length) ? ALLELES[k].label : null;
+  }
 }
 /* how many of the 117 grip a slice, turned back into the one number a row shows:
    the count of OTHER holders, or -1 when the chosen holder does not grip it itself */
@@ -8417,8 +8531,13 @@ function fillRunPick(){
   var out='';
   for(var i=0;i<all.length;i++){
     var r=all[i];
+    /* V14700 - every line used to read "Jo-1 window 15 495 slices", the same words
+       for every run, so two scans of the same protein against different holders
+       could not be told apart before one was picked. The holders are in the line
+       now, which is the thing that actually differs. */
     out+='<option value="'+i+'"'+(i===PICKRUN?' selected':'')+'>'
-       + esc(r.name) + ' \u00b7 window ' + r.win + ' \u00b7 ' + r.n + ' ' + sa('slices','pieces')
+       + esc(r.name) + ' \u00b7 ' + esc(r.holder || sa('holders unknown','holders unknown'))
+       + ' \u00b7 ' + sa('cut','cut') + ' ' + r.win
        + (libMine(r) ? '' : ' \u00b7 shared')
        + '</option>';
   }
@@ -9510,8 +9629,18 @@ function openRun(r, land){
     var i=parseInt(rp.value,10);
     /* a different run means a different protein: slice 73 of Jo-1 is nothing in
        Insulin, so the open slice shuts rather than following across */
-    if(isFinite(i)){ PICKRUN=i; GRIDSLICE=null; GRIDHOLD=null; GRIDWALL=false;
-      renderSaved(); }
+    if(!isFinite(i)) return;
+    PICKRUN=i; GRIDSLICE=null; GRIDHOLD=null; GRIDWALL=false;
+    /* V14700 - IT ONLY MOVED STEP 3. renderSaved redraws this page and nothing
+       else, so step 4 and step 5 kept whatever scan was run last: pick the
+       DRB1*03:01 run here and step 3 said 000 while step 4 still listed the
+       all-117 answer, with nothing on either page saying they disagreed. Moos
+       found it: "i noticed that step 4 changes if i pick diffrent square from
+       step 3". openRun loads the chosen run into the results the whole app draws
+       from, so all three pages now show the same scan. It is told to stay here. */
+    var all=LIB(), r=all[i];
+    if(r && typeof openRun==='function') openRun(r, 'view-lib');
+    else renderSaved();
   });
   var ex=document.getElementById('runexall');
   if(ex) ex.addEventListener('click', function(){ dlJSON('ONLYONE-saved-runs.json', {jo1:1, runs:RUNS}); });
