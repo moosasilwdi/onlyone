@@ -187,42 +187,10 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   box-shadow:0 2px 6px -1px color-mix(in srgb,var(--btn) 55%,transparent)}
 .dots button i{box-shadow:var(--sink)}
 
-/* the protein map — the picture you touch */
-.mapwrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;
-  padding:10px 10px 8px;margin:0 0 12px;overflow:hidden;
-  position:static;box-shadow:var(--raise)}
-#view-res.unpin .mapwrap{position:static}
-/* the gesture belongs to the graph - the page must not slide underneath it */
-.mapwrap canvas{display:block;width:100%;cursor:crosshair;touch-action:none}
-.maphead{display:flex;align-items:baseline;gap:8px;margin:0 0 7px}
-.maphead .big{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);line-height:1;
-  letter-spacing:-.01em;font-variant-numeric:tabular-nums}
-.maphead .lab{font-size:11px;color:var(--mute)}
-.mapfoot{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);
-  font-size:10px;color:var(--mute);margin-top:5px;font-variant-numeric:tabular-nums}
-.maptools{display:flex;justify-content:space-between;gap:10px;margin-top:9px}
-.maptools .pair{display:flex;gap:6px}
-.maptools button{flex:1;min-width:52px;padding:9px 0;font-family:var(--sans);font-size:15px;
-  line-height:1;color:var(--ink)}
-.maptools button:disabled{opacity:.35}
-.ccmain{width:100%;margin-top:0;font-size:15px;padding:13px 10px}
 /* the sentence lives outside the button; the button keeps one word */
 .btncap{font-size:12.5px;line-height:1.45;color:var(--mute);margin:12px 0 7px;text-align:center}
 .narrow .btncap{margin-top:0}
-#cc2,#rankbtn{position:relative}
-#cc2prog{margin-top:8px}
-.selband{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;
-  margin:-2px 0 10px;padding:9px 11px;border-radius:10px;
-  border:1px solid var(--line);border-left:3px solid var(--line);background:var(--sunk)}
-.selband b{font-family:var(--sans);font-size:13px;font-weight:600}
-.selband span{font-family:var(--mono);font-size:10.5px;color:var(--mute)}
-.selband.good{border-color:color-mix(in srgb,var(--ok) 40%,var(--line));border-left-color:var(--ok)}
-.selband.good b{color:var(--ok)}
-.selband.mid{border-color:color-mix(in srgb,var(--p6) 40%,var(--line));border-left-color:var(--p6)}
-.selband.mid b{color:var(--p6)}
-.selband.bad{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));border-left-color:var(--warn);
-  background:var(--warnbg)}
-.selband.bad b{color:var(--warn)}
+#rankbtn{position:relative}
 .steplede{font-size:13px;color:var(--mute);line-height:1.45;margin:0 0 12px}
 .steplede b{color:var(--ink)}
 .appbar .notesel{margin-left:auto;flex:0 1 auto;max-width:168px;font-family:var(--sans);
@@ -1034,8 +1002,6 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 :root[data-mode="abstract"] #b-surf{display:none}
 :root[data-mode="abstract"] .card .nmv{display:none}
 :root[data-mode="abstract"] .card .meter .trk{height:9px;border-radius:5px}
-:root[data-mode="abstract"] .maphead .big{font-size:17px;font-family:var(--sans);
-  font-weight:700;letter-spacing:0}
 /* the light/dark switch stays neutral on every page - it is not part of the page's colour */
 .themebtn{flex:0 0 auto;width:32px;height:32px;padding:0;display:inline-flex;align-items:center;
   justify-content:center;border-radius:50%;
@@ -1618,11 +1584,6 @@ input[type=file]{display:none}
   color:#fff;line-height:1}
 .anch i.a1{background:var(--p1)} .anch i.a4{background:var(--p4)}
 .anch i.a6{background:var(--p6)} .anch i.a9{background:var(--p9)}
-.anchkey{display:flex;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;
-  color:var(--mute);margin:0 0 10px;align-items:center}
-.anchkey span{display:inline-flex;align-items:center;gap:4px}
-.anchkey b{display:inline-block;width:9px;height:9px;border-radius:3px}
-.anchkey i{font-style:normal}
 .noscan{background:var(--panel);border:1px solid var(--line);border-radius:13px;
   padding:16px;margin:0 0 14px;box-shadow:var(--raise)}
 .noscan p{font-size:13px;color:var(--mute);margin:0 0 12px;line-height:1.5}
@@ -2533,53 +2494,6 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
     </div>
   </div>
 
-  <div class="view" id="view-res">
-    <div class="inner">
-      <div class="modeslot"></div>
-      <!-- V12300 - every page says what it is, in the same place and the same type
-           as the three steps. Moos: "we need to show the step name above and nibers
-           like oter pages...all pages must match". No number on these: they are not
-           steps on the way to an answer, and giving them one would say they were. -->
-      <p class="steplede"><b>Graph</b> &middot; one slice along the protein</p>
-
-      <div class="noscan" id="noscan" hidden>
-        <h3>Nothing scanned yet</h3>
-        <p>Press <b>Scan</b> on step 2, and the whole protein is cut into pieces
-           and scored. The results land here.</p>
-        <button type="button" class="go" id="toscan">Go</button>
-      </div>
-      <div class="mapwrap">
-        <div class="selband" id="selband" hidden></div>
-        <div class="maphead">
-          <span class="big" id="mapnm">—</span>
-          <span class="lab" id="maplab">tap the map</span>
-        </div>
-        <canvas id="map" role="img" aria-label="Grip strength along the protein"></canvas>
-        <div class="mapfoot"><span id="mapl">1</span><span id="mapzoom">whole protein</span><span id="mapr"></span></div>
-        <div class="maptools">
-          <div class="pair">
-            <button type="button" id="m-prev" aria-label="Previous slice" title="One slice back">&#9664;</button>
-            <button type="button" id="m-next" aria-label="Next slice" title="One slice forward">&#9654;</button>
-          </div>
-          <div class="pair">
-            <button type="button" id="m-out" aria-label="Zoom out" title="Zoom out">&minus;</button>
-            <button type="button" id="m-in" aria-label="Zoom in" title="Zoom in">+</button>
-          </div>
-        </div>
-        <p class="btncap"><span class="sci-only">This slice against all 117 HLA types.</span><span class="abs-only">Does this piece grip other people too?</span></p>
-        <button type="button" class="go ccmain" id="cc2">Check</button>
-        <div class="prog" id="cc2prog" hidden><i id="cc2bar"></i></div>
-      </div>
-      <p class="anchkey" id="anchkey" hidden>
-        <span><b style="background:var(--p1)"></b><i class="sci-only">P1</i></span>
-        <span><b style="background:var(--p4)"></b><i class="sci-only">P4</i></span>
-        <span><b style="background:var(--p6)"></b><i class="sci-only">P6</i></span>
-        <span><b style="background:var(--p9)"></b><i class="sci-only">P9</i></span>
-        <span class="sci-only" style="color:var(--mute)">the four pockets that hold the slice</span>
-        <span class="abs-only" style="color:var(--mute)">the four spots that do the holding</span>
-      </p>
-    </div>
-  </div>
 
   <div class="view" id="view-list" hidden>
     <div class="inner">
@@ -2595,6 +2509,19 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
            card and joined to it, so the slice is written once, not twice, and the
            card you touched is never hidden. This is where it lives when nothing is
            chosen; it is hidden then, so the spot does not matter. -->
+      <!-- V15400 - THE SLOT KEEPS ITS PLACE. The panel travels: it sits here until a
+           card is tapped, then moves down and joins that card. The 41px it left behind
+           collapsed, and measured on a 390px phone the whole list jumped UP by 54px -
+           against Moos's standing rule that nothing already on the screen moves when
+           something new opens. This stand-in holds the same slot, reads the same, and
+           says where the panel went, so nothing above the list moves at all. -->
+      <div class="sheet sheetgap" id="sheetgap" aria-hidden="true" hidden>
+        <div class="grip">
+          <h3>Selected</h3>
+          <span class="sum" id="gapsum">&mdash;</span>
+          <span class="chev">below</span>
+        </div>
+      </div>
       <div class="sheet" id="sheetwrap">
         <div class="grip" id="sheetgrip" role="button" tabindex="0" aria-expanded="false">
           <h3>Selected</h3>
@@ -3141,8 +3068,10 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
         <p class="azlim"><b>What is not true yet, said plainly.</b> The prediction engine here
         scores 0.747, and 0.5 is a coin toss. On the independent benchmark everyone is measured
         against, the best available tool scores about 0.822 &mdash; so this engine is a little
-        behind the field, not far behind it. Either way, the five it names may be the wrong
-        five. The body does not cut on a neat fifteen-letter
+        behind the field, not far behind it. Either way, the 61 it names may be the wrong
+        61. A slice held by one holder here still has to be cut that way inside a real cell
+        before the body ever sees it. And the 61 is counted from a grip line &mdash; move that
+        line and the number moves with it. The body does not cut on a neat fifteen-letter
         grid either; real pieces run ragged from thirteen to twenty-five. A decoy competes for the
         groove with everything else that fits it, including pieces from real germs. Some antibody
         factories settle in bone marrow and keep producing for years without permission, and no
@@ -3496,7 +3425,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V15100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V15500 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4436,11 +4365,13 @@ var JTAB=(function(){
           ready:function(){ return !!data; }, slices:SLICES, rows:ROWS};
 })();
 
+/* V15200 - the real number, never shortened. Moos: "no need for using k just use
+   real numbers". A grip of 5,002 against a line of 169 is thirty times over, and
+   "5k" hid the size of that miss on the one slice proven in patients. Western
+   digits with a comma every three, the same in every language setting. */
 function nm(v){
   if(v==null) return '—';
-  if(v>=10000) return Math.round(v/1000)+'k';
-  if(v>=1000) return (Math.round(v/100)/10)+'k';
-  if(v>=100) return String(Math.round(v));
+  if(v>=100) return Math.round(v).toLocaleString('en-US');
   return String(Math.round(v*10)/10);
 }
 function strengthPct(v){
@@ -4768,8 +4699,8 @@ function setMode(m){
   var rn=document.getElementById('rknote'); if(rn) rn.hidden=true;
   drawRows();
 }
-var TABS=[['t-hla','view-hla'],['t-prot','view-work'],['t-res','view-res'],['t-list','view-list'],['t-3d','view-3d'],['t-info','view-info']];
-var VIEWS=['view-home','view-how','view-hla','view-work','view-res','view-list','view-3d','view-lib','view-info'];
+var TABS=[['t-hla','view-hla'],['t-prot','view-work'],['t-list','view-list'],['t-3d','view-3d'],['t-info','view-info']];
+var VIEWS=['view-home','view-how','view-hla','view-work','view-list','view-3d','view-lib','view-info'];
 /* V12700 - THE REFERENCE BLOCK IS PUT WHERE THERE IS ROOM, NOT WHERE A NUMBER SAYS.
    It belongs in the bottom right corner - Moos asked for that - but the control
    block floats at the foot of the picture and its height is not fixed: the line
@@ -4876,13 +4807,6 @@ function showView(v){
   histMark(v);                      /* V11800 - the phone's own back knows this page */
   if(typeof scanGate==='function') scanGate();   /* and the button is re-judged on arrival */
   var has = (typeof results!=='undefined' && results.length>0);
-  if(v==='view-res'){
-    document.getElementById('noscan').hidden = has;
-    ['.mapwrap','#anchkey','#view-res .nextbtn','#view-res .btncap'].forEach(function(sel){
-      var el=document.querySelector(sel); if(el) el.hidden = !has;
-    });
-    if(has) setTimeout(drawMap,30);
-  }
   if(v==='view-list'){
     document.getElementById('noscan2').hidden = has;
     if(has && typeof sendRefresh==='function') setTimeout(sendRefresh,0);
@@ -4927,7 +4851,7 @@ document.getElementById('homelink').addEventListener('click', showHome);
    The graph, the groove and the shortlist are still there and still reachable; they
    are simply no longer steps on the way to an answer. */
 var ORDER=['view-home','view-work','view-hla','view-lib','view-list','view-3d'];
-var OFFWALK=['view-how','view-res'];
+var OFFWALK=['view-how'];
 var lastStep='view-home';
 /* V11800 - where the notes were opened FROM. Moos: "when viewing the 3 bar icon
    pages and go back to the page i came from like start for example the app does
@@ -4983,7 +4907,7 @@ function hereNow(){
    because it is the one place every page is named in one line, and a map that
    lies is worse than no map. */
 var PAGENAME={'view-home':'Start', 'view-how':'How it works', 'view-hla':'Holders',
-  'view-work':'Slice it', 'view-res':'Graph', 'view-list':'Only one',
+  'view-work':'Slice it', 'view-list':'Only one',
   'view-3d':'Groove', 'view-lib':'All pairs', 'view-info':'Notes'};
 /* V12300 - five numbers, because the walk is five steps. The shortlist and the
    Groove joined it, so the round in the bar has to count them; left as it was it
@@ -5726,6 +5650,8 @@ function sheetHome(){
   if(!SHEETHOME) SHEETHOME=sh.parentNode;
   sh.classList.remove('joined');          /* V14400 - it is nobody's extension now */
   if(sh.parentNode!==SHEETHOME) SHEETHOME.appendChild(sh);
+  var gap=document.getElementById('sheetgap');   /* V15400 - the panel is home again */
+  if(gap) gap.hidden=true;
 }
 /* the panel leaving a card ABOVE this one shortens the page above your finger, so
    the card you just touched would jump up - measured once at 313px. The page is
@@ -5760,6 +5686,14 @@ function sheetUnder(card){
   sh.setAttribute('data-open','1');
   var g=document.getElementById('sheetgrip'); if(g) g.setAttribute('aria-expanded','true');
   var ch=document.getElementById('sheetchev'); if(ch) ch.textContent='close';
+  /* V15400 - the stand-in takes the slot the panel just left, so the list does not
+     jump up by the panel's collapsed height. It carries the same line. */
+  var gap=document.getElementById('sheetgap');
+  if(gap){
+    var sum=document.getElementById('sheetsum'), gs=document.getElementById('gapsum');
+    if(gs && sum) gs.textContent=sum.textContent;
+    gap.hidden=false;
+  }
   if(sc){ var after=card.getBoundingClientRect().top;
           if(after!==before) sc.scrollTop += (after-before); }
   /* V14500 - the shape RIDES UP to the header. Moos, on the live V14400: "still the
@@ -5795,7 +5729,13 @@ function drawRows(){
      real patients (41-55 LKAQLGPDESKQKFV) matches motif A and the network ranks it
      266th of 495, so it never reaches the eye. Nothing is re-ordered here and no new
      line is invented: the row says what each one found, and says so when they clash.
-     Moos: "show both numbers on the card, and mark the rows where they disagree." */
+     Moos: "show both numbers on the card, and mark the rows where they disagree."
+     V15300 - AND THE CHIP NOW SAYS HOW ROUGH IT IS. The pocket matrices were measured
+     against 502 peptides with real measured affinities for DRB1*03:01 (IEDB): as a
+     yes/no call they are right 57 times in 100, against 98 for the network, and the
+     two averaged together score WORSE than the network alone (0.84 against 0.93).
+     The 41-55 hit at 17/495 is one lucky row, not a second verdict. So the chip leads
+     with the word "rough". Measured at 320px: 250px of 262 with all three parts. */
   var DR3 = (alleleLabel()==='DRB1*03:01');
   if(typeof syncPkSort==='function') syncPkSort(DR3);
   var aloneN=0, bestI=-1, bestV=Infinity;
@@ -5832,8 +5772,9 @@ function drawRows(){
           var net  = (r.sel!=null && r.sel>=0);            /* the network says it grips */
           var clash= (r.sel!=null) && (fits!==net);
           return '<span class="pkchip '+(fits?'y':'n')+(clash?' clash':'')+'">'
-               + (fits ? sa('pockets fit','pockets fit')
-                       : sa('pockets do not fit','pockets do not fit'))
+               + sa('rough','rough') + ' \u00b7 '
+               + (fits ? sa('pocket fit','pocket fit')
+                       : sa('no fit','no fit'))
                + (clash ? ' \u00b7 ' + sa('they disagree','they disagree') : '')
                + '</span>';
         })()
@@ -5859,154 +5800,13 @@ function drawRows(){
     }
   }
   document.getElementById('count').textContent=note;
-  document.getElementById('anchkey').hidden = (isDec || !shown.length);
-  buildMap();
   if(shown.length) select(selected>=0&&selected<shown.length?selected:0);
-  else { document.getElementById('detail').innerHTML='<p class="tiny" style="margin:0">Run a scan.</p>';
-         document.getElementById('mapnm').textContent='\u2014';
-         document.getElementById('maplab').textContent='tap the map';
-         drawMap(); }
+  else { document.getElementById('detail').innerHTML='<p class="tiny" style="margin:0">Run a scan.</p>'; }
 }
-/* ===== the protein map: grip strength along the whole protein ===== */
-var MAP=[], ZOOM=1, ZMAX=16, bandFor=null;
+/* V15500 - the Graph page and its map are gone; these two lived in that block and
+   are used all over the app, so they stay. */
 var ABS=false;   // Abstract: plain words instead of the laboratory numbers
-// the stretch of the protein the map is showing, centred on where you stand
-function mapWindow(){
-  if(!MAP.length) return null;
-  var xs=MAP[0].x, xe=MAP[MAP.length-1].x, full=Math.max(1,xe-xs);
-  var span=Math.max(8, Math.round(full/ZOOM));
-  var sel=MAP.filter(function(d){ return d.i===selected; })[0];
-  var c=sel ? sel.x : xs+full/2;
-  var a=Math.round(c-span/2), b=a+span;
-  if(a<xs){ a=xs; b=Math.min(xe,a+span); }
-  if(b>xe){ b=xe; a=Math.max(xs,b-span); }
-  return {a:a, b:b, pts:MAP.filter(function(d){ return d.x>=a && d.x<=b; })};
-}
-function buildMap(){
-  MAP = results.map(function(r,i){ return {i:i, x:(r.start==null?i:r.start), pct:strengthPct(r.ic50), r:r}; })
-               .filter(function(d){ return d.r.ic50!=null; })
-               .sort(function(a,b){ return a.x-b.x; });
-}
 function cssv(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
-function drawMap(){
-  var c=document.getElementById('map'); if(!c) return;
-  var W=c.parentNode.clientWidth-20; if(W<60) return;
-  var H=150, dpr=window.devicePixelRatio||1;
-  c.width=Math.round(W*dpr); c.height=Math.round(H*dpr);
-  c.style.width=W+'px'; c.style.height=H+'px';
-  var g=c.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,W,H);
-  var gold=cssv('--gold')||'#b5791a', line=cssv('--line')||'#d2d8e0',
-      mute=cssv('--mute')||'#5a6472', panel=cssv('--panel')||'#fff';
-  var pad=2, top=10, base=H-18, span=base-top;
-  if(!MAP.length){
-    g.fillStyle=mute; g.font='12px '+(cssv('--sans')||'sans-serif');
-    g.fillText('Run a scan in step 2.',pad,base/2); return;
-  }
-  var win=mapWindow(), PTS=win.pts.length?win.pts:MAP;
-  var xs=win.a, xe=win.b, rng=Math.max(1,xe-xs);
-  function px(x){ return pad + (x-xs)/rng*(W-pad*2); }
-  function py(p){ return base - p/100*span; }
-
-  // the "tight" reference line at 500 nM
-  var ref=py(strengthPct(500));
-  g.strokeStyle=line; g.lineWidth=1; g.setLineDash([3,4]);
-  g.beginPath(); g.moveTo(pad,ref); g.lineTo(W-pad,ref); g.stroke(); g.setLineDash([]);
-  g.fillStyle=mute; g.font='9px '+(cssv('--mono')||'monospace');
-  g.fillText('tight',pad+1,ref-4);
-
-  // the skyline
-  g.beginPath(); g.moveTo(px(PTS[0].x),base);
-  PTS.forEach(function(d){ g.lineTo(px(d.x),py(d.pct)); });
-  g.lineTo(px(PTS[PTS.length-1].x),base); g.closePath();
-  var grd=g.createLinearGradient(0,top,0,base);
-  grd.addColorStop(0,gold+'66'); grd.addColorStop(1,gold+'10');
-  g.fillStyle=grd; g.fill();
-  g.beginPath();
-  PTS.forEach(function(d,k){ var X=px(d.x), Y=py(d.pct); if(k)g.lineTo(X,Y); else g.moveTo(X,Y); });
-  g.strokeStyle=gold; g.lineWidth=2; g.lineJoin='round'; g.stroke();
-
-  // where you are — drawn under the peak label so the label stays readable
-  var pk=PTS.reduce(function(a,b){ return b.pct>a.pct?b:a; },PTS[0]);
-  var sel=PTS.filter(function(d){ return d.i===selected; })[0];
-  if(sel){
-    var X=px(sel.x);
-    g.strokeStyle=cssv('--ink')||'#141922'; g.lineWidth=1.5;
-    g.beginPath(); g.moveTo(X,top-6); g.lineTo(X,base); g.stroke();
-    g.beginPath(); g.arc(X,py(sel.pct),5,0,6.2832);
-    g.fillStyle=cssv('--ink')||'#141922'; g.fill();
-    g.strokeStyle=panel; g.lineWidth=2; g.stroke();
-  }
-  // the peak, labelled — unless you are standing on it, where the headline says so
-  g.beginPath(); g.arc(px(pk.x),py(pk.pct),4,0,6.2832);
-  g.fillStyle=gold; g.fill(); g.strokeStyle=panel; g.lineWidth=2; g.stroke();
-  if(!sel || sel.i!==pk.i){
-    g.fillStyle=mute; g.font='10px '+(cssv('--mono')||'monospace');
-    var lt=pk.r.name, lw=g.measureText(lt).width,
-        lx=Math.min(Math.max(px(pk.x)-lw/2,pad),W-pad-lw);
-    g.fillText(lt,lx,Math.max(9,py(pk.pct)-9));
-  }
-  // baseline
-  g.strokeStyle=line; g.lineWidth=1;
-  g.beginPath(); g.moveTo(pad,base+.5); g.lineTo(W-pad,base+.5); g.stroke();
-  if(PTS.length<=90){
-    PTS.forEach(function(d){ var X=px(d.x);
-      g.beginPath(); g.moveTo(X,base+1); g.lineTo(X,base+4); g.stroke(); });
-  }
-
-  document.getElementById('mapl').textContent=(xs+1);
-  document.getElementById('mapr').textContent=(xe+1);
-  var zl=document.getElementById('mapzoom');
-  if(zl) zl.textContent = (ZOOM>1 ? (xe-xs+1)+' of '+(MAP[MAP.length-1].x-MAP[0].x+1) : 'whole protein');
-  c._px={xs:xs,rng:rng,pad:pad,W:W};
-}
-function mapPick(ev){
-  var c=document.getElementById('map'), m=c._px; if(!m||!MAP.length) return;
-  var rect=c.getBoundingClientRect();
-  var cx=(ev.touches?ev.touches[0].clientX:ev.clientX)-rect.left;
-  var want=m.xs + (cx-m.pad)/Math.max(1,m.W-m.pad*2)*m.rng;
-  var best=MAP[0];
-  MAP.forEach(function(d){ if(Math.abs(d.x-want)<Math.abs(best.x-want)) best=d; });
-  select(best.i);
-  var card=document.querySelector('#rows .card[data-i="'+best.i+'"]');
-  if(card) card.scrollIntoView({block:'nearest'});
-}
-function mapStep(dir){
-  if(!MAP.length) return;
-  var k=-1;
-  for(var j=0;j<MAP.length;j++){ if(MAP[j].i===selected){ k=j; break; } }
-  if(k<0) k = (dir>0 ? -1 : MAP.length);
-  var n=k+dir;
-  if(n<0 || n>=MAP.length) return;
-  select(MAP[n].i);
-  var card=document.querySelector('#rows .card[data-i="'+MAP[n].i+'"]');
-  if(card) card.scrollIntoView({block:'nearest'});
-}
-function mapZoom(mult){
-  var z=ZOOM*mult;
-  ZOOM = Math.max(1, Math.min(ZMAX, z));
-  document.getElementById('m-in').disabled  = (ZOOM>=ZMAX);
-  document.getElementById('m-out').disabled = (ZOOM<=1);
-  drawMap();
-}
-(function(){
-  var c=document.getElementById('map'); if(!c) return;
-  var down=false;
-  c.addEventListener('pointerdown',function(e){ down=true; c.setPointerCapture&&c.setPointerCapture(e.pointerId); mapPick(e); });
-  c.addEventListener('pointermove',function(e){ if(down) mapPick(e); });
-  c.addEventListener('pointerup',function(){ down=false; });
-  c.addEventListener('pointercancel',function(){ down=false; });
-  window.addEventListener('resize',function(){ drawMap(); });
-  document.getElementById('m-prev').addEventListener('click',function(){ mapStep(-1); });
-  document.getElementById('m-next').addEventListener('click',function(){ mapStep(1); });
-  document.getElementById('m-out').addEventListener('click',function(){ mapZoom(0.5); });
-  document.getElementById('m-in').addEventListener('click',function(){ mapZoom(2); });
-  document.getElementById('m-out').disabled = true;
-  // the arrow keys walk the map too
-  document.getElementById('view-res').addEventListener('keydown', function(e){
-    if(e.key==='ArrowLeft'){ mapStep(-1); e.preventDefault(); }
-    else if(e.key==='ArrowRight'){ mapStep(1); e.preventDefault(); }
-  });
-})();
 
 function verdict(r,isDec){
   if(r.ic50==null) return {k:'weak',t:'no prediction'};
@@ -6038,14 +5838,6 @@ function select(i){
   var r=results[i]; if(!r) return;
   if(typeof sendRefresh==='function') setTimeout(sendRefresh,0);
   var vv=verdict(r,mode==='dec');
-  if(ABS){
-    document.getElementById('mapnm').textContent=vv.t.toUpperCase();
-    document.getElementById('maplab').textContent='piece '+r.name+' of the protein';
-  } else {
-    document.getElementById('mapnm').textContent=nm(r.ic50)+' nM';
-    document.getElementById('maplab').textContent=r.name+' \u00b7 '+vv.t;
-  }
-  drawMap();
   Array.prototype.forEach.call(document.querySelectorAll('#rows .card'), function(c){
     c.setAttribute('aria-selected', c.getAttribute('data-i')===String(i)?'true':'false');
   });
@@ -6076,9 +5868,6 @@ function select(i){
   document.getElementById('detail').innerHTML=d;
   var sum=document.getElementById('sheetsum');
   if(sum) sum.textContent = ABS ? r.seq : (r.seq+'  \u00b7  '+nm(r.ic50)+' nM');
-  var cc=document.getElementById('ccout'); if(cc) cc.innerHTML='';
-  var bd=document.getElementById('selband');
-  if(bd && bandFor !== r.seq) bd.hidden=true;
   paintRegister(reg);
   if(window.__showPeptide) window.__showPeptide(reg);
 }
@@ -7743,109 +7532,6 @@ function fillSend(){
     }catch(e){ done(false); }
   });
 })();
-/* ================= selectivity across every holder ================= */
-/* A peptide that grips many HLA types would blunt normal defence against germs,
-   so tightness on the target is only half the question. */
-function crossCheck(){
-  var r = results[selected]; if(!r) return;
-  var btn=document.getElementById('crosscheck'), stat=document.getElementById('ccstat'),
-      bar=document.getElementById('ccbar'), out=document.getElementById('ccout'),
-      btn2=document.getElementById('cc2'), bar2=document.getElementById('cc2bar'),
-      prog2=document.getElementById('cc2prog'), band=document.getElementById('selband');
-  /* V12400 - step 4's Check and the box it wrote into are gone, so there is nothing
-     to write. The Graph page keeps its own Check; it is not on the walk. Every
-     element below is read through a stand-in, so a missing one cannot throw. */
-  if(!out) return;
-  var NIL={style:{},dataset:{},classList:{add:function(){},remove:function(){}},
-           setAttribute:function(){},removeAttribute:function(){}};
-  btn=btn||NIL; stat=stat||NIL; bar=bar||NIL; btn2=btn2||NIL;
-  bar2=bar2||NIL; prog2=prog2||NIL; band=band||NIL;
-  btn.disabled=true; btn2.disabled=true; out.innerHTML='';
-  stat.textContent='loading networks\u2026';
-  prog2.hidden=false; band.hidden=true;
-  btn2.dataset.busy='1'; btn2.textContent='Checking\u2026';
-  var i=0, vals=[];
-  function step(){
-    if(i>=ALLELES.length){
-      bar.style.width='0%'; bar2.style.width='0%'; prog2.hidden=true;
-      btn.disabled=false; btn2.disabled=false; stat.textContent='';
-      delete btn2.dataset.busy; btn2.textContent='Check'; btn2.removeAttribute('aria-label');
-      render(); return;
-    }
-    var a=ALLELES[i];
-    var after=function(){
-      var q=NUG.scoreWith(r.seq, a.f);
-      vals.push({label:a.label, ic50:q?q.ic50:null});
-      i++;
-      var pc=Math.round(i/ALLELES.length*100)+'%';
-      bar.style.width=pc; bar2.style.width=pc;
-      stat.textContent=i+' of '+ALLELES.length;
-      btn2.setAttribute('aria-label','Checking '+i+' of '+ALLELES.length);
-      (i%6===0) ? requestAnimationFrame(step) : step();
-    };
-    if(NUG.have(a.f)) after();
-    else NUG.load(a.f).then(after).catch(function(){ i++; step(); });
-  }
-  function render(){
-    var target=alleleLabel();
-    var here=vals.filter(function(v){ return v.label===target; })[0];
-    var others=vals.filter(function(v){ return v.label!==target && v.ic50!=null; });
-    var tight=others.filter(function(v){ return gripsTight(v.ic50, holderIndex(v.label)); }).sort(function(a,b){ return a.ic50-b.ic50; });
-    var med=others.map(function(v){ return v.ic50; }).sort(function(a,b){ return a-b; });
-    med = med.length ? med[Math.floor(med.length/2)] : null;
-    var verdictTxt, cls;
-    /* V8900 - the first question is whether THIS holder grips it. A slice nobody grips
-       used to come out as "Selective", which read as the best possible answer when it
-       is really no answer at all. */
-    var mineGrips = here && gripsTight(here.ic50, holderIndex(target));
-    if(!mineGrips){ verdictTxt='Not held \u2014 '+target+' does not grip this slice itself, so selectivity does not arise.'; cls='weak'; }
-    else if(tight.length===0){ verdictTxt='Selective \u2014 it grips '+target+' and nothing else tightly.'; cls='better'; }
-    else if(tight.length<=2){ verdictTxt='Mostly selective \u2014 it also grips '+tight.length+' other type'+(tight.length===1?'':'s')+' tightly.'; cls='same'; }
-    else { verdictTxt='Not selective \u2014 it grips '+tight.length+' other types tightly, so it would blunt normal defence as well.'; cls='weak'; }
-    out.innerHTML =
-      '<div class="note" style="border-left-color:var(--'+(cls==='weak'?'warn':(cls==='better'?'ok':'p6'))+')">'
-      + '<h3 style="color:var(--'+(cls==='weak'?'warn':(cls==='better'?'ok':'p6'))+')">Across all 117 holders</h3>'
-      + '<p style="margin:0 0 6px"><span class="vd '+cls+'">'+verdictTxt+'</span></p>'
-      + '<p class="tiny" style="margin:0">On '+target+': <b>'+nm(here?here.ic50:null)+' nM</b>. '
-      + 'Middle of the other 116: '+nm(med)+' nM. '
-      + (tight.length ? 'Also tight on: <span class="mono">'+tight.slice(0,8).map(function(v){ return v.label+' ('+nm(v.ic50)+')'; }).join(', ')+(tight.length>8?', \u2026':'')+'</span>.' : '')
-      + '</p></div>';
-
-    var head = tight.length===0 ? 'Selective'
-             : (tight.length<=2 ? 'Mostly selective' : 'Not selective');
-    var sub  = tight.length===0 ? 'grips this holder alone'
-             : 'also grips '+tight.length+' of the other 116';
-    band.className = 'selband ' + (tight.length===0?'good':(tight.length<=2?'mid':'bad'));
-    band.innerHTML = '<b>'+head+'</b><span>'+sub+'</span>';
-    band.hidden=false;
-    bandFor = r.seq;
-  }
-  /* If this slice is a slice of Jo-1, all 117 answers are already in the table and
-     nothing has to be downloaded or worked out. If the table will not come, the
-     networks still answer exactly as before. */
-  if(tabFits() && r.start!=null && r.start<JTAB.slices){
-    JTAB.load().then(function(){
-      for(var k=0;k<ALLELES.length;k++)
-        vals.push({label:ALLELES[k].label, ic50:JTAB.at(r.start,k)});
-      bar.style.width='0%'; bar2.style.width='0%'; prog2.hidden=true;
-      btn.disabled=false; btn2.disabled=false; stat.textContent='';
-      delete btn2.dataset.busy; btn2.textContent='Check'; btn2.removeAttribute('aria-label');
-      render();
-    }).catch(function(){ step(); });
-    return;
-  }
-  step();
-}
-/* the table answers for Jo-1 cut into fifteens, and for nothing else */
-function tabFits(){
-  var box=document.getElementById('protseq');
-  if(!box) return false;
-  var w=parseInt(document.getElementById('win').value,10);
-  return JTAB.fits(clean(box.value), w);
-}
-(function(){ var a=document.getElementById('crosscheck'), b=document.getElementById('cc2');
-  if(a) a.addEventListener('click', crossCheck);
-  if(b) b.addEventListener('click', crossCheck); })();
 
 // ===== narrowing: run all 117 holders on the top slices, then rank by selectivity =====
 var RANKED=false, SORTBY='sel', RANKN=20;
@@ -8150,30 +7836,11 @@ function syncPkSort(on){
   if(!on && SORTBY==='pk'){ setSort('sel'); }
 }
 document.getElementById('rankbtn').addEventListener('click', rankSelectivity);
-document.getElementById('toscan').addEventListener('click', function(){
-  setMode('prot'); showTab('t-hla');     /* V12400 - step 2, where Scan is */
-});
 document.getElementById('sort-sel').addEventListener('click', function(){ setSort('sel'); });
 document.getElementById('sort-str').addEventListener('click', function(){ setSort('str'); });
 (function(){ var b=document.getElementById('sort-pk');
   if(b) b.addEventListener('click', function(){ setSort('pk'); }); })();
 
-// the map and the list are separate screens now - nothing to pin
-(function(){
-  var vr=document.getElementById('view-res'), rows=document.getElementById('rows');
-  if(true) return;
-  if(!vr||!rows) return;
-  var pending=false;
-  vr.addEventListener('scroll', function(){
-    if(pending) return; pending=true;
-    requestAnimationFrame(function(){
-      pending=false;
-      var mw=vr.querySelector('.mapwrap'); if(!mw) return;
-      var listEnd = rows.offsetTop + rows.offsetHeight - vr.scrollTop;
-      vr.classList.toggle('unpin', listEnd < mw.offsetHeight + 24);
-    });
-  }, {passive:true});
-})();
 
 var sheet=document.getElementById('sheetwrap'), grip=document.getElementById('sheetgrip');
 sheet.setAttribute('data-open','0');
@@ -8311,7 +7978,6 @@ setAllele();
     bSci.setAttribute('aria-pressed', ABS?'false':'true');
     bAbs.setAttribute('aria-pressed', ABS?'true':'false');
     if(typeof results!=='undefined' && results.length) drawRows();
-    else if(typeof drawMap==='function') drawMap();
     // the lines written by script have to be re-written in the other language
     if(typeof runControls==='function'){ try{ runControls(); }catch(e){} }
     /* V10900 - the Grid writes its own words too, so it has to be re-written when
@@ -8350,7 +8016,6 @@ setAllele();
     var next=(now==='dark')?'light':'dark';
     R.setAttribute('data-theme',next);
     try{ localStorage.setItem(KEY,next); }catch(e){}
-    if(typeof drawMap==='function') setTimeout(drawMap,20);
     if(typeof reskin3d==='function') setTimeout(reskin3d,20);
   });
   var ios = /iPhone|iPad|iPod/.test(navigator.userAgent || '');

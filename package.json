@@ -1,8 +1,5 @@
 {
-  "name": "jo1-v300",
+  "name": "onlyone",
   "private": true,
-  "type": "module",
-  "dependencies": {
-    "@netlify/blobs": "11.1.7"
-  }
+  "type": "module"
 }
