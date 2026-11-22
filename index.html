@@ -1679,6 +1679,18 @@ input[type=file]{display:none}
    fill, so the pair is held together by a dark edge instead */
 #rows .card.bestcard.joined{border-color:#14181f}
 #rows .card.bestcard.joined + .sheet.joined{border-color:#14181f}
+/* V16200 - but not on the dark page. Moos, on the live V16100: "why there is no frame
+   when the card is opened". Measured: the frame was there, 2px of it, in #14181f -
+   black on a near-black page, so it could not be seen. Black is right on the white
+   page, where it reads against the yellow card AND the white paper. In dark the page
+   colour does that job. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) #rows .card.bestcard.joined,
+  :root:not([data-theme="light"]) #rows .card.bestcard.joined + .sheet.joined{
+    border-color:var(--gold)}
+}
+:root[data-theme="dark"] #rows .card.bestcard.joined,
+:root[data-theme="dark"] #rows .card.bestcard.joined + .sheet.joined{border-color:var(--gold)}
 /* V15100 - the pocket verdict, on its own line under the holder. Green when the
    pegs match a published DR3 motif, quiet when they do not, and ringed in the page
    blue when it contradicts the network - blue because this is a note, not a warning. */
@@ -1705,10 +1717,14 @@ input[type=file]{display:none}
   text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-left:6px;
   box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 55%,transparent),
              0 2px 8px -3px color-mix(in srgb,var(--gold) 70%,transparent)}
-#rows .card.joined{border:2px solid var(--gold);border-bottom:0;
+/* V16200 - 3px, not 2. Moos: "make the frame for this important post thicker".
+   The pair is the one thing on the page that has been chosen; the frame is what
+   says so, and 2px did not say it loudly enough. Measured: the card and panel keep
+   their place - the frame grows inward, nothing on the page moves. */
+#rows .card.joined{border:3px solid var(--gold);border-bottom:0;
   border-bottom-left-radius:0;border-bottom-right-radius:0;
   box-shadow:none}
-#rows .sheet.joined{margin-top:-10px;margin-bottom:0;border:2px solid var(--gold);
+#rows .sheet.joined{margin-top:-10px;margin-bottom:0;border:3px solid var(--gold);
   border-top:0;border-top-left-radius:0;border-top-right-radius:0;
   border-bottom-left-radius:13px;border-bottom-right-radius:13px}
 .sheet[data-open="0"]{box-shadow:var(--raise)}
@@ -3412,7 +3428,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V16100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V16200 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4794,6 +4810,7 @@ function showView(v){
   histMark(v);                      /* V11800 - the phone's own back knows this page */
   if(typeof scanGate==='function') scanGate();   /* and the button is re-judged on arrival */
   var has = (typeof results!=='undefined' && results.length>0);
+  if(v==='view-home' && typeof freshStart==='function') freshStart();   /* V16200 */
   if(v==='view-list'){
     document.getElementById('noscan2').hidden = has;
     if(has && typeof sendRefresh==='function') setTimeout(sendRefresh,0);
@@ -7951,10 +7968,27 @@ grip.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ 
    is loaded now, so the first thing on the first screen is the choice.
    The last protein is still REMEMBERED - picking "Paste another protein" is where that
    matters - it is simply not loaded for you. */
-(function(){
-  document.getElementById('protseq').value='';
+/* V16200 - AND IT IS FRESH EVERY TIME YOU STAND ON IT. Moos: "every time the user
+   using the app the first page must land on select proton and the start is fresh".
+   Opening the app was already clean - measured on a second visit with runs saved:
+   "Choose a protein", nothing loaded. Walking BACK to Start was not: the protein and
+   the run you had just done were still sitting there. freshStart() empties the choice
+   and the result, so the first screen asks the first question every time it is shown.
+   The runs themselves are untouched - they are in the library on step 3. */
+function freshStart(){
+  var box=document.getElementById('protseq'); if(box) box.value='';
   PNAME=''; PNAMEFOR=''; PICKMODE='none';
-})();
+  var w=document.getElementById('win');
+  if(w){ for(var i=0;i<w.options.length;i++) if(w.options[i].value==='15'){ w.selectedIndex=i; break; } }
+  if(typeof results!=='undefined'){ results=[]; selected=-1; }
+  if(typeof RANKED!=='undefined'){ RANKED=false; SORTBY='sel'; }
+  if(typeof REF!=='undefined') REF=null;
+  if(typeof resetRank==='function') resetRank();
+  if(typeof sheetHome==='function') sheetHome();
+  if(typeof paintHome==='function') paintHome();
+  if(typeof paintStep1==='function') paintStep1();
+}
+freshStart();
 paintRegister(register(JO1));
 boot3D();
 showHome();
