@@ -1544,7 +1544,19 @@ input[type=file]{display:none}
 #view-work .ctrls .winfld{width:100%;margin:0}
 #view-work .ctrls .winfld select{height:50px;width:100%;border-radius:12px;
   font-size:15px;font-weight:600}
-.prog{height:3px;background:var(--sunk);border-radius:2px;overflow:hidden;margin-top:10px}
+/* V16600 - A SCAN YOU CAN SEE.
+   Moos: "i also asked before i want to show aniamtion looder to be shown when there is
+   scan, becuse curnettly th escan is done and i dont know about...so ther must be like
+   blue horizantla line going up and down for exaple!"
+   There WAS a bar - 3px of it, above the button, with the count beside it. Measured
+   against a phone held at arm's length that is a hairline, and the scan takes minutes,
+   so the app looked asleep while it did the heaviest work it does.
+   Two things now say it is working. The bar is 7px and rounded, so the fill is a bar
+   and not a scratch. And a blue line sweeps DOWN and back UP the scan card the whole
+   time, which is the one he asked for and the one that reads from across a room.
+   It is drawn on top of the card, not inside its flow, so nothing on the screen moves
+   when it starts or stops - his standing rule. */
+.prog{height:7px;background:var(--sunk);border-radius:4px;overflow:hidden;margin-top:10px}
 .scanbar{position:fixed;left:0;right:0;top:var(--barh);height:4px;z-index:55;
   background:color-mix(in srgb,var(--btn) 22%,transparent);overflow:hidden;
   pointer-events:none}
@@ -1557,7 +1569,18 @@ input[type=file]{display:none}
   transform:translateX(-100%);animation:scansweep 1.1s linear infinite}
 @keyframes scansweep{to{transform:translateX(100%)}}
 @media (prefers-reduced-motion:reduce){ .scanbar::after{animation:none} }
-.prog i{display:block;height:100%;width:0;background:var(--gold);transition:width .12s linear}
+.prog i{display:block;height:100%;width:0;border-radius:4px;background:var(--gold);transition:width .12s linear}
+.hlacard{position:relative;overflow:hidden}
+.hlacard.scanning::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  /* V16600 - wm1, not btn. btn is whatever colour the page Claude is on wears, and a
+     scan ends by landing on step 3, which is green - so the blue line he asked for
+     turned green on its last breath. wm1 is the app's blue in both themes and belongs
+     to no page. */
+  background:var(--wm1);box-shadow:0 0 16px 3px var(--wm1);pointer-events:none;
+  animation:beamgo 1.5s ease-in-out infinite alternate}
+@keyframes beamgo{from{top:0}to{top:calc(100% - 3px)}}
+@media (prefers-reduced-motion:reduce){
+  .hlacard.scanning::after{animation:none;opacity:.75} }
 
 /* result list — cards, not a table, at every width */
 .rowlist{display:flex;flex-direction:column;gap:10px}
@@ -3428,7 +3451,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V16300 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V16700 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -5169,7 +5192,39 @@ document.getElementById('fastain').addEventListener('change', function(e){
   rd.readAsText(f);
 });
 
+/* V16600 - the beam. One place turns it on and off, so it cannot be left running. */
+function beam(on){
+  var c=document.querySelector('.panel.hlacard'); if(!c) return;
+  /* a scan is several passes in a row, and setBusy goes false for a moment between
+     them. Switching the beam off on that gap made it blink, which reads as finished
+     when it is not, so going off waits a beat and any new pass cancels it. */
+  clearTimeout(beam._t);
+  if(on){
+    if(!c.classList.contains('scanning')) beam._on=Date.now();
+    c.classList.add('scanning');
+    return;
+  }
+  beam._t=setTimeout(function(){ c.classList.remove('scanning'); },
+                     Math.max(320, beamLeft()));
+}
+/* V16700 - AND IT STAYS LONG ENOUGH TO BE SEEN.
+   Measured on V16600: a Jo-1 scan takes about seven tenths of a second, because the
+   answers come from the table shipped inside the app - there is nothing to wait for.
+   So the line he asked for flashed and was gone, and the app jumped to step 3 before
+   his eye could catch it. That is the whole of "th escan is done and i dont know
+   about": nothing was broken, it was simply too fast to see.
+   The work is not slowed and nothing is faked. The line is held on screen for one and
+   a half seconds, and the step it is drawn on is held with it for the same beat, so
+   the thing he is meant to see is still there when the answer lands. A scan that takes
+   longer than that - a pasted protein the table does not cover - waits for nothing:
+   beamLeft is already 0 by the time it finishes. */
+var BEAMFLOOR=1500;
+function beamLeft(){
+  if(!beam._on) return 0;
+  return Math.max(0, BEAMFLOOR-(Date.now()-beam._on));
+}
 function scanBar(on){
+  beam(on);
   var sb=document.getElementById('scanbar'), sf=document.getElementById('scanfill');
   if(!sb) return;
   if(on){ clearTimeout(scanBar._t); sb.hidden=false;
@@ -5329,7 +5384,10 @@ function finishScan(seq, w){
          been three steps since V11000 and the Graph stopped being one of them, so a
          scan was finishing by dropping you on a page that is not on the way anywhere.
          Moos found it by asking what happens after a scan. */
-      showView('view-lib');
+      /* V16700 - the answer waits for the line to have been seen. 0 on a slow scan. */
+      var hold=(typeof beamLeft==='function')?beamLeft():0;
+      if(hold>0) setTimeout(function(){ showView('view-lib'); }, hold);
+      else showView('view-lib');
     });
   };
   /* a pasted protein is judged against ITS OWN lines, never Jo-1's borrowed ones -
@@ -7606,6 +7664,7 @@ function scanWall(seq, w, rows, done){
       note=document.getElementById('wallnote');
   if(box) box.hidden=false;
   if(note) note.hidden=false;
+  beam(true);                            /* V16600 */
   setBusy(true);
   var ai=0, si=0, scored=0, total=S*N, t0=0;
 
@@ -7630,6 +7689,7 @@ function scanWall(seq, w, rows, done){
     if(box) box.hidden=true;
     if(note) note.hidden=true;
     if(bar) bar.style.width='0%';
+    beam(false);                         /* V16600 */
     setBusy(false);
     for(var z=0;z<S;z++) if(cnt[z]!==1) one[z]=-1;
     done(cnt, one);
@@ -7984,6 +8044,7 @@ function freshStart(){
   if(typeof RANKED!=='undefined'){ RANKED=false; SORTBY='sel'; }
   if(typeof REF!=='undefined') REF=null;
   if(typeof resetRank==='function') resetRank();
+  if(typeof GRIDOPEN!=='undefined') GRIDOPEN=false;   /* V16500 */
   if(typeof sheetHome==='function') sheetHome();
   if(typeof paintHome==='function') paintHome();
   if(typeof paintStep1==='function') paintStep1();
@@ -8071,6 +8132,17 @@ setAllele();
    once Narrow has run - how many other holders grip each slice. Roughly 6 KB each.
    Nothing is sent anywhere; Export writes a file you keep yourself. */
 var RUNKEY='jo1-runs-v1', RUNS=[], CURRUN=null, PICKRUN=0, RUNCAP=200;
+/* V16500 - STEP 3 ANSWERS NOTHING UNTIL A SCAN IS ASKED FOR.
+   Moos: "it is showing result with out sac,,,61 too,,,so user hsod not go next unless
+   he finsh the scan". Measured on V16400: open the app, pick Jo-1, walk to step 3, and
+   it drew the whole answer - 061, the caption, 1,051 marks on the grid - from a run in
+   the library, with nothing scanned in that visit. Step 4 already did the right thing
+   there and said NOTHING SCANNED YET; step 3 was the one page still reporting.
+   This flag is the difference between an answer the app went and fetched by itself and
+   one the user asked for. It is false when the app opens, and only two things turn it
+   on: a scan that finished (autoSave), and the user opening a saved run himself
+   (openRun, which every route into the library goes through). */
+var GRIDOPEN=false;
 
 /* V9900 - the library is SHARED for real.
  *
@@ -8251,7 +8323,7 @@ function autoSave(){
   var old=runTwin(seq,w,run.holder);
   if(old){ var oi=runsFind(old.id); if(oi>=0) RUNS.splice(oi,1); }
   RUNS.unshift(run); if(RUNS.length>RUNCAP) RUNS.length=RUNCAP;
-  CURRUN=run.id; PICKRUN=0; runsStore();
+  CURRUN=run.id; PICKRUN=0; GRIDOPEN=true; runsStore();   /* V16500 */
   /* saved here first, then offered to everyone else - in that order, so a library that
      cannot be reached costs nothing */
   libShare(run);
@@ -9214,6 +9286,17 @@ function renderSaved(){
     drawGrid(null);
     return;
   }
+  /* V16500 - and nothing is reported until it is asked for. The library list and its
+     picker stay - they are how a saved run is opened - but the answer card and the
+     grid wait. */
+  if(!GRIDOPEN){
+    card.innerHTML='<div class="panel savedp"><p class="runempty">'
+      +'Nothing scanned yet. Press Scan on step 2 and the answer lands here '
+      +'\u2014 or open one of your saved runs above.</p></div>';
+    onlyOneCard(null);
+    drawGrid(null);
+    return;
+  }
   var r=all[PICKRUN], c=runCounts(r), out='';
   drawGrid(r);                             /* V10700 - the grid, above the run's card */
   /* V9900 - a run from someone else arrives as a summary. Its body is fetched the
@@ -9342,6 +9425,7 @@ function dlJSON(name, obj){
   });
 })();
 function openRun(r, land){
+  GRIDOPEN=true;                 /* V16500 - he asked for this one */
   document.getElementById('protseq').value=r.seq||'';
   var wsel=document.getElementById('win');
   for(var i=0;i<wsel.options.length;i++) if(wsel.options[i].value===String(r.win)) wsel.selectedIndex=i;
@@ -9609,7 +9693,24 @@ function paintStep1(){
 function paintHome(){
   var fan=document.querySelector('.inner.home .fan'); if(!fan) return;
   var inner=document.querySelector('.inner.home');
-  var r=homeRun(), alone=0, best=-1, bestIc=Infinity;
+  /* V16400 - THE FIRST SCREEN NEVER REPORTS AN OLD ANSWER.
+     Moos sent the same picture three times: the app opened, he picked Jo-1, and the
+     first screen read 061 with "grip All 117 holders alone" - a finished answer on the
+     screen that is supposed to be asking the question. "every time the user using the
+     app the first page must land on select proton and the start is fresh!"
+     V16200 and V16300 made the app OPEN fresh, and measured, it does. This was never
+     about opening. homeRun() looked the chosen protein up in the library, and if a run
+     of it at that cut was saved it printed that run's answer - number, caption, the
+     green dots behind it and the gold ring on the best slice - the instant the protein
+     was picked. His own screenshot proved it before I did: at cut 16 there is no saved
+     run, and it read "494 slices of Jo-1, none of them asked yet", which is the right
+     sentence. At 15 there was one, so it spoke.
+     So the first screen stops asking the library. It counts the slices and says none of
+     them have been asked yet, at every cut, saved run or not. The runs are not lost and
+     nothing is scanned twice - they are in step 3, which is where a saved run belongs
+     and where he goes to open one. homeRun() is left where it is, unused and harmless;
+     it is the library lookup, and step 3's own picker may want it. */
+  var r=null, alone=0, best=-1, bestIc=Infinity;
   if(r){
     for(var i=0;i<r.n;i++){
       if(r.sel[i]===0) alone++;
