@@ -3428,7 +3428,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V16200 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V16300 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -7989,6 +7989,16 @@ function freshStart(){
   if(typeof paintStep1==='function') paintStep1();
 }
 freshStart();
+/* V16300 - AND WHEN THE PHONE HANDS THE TAB BACK. Moos opened the app and still saw
+   his last answer on Start: Chrome had kept the tab in memory and given it back
+   whole, so the page never loaded and nothing cleared. pageshow fires on that
+   hand-back (persisted), and only the Start page is cleared - a tab that comes back
+   on step 4 keeps the run the person was reading. */
+window.addEventListener('pageshow', function(e){
+  if(!e || !e.persisted) return;
+  if(typeof hereNow==='function' && hereNow()!=='view-home') return;
+  if(typeof freshStart==='function') freshStart();
+});
 paintRegister(register(JO1));
 boot3D();
 showHome();
