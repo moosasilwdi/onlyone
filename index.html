@@ -2509,20 +2509,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
            card and joined to it, so the slice is written once, not twice, and the
            card you touched is never hidden. This is where it lives when nothing is
            chosen; it is hidden then, so the spot does not matter. -->
-      <!-- V15400 - THE SLOT KEEPS ITS PLACE. The panel travels: it sits here until a
-           card is tapped, then moves down and joins that card. The 41px it left behind
-           collapsed, and measured on a 390px phone the whole list jumped UP by 54px -
-           against Moos's standing rule that nothing already on the screen moves when
-           something new opens. This stand-in holds the same slot, reads the same, and
-           says where the panel went, so nothing above the list moves at all. -->
-      <div class="sheet sheetgap" id="sheetgap" aria-hidden="true" hidden>
-        <div class="grip">
-          <h3>Selected</h3>
-          <span class="sum" id="gapsum">&mdash;</span>
-          <span class="chev">below</span>
-        </div>
-      </div>
-      <div class="sheet" id="sheetwrap">
+      <div class="sheet" id="sheetwrap" hidden>
         <div class="grip" id="sheetgrip" role="button" tabindex="0" aria-expanded="false">
           <h3>Selected</h3>
           <span class="sum" id="sheetsum">—</span>
@@ -3425,7 +3412,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V15500 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V16100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4812,8 +4799,11 @@ function showView(v){
     if(has && typeof sendRefresh==='function') setTimeout(sendRefresh,0);
     if(has && typeof teachCard==='function')
       setTimeout(function(){ teachCard('#rows .card','cards'); }, 600);
-    ['.narrow','#count','#rows','#sheetwrap','#jumptop','#view-list .nextbtn','#view-list>.inner>.btncap','#sendwrap']
+    /* V16100 - #sheetwrap is off this list. The panel is not part of the page any
+       more: it appears only under the card you tap, and sheetHome hides it again. */
+    ['.narrow','#count','#rows','#jumptop','#view-list .nextbtn','#view-list>.inner>.btncap','#sendwrap']
       .forEach(function(sel){ var el=document.querySelector(sel); if(el) el.hidden = !has; });
+    if(!has){ var shx=document.getElementById('sheetwrap'); if(shx) shx.hidden=true; }
   }
   if(v==='view-3d'){
     if(typeof sayWhat==='function') sayWhat();
@@ -5644,14 +5634,26 @@ document.getElementById('filt').addEventListener('change', function(){ if(mode==
    card moves down; the card you touched does not shift, which is his standing rule.
    It is put back where it belongs before the list is redrawn, or innerHTML would
    throw it away. */
-var SHEETHOME=null;
+var SHEETHOME=null, SHEETNEXT=null;
+/* V16100 - ONE DOOR. Moos: "Why we have 2 then?" The panel used to have a bar of its
+   own at the top of step 4 AND open under the card you tap - two doors to one room,
+   and the top one was written in the same words as the card's, so the slice was said
+   twice. The card is the door now. The panel lives nowhere until a card is tapped:
+   it is hidden at its old spot, taking no room, so nothing on the page can move when
+   it leaves or returns. Tap the same card again and it shuts. */
 function sheetHome(){
   var sh=document.getElementById('sheetwrap'); if(!sh) return;
-  if(!SHEETHOME) SHEETHOME=sh.parentNode;
+  if(!SHEETHOME){ SHEETHOME=sh.parentNode; SHEETNEXT=sh.nextSibling; }
   sh.classList.remove('joined');          /* V14400 - it is nobody's extension now */
-  if(sh.parentNode!==SHEETHOME) SHEETHOME.appendChild(sh);
-  var gap=document.getElementById('sheetgap');   /* V15400 - the panel is home again */
-  if(gap) gap.hidden=true;
+  /* V16100 - and the card stops wearing the pair's frame, or it would keep the
+     yellow edge of a panel that is no longer under it. */
+  var jc=document.querySelector('#rows .card.joined');
+  if(jc) jc.classList.remove('joined');
+  if(sh.parentNode!==SHEETHOME || sh.nextSibling!==SHEETNEXT)
+    SHEETHOME.insertBefore(sh, SHEETNEXT);
+  sh.hidden=true;                         /* out of the way, and out of the layout */
+  sh.setAttribute('data-open','0');
+  var ch=document.getElementById('sheetchev'); if(ch) ch.textContent='open';
 }
 /* the panel leaving a card ABOVE this one shortens the page above your finger, so
    the card you just touched would jump up - measured once at 313px. The page is
@@ -5688,12 +5690,6 @@ function sheetUnder(card){
   var ch=document.getElementById('sheetchev'); if(ch) ch.textContent='close';
   /* V15400 - the stand-in takes the slot the panel just left, so the list does not
      jump up by the panel's collapsed height. It carries the same line. */
-  var gap=document.getElementById('sheetgap');
-  if(gap){
-    var sum=document.getElementById('sheetsum'), gs=document.getElementById('gapsum');
-    if(gs && sum) gs.textContent=sum.textContent;
-    gap.hidden=false;
-  }
   if(sc){ var after=card.getBoundingClientRect().top;
           if(after!==before) sc.scrollTop += (after-before); }
   /* V14500 - the shape RIDES UP to the header. Moos, on the live V14400: "still the
@@ -5824,6 +5820,8 @@ function verdict(r,isDec){
 document.getElementById('rows').addEventListener('click', function(e){
   var c=e.target.closest('.card'); if(c&&c.hasAttribute('data-i')){
     if(typeof teachOff==='function') teachOff('cards');
+    /* V16100 - the card is the one door: tap it open, tap it shut. */
+    if(c.classList.contains('joined')){ sheetHome(); return; }
     select(+c.getAttribute('data-i'));
     sheetUnder(c);                  /* V12400 - the answer, under your finger */
   }
