@@ -692,6 +692,18 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
   padding:0 0 14px;border-bottom:1px solid var(--line)}
 .gridans .bignum{font-size:40px;margin:0}
 .gridans .bigcap{margin:8px 0 0;min-height:0}
+/* V16800 - the answer, on the step that did the work */
+.step2ans{margin-top:12px;text-align:center}
+.step2ans .runlab{margin:0 0 6px}
+.step2ans .bignum{font-size:44px;margin:0}
+.step2ans .bigcap{margin:8px 0 0;min-height:0}
+.step2ans .cutnote{display:block;margin-top:6px;font-family:var(--mono);
+  font-size:11px;color:var(--mute)}
+:root[data-theme="dark"] .step2ans .cutnote{color:var(--ink)}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .step2ans .cutnote{color:var(--ink)} }
+.step2ans .s2next{margin:12px 0 0}
+.step2ans .s2lib{margin:10px 0 0}
 .gridans .cutnote{margin:6px 0 0;min-height:0}
 .bigcap{font-family:var(--mono);font-size:11px;color:var(--ink);margin:12px 0 0;
   text-align:center;min-height:38px}
@@ -2432,6 +2444,16 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           <button type="button" id="twinagain">Scan again</button>
         </div>
       </div>
+      <!-- V16800 - THE ANSWER LANDS ON THE STEP THAT DID THE WORK.
+           Moos, after watching his own screen recording: "The app should not juup to
+           next step! I should go to next step. And in step 2 inedd to see somet ti
+           show thecapp is scanning! The results must be shoen in step 2! Then i go
+           see more result in step 3!"
+           He is right, and the old way broke his own standing rule twice over: the
+           app moved him, and the screen that did the work had nothing to show for it.
+           This box is empty and hidden until a scan is asked for, and it opens
+           DOWNWARD under the button, so nothing above it moves. -->
+      <div class="panel step2ans" id="step2ans" hidden></div>
       <button type="button" class="go" id="rundec" hidden>Scan</button>
       <button type="button" class="scanwhy" id="decwhy" hidden></button>
       <div class="panel">
@@ -3451,7 +3473,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V16700 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V17000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -4624,10 +4646,16 @@ function setAllele(){
      There is no single network to fall back to, so say so rather than loading one
      holder's net and quietly answering a different question. */
   if(allHolders()){
+    /* V17000 - "All 117 needs the shipped table" stopped being true the moment every
+       cut became real. The table answers Jo-1 cut at 15 in no time; at any other cut
+       the wall works all 117 out itself, loading each holder as it reaches it. So a
+       table that cannot be read is no longer a reason to refuse the question - and
+       leaving loadError set here blocked EVERY later scan in the session, which is
+       how a cut-20 run used to kill the cut-15 run after it. */
     loading=false; setBusy(false);
-    document.getElementById('statdot').className='dot bad';
-    loadError='All 117 holders needs the shipped table, and it could not be read.';
-    showError();
+    document.getElementById('statdot').className='dot on';
+    loadError=null;
+    runControls();
     return;
   }
   return NUG.load(sel.value).then(function(){
@@ -4834,6 +4862,12 @@ function showView(v){
   if(typeof scanGate==='function') scanGate();   /* and the button is re-judged on arrival */
   var has = (typeof results!=='undefined' && results.length>0);
   if(v==='view-home' && typeof freshStart==='function') freshStart();   /* V16200 */
+  /* V16900 - and step 2 always has its reels ready, never a blank space that fills
+     later. Only when there is nothing there: an answer already shown is left alone. */
+  if(v==='view-hla' && typeof step2Wait==='function'){
+    var bx2=document.getElementById('step2ans');
+    if(bx2 && (bx2.hidden || !bx2.innerHTML)) step2Wait();
+  }
   if(v==='view-list'){
     document.getElementById('noscan2').hidden = has;
     if(has && typeof sendRefresh==='function') setTimeout(sendRefresh,0);
@@ -5223,6 +5257,111 @@ function beamLeft(){
   if(!beam._on) return 0;
   return Math.max(0, BEAMFLOOR-(Date.now()-beam._on));
 }
+/* V16800 - what step 2 says once the work is done, or once the answer has been
+   fetched from the library. It reads the live result, not a saved run, so the two
+   roads in - a fresh scan and an opened run - say the same thing in the same place. */
+function step2Say(fromLib){
+  var box=document.getElementById('step2ans'); if(!box) return;
+  if(!results || !results.length){ box.hidden=true; box.innerHTML=''; return; }
+  var tot=results.length, alone=0, known=false;
+  for(var i=0;i<tot;i++){
+    if(results[i].sel!=null){ known=true; if(results[i].sel===0) alone++; }
+  }
+  var pad=String(alone).padStart(String(tot).length,'0');
+  var seq=clean((document.getElementById('protseq')||{value:''}).value);
+  var nm2=(seq===JO1_PROTEIN) ? 'Jo-1' : (PNAME||'this protein');
+  var w=parseInt((document.getElementById('win')||{value:'15'}).value,10)||15;
+  var all=(typeof allHolders==='function') && allHolders();
+  var who=(typeof alleleLabel==='function')?alleleLabel():'';
+  var out='<p class="runlab">'+(fromLib?'ALREADY IN YOUR LIBRARY':'THE ANSWER')+'</p>';
+  if(known){
+    out+='<div class="bignum" data-of="'+tot+'">'+sciNum(pad)+'</div>'
+       + '<p class="bigcap">of <b>'+tot+'</b> '+sa('slices','pieces')+' of '
+       + '<b class="pname">'+esc(nm2)+'</b> '
+       + (all ? ('are '+sa('gripped','held')+' by exactly one holder')
+              : (sa('grip','hold')+' '+esc(who)+' alone'))+'</p>';
+  } else {
+    out+='<p class="runempty">Scanned, but no answer was kept with it.</p>';
+  }
+  out+='<span class="cutnote">cut at '+w+'</span>';
+  if(fromLib)
+    out+='<p class="tiny s2lib">Nothing was worked out again \u2014 this is the answer '
+       + 'you already had, opened from your library.</p>';
+  out+='<p class="tiny s2next">Press <b>Next</b> for step 3: every pair, the grid '
+     + 'and your library.</p>';
+  box.innerHTML=out;
+  box.hidden=false;
+  /* V16900 - and the reels come to rest on it, starting from the slice count it came
+     out of, exactly as the landing does. spinTo refuses to run over a rolling number,
+     so the roll is stopped first. */
+  s2RollStop();
+  if(known && typeof spinTo==='function'
+     && !(typeof reducedMotion==='function' && reducedMotion()))
+    spinTo('#step2ans .bignum', pad, String(tot), true);
+}
+/* V16900 - THE REELS LIVE ON STEP 2 TOO.
+   Moos: "Can we have in scan same concept we have before 3 dugits moves then the
+   result ti be shown. So there will be 000 or more! I don't kniw...then when the user
+   press scan! It starts counting."
+   The slot machine is his own idea, from the landing: waiting digits that roll, then
+   reels that stop one by one on the answer. It belongs here more than anywhere - this
+   is the screen that does the work, and until now it sat still while it worked.
+   So the box is on step 2 from the moment a protein is loaded, showing the slice
+   count in grey: 495, none of them asked yet. Press Scan and the digits roll for as
+   long as the work takes. When it lands they stop, left to right, on 061, in green.
+   And because the box is already there, nothing on the screen moves when the answer
+   arrives - his standing rule. */
+var S2ROLL=null;
+function s2El(){
+  var b=document.getElementById('step2ans');
+  return (b && !b.hidden) ? b.querySelector('.bignum') : null;
+}
+function s2RollStop(){
+  if(S2ROLL){ clearInterval(S2ROLL); S2ROLL=null; }
+  var el=s2El(); if(el) el.classList.remove('rolling');
+}
+function s2RollGo(){
+  s2RollStop();
+  if(typeof reducedMotion==='function' && reducedMotion()) return;
+  var el=s2El(); if(!el) return;
+  var n=(el.getAttribute('data-of')||'495').length;
+  el.classList.add('rolling');
+  S2ROLL=setInterval(function(){
+    var cur=s2El();
+    if(!cur || !cur.classList.contains('rolling')){ s2RollStop(); return; }
+    var t=''; for(var i=0;i<n;i++) t+=Math.floor(Math.random()*10);
+    cur.innerHTML=sciNum(t);
+  }, 95);
+}
+/* what step 2 shows before anything has been asked of this protein */
+function step2Wait(){
+  var box=document.getElementById('step2ans'); if(!box) return;
+  s2RollStop();
+  var seq=clean((document.getElementById('protseq')||{value:''}).value);
+  var w=parseInt((document.getElementById('win')||{value:'15'}).value,10)||15;
+  var tot=Math.max(0, seq.length-w+1);
+  if(!tot){ box.hidden=true; box.innerHTML=''; return; }
+  var nm2=(seq===JO1_PROTEIN) ? 'Jo-1' : (PNAME||'this protein');
+  box.innerHTML='<p class="runlab">NOT ASKED YET</p>'
+    + '<div class="bignum numoff" data-of="'+tot+'">'+sciNum(String(tot))+'</div>'
+    + '<p class="bigcap">'+sa('slices','pieces')+' of <b class="pname">'+esc(nm2)
+    + '</b>, none of them asked yet</p>'
+    + '<span class="cutnote">cut at '+w+'</span>'
+    + '<p class="tiny s2next">Press <b>Scan</b> above. The digits run until the '
+    + 'answer lands.</p>';
+  box.hidden=false;
+}
+function step2Clear(){ step2Wait(); }
+/* V17000 - when a scan cannot run, step 2 says so WHERE THE BUTTON IS. The old code
+   wrote its reason into the count line on step 4, which is two screens away: Moos
+   pressed Scan, saw nothing move, and reasonably called the control fake. */
+function step2Fail(msg){
+  var box=document.getElementById('step2ans'); if(!box) return;
+  if(typeof s2RollStop==='function') s2RollStop();
+  box.innerHTML='<p class="runlab">NOT SCANNED</p>'
+    + '<p class="runempty">'+esc(msg)+'</p>';
+  box.hidden=false;
+}
 function scanBar(on){
   beam(on);
   var sb=document.getElementById('scanbar'), sf=document.getElementById('scanfill');
@@ -5284,6 +5423,10 @@ function runProtein(){
      "scanning again does the same work" - so it is opened straight away, and the
      note becomes one quiet line saying where it came from, with Scan again beside
      it for anyone who wants the work redone. */
+  /* V16900 - the digits start the moment the button is pressed, before any work is
+     chosen or any road taken. If this turns out to be the library road, useTwin stops
+     them again straight away - they are for work, not for fetching. */
+  if(typeof s2RollGo==='function') s2RollGo();
   if(!TWINOK){ var twin=runTwin(seq,w,alleleLabel(),true); if(twin){ useTwin(twin); return; } }
   TWINOK=false; hideTwin();
   results=[]; selected=-1; RANKED=false; SORTBY='str'; resetRank();
@@ -5293,10 +5436,25 @@ function runProtein(){
      something: the TIGHTEST of the 117 - how hard this piece is held by whichever
      holder holds it best. The answer itself comes from the wall, below. */
   if(allHolders()){
+    /* V17000 - EVERY CUT IS REAL. Moos: "i also ffiont that changing the slice number
+       does nothing in app..it is all fake...only 15 slice orok mow! why?" and then,
+       when he had the whole picture: "what about the reset of the cuts! it must be
+       real not fake".
+       He was right and it was worse than a missing feature: the picker offered five
+       cuts, four of them did nothing at all for the question the app opens on, and the
+       reason was written onto step 4 where he could not see it. A control that does
+       nothing in silence is the same fault as the 061 on Start - the app knowing
+       something and not saying it.
+       There is no table for any cut but 15, so the app works it out itself: 57,798
+       pairs at cut 16. Measured on this machine, 22.5 seconds; a phone is two to four
+       times slower, so under a minute and a half, with the bar and the seconds left
+       showing the whole way. The rows go in with no number of their own and the wall
+       writes the tightest of the 117 back into them when it is done. */
     if(!JTAB.fits(seq,w)){
-      document.getElementById('count').textContent =
-        'All 117 holders is answered from the shipped table, which covers Jo-1 cut at '
-        +'15. Choose one holder for this protein, or cut Jo-1 at 15.';
+      for(var stw=0; stw+w<=seq.length; stw++)
+        results.push({name:(stw+1)+'\u2013'+(stw+w), seq:seq.slice(stw,stw+w),
+                      ic50:null, start:stw});
+      REF=null; drawRows(); finishScan(seq,w);
       return;
     }
     setBusy(true);
@@ -5315,6 +5473,11 @@ function runProtein(){
       results.sort(function(a,b){ return (a.ic50==null)-(b.ic50==null) || a.ic50-b.ic50; });
       REF=null; drawRows(); finishScan(seq,w);
     }).catch(function(){ setBusy(false);
+      /* V17000 - and the digits stop. Left running they say "working" for ever over
+         a scan that has already given up - the same lie as a line that sweeps while
+         nothing is worked out. */
+      if(typeof s2RollStop==='function') s2RollStop();
+      if(typeof step2Fail==='function') step2Fail('The table could not be read.');
       document.getElementById('count').textContent='The table could not be read.'; });
     return;
   }
@@ -5358,8 +5521,17 @@ var WALLONE=null;
 function finishScan(seq, w){
   WALLCNT=null; WALLONE=null;
   var go=function(){
-    scanWall(seq, w, results, function(cnt, one){
+    scanWall(seq, w, results, function(cnt, one, best){
       WALLCNT=cnt; WALLONE=one||null;
+      /* V17000 - with no shipped table the rows went in with no number of their own;
+         the wall has just worked out all 117 for every slice, so the tightest of them
+         is written back here, and the list and the profile have something to show. */
+      if(best){
+        var bs=results.slice().sort(function(a,b){ return a.start-b.start; });
+        for(var bi=0; bi<bs.length && bi<best.length; bi++)
+          if(bs[bi].ic50==null && isFinite(best[bi])) bs[bi].ic50=best[bi];
+        results.sort(function(a,b){ return (a.ic50==null)-(b.ic50==null) || a.ic50-b.ic50; });
+      }
       attachOne(WALLONE, results);
       if(cnt){
         selFromCnt(cnt, results, JTAB.col(alleleLabel()), seq, w);
@@ -5384,10 +5556,12 @@ function finishScan(seq, w){
          been three steps since V11000 and the Graph stopped being one of them, so a
          scan was finishing by dropping you on a page that is not on the way anywhere.
          Moos found it by asking what happens after a scan. */
-      /* V16700 - the answer waits for the line to have been seen. 0 on a slow scan. */
+      /* V16800 - and it stays on step 2. The answer opens under the button; Next is
+         his to press. The 1.5s wait from V16700 stays: it is what makes the blue line
+         long enough to be seen when the shipped table answers in under a second. */
       var hold=(typeof beamLeft==='function')?beamLeft():0;
-      if(hold>0) setTimeout(function(){ showView('view-lib'); }, hold);
-      else showView('view-lib');
+      if(hold>0) setTimeout(function(){ step2Say(false); }, hold);
+      else step2Say(false);
     });
   };
   /* a pasted protein is judged against ITS OWN lines, never Jo-1's borrowed ones -
@@ -5395,6 +5569,17 @@ function finishScan(seq, w){
      keeps counting Jo-1 against whatever protein was scanned before it, which is the
      same silent lie the live lines were built to end. */
   if(JTAB.fits(seq,w)){ LIVE_GRIP=null; go(); }
+  /* V17000 - ALL 117 HAS NO SINGLE NETWORK TO LOAD, so it must not be sent to fetch
+     one. ensureNet asks for the holder named in the picker, and "All 117 holders" is
+     not a holder: the fetch failed, and its catch left loadError set. The scan itself
+     limped on, but loadError refuses every LATER scan in the session - which is how a
+     run at cut 20 quietly killed the cut-15 run after it. measureGripLines loads each
+     holder as it reaches it, exactly as the wall does, so it needs nothing first. */
+  else if(typeof allHolders==='function' && allHolders()){
+    measureGripLines(seq, results,
+      document.getElementById('wallbar'),
+      document.getElementById('wallnote'), go);
+  }
   else ensureNet().then(function(){
          measureGripLines(seq, results,
            document.getElementById('wallbar'),
@@ -5692,7 +5877,20 @@ document.addEventListener('change', function(e){
   if(e) e.addEventListener('input', function(){ TWINOK=false; hideTwin(); });
   if(e) e.addEventListener('change', function(){ TWINOK=false; hideTwin(); });
 });
-if(sel) sel.addEventListener('change', function(){ TWINOK=false; hideTwin(); });
+/* V16800 - a new question puts the old answer away. The box on step 2 belongs to
+   ONE protein, one holder and one cut; leaving it up while any of the three changes
+   is the same fault as the 061 on Start, one screen along. */
+['allele','win','hwin','hpick'].forEach(function(id){
+  var e=document.getElementById(id);
+  if(e) e.addEventListener('change', function(){
+    if(typeof step2Clear==='function') step2Clear(); });
+});
+document.addEventListener('change', function(e){
+  if(e.target && (e.target.id==='hpick'||e.target.id==='hwin'||e.target.id==='win'))
+    if(typeof step2Clear==='function') step2Clear();
+});
+if(sel) sel.addEventListener('change', function(){ TWINOK=false; hideTwin();
+  if(typeof step2Clear==='function') step2Clear(); });
 document.getElementById('rundec').addEventListener('click', runDecoy);
 document.getElementById('pepseq').addEventListener('keydown', function(e){ if(e.key==='Enter') runDecoy(); });
 document.getElementById('filt').addEventListener('change', function(){ if(mode==='dec') runDecoy(); });
@@ -7646,6 +7844,11 @@ function scanWall(seq, w, rows, done){
      not held by exactly one. Moos: "So the researchers will never know which
      holder!?" - they could not: it was not kept anywhere. */
   var one=new Int16Array(S); one.fill(-1);
+  /* V17000 - and the TIGHTEST of the 117 for each slice, kept as it goes.
+     Without a shipped table there is nothing else to take that number from, and the
+     wall is already looking at every one of the 57,915 pairs - so it costs a
+     comparison, not a second pass. */
+  var best=new Float64Array(S); best.fill(Infinity);
   if(!S){ done(null); return; }
 
   /* the shipped table answers the whole thing at once */
@@ -7653,10 +7856,14 @@ function scanWall(seq, w, rows, done){
     var M=Math.min(S, JTAB.slices);
     for(var s=0;s<M;s++){
       var c=0, last=-1;
-      for(var k=0;k<N;k++) if(gripsTight(JTAB.at(s,k),k)){ c++; last=k; }
+      for(var k=0;k<N;k++){
+        var tv=JTAB.at(s,k);
+        if(tv!=null && isFinite(tv) && tv<best[s]) best[s]=tv;
+        if(gripsTight(tv,k)){ c++; last=k; }
+      }
       cnt[s]=c; one[s]=(c===1)?last:-1;
     }
-    done(cnt, one); return;
+    done(cnt, one, best); return;
   }
 
   var bar=document.getElementById('wallbar'),
@@ -7692,7 +7899,7 @@ function scanWall(seq, w, rows, done){
     beam(false);                         /* V16600 */
     setBusy(false);
     for(var z=0;z<S;z++) if(cnt[z]!==1) one[z]=-1;
-    done(cnt, one);
+    done(cnt, one, best);
   }
   function holder(){
     if(ai>=N){ finish(); return; }
@@ -7708,7 +7915,10 @@ function scanWall(seq, w, rows, done){
     var a=ALLELES[ai], end=Math.min(S, si+WALLCHUNK);
     for(; si<end; si++){
       var q=NUG.scoreWith(byStart[si].seq, a.f);
-      if(q && q.ic50!=null && gripsTight(q.ic50, ai)){ cnt[si]++; one[si]=ai; }
+      if(q && q.ic50!=null){
+        if(q.ic50<best[si]) best[si]=q.ic50;                 /* V17000 */
+        if(gripsTight(q.ic50, ai)){ cnt[si]++; one[si]=ai; }
+      }
       scored++;
     }
     say();
@@ -8045,6 +8255,7 @@ function freshStart(){
   if(typeof REF!=='undefined') REF=null;
   if(typeof resetRank==='function') resetRank();
   if(typeof GRIDOPEN!=='undefined') GRIDOPEN=false;   /* V16500 */
+  if(typeof step2Clear==='function') step2Clear();      /* V16800 */
   if(typeof sheetHome==='function') sheetHome();
   if(typeof paintHome==='function') paintHome();
   if(typeof paintStep1==='function') paintStep1();
@@ -8250,6 +8461,7 @@ function hideTwin(){ var n=document.getElementById('twinnote'); if(n) n.hidden=t
    keeps its place on the page so nothing moves; only its words and its buttons
    change. Scan again forces the real work, exactly as before. */
 function useTwin(r){
+  if(typeof s2RollStop==='function') s2RollStop();   /* V16900 */
   var n=document.getElementById('twinnote');
   if(n){
     var h=n.querySelector('h4');
@@ -8264,7 +8476,13 @@ function useTwin(r){
     n.hidden=false;
   }
   PICKRUN=0;
-  openRun(r, 'view-lib');          /* step 3, where a fresh scan lands too */
+  /* V16800 - it does not jump. The answer he already had opens on step 2 like any
+     other, saying plainly that nothing was worked out again - the honest version of
+     the 26 milliseconds that used to throw him onto step 3 with no explanation. */
+  openRun(r, 'stay');
+  var hold=(typeof beamLeft==='function')?beamLeft():0;
+  if(hold>0) setTimeout(function(){ step2Say(true); }, hold);
+  else step2Say(true);
 }
 function showTwin(r){
   var n=document.getElementById('twinnote'); if(!n) return;
@@ -8941,7 +9159,12 @@ function drawGridBody(r, show){
      the finger each time would be noise, not an arrival. */
   if(GRIDNUM!==r.id+':'+mine){
     GRIDNUM=r.id+':'+mine;
-    if(!reducedMotion()) spinTo('.gridans .bignum', minePad, String(g.S), true);
+    /* V16800 - NO SPIN HERE. Moos, on his recording: "in step 3 it already shows the
+       resul 061 in green fir millisecond then starting counting untill it reaches
+       061!" That is exactly what this line did - it painted the figure, then replaced
+       it with 495 and span the reels back to the same answer, which reads as the app
+       scanning all over again. The slot-machine spin belongs on Start, where the
+       answer is not known yet. Here it is already known before the page is drawn. */
   }
   if(GRIDWALL){
     var cv=document.getElementById('gwcanvas');
@@ -9457,7 +9680,11 @@ function openRun(r, land){
      It used to land on the Graph, which is no longer a page anyone can reach.
      V12600 - unless the caller says otherwise: a Scan that reused a saved run
      lands on step 3, the Result, which is where a fresh scan lands. */
-  if(land==='view-lib'){ showView('view-lib'); if(typeof renderSaved==='function') renderSaved(); markNav(); }
+  /* V16800 - 'stay' moves nothing. Opening a run is how the twin road loads the
+     answer he already had, and that road must not move him either - he presses Next.
+     The Open button in the library still lands on step 4, which is what it is for. */
+  if(land==='stay'){ markNav(); }
+  else if(land==='view-lib'){ showView('view-lib'); if(typeof renderSaved==='function') renderSaved(); markNav(); }
   else { showTab('t-list'); markNav(); }
   setAllele();
 }
