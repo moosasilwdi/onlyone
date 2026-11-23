@@ -2509,7 +2509,10 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
                "FASTA file" onto a line of its own, making step 2 too tall to fit. -->
           <span class="lbl">Cut at</span>
           <label class="fld winfld">
-            <select id="win"><option>15</option><option>14</option><option>16</option><option>18</option><option>20</option></select>
+            <!-- V17100 - IN ORDER. Moos, looking at the open picker: "why 15 above 14".
+                 They were written standard-first, which reads as a mistake on a list of
+                 numbers. 15 is still the one chosen; it just sits where it belongs. -->
+            <select id="win"><option>14</option><option selected>15</option><option>16</option><option>18</option><option>20</option></select>
           </label>
         </div>
         <div class="prog"><i id="progbar"></i></div>
@@ -3473,7 +3476,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V17000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V17100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -10014,7 +10017,7 @@ function paintHome(){
      beside the protein tells nobody anything; "cut at 15" is the whole sentence, and
      it fits in the box itself, so no label is needed beside it and none can be
      dropped on a narrow phone. */
-  var wopts=[15,14,16,18,20].map(function(v){
+  var wopts=[14,15,16,18,20].map(function(v){    /* V17100 - in order */
     return '<option value="'+v+'"'+(v===ww?' selected':'')+'>cut at '+v+'</option>'; }).join('');
   fan.innerHTML = head
     + '<div class="pickbar">'
