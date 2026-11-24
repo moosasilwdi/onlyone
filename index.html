@@ -1569,18 +1569,12 @@ input[type=file]{display:none}
    It is drawn on top of the card, not inside its flow, so nothing on the screen moves
    when it starts or stops - his standing rule. */
 .prog{height:7px;background:var(--sunk);border-radius:4px;overflow:hidden;margin-top:10px}
-.scanbar{position:fixed;left:0;right:0;top:var(--barh);height:4px;z-index:55;
-  background:color-mix(in srgb,var(--btn) 22%,transparent);overflow:hidden;
-  pointer-events:none}
-.scanbar i{display:block;height:100%;width:0%;background:var(--btn);
-  box-shadow:0 0 10px -1px var(--btn);transition:width .18s linear}
-.scanbar[hidden]{display:none}
-/* and a word, so it is not only a line moving */
-.scanbar::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--btn) 55%,transparent),transparent);
-  transform:translateX(-100%);animation:scansweep 1.1s linear infinite}
-@keyframes scansweep{to{transform:translateX(100%)}}
-@media (prefers-reduced-motion:reduce){ .scanbar::after{animation:none} }
+/* V17300 - ONE BLUE LINE, NOT TWO. Moos: "why there is 2 blue lines in scan one is
+   miving up and down an anoeh one only at top blinking..." The second one was this:
+   a thin fixed bar pinned under the top bar, left from V14300, blinking in place while
+   the card's own line swept. Two lines saying the same thing read as a fault. The bar,
+   its shimmer and the code that drove it are gone; the sweeping line on the scan card
+   is the only sign of work now. */
 .prog i{display:block;height:100%;width:0;border-radius:4px;background:var(--gold);transition:width .12s linear}
 .hlacard{position:relative;overflow:hidden}
 .hlacard.scanning::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;
@@ -2232,7 +2226,6 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
      it sat inside step 1's panel - press Scan on step 2 and it fills a bar on a page
      you are not looking at, for the nine seconds the scan takes. This one is pinned
      under the top bar, so it is on whatever page you pressed Scan from. -->
-<div class="scanbar" id="scanbar" hidden><i id="scanfill"></i></div>
 <div class="appbar">
   <!-- V10500 - the NAME is in the bar now, not the lens on its own. Moos: "th logo hand
        no name". The same lockup as the splash - ONLY, the lens standing in for the O,
@@ -2704,6 +2697,13 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
       <div class="vrow" id="vrow">
         <button type="button" id="b-anch" aria-pressed="true">Holes</button>
         <button type="button" id="b-teeth" aria-pressed="true">Teeth</button>
+        <!-- V17200 - LETTERS OFF. Moos: "i want to creat another button to hid the
+             L K A Q L labeles..too". The fifteen letters sit right on top of the
+             piece, which is the one thing the picture is about; with the holes and
+             teeth coloured there is already plenty to read. It starts ON, because
+             that is what the picture does today, and it is the first toggle after
+             the two that colour the piece. -->
+        <button type="button" id="b-letters" aria-pressed="true">Letters</button>
         <button type="button" id="b-names" aria-pressed="false">Names</button>
         <button type="button" id="b-parts" aria-pressed="false">Parts</button>
         <button type="button" id="b-cell" aria-pressed="false">Cell</button>
@@ -3476,7 +3476,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V17100 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V17300 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -5366,31 +5366,21 @@ function step2Fail(msg){
   box.hidden=false;
 }
 function scanBar(on){
+  /* V17300 - the sweeping line on the scan card is the whole of it now. */
   beam(on);
-  var sb=document.getElementById('scanbar'), sf=document.getElementById('scanfill');
-  if(!sb) return;
-  if(on){ clearTimeout(scanBar._t); sb.hidden=false;
-          if(sf && (!sf.style.width || sf.style.width==='0%')) sf.style.width='8%'; }
-  else { if(sf) sf.style.width='100%';
-         scanBar._t=setTimeout(function(){ sb.hidden=true; if(sf) sf.style.width='0%'; }, 300); }
 }
 function chunked(items, step, done){
   var i=0, bar=document.getElementById('progbar');
-  /* V14300 - the same figure drives the pinned bar, so the reader sees it move on
-     whatever page the scan was started from. */
-  var sb=document.getElementById('scanbar'), sf=document.getElementById('scanfill');
-  if(sb){ sb.hidden=false; if(sf) sf.style.width='2%'; }
+  /* V17300 - the pinned top bar is gone, so the card's own 7px bar and its sweeping
+     line carry the whole report of work. */
   setBusy(true);
   function tick(){
     var end=Math.min(items.length, i+step);
     for(; i<end; i++) items[i]();
     var pc=Math.round(i/items.length*100);
     bar.style.width=pc+'%';
-    if(sf) sf.style.width=Math.max(2,pc)+'%';
     if(i<items.length) requestAnimationFrame(tick);
     else { bar.style.width='0%';
-           if(sf) sf.style.width='100%';
-           if(sb) setTimeout(function(){ sb.hidden=true; if(sf) sf.style.width='0%'; }, 260);
            setBusy(false); done(); }
   }
   requestAnimationFrame(tick);
@@ -6320,12 +6310,35 @@ function frameFix(){
                   [F.across.x, F.across.y, F.across.z],
                   [F.up.x, F.up.y, F.up.z]]);
 }
+/* V17200 - AND THE FIRST VIEW IS ALWAYS FROM ABOVE.
+   Moos sent a picture of the live app: the reference block was showing its UNDERSIDE,
+   the lens on its left. The block is honest - it mirrors the camera - so the camera
+   was under the groove, looking up into it. "I WANT 35 but correct orientation, we
+   already agreed on that! now the orinatiaon is worng".
+   The frame is measured from the atoms, and on the model the app builds itself it
+   comes out right every time - I turned that model upside down on purpose and the
+   aiming still corrected it. On the structure fetched from the databank it does not,
+   and that structure is the one thing I cannot load here to find out why.
+   So the app stops trusting the measurement and CHECKS THE RESULT instead. After
+   aiming, the open side of the groove is rotated the same way the picture is; if it
+   ends up facing away from you, the camera is underneath, and the whole thing is
+   turned half a turn about the length of the groove so you are looking down into it.
+   That is right for any structure, measured well or badly, and it costs one test. */
+var FLIP_ALONG=[1,0,0,0];          /* half a turn about the groove's own length */
+function aimedFromAbove(q){
+  /* the open side of the groove is +Z once the frame is squared up; after the view
+     quaternion it faces you when its z comes out positive - the same test the
+     reference block uses to decide which of its faces to draw */
+  try{ return vcRot(q,[0,0,1])[2] > 0; }catch(e){ return true; }
+}
 function setTurnTip(a,t,zoomf){
   if(!viewer||!viewer.setView) return false;
   try{
     viewer.zoomTo();
     var v=viewer.getView(); if(!v||v.length<8) return false;
-    var q=qMul(quatFor(a,t), frameFix());
+    var fix=frameFix();
+    var q=qMul(quatFor(a,t), fix);
+    if(!aimedFromAbove(q)) q=qMul(quatFor(a,t), qMul(FLIP_ALONG, fix));
     v[4]=q[0]; v[5]=q[1]; v[6]=q[2]; v[7]=q[3];
     viewer.setView(v);
     viewer.zoomTo(); viewer.zoom(zoomf);
@@ -6571,6 +6584,12 @@ function drawTeaching(){
       borderThickness:0, inFront:true, alignment:'center'});
   }
 }
+/* V17200 - are the fifteen letters wanted? Asked in one place, answered the same
+   way for the built model and for the downloaded one. */
+function lettersOn(){
+  var b=document.getElementById('b-letters');
+  return !b || b.getAttribute('aria-pressed')==='true';
+}
 function styleModel(surface){
   if(!viewer) return;
   var pep = (curReg && curReg.seq) ? curReg.seq : 'LKAQLGPDESKQKFV';
@@ -6624,7 +6643,7 @@ function styleModel(surface){
     viewer.setStyle({chain:'P',resi:ri},{sphere:{scale:scale,color:col}});
     var at = m.selectedAtoms({chain:'P',resi:ri,atom:'CA'});
     if(at.length){
-      viewer.addLabel(aa, {position:{x:at[0].x, y:at[0].y, z:at[0].z+3.0},
+      if(lettersOn()) viewer.addLabel(aa, {position:{x:at[0].x, y:at[0].y, z:at[0].z+3.0},
         fontSize:12, fontColor:'#111720', backgroundColor:'#ffffff',
         backgroundOpacity:0.82, borderThickness:0, inFront:true, alignment:'center'});
       if(prev) viewer.addCylinder({start:prev, end:{x:at[0].x,y:at[0].y,z:at[0].z},
@@ -6871,7 +6890,7 @@ function threadSlice(m, pepChain, pepResi){
     var tok=anchorAt[i];
     viewer.addSphere({center:pos,radius:R,color: tok?cssv(tok):ink,
                       opacity: tok?1.0:0.80});
-    if(tok) viewer.addLabel(aa,{position:pos,fontSize:11,fontColor:'#ffffff',
+    if(tok && lettersOn()) viewer.addLabel(aa,{position:pos,fontSize:11,fontColor:'#ffffff',
       backgroundColor:cssv(tok),backgroundOpacity:0.95,borderThickness:0,inFront:true});
   }
 }
@@ -7343,6 +7362,9 @@ document.getElementById('b-teeth').addEventListener('click', function(){
   this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true'); restyle();
 });
 document.getElementById('b-names').addEventListener('click', function(){
+  this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true'); restyle();
+});
+document.getElementById('b-letters').addEventListener('click', function(){
   this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true'); restyle();
 });
 document.getElementById('b-cell').addEventListener('click', function(){
