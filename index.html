@@ -1619,13 +1619,6 @@ input[type=file]{display:none}
 .noscan .go{width:100%}
 :root[data-mode="abstract"] .noscan p::after{content:""}
 /* the library already holds this one: say so, and let him choose */
-.twinnote{background:var(--panel);border:2px solid var(--gold);border-radius:13px;
-  padding:14px;margin:12px 0 0;box-shadow:var(--lift)}
-.twinnote h4{font-size:13.5px;margin:0 0 5px;color:var(--ink);font-weight:600}
-.twinnote p{font-size:12.5px;color:var(--mute);margin:0 0 11px;line-height:1.5}
-.twinnote .pair{display:flex;gap:8px}
-.twinnote .pair button{flex:1;font-size:13px;padding:11px 8px}
-.twinnote .go{background:var(--btn);color:var(--onbtn);border-color:var(--btn)}
 .narrow{margin:0 0 12px}
 .narrow .go{width:100%;font-size:13.5px;padding:12px 10px}
 /* V12300 - THE SAME PILL AS STEP 1. Moos: "by selctivitly and strnght make it as
@@ -2429,14 +2422,6 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
       <p class="btncap"><span class="sci-only">Cuts the protein into every slice, scores each.</span><span class="abs-only">Cuts the protein into every piece, tests each.</span></p>
       <button type="button" class="go" id="runprot">Scan</button>
       <button type="button" class="scanwhy" id="scanwhy" hidden></button>
-      <div class="twinnote" id="twinnote" hidden>
-        <h4>Already in the library</h4>
-        <p id="twinwhen"></p>
-        <div class="pair">
-          <button type="button" class="go" id="twinopen">Open it</button>
-          <button type="button" id="twinagain">Scan again</button>
-        </div>
-      </div>
       <!-- V16800 - THE ANSWER LANDS ON THE STEP THAT DID THE WORK.
            Moos, after watching his own screen recording: "The app should not juup to
            next step! I should go to next step. And in step 2 inedd to see somet ti
@@ -3476,7 +3461,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V17400 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V17800 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -5294,6 +5279,7 @@ function step2Say(fromLib){
      + 'and your library.</p>';
   box.innerHTML=out;
   box.hidden=false;
+
   /* V16900 - and the reels come to rest on it, starting from the slice count it came
      out of, exactly as the landing does. spinTo refuses to run over a rolling number,
      so the roll is stopped first. */
@@ -8499,25 +8485,32 @@ function runTwin(seq,w,holder,wholeOnly){
   return null;
 }
 var TWINOK=false;
+/* V17800 - there is no second box any more; this is kept so every old call site
+   still has something safe to call. */
 function hideTwin(){ var n=document.getElementById('twinnote'); if(n) n.hidden=true; }
-/* V12600 - open the run that is already there, and say so in one line. The panel
+/* V17800 - NO SCAN AGAIN, AND NO SECOND BOX.
+   Moos: "why we need scan again?" - and he is right. Same protein, same cut, same
+   holders gives the same numbers, so the button offered work that could not change
+   the answer, and it sat on the screen as a second call to action beside Scan.
+   The answer box has said ALREADY IN YOUR LIBRARY since V16900 and says in its own
+   line that nothing was worked out again, so nothing is lost by taking both the
+   button and the box away. To have the work done again he changes the question -
+   another cut, another holder - or scans a protein the library does not hold.
+   V12600 - open the run that is already there, and say so in one line. The panel
    keeps its place on the page so nothing moves; only its words and its buttons
    change. Scan again forces the real work, exactly as before. */
+/* V17500 - ONE BUTTON, AND NOTHING PUSHED DOWN.
+   Moos: "confusing 2 buttons,,,and the numbersa re ousshd down".
+   Pressing Scan on a run he already had opened a second box between Scan and the
+   answer: a heading, a line, and a Scan again button. But the answer box itself has
+   said ALREADY IN YOUR LIBRARY since V16900, so the box repeated what was already
+   there, put a second button on the screen, and shoved the number down the page -
+   against his standing rule that nothing already on a screen may move.
+   The box stays shut on this road now. The line is where it always was, inside the
+   answer, and Scan again sits with it. */
 function useTwin(r){
   if(typeof s2RollStop==='function') s2RollStop();   /* V16900 */
-  var n=document.getElementById('twinnote');
-  if(n){
-    var h=n.querySelector('h4');
-    if(h) h.textContent='Opened from your library';
-    var w=document.getElementById('twinwhen');
-    if(w) w.textContent='You already had this run, from '+runWhen(r.at)
-      +'. Nothing was worked out again, because scanning gives the same answer.';
-    var o=document.getElementById('twinopen'); if(o) o.hidden=true;
-    var a=document.getElementById('twinagain');
-    if(a){ a.hidden=false;
-           a.onclick=function(){ hideTwin(); TWINOK=true; runProtein(); }; }
-    n.hidden=false;
-  }
+  hideTwin();
   PICKRUN=0;
   /* V16800 - it does not jump. The answer he already had opens on step 2 like any
      other, saying plainly that nothing was worked out again - the honest version of
@@ -8527,20 +8520,6 @@ function useTwin(r){
   if(hold>0) setTimeout(function(){ step2Say(true); }, hold);
   else step2Say(true);
 }
-function showTwin(r){
-  var n=document.getElementById('twinnote'); if(!n) return;
-  var h=n.querySelector('h4'); if(h) h.textContent='Already in the library';
-  var ob=document.getElementById('twinopen'); if(ob) ob.hidden=false;
-  var w=document.getElementById('twinwhen');
-  if(w) w.textContent=r.holder+' · '+(r.name||'protein')+' · scanned '+runWhen(r.at)
-    +'. Opening it costs nothing; scanning again does the same work and replaces it.';
-  n.hidden=false;
-  n.scrollIntoView({block:'nearest', behavior:'smooth'});
-  var o=document.getElementById('twinopen'), a=document.getElementById('twinagain');
-  if(o) o.onclick=function(){ hideTwin(); PICKRUN=0; openRun(r); };
-  if(a) a.onclick=function(){ hideTwin(); TWINOK=true; runProtein(); };
-}
-
 function autoSave(){
   if(!results.length) return;
   var w=parseInt(document.getElementById('win').value,10);
