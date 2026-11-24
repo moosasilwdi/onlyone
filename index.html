@@ -3476,7 +3476,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V17300 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V17400 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -6325,11 +6325,29 @@ function frameFix(){
    turned half a turn about the length of the groove so you are looking down into it.
    That is right for any structure, measured well or badly, and it costs one test. */
 var FLIP_ALONG=[1,0,0,0];          /* half a turn about the groove's own length */
+/* V17400 - THE BLOCK AND THE FIRST VIEW ARE READ FROM THE GROOVE, NOT FROM THE FILE.
+   Moos: "also still the isometric box is alligned wirngly???????????????"
+   He was right, and so was his picture: the block showed its UNDERSIDE with the lens
+   on a side face. The cause was one thing in two places. The app's own model is
+   written with the groove along x and the open side up z, so "the groove's axes" and
+   "the file's axes" are the same thing on it - and every check passed. A structure
+   from the databank is written in its own crystal axes, where they are nothing alike.
+   The corner block drew its six faces in the FILE's axes, so it mirrored the crystal
+   box, not the groove; and the V17200 test for "am I above it" asked about the file's
+   up, not the groove's. Both now go through grooveVec(), which writes a direction
+   given in the groove's own axes - x along it, y across it, z out of its open side -
+   into whatever axes the file happens to use. On the built model that is the identity
+   and nothing about it changes. */
+function grooveVec(v){
+  var F = LAST_SPLIT && LAST_SPLIT.frame;
+  if(!F) return v;
+  return [F.along.x*v[0] + F.across.x*v[1] + F.up.x*v[2],
+          F.along.y*v[0] + F.across.y*v[1] + F.up.y*v[2],
+          F.along.z*v[0] + F.across.z*v[1] + F.up.z*v[2]];
+}
 function aimedFromAbove(q){
-  /* the open side of the groove is +Z once the frame is squared up; after the view
-     quaternion it faces you when its z comes out positive - the same test the
-     reference block uses to decide which of its faces to draw */
-  try{ return vcRot(q,[0,0,1])[2] > 0; }catch(e){ return true; }
+  /* the open side of the groove, in the groove's own axes, must come at the viewer */
+  try{ return vcRot(q, grooveVec([0,0,1]))[2] > 0; }catch(e){ return true; }
 }
 function setTurnTip(a,t,zoomf){
   if(!viewer||!viewer.setView) return false;
@@ -7280,16 +7298,16 @@ function drawViewCube(){
      block sat square while the model leaned. Turning is a turntable now, so there is
      no roll to hide: the block is drawn exactly as the picture is, and the two agree
      on every axis. */
-  var U=vcRot(q,[0,0,1]), ca=1, sa=0;
+  var U=vcRot(q,grooveVec([0,0,1])), ca=1, sa=0;
   var P=[],i;
   for(i=0;i<VC_V.length;i++){
-    var r=vcRot(q,VC_V[i]);
+    var r=vcRot(q,grooveVec(VC_V[i]));
     var sx=r[0], sy=-r[1];
     P.push([sx*ca-sy*sa, sx*sa+sy*ca, r[2]]);
   }
   var parts=[], marks=[];
   for(var k=0;k<VC_F.length;k++){
-    var F=VC_F[k], nr=vcRot(q,F.n);
+    var F=VC_F[k], nr=vcRot(q,grooveVec(F.n));
     if(nr[2]<=0.03) continue;           // facing away
     var pts=[];
     for(i=0;i<4;i++) pts.push(P[F.i[i]][0].toFixed(3)+','+P[F.i[i]][1].toFixed(3));
