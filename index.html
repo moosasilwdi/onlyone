@@ -3461,7 +3461,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V17800 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V18000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -5134,6 +5134,13 @@ window.JO1={ go:function(id){ showTab(id); markNav(); },
   // the checks read the viewer's own orientation through this, nothing else uses it
   view:function(){ try{ return viewer? viewer.getView():null; }catch(e){ return null; } },
   vw:function(){ return viewer; },
+  /* V18000 - a check reads the LEAN of the picture through this: where the groove's
+     own upright lands on the screen. Sideways must stay at 0, whatever the picture is
+     turned to - that is the block's vertical lines staying vertical. Nothing else
+     uses it. */
+  lean:function(){ try{ var v=viewer.getView();
+      var u=vcRot([v[4],v[5],v[6],v[7]], grooveVec([0,0,1]));
+      return {across:u[0], up:u[1]}; }catch(e){ return null; } },
   /* the checks read the per-holder grip lines through this, nothing else uses it */
   /* V9800 - live:/source: let a check see whether the lines in use were measured on the
      protein actually loaded, or borrowed from Jo-1. Nothing else reads these. */
@@ -6243,17 +6250,42 @@ var VIEW_ZOOM=0.54;
    these two can never be ROLLED - so the model's uprights stay upright and every
    one of its edges stays square to the reference block, at any angle. */
 var curTurn=VIEW_TURN, curTip=VIEW_TIP;
+/* V18000 - the aiming that turns the structure's own axes into the groove's, settled
+   when the structure is framed and then held, so turning the picture never loses it */
+var VIEW_FIX=[0,0,0,1];
 function quatFor(a,t){
   var ar=a*Math.PI/360, tr=t*Math.PI/360;
   var st=Math.sin(tr), ct=Math.cos(tr), sa=Math.sin(ar), ca=Math.cos(ar);
   return [-st*ca, st*sa, ct*sa, ct*ca];
 }
-/* turn and tip the picture where it already is - same place, same zoom */
+/* V18000 - FREE IN EVERY DIRECTION, NEVER ROLLED, AND NO JUMP ON THE FIRST TOUCH.
+   Three asks, and one answer that serves all three.
+   THE JUMP. What was here before rebuilt the view out of the two plain angles ALONE
+   every time the finger moved. The aiming that points the camera into the groove of a
+   downloaded structure is not in those two angles, so the first touch threw it away:
+   measured on a structure written in its own axes, the way 1A6A is, two pixels of
+   finger asked for 0.9 degrees and the picture turned 74.8 and slid into the corner.
+   On the app's own model that aiming is nothing, so the same touch moved 0.0 and no
+   check ever saw it. The aiming is now REMEMBERED, in VIEW_FIX, and the two angles are
+   laid on top of it - so the finger adds to the view that is there and nothing is lost.
+   ALL DIRECTIONS. Moos: "the bix musr free rotated all direction ,,,nit just spining
+   in one corner". The stops are gone. Tipping runs right round, so the groove can be
+   looked at from over the top, from the side, and from underneath.
+   AND THE UPRIGHTS STAY UPRIGHT. Moos: "i wan the rotation an dmnaupilation of the view
+   keeps th ebix vertical line stright". Turning the picture about the screen's own axes
+   is free but lets it ROLL, and the block leans over. A view built from a turn and a
+   tip can never roll: the tip is taken about the screen's across axis, so the groove's
+   upright keeps nothing sideways and always lands straight up the screen, whatever the
+   two angles are. The block's vertical lines stay vertical at every angle, and it is
+   still free to go anywhere.
+   The aiming is settled ONCE, when the structure is framed, and never tested again
+   while the finger is down - re-testing it mid-turn would flip the picture as it passed
+   the horizon, which is the very jump this came from. */
 function applyTurnTip(){
   if(!viewer||!viewer.setView) return false;
   try{
     var v=viewer.getView(); if(!v||v.length<8) return false;
-    var q=quatFor(curTurn,curTip);
+    var q=qMul(quatFor(curTurn,curTip), VIEW_FIX);
     v[4]=q[0]; v[5]=q[1]; v[6]=q[2]; v[7]=q[3];
     viewer.setView(v);
     return true;
@@ -6342,7 +6374,9 @@ function setTurnTip(a,t,zoomf){
     var v=viewer.getView(); if(!v||v.length<8) return false;
     var fix=frameFix();
     var q=qMul(quatFor(a,t), fix);
-    if(!aimedFromAbove(q)) q=qMul(quatFor(a,t), qMul(FLIP_ALONG, fix));
+    if(!aimedFromAbove(q)){ fix=qMul(FLIP_ALONG, fix); q=qMul(quatFor(a,t), fix); }
+    /* V18000 - the aiming is kept, so the finger can turn the picture without losing it */
+    VIEW_FIX=fix;
     v[4]=q[0]; v[5]=q[1]; v[6]=q[2]; v[7]=q[3];
     viewer.setView(v);
     viewer.zoomTo(); viewer.zoom(zoomf);
@@ -6964,6 +6998,14 @@ function useReal(text, fromCache){
       viewer.zoomTo({chain:'C'}); viewer.zoom(0.75); viewer.rotate(-18,'x');
     }
     viewer.render();
+    /* V17900 - RESET MUST COME BACK TO THIS VIEW. Moos: "when i click rest it must
+       goes to this one", of the opening view with 1A6A in it. The view Reset puts
+       back was written down when the app started, on the stand-in model - and that
+       model sits at the origin while a downloaded structure sits wherever its own
+       file puts it. Measured: Reset landed 74 degrees and 57 units away from the
+       view he was looking at. The opening view is written down again here, now that
+       the real structure is the one on screen. */
+    markHome();
     if(typeof syncRealBtn==='function') syncRealBtn();
   }catch(e){
     realTried=false;
@@ -7556,9 +7598,9 @@ document.getElementById('b-cell').addEventListener('click', function(){
   window.JO1_vmark = function(){ mark(); };
   window.JO1_vnudge = nudge;
 })();
-/* Turning the picture: a turntable. Left and right swing it round, up and down tip
-   it, and it is never rolled - so the model keeps every edge square to the reference
-   block at any angle, not only its uprights. */
+/* Turning the picture: free in every direction and never rolled. Swing it all the way
+   round, tip it over the top or right under - there is no stop anywhere - and the
+   uprights stay upright on the screen at every angle. Reset puts the opening view back. */
 (function(){
   var pad=document.getElementById('molrot');
   if(!pad) return;
@@ -7595,16 +7637,16 @@ document.getElementById('b-cell').addEventListener('click', function(){
     if(!dragging) return;
     var dx=e.clientX-lx, dy=e.clientY-ly; lx=e.clientX; ly=e.clientY;
     moved += Math.abs(dx)+Math.abs(dy);
-    /* The picture goes the way the finger goes. Measured: dragging DOWN used to send
-       the top of the model UP the screen - against the finger - so the up-and-down
-       sign is flipped. Left and right already followed the finger. */
+    /* The picture goes the way the finger goes. */
     curTurn += dx*0.45;
     curTip  -= dy*0.45;
-    /* Tipping stops at the two ends that make sense: level with the groove at one
-       end, and just short of straight down over it at the other. Dead overhead the
-       uprights point at the eye and have no direction left on the screen; past
-       level there is only the underside of the floor to see. */
-    if(curTip>90) curTip=90; if(curTip<8) curTip=8;
+    /* V18000 - no stops. Tipping used to be held between level and straight down, so
+       the groove could only be seen from one band. It now runs right round: over the
+       top, along the side, underneath. It still cannot roll, so the uprights stay
+       upright wherever it is turned to. Both angles are folded back into one lap so
+       they cannot grow without end on a long drag. */
+    if(curTurn>360||curTurn<-360) curTurn=curTurn%360;
+    if(curTip>360||curTip<-360) curTip=curTip%360;
     if(applyTurnTip()) viewer.render();
   });
   function stop(e){
