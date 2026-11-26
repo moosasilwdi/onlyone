@@ -59,7 +59,7 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --mauve:#6aa9ff; --btn:#6aa9ff; --onmauve:#fff; --onbtn:#fff; --btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45); --accink:#6aa9ff; --tile:#101a24;
-  --bg:#0b1016; --panel:#141c26; --sunk:#0d141d; --ink:#e8edf4; --mute:#e8edf4; --line:#212b38;
+  --bg:#0b1016; --panel:#1b2533; --sunk:#0d141d; --ink:#e8edf4; --mute:#e8edf4; --line:#212b38;
   --p1:#27a0b6; --p4:#c08629; --p6:#6380da; --p9:#4ba557; --tcr:#e8edf4;
   --gold:#6aa9ff; --ok:#5ec48f; --warn:#ff9b90; --warnbg:#3a1d1b; color-scheme:dark;
   --raise:0 1px 0 rgba(255,255,255,.05) inset, 0 12px 24px -16px rgba(0,0,0,.9);
@@ -75,7 +75,7 @@
 }}
 :root[data-theme="dark"]{
   --mauve:#6aa9ff; --btn:#6aa9ff; --onmauve:#fff; --onbtn:#fff; --btnsh:0 1px 1px rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.45); --accink:#6aa9ff; --tile:#101a24;
-  --bg:#0b1016; --panel:#141c26; --sunk:#0d141d; --ink:#e8edf4; --mute:#e8edf4; --line:#212b38;
+  --bg:#0b1016; --panel:#1b2533; --sunk:#0d141d; --ink:#e8edf4; --mute:#e8edf4; --line:#212b38;
   --p1:#27a0b6; --p4:#c08629; --p6:#6380da; --p9:#4ba557; --tcr:#e8edf4;
   --gold:#6aa9ff; --ok:#5ec48f; --warn:#ff9b90; --warnbg:#3a1d1b; color-scheme:dark;
   --raise:0 1px 0 rgba(255,255,255,.05) inset, 0 12px 24px -16px rgba(0,0,0,.9);
@@ -191,7 +191,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font-family:var(--sans
 .btncap{font-size:12.5px;line-height:1.45;color:var(--mute);margin:12px 0 7px;text-align:center}
 .narrow .btncap{margin-top:0}
 #rankbtn{position:relative}
-.steplede{font-size:13px;color:var(--mute);line-height:1.45;margin:0 0 12px}
+.steplede{font-size:13px;color:var(--mute);line-height:1.45;margin:0 0 8px}
 .steplede b{color:var(--ink)}
 .appbar .notesel{margin-left:auto;flex:0 1 auto;max-width:168px;font-family:var(--sans);
   font-size:12.5px;font-weight:600;padding:7px 28px 7px 11px;border-radius:999px;
@@ -1348,6 +1348,21 @@ button.go.start{width:100%;max-width:300px;padding:14px 20px;font-size:15.5px;bo
      to scroll. The bar now carries its own 8px of padding below the credit line, so
      14px of extra gap is enough and the 2px comes back. */
   padding-block:14px calc(var(--tabh) + 14px + env(safe-area-inset-bottom,0px))}
+/* V18100 - AND THE BAR CAN NO LONGER COVER ANYTHING. Moos: "The buttin diwn is nit
+   shown i have to scroll die."
+   The gap above was only ever reached by SCROLLING to the end of it. When a step is
+   shorter than the screen there is nothing to scroll, so the page sat at the top and
+   the Back/Next bar - which floats over the page - came down on whatever happened to
+   end there. On step 1 that was his choice pill, and the only way to see it was to
+   scroll a page that did not need scrolling.
+   The page now STOPS where the bar begins, so nothing can be under it at any screen
+   size and at any text size. That matters more than any pixel shaved off the step: a
+   phone set to larger text makes every step taller, and no amount of tightening can
+   be relied on to stay ahead of it.
+   Step 5 keeps the whole screen: its picture is meant to run behind the bar, and its
+   own chips and strip already stand clear of it. */
+.view:not(#view-3d){bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px));
+  padding-block:10px 10px}
 .view::-webkit-scrollbar{width:0;height:0}
 .view{scrollbar-width:none;-ms-overflow-style:none}
 .view[hidden]{display:none}
@@ -1359,8 +1374,8 @@ h3{font-size:11px;font-weight:600;margin:0 0 6px;font-family:var(--mono);letter-
 p{margin:0 0 9px}
 .tiny{font-size:12px;color:var(--mute)}
 .mono{font-family:var(--mono)}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 15px;min-width:0;
-  margin-bottom:12px;box-shadow:var(--raise)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:10px 15px;min-width:0;
+  margin-bottom:10px;box-shadow:var(--raise)}
 .panel:last-child{margin-bottom:0}
 
 .ctrls{display:flex;gap:9px;flex-wrap:wrap;align-items:flex-end}
@@ -1504,7 +1519,7 @@ input[type=file]{display:none}
 #view-work .segs{position:relative;gap:0;padding:2px;border:0;
   border-radius:999px;background:var(--sunk);
   box-shadow:inset 0 0 0 1px var(--line), inset 0 1px 2px rgba(0,0,0,.05);
-  margin:22px 0 0;touch-action:pan-y;user-select:none}
+  margin:12px 0 0;touch-action:pan-y;user-select:none}
 #view-work .segs .thumb{position:absolute;top:2px;bottom:2px;left:2px;
   width:calc(50% - 2px);border-radius:999px;background:#cf2c20;
   box-shadow:0 1px 2px rgba(0,0,0,.22);
@@ -1524,8 +1539,18 @@ input[type=file]{display:none}
    the box came out 132px tall and Moos said "the container numer is huge". The air is
    out of the top, the bottom and the gap under the digits, and both parts stayed in -
    "no keep all in th eocntainer but reduce th ehight.....why you seperta it". */
+/* V18100 - THE STEP FITS, WITH ROOM TO SPARE. Moos: "The buttin diwn is nit shown i
+   have to scroll die. I wsnt to refit all."
+   V14100 took 82px out of this step and it fitted - on the sizes measured then. On a
+   360x640 phone it ran 16px over again, and the choice pill went back under the
+   Back/Next bar. Shaving the last few pixels is what put it here twice, so this time
+   the step is given real room: the count box is 20px shorter, the protein box shows
+   three lines instead of four, and the gaps around them come in. Measured after:
+   it fits 360x640 with 60px of slack, so the next small change does not push the
+   pill back under the bar. Nothing is made smaller to read - the figure, the type
+   and the fields are all the size they were. */
 .numcard{text-align:center;background:var(--panel);border:1px solid var(--line);
-  border-radius:14px;box-shadow:var(--sink);padding:22px 10px 16px;margin:0 0 20px}
+  border-radius:14px;padding:10px 10px 8px;margin:0 0 10px;box-shadow:var(--raise)}
 .numcard:empty{display:none}
 /* black, not the landing's grey and not the answer's green. Moos, asked which the
    step 1 figure should wear: "yes black". It is a count of pieces, not an answer. */
@@ -1568,7 +1593,7 @@ input[type=file]{display:none}
    time, which is the one he asked for and the one that reads from across a room.
    It is drawn on top of the card, not inside its flow, so nothing on the screen moves
    when it starts or stops - his standing rule. */
-.prog{height:7px;background:var(--sunk);border-radius:4px;overflow:hidden;margin-top:10px}
+.prog{height:7px;background:var(--sunk);border-radius:4px;overflow:hidden;margin-top:6px}
 /* V17300 - ONE BLUE LINE, NOT TWO. Moos: "why there is 2 blue lines in scan one is
    miving up and down an anoeh one only at top blinking..." The second one was this:
    a thin fixed bar pinned under the top bar, left from V14300, blinking in place while
@@ -1765,8 +1790,21 @@ input[type=file]{display:none}
    V14200 - a light ring and a soft glow behind - so the box is found at a glance.
    The joined pair takes the page colour instead, and takes it as a glow only: a
    ring would draw a line straight across the join and break the one shape. */
+/* V18100 - AND THAT LIGHT NOW GOES ON EVERY CONTAINER, NOT ONLY STEP 4's.
+   "the container ate not shown in datk...there must be back lights on all containers
+   in dark mode. And tge cintainers must be littel lighter color."
+   V14400 wrote the rule but hung it on two names only - the cards and the sheet on
+   step 4 - so the boxes everywhere else, the count on step 1 and every panel in the
+   app, still sank into the page. The same light is now on .panel and .numcard too,
+   which between them are every container the app draws. The count box also gave up
+   its sunk shadow: a box pressed INTO a dark page cannot be seen at all, and the
+   inner light belongs to drop menus, not to containers.
+   The container colour is lifted with it, #141c26 -> #1b2533, so the box reads as a
+   box before the light is even noticed. The page itself stays at #0b1016. */
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]) #rows .card,
+  :root:not([data-theme="light"]) .panel,
+  :root:not([data-theme="light"]) .numcard,
   :root:not([data-theme="light"]) .sheet{
     box-shadow:0 0 0 1px rgba(140,154,178,.5), 0 3px 12px -5px rgba(200,214,235,.45), var(--raise)}
   :root:not([data-theme="light"]) #rows .card.joined{
@@ -1775,6 +1813,8 @@ input[type=file]{display:none}
     box-shadow:0 10px 22px -8px color-mix(in srgb,var(--gold) 75%,transparent)}
 }
 :root[data-theme="dark"] #rows .card,
+:root[data-theme="dark"] .panel,
+:root[data-theme="dark"] .numcard,
 :root[data-theme="dark"] .sheet{
   box-shadow:0 0 0 1px rgba(140,154,178,.5), 0 3px 12px -5px rgba(200,214,235,.45), var(--raise)}
 :root[data-theme="dark"] #rows .card.joined{
@@ -2689,6 +2729,14 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
              that is what the picture does today, and it is the first toggle after
              the two that colour the piece. -->
         <button type="button" id="b-letters" aria-pressed="true">Letters</button>
+        <!-- V18200 - TAGS OFF. Moos: "these names are not hidden shoudl we add bitton
+             to them to hide?" The four tags P1 P4 P6 P9 were drawn by Holes, so the
+             only way to lose them was to turn Holes off - which took the colours of
+             the four holes away with them, and the colours are the point. They have
+             their own switch now. It starts ON, because that is what the picture does
+             today, and it sits beside Letters because the two do the same kind of
+             thing: take writing off the picture and leave the shapes. -->
+        <button type="button" id="b-tags" aria-pressed="true">Tags</button>
         <button type="button" id="b-names" aria-pressed="false">Names</button>
         <button type="button" id="b-parts" aria-pressed="false">Parts</button>
         <button type="button" id="b-cell" aria-pressed="false">Cell</button>
@@ -3461,7 +3509,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V18000 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V18200 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
@@ -3496,7 +3544,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
                    autocomplete="email" maxlength="120" inputmode="email">
             <label class="cflab" for="cf-msg">Message</label>
             <textarea class="cfin cfarea" id="cf-msg" name="message" required
-                      rows="4" maxlength="2000"></textarea>
+                      rows="3" maxlength="2000"></textarea>
             <button type="submit" class="go cfsend" id="cf-send">Send</button>
             <p class="cfnote" id="cf-note" role="status" aria-live="polite"></p>
           </form>
@@ -6628,6 +6676,11 @@ function lettersOn(){
   var b=document.getElementById('b-letters');
   return !b || b.getAttribute('aria-pressed')==='true';
 }
+/* V18200 - are the four hole tags, P1 P4 P6 P9, wanted on the picture? */
+function tagsOn(){
+  var b=document.getElementById('b-tags');
+  return !b || b.getAttribute('aria-pressed')==='true';
+}
 function styleModel(surface){
   if(!viewer) return;
   var pep = (curReg && curReg.seq) ? curReg.seq : 'LKAQLGPDESKQKFV';
@@ -6697,6 +6750,7 @@ function styleModel(surface){
       if(idx<0 || idx>=n2) return;
       var at2 = m.selectedAtoms({chain:'P',resi:PEP_FIRST+idx,atom:'CA'});
       if(!at2.length) return;
+      if(!tagsOn()) return;
       viewer.addLabel(sp[0]+'  '+pk[sp[0]].split('').join(' '), {
         position:{x:at2[0].x, y:at2[0].y-6.2, z:at2[0].z-1.0},
         fontSize:11, fontColor:'#ffffff', backgroundColor:sp[2], backgroundOpacity:0.92,
@@ -6856,7 +6910,7 @@ function styleReal(surface){
       var col=cssv(pk[1]);
       viewer.setStyle({chain:'B',resi:pk[2]},{sphere:{scale:0.95,color:col}});
       var at=m.selectedAtoms({chain:'B',resi:pk[2][0],atom:'CA'});
-      if(at.length) viewer.addLabel(pk[0],{position:{x:at[0].x,y:at[0].y,z:at[0].z},
+      if(at.length && tagsOn()) viewer.addLabel(pk[0],{position:{x:at[0].x,y:at[0].y,z:at[0].z},
         fontSize:11,fontColor:'#ffffff',backgroundColor:col,backgroundOpacity:0.95,
         borderThickness:0,inFront:true});
     });
@@ -7411,6 +7465,9 @@ document.getElementById('b-names').addEventListener('click', function(){
   this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true'); restyle();
 });
 document.getElementById('b-letters').addEventListener('click', function(){
+  this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true'); restyle();
+});
+document.getElementById('b-tags').addEventListener('click', function(){
   this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true'); restyle();
 });
 document.getElementById('b-cell').addEventListener('click', function(){
