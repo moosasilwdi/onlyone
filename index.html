@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<!-- V18300 - THE LINE THAT SAYS WHICH RULEBOOK. Moos: "why that happend?"
+     Every page is meant to open with this one line. It tells the browser to measure
+     by today's rules. Without it the browser falls back to its rulebook from the
+     1990s - it still draws the app, but a few sizes are worked out the old way and
+     browsers are free to differ from one another. This app has never had the line:
+     the first version began with the charset line and it was never added, and no
+     check looked for it, because the checks test what the app DOES, not how it is
+     handed to the browser. There is now a check that looks.
+     Measured: the line moves the content of step 1 by 9px, which is why it gets its
+     own version and a full round of checks rather than riding along with other work. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ONLY ONE</title>
@@ -3509,7 +3520,7 @@ ul{margin:0;padding-left:17px}li{margin-bottom:4px}
           against the 117 shipped here; all 27 are present.<br>
           Allele sequences: IPD-IMGT/HLA release 3.66.0 protein alignments (Robinson J, et al. <i>Nucleic Acids Res</i>). Pocket residues extracted from those alignments; the parser was calibrated by reproducing the nine DRB1*03:01 residues reported in the literature.<br>
           Trials: Bielekova B, et al. <i>Nat Med</i> 2000; Kappos L, et al. <i>Nat Med</i> 2000;6:1176.<br><br>
-          ONLY ONE &middot; V18200 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
+          ONLY ONE &middot; V18300 &middot; built for Moosa Silwadi, November 2026 &middot; A research filter, not a clinical tool and not medical advice.
         </div>
       </div>
       </section>
